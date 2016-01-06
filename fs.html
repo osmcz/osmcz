@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+   <TITLE>openstreetmap.cz</TITLE>
+    <style type="text/css">
+#map {
+        width: 100%;
+        height: 100%;
+        border: 0px;
+        padding: 0px;
+        position: absolute;
+     }
+body {
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        height: 100%;
+     }
+
+#tags {
+    display: none;
+}
+#text {
+    position: absolute;
+    bottom: 3em;
+    left: 6em;
+    width: 750px;
+    z-index: 20000;
+    background-color: white;
+    padding: 0 0.5em 0.5em 0.5em;
+}
+</style>
+
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src='jquery-1.11.3.min.js'></script>
+
+<link rel="stylesheet" href="../dist/MarkerCluster.css" />
+<link rel="stylesheet" href="../dist/MarkerCluster.Default.css" />
+<script src="../dist/leaflet.markercluster-src.js"></script>
+
+<script>
+var map;
+var xhr;
+var plotlist;
+var plotlayers=[];
+var gj_guidepost = new L.GeoJSON();
+var markers = L.markerClusterGroup();
+
+function retrieve_geojson(data)
+{
+//  alert("ok" + data);
+
+  gj_guidepost.clearLayers();
+  markers.clearLayers();
+  map.removeLayer(gj_guidepost);
+  map.removeLayer(markers);
+  gj_guidepost.addData(JSON.parse(data));
+  markers.addLayer(gj_guidepost);
+  map.addLayer(markers);
+};
+
+function error_gj(data)
+{
+  console.log(data);
+//  alert("error" + data);
+};
+
+function load_data()
+{
+  if (typeof xhr !== 'undefined') {
+    xhr.abort();
+  }
+  if(map.getZoom() > 1) {
+    var geoJsonUrl ='http://map.openstreetmap.cz/table/all'; 
+    var defaultParameters = {
+        outputFormat: 'application/json'
+        };
+
+    var customParams = {
+        output: 'geojson',
+        bbox: map.getBounds().toBBoxString(),
+        };
+    var parameters = L.Util.extend(defaultParameters, customParams);
+
+//    alert(geoJsonUrl + L.Util.getParamString(parameters));
+
+    xhr = $.ajax({
+      url: geoJsonUrl + L.Util.getParamString(parameters),
+      success: retrieve_geojson,
+      error: error_gj
+    });
+
+  } else {
+    map.removeLayer(gj_guidepost);
+  }
+}
+
+function initmap() {
+// set up the map
+map = new L.Map('map');
+
+// create the tile layer with correct attribution
+var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+var osm = new L.TileLayer(osmUrl, {minZoom: 1, maxZoom: 19, attribution: osmAttrib});
+
+// start the map in South-East England
+map.setView(new L.LatLng(49.5, 17), 7);
+map.addLayer(osm);
+map.on('moveend', load_data);
+map.on('drag', function (e) { 
+  if (typeof xhr !== 'undefined') {
+    xhr.abort();
+  }
+});
+map.on('movestart', function (e) { 
+  if (typeof xhr !== 'undefined') {
+    xhr.abort();
+  }
+});
+}
+
+</script>
+
+</HEAD>
+
+<BODY onload="initmap()">
+
+<div id="map"></div>
+<div id="text">
+<div id="docs">
+<script type="text/javascript">
+google_ad_client = "pub-7270111774772584";
+/* 728x90, created 5/21/08 */
+google_ad_slot = "7568601500";
+google_ad_width = 728;
+google_ad_height = 90;
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-308728-3");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</div>
+</div>
+
+</BODY>
+</HTML>
