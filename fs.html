@@ -60,7 +60,8 @@ function retrieve_geojson(data)
   layer_guidepost = L.geoJson(JSON.parse(data), {
     onEachFeature: function (feature, layer) {
       var x = feature.properties;
-      layer.bindPopup(x.name+" "+x.id);
+      vat popup_html = x.name + " " + x.id + " <b>some html</b>";
+      layer.bindPopup(poput_html);
     }
   });
 
