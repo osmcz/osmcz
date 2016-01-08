@@ -120,6 +120,10 @@ function initmap() {
 
   L.control.layers(baseLayers, overlays).addTo(map);
   L.control.scale().addTo(map);
+  L.control.locate({
+    follow: true,
+    locateOptions: { maxZoom: 15 }
+  }).addTo(map);
 
   map.on('moveend', load_data);
   map.on('drag', function (e) { 
