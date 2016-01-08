@@ -35,9 +35,17 @@ function retrieve_geojson(data)
 
   layer_guidepost = L.geoJson(JSON.parse(data), {
     onEachFeature: function (feature, layer) {
-      var x = feature.properties;
-      var popup_html = x.name + " " + x.id + " <b>some html</b>";
-      layer.bindPopup(popup_html);
+      var b = feature.properties;
+      html_content = "guidepost";
+      html_content += " by ";
+      html_content += "<a href='http://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
+      html_content += " ";
+      html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'>edit</a>";
+      html_content += "<br>"
+      html_content += "<a href='"+b.url+"'>"+b.name+"</a><br>"
+      html_content += " <img src='"+b.url+"' width='180' alt='guidepost'>" 
+
+      layer.bindPopup(html_content);
     }
   });
 
