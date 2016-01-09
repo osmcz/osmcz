@@ -55,14 +55,23 @@ function initmap() {
     // skrytí obsahu při kliku / posunutí mapy
     var container = $('#main>div');
     var closeOverlay = function (){
+        map.scrollWheelZoom.enable();
         container.fadeOut('slow');
+
         $('nav .active').removeClass('active').on('click.fader', function(){
+            map.scrollWheelZoom.disable();
             container.fadeIn('slow');
             $(this).addClass('active').off('click.fader');
         });
     };
     map.on('click movestart', closeOverlay);
-    $('.close-overlay').click(closeOverlay)
+    $('.close-overlay').click(closeOverlay);
+    container.click(function(event){
+        if(event.target.parentNode == this) //div.row děti v .containeru
+            closeOverlay();
+    });
+
+    map.scrollWheelZoom.disable();
 
 
     new rozcestniky(map, layersControl);
