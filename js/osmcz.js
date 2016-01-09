@@ -52,5 +52,21 @@ function initmap() {
     }).addTo(map);
 
 
+    // skrytí obsahu při kliku / posunutí mapy
+    var container = $('#main>div');
+    var closeOverlay = function (){
+        container.fadeOut('slow');
+        $('nav .active').removeClass('active').on('click.fader', function(){
+            container.fadeIn('slow');
+            $(this).addClass('active').off('click.fader');
+        });
+    };
+    map.on('click movestart', closeOverlay);
+    $('.close-overlay').click(closeOverlay)
+
+
     new rozcestniky(map, layersControl);
 }
+
+initmap();
+

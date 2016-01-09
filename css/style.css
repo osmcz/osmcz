@@ -1,0 +1,168 @@
+html {
+    overflow-y: scroll;
+}
+
+body {
+    padding: 0;
+}
+
+
+/* Logo místo textu. Při collapsu se zobrazí i span. */
+.navbar .navbar-brand {
+    line-height: 50px;
+    padding: 0 20px 0 10px;
+}
+
+.navbar .navbar-brand img {
+    float: left; /*kvuli spanu*/
+    position: relative;
+    top: 11px;
+}
+.navbar .navbar-brand span {
+    padding-left: 10px;
+}
+
+@media (min-width: 980px) {
+    .navbar .navbar-brand span {
+        display: none;
+    }
+
+    .navbar .navbar-brand img {
+        left: 9px;
+    }
+}
+@media (max-width: 285px) { /* velikost navbaru se zobrazenym spanem */
+    .navbar .navbar-brand span {
+        display: none;
+    }
+}
+
+.navbar {
+    z-index: 1000;
+}
+/*
+.nav-collapse .dropdown-menu li.active a {
+    color: #fff;
+}
+.nav-collapse .dropdown-menu li.active li a {
+    color: #000;
+}
+.nav-collapse .dropdown-menu li.active li.active a {
+    color: #fff;
+}
+*/
+
+
+
+#map {
+    position:fixed;
+    height:100%;
+    width:100%;
+    z-index: 1;
+}
+
+
+
+#main .container {
+    position:relative;
+    z-index: 5;
+    padding: .5em;
+    background: rgba(255,255,255,0.9);
+    padding-top: 50px;
+    margin-bottom: 260px;
+}
+
+#main .container.transparent {
+    background: transparent;
+}
+
+.content-box-left, .content-box-right {
+    padding:0;
+}
+.content-box-inner {
+    background: rgba(255,255,255,0.9);
+    padding: 15px;
+}
+@media screen and (min-width: 992px) {
+    .content-box-left {
+        padding-right: 15px;
+    }
+    .content-box-right {
+        padding-left: 15px;
+
+    }
+}
+
+
+
+
+
+
+/* Main marketing message and sign up button */
+#main .jumbotron {
+    border-radius: 0;
+    text-align: center;
+    margin-bottom: 0;
+}
+#main .jumbotron .close-overlay {
+    font-size: 30px;
+}
+
+#main .jumbotron h1 img.osmlogo {
+    width: 50px;
+    height: 50px;
+}
+@media screen and (min-width: 768px) {
+    #main .jumbotron {
+        margin-top: 30px;
+    }
+    #main .bottom-spacer {
+        margin-bottom: 30px;
+    }
+    #main .jumbotron h1 img.osmlogo {
+        width: 110px;
+        height: 110px;
+    }
+}
+
+
+.tweets {
+    list-style-type: none;
+    margin:0;
+    padding: 0;
+}
+.tweets li {
+    padding: 8px 0 8px 60px;
+}
+.tweets .permalink {
+    float: right;
+    font-size: 80%;
+    color: rgb(112, 112, 112);
+    text-decoration: none;
+    line-height: 20px;
+}
+.tweets .author img {
+    position: absolute;
+    margin-left: -60px;
+}
+.tweets .profile {
+    color: rgb(41, 47, 51);
+    font-weight: bold;
+}
+.tweets .profile .nickname {
+    color: rgb(102, 117, 127);
+    font-weight: normal;
+    font-size: 80%;
+}
+.tweets .footer {
+    text-align:right;
+    visibility: hidden;
+}
+.tweets li:hover .footer {visibility: visible;}
+.tweets .footer a {
+    font-size: 80%;
+    padding-left: 5px;
+    color: rgb(153, 153, 153);
+}
+
+

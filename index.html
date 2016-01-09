@@ -1,53 +1,353 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<HTML>
-<HEAD>
-    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-    <TITLE>openstreetmap.cz</TITLE>
-    <style type="text/css">
-        #map {
-            width: 100%;
-            height: 100%;
-            border: 0px;
-            padding: 0px;
-            position: absolute;
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.png">
 
-        body {
-            border: 0px;
-            margin: 0px;
-            padding: 0px;
-            height: 100%;
-        }
+    <title>OpenStreetMap.cz</title>
 
-        #tags {
-            display: none;
-        }
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-    </style>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script>
+        if (navigator.userAgent.match(/IEMobile\/10\.0/)) //TODO: not sure of this or also "IE 10.0"
+            document.write('<link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">');
+    </script>
 
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/" title="Přejít na úvodní stránku OpenStreetMap.cz">
+                <img src="img/osmcz.60x60.png" width="30" height="30" alt="Logo OSMCZ">
+                <span>OpenStreetMap.cz</span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">O mapě <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Využití</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Jak pomoci <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Projekty <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">O nás <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!--
+            <form class="navbar-form navbar-right" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Najít adresu, souřadnice...">
+                    <span class="input-group-btn"><button class="btn btn-default" type="submit">Go!</button></span>
+                </div>
+            </form>
+            -->
 
 
-    <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css"/>
-    <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
-    <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                    </ul>
+                </li>
+            </ul>
 
-    <script src="//cdn.rawgit.com/domoritz/leaflet-locatecontrol/v0.43.0/dist/L.Control.Locate.min.js"></script>
+            <div class="pull-right" style="padding-top:14px">
+                <div class="fb-like" data-href="https://www.facebook.com/osmcz" data-layout="button_count"
+                     data-action="like" data-show-faces="false" data-share="false"></div>
+            </div>
 
-
-    <!-- app -->
-
-    <script src="app/osmcz.js"></script>
-    <script src="app/rozcestniky.js"></script>
-
-</HEAD>
-
-<BODY onload="initmap()">
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
 
 <div id="map"></div>
 
-</BODY>
-</HTML>
+<div id="main">
+
+    <div class="container transparent">
+
+        <div class="row">
+            <div class="content-box-inner jumbotron col-md-8 col-md-offset-2 bottom-spacer">
+                <button type="button" class="close close-overlay" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+
+                <h1>Hezky, české&nbsp;<img src="img/osmcz.220x220.png" alt="Logo OSMCZ" width="110" height="110"
+                                           title="OpenStreetMap" class="osmlogo">!</h1>
+
+                <p class="lead">OpenStreetMap je mapa, kterou může kdokoliv upravovat. Něco jako wikipedie. Česká
+                    komunita Vám zde nabízí své <a href="/projekty">projekty</a>, odborníky
+                    a&nbsp;<a href="/skoleni">školení</a>.</p>
+                <p class="lead">Zapojte se také.</p>
+
+                <p><a href="http://osm.localhost/skoleni" class="btn btn-primary btn-large">Přihlásit
+                    se na školení</a>
+                    <a href="http://old.openstreetmap.cz" class="btn btn-large">Přejít na old.openstreetmap.cz</a></p>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="content-box-left col-md-4 col-md-offset-2">
+                <div class="content-box-inner">
+                    <h2>Tweety</h2>
+
+                    <ul class="tweets">
+                        <li>
+                            <a class="permalink" href="https://twitter.com/osmcz/status/667472628735680512">
+                                <time>19. lis.</time>
+                            </a>
+
+                            <div class="author" data-scribe="component:author">
+                                <a class="profile" href="https://twitter.com/osmcz">
+                                    <img class="avatar" alt=""
+                                         src="https://pbs.twimg.com/profile_images/599232861346992129/x6nBBghd_normal.png">
+                                    <span class="full-name">OpenStreetMap CZ</span>
+                                    <span class="nickname">@osmcz</span>
+                                </a>
+                            </div>
+                            <div class="entry-content">
+                                Prohlédněte si záznamy dvou OSM workshopů či
+                                některou z přednášek konference Geoinformatics. Nyní online: <a
+                                    href="https://t.co/7tr27dVxCv">goo.gl/Euh5Hi</a>
+                            </div>
+
+                            <div class="footer">
+                                <a href="https://twitter.com/intent/tweet?in_reply_to=667472628735680512"
+                                   title="Odpovědět"><span class="glyphicon glyphicon-share-alt"
+                                                           aria-hidden="true"></span></a>
+                                <a href="https://twitter.com/intent/retweet?tweet_id=667472628735680512"
+                                   title="Retweetnout"><span class="glyphicon glyphicon-retweet"
+                                                             aria-hidden="true"></span></a>
+                                <a href="https://twitter.com/intent/like?tweet_id=667472628735680512"
+                                   title="Lajknout"><span class="glyphicon glyphicon-heart"
+                                                          aria-hidden="true"></span></a>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="permalink" href="https://twitter.com/osmcz/status/667472628735680512">
+                                <time>19. lis.</time>
+                            </a>
+
+                            <div class="author" data-scribe="component:author">
+                                <a class="profile" href="https://twitter.com/osmcz">
+                                    <img class="avatar" alt=""
+                                         src="https://pbs.twimg.com/profile_images/599232861346992129/x6nBBghd_normal.png">
+                                    <span class="full-name">OpenStreetMap CZ</span>
+                                    <span class="nickname">@<b>osmcz</b></span>
+                                </a>
+                            </div>
+                            <div class="entry-content">
+                                <p>Prohlédněte si záznamy dvou OSM workshopů či
+                                    některou z přednášek konference Geoinformatics. Nyní online: <a
+                                            href="https://t.co/7tr27dVxCv">goo.gl/Euh5Hi</a>
+                                </p>
+                            </div>
+
+                            <div class="footer">
+                                <a href="https://twitter.com/intent/tweet?in_reply_to=667472628735680512"
+                                   title="Odpovědět"><span class="glyphicon glyphicon-share-alt"
+                                                           aria-hidden="true"></span></a>
+                                <a href="https://twitter.com/intent/retweet?tweet_id=667472628735680512"
+                                   title="Retweetnout"><span class="glyphicon glyphicon-retweet"
+                                                             aria-hidden="true"></span></a>
+                                <a href="https://twitter.com/intent/like?tweet_id=667472628735680512"
+                                   title="Lajknout"><span class="glyphicon glyphicon-heart"
+                                                          aria-hidden="true"></span></a>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="content-box-right col-md-4">
+                <div class="content-box-inner bottom-spacer">
+                    <h2>Konference</h2>
+
+                    <p>Poslední zprávy <a href="https://lists.openstreetmap.org/pipermail/talk-cz/">zde</a>.</p>
+
+                    <p class="bg-info small" style="padding:15px">TODO vypsat zde poslední zprávy dynamicky</p>
+
+                    <p class="text-right"><a class="btn btn-sm btn-success" href="#" role="button">další kontakty »</a>
+                    </p>
+
+                </div>
+
+                <div class="content-box-inner">
+                    <h2>Newsletter</h2>
+
+                    <p>Půlroční info o dění v komunitě. Zde <a href="">archiv</a>.</p>
+
+                    <form action="//zby.us11.list-manage.com/subscribe/post?u=cb9a83e4c66e393586b89e370&amp;id=81b42f6aac"
+                          method="post" target="_blank">
+                        <div class="input-group">
+                            <input type="email" value="" name="EMAIL" placeholder="email" required
+                                   class="form-control input-sm">
+                              <span class="input-group-btn">
+                                <input type="submit" value="Přihlásit" name="subscribe" class="btn btn-sm btn-default">
+                              </span>
+                        </div>
+                        <!-- /input-group -->
+                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;"><input type="text"
+                                                                               name="b_cb9a83e4c66e393586b89e370_81b42f6aac"
+                                                                               tabindex="-1" value=""></div>
+                    </form>
+                    <p>&nbsp;</p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <!--
+        <div class="container">
+
+            <div class="jumbotron">
+                <h1>Hezky, české&nbsp;<img src="img/osmcz.300x300.png" alt="Logo OSMCZ" width="150" height="150"
+                                           title="OpenStreetMap" class="osmlogo">!</h1>
+
+                <p class="lead">OpenStreetMap je mapa, kterou může kdokoliv upravovat. Něco jako wikipedie. Česká
+                    komunita Vám zde nabízí své <a href="http://osm.localhost/projekty">projekty</a>, odborníky a&nbsp;<a
+                            href="http://osm.localhost/skoleni">školení</a>.<br> Zapojte se také.&nbsp;<br></p>
+
+                <p><a href="http://osm.localhost/skoleni" class="btn btn-primary btn-large">Přihlásit
+                    se na školení</a>
+                    <a href="http://old.openstreetmap.cz" class="btn btn-large">Přejít na old.openstreetmap.cz</a></p>
+            </div>
+
+
+            <hr>
+
+            <footer>
+                <p>(c) Česká komunita OpenStreetMap | <a href="https://github.com/osmcz/osmcz">github</a></p>
+            </footer>
+
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /main -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    <!-- ------------ vendor ------------ -->
+    <!-- leaflet -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <!-- leaflet.markercluster -->
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
+          rel='stylesheet'/>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css'
+          rel='stylesheet'/>
+
+    <!-- leaflet.locatecontrol -->
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.mapbox.css'
+          rel='stylesheet'/>
+    <!--[if lt IE 9]>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.ie.css'
+          rel='stylesheet'/>
+    <![endif]-->
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css'
+          rel='stylesheet'/>
+
+
+    <!-- ------------ /vendor ------------ -->
+
+    <!-- ------------ app ------------ -->
+    <link href="css/map-style.css" rel="stylesheet">
+
+    <script src="js/rozcestniky.js"></script>
+    <script src="js/osmcz.js"></script>
+    <!-- ------------ /app ------------ -->
+
+
+
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=515622781853695";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>!function (d, s, id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+</body>
+</html>
