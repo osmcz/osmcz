@@ -48,7 +48,11 @@ function initmap() {
     L.control.scale().addTo(map);
     L.control.locate({
         follow: true,
-        locateOptions: {maxZoom: 15}
+        locateOptions: {maxZoom: 15},
+        icon: 'glyphicon glyphicon-map-marker',
+        strings: {
+            title: "Zobrazit moji aktuální polohu"
+        }
     }).addTo(map);
 
 

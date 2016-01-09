@@ -1,3 +1,7 @@
 .leaflet-top {
     top: 51px;
 }
+
+.leaflet-control-locate .glyphicon {
+    margin-left: -9px;
+}
