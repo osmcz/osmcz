@@ -5,3 +5,20 @@
 .leaflet-control-locate .glyphicon {
     margin-left: -9px;
 }
+
+.leaflet-control-search input.search-input {
+    border: 0;
+    outline:0;
+    background: transparent;
+    color: #000;
+}
+.leaflet-control-search .search-tooltip {
+    background: #fff;
+    max-height: 300px;
+}
+.leaflet-control-search li.search-tip {
+    background: transparent;
+}
+.leaflet-control-search li.search-tip:hover {
+    background: #ccc;
+}

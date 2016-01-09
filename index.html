@@ -137,6 +137,7 @@
                 <p class="lead">OpenStreetMap je mapa, kterou může kdokoliv upravovat. Něco jako wikipedie. Česká
                     komunita Vám zde nabízí své <a href="/projekty">projekty</a>, odborníky
                     a&nbsp;<a href="/skoleni">školení</a>.</p>
+
                 <p class="lead">Zapojte se také.</p>
 
                 <p><a href="http://osm.localhost/skoleni" class="btn btn-primary btn-large">Přihlásit
@@ -323,6 +324,11 @@
           rel='stylesheet'/>
     <![endif]-->
 
+    <!-- leaflet.search -->
+    <script src='https://cdn.rawgit.com/stefanocudini/leaflet-search/v1.8.4/dist/leaflet-search.min.js'></script>
+    <link href='https://cdn.rawgit.com/stefanocudini/leaflet-search/v1.8.4/dist/leaflet-search.min.css'
+          rel='stylesheet'/>
+
 
     <script src="js/lib-component-querystring.js"></script>
     <script src="js/lib-osm.js"></script>
@@ -337,7 +343,6 @@
     <!-- ------------ /app ------------ -->
 
 
-
     <div id="fb-root"></div>
     <script>(function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -347,7 +352,15 @@
         js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=515622781853695";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-    <script>!function (d, s, id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <script>!function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, 'script', 'twitter-wjs');</script>
 
 
 </body>
