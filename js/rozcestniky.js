@@ -76,7 +76,7 @@ function rozcestniky(map, layersControl) {
 
         if (map.getZoom() > 1) {
 
-            var geoJsonUrl = 'http://map.openstreetmap.cz/table/all';
+            var geoJsonUrl = 'http://api.openstreetmap.cz/table/all';
 
             var defaultParameters = {
                 outputFormat: 'application/json'
