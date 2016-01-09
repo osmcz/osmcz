@@ -1,6 +1,19 @@
-# osmcz
-Mapová aplikace pro openstreetmap.cz
+# osmcz-app
 
-* DEMO: http://rawgit.com/osmcz/osmcz/master/index.html (z aktuálního githubu)
+Mapová aplikace pro [openstreetmap.cz](http://openstreetmap.cz/)
 
-* [developer notes na wiki](https://github.com/osmcz/osmcz/wiki)
+* **[DEMO](http://rawgit.com/osmcz/osmcz/master/index.html)** - vývojová větev
+* **[ISSUE TRACKER](https://github.com/osmcz/osmcz/issues)**
+
+
+## Jak přispět do projektu
+* hlásit chyby a podněty do issue trackeru
+* vylepšit webovou aplikaci - viz [CONTRIBUTING.md](CONTRIBUTING.md)
+
+
+## Další poznámky
+* Kdo má zájem přidat se k organizaci [github.com/osmcz](https://github.com/osmcz), nechť napíše [Pavlovi](http://www.openstreetmap.org/user/zby-cz) nebo [Michalovi](http://www.openstreetmap.org/user/walley)
+* [Developer notes na wiki](https://github.com/osmcz/osmcz/wiki)
+* Číslo release je na prvním řádku v `js/osmcz.js`, jednotlivé verze pak pomocí git-tagů
+* Zdrojové kódy jsou pod licencí MIT. 
+* Autoři [zde](https://github.com/osmcz/osmcz/graphs/contributors).
