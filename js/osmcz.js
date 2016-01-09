@@ -56,9 +56,11 @@ function initmap() {
     var container = $('#main>div');
     var closeOverlay = function (){
         map.scrollWheelZoom.enable();
-        container.fadeOut('slow');
+        container.fadeOut('slow', function(){
+            $('nav .active').removeClass('active');
+        });
 
-        $('nav .active').removeClass('active').on('click.fader', function(){
+        $('nav .active').on('click.fader', function(){
             map.scrollWheelZoom.disable();
             container.fadeIn('slow');
             $(this).addClass('active').off('click.fader');
@@ -70,8 +72,17 @@ function initmap() {
         if(event.target.parentNode == this) //div.row děti v .containeru
             closeOverlay();
     });
+    map.scrollWheelZoom.disable(); // defaultně je otevřený = zakážem scroll-zoom
 
-    map.scrollWheelZoom.disable();
+    // skrytí overlay, pokud byl zobrazen méně než 24h nazpět
+    var overlayShownLast = window.localStorage.getItem('overlayShownLast');
+    if (overlayShownLast > Date.now() - 1000 * 3600 * 24){
+        closeOverlay();
+    }
+    else {
+        window.localStorage.setItem('overlayShownLast', Date.now());
+    }
+
 
 
     new rozcestniky(map, layersControl);
