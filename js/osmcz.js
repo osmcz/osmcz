@@ -94,17 +94,34 @@ function initmap() {
     map.scrollWheelZoom.disable(); // defaultně je otevřený = zakážem scroll-zoom
 
     // skrytí overlay, pokud byl zobrazen méně než 24h nazpět
-    var overlayShownLast = localStorage.getItem('overlayShownLast');
-    if (overlayShownLast > Date.now() - 1000 * 3600 * 24) {
-        closeOverlay();
+    if (StorageCheck() == true ) {
+      var overlayShownLast = localStorage.getItem('overlayShownLast');
+      if (overlayShownLast > Date.now() - 1000 * 3600 * 24) {
+          closeOverlay();
+      }
+      else {
+          localStorage.setItem('overlayShownLast', Date.now());
+      }
     }
     else {
-        localStorage.setItem('overlayShownLast', Date.now());
+      if (getCookie('overlayShownLast') != '') {
+          closeOverlay();
+      }
+      else {
+          setCookie('overlayShownLast', 'overlayShownLast', 1)
+      }
     }
 
     // nastavení polohy dle hashe nebo zapamatované
+    if (StorageCheck() == true ) {
+        var pos = localStorage.getItem('position');      
+    }
+    else {
+        var pos = getCookie('position');        
+    }    
     !setViewFromHash(location.hash)
-    && !setViewFromHash(localStorage.getItem('position'))
+    // toto dela problem, pokud je pos prazdne, nezobrazi se mapa, chce to jeste upravu
+    && !setViewFromHash(pos)
     && map.setView(new L.LatLng(49.8, 15.44), 8);
 
     // updatnutí při změně hashe
@@ -120,7 +137,12 @@ function initmap() {
     map.on('moveend zoomend', function () {
         lastHash = OSM.formatHash(map)
         location.hash = lastHash;
-        localStorage.setItem('position', lastHash);
+        if (StorageCheck() == true ) {        
+            localStorage.setItem('position', lastHash);
+        }
+        else {
+            setCookie('position', lastHash, 15)
+        }
     });
 
 
@@ -136,4 +158,36 @@ function setViewFromHash(hash) {
     map.setView(loc.center, loc.zoom);
     return true;
 }
+
+
+function StorageCheck(){
+    var check = 'test';
+
+    try {
+        if(typeof(Storage) == "undefined") return false; 
+        localStorage.setItem(check, check);
+        localStorage.removeItem(check);
+        return true;
+    } catch(e) {
+        return false;
+    }
+}
+    
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
 
