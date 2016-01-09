@@ -1,4 +1,5 @@
 var map;
+initmap();
 
 function initmap() {
     map = new L.Map('map');
@@ -42,7 +43,6 @@ function initmap() {
     };
     var overlays = {};
 
-    map.setView(new L.LatLng(49.5, 17), 7);
 
     var layersControl = L.control.layers(baseLayers, overlays).addTo(map);
     L.control.scale().addTo(map);
@@ -58,13 +58,13 @@ function initmap() {
 
     // skrytí obsahu při kliku / posunutí mapy
     var container = $('#main>div');
-    var closeOverlay = function (){
+    var closeOverlay = function () {
         map.scrollWheelZoom.enable();
-        container.fadeOut('slow', function(){
+        container.fadeOut('slow', function () {
             $('nav .active').removeClass('active');
         });
 
-        $('nav .active').on('click.fader', function(){
+        $('nav .active').on('click.fader', function () {
             map.scrollWheelZoom.disable();
             container.fadeIn('slow');
             $(this).addClass('active').off('click.fader');
@@ -72,25 +72,53 @@ function initmap() {
     };
     map.on('click movestart', closeOverlay);
     $('.close-overlay').click(closeOverlay);
-    container.click(function(event){
-        if(event.target.parentNode == this) //div.row děti v .containeru
+    container.click(function (event) {
+        if (event.target.parentNode == this) //div.row děti v .containeru
             closeOverlay();
     });
     map.scrollWheelZoom.disable(); // defaultně je otevřený = zakážem scroll-zoom
 
     // skrytí overlay, pokud byl zobrazen méně než 24h nazpět
-    var overlayShownLast = window.localStorage.getItem('overlayShownLast');
-    if (overlayShownLast > Date.now() - 1000 * 3600 * 24){
+    var overlayShownLast = localStorage.getItem('overlayShownLast');
+    if (overlayShownLast > Date.now() - 1000 * 3600 * 24) {
         closeOverlay();
     }
     else {
-        window.localStorage.setItem('overlayShownLast', Date.now());
+        localStorage.setItem('overlayShownLast', Date.now());
     }
 
+    // nastavení polohy dle hashe nebo zapamatované
+    !setViewFromHash(location.hash)
+    && !setViewFromHash(localStorage.getItem('position'))
+    && map.setView(new L.LatLng(49.8, 15.44), 8);
+
+    // updatnutí při změně hashe
+    var lastHash;
+    $(window).bind('hashchange', function (e) {
+        if (location.hash != lastHash) {
+            setViewFromHash(location.hash);
+            lastHash = location.hash;
+        }
+    });
+
+    // pamatování poslední polohy
+    map.on('moveend zoomend', function () {
+        lastHash = OSM.formatHash(map)
+        location.hash = lastHash;
+        localStorage.setItem('position', lastHash);
+    });
 
 
     new rozcestniky(map, layersControl);
 }
 
-initmap();
+
+function setViewFromHash(hash) {
+    if (!hash) return;
+    var loc = OSM.parseHash(hash);
+    if (!loc.center) return;
+    console.log('setviewfromhash', hash, loc);
+    map.setView(loc.center, loc.zoom);
+    return true;
+}
 
