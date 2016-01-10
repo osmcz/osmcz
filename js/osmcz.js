@@ -189,6 +189,10 @@ function initmap() {
         });
 
         showOverlayOnClick();
+
+        if(location.pathname == '/splash'){
+            history.pushState({}, "", "/");
+        }
     };
 
     // skrytí obsahu při kliku / posunutí mapy
@@ -205,14 +209,14 @@ function initmap() {
         });
 
         // skrytí overlay
-        if (Cookies.get('overlayShown')) {
+        if (!Cookies.get('overlayShown') || location.pathname == '/splash') {
+            container.show();
+            Cookies.set('overlayShown', 'yes', {expires: 7}); // za 7 dní zobrazíme znovu
+        }
+        else {
             map.scrollWheelZoom.enable();
             showOverlayOnClick();
             $('nav .active').removeClass('active');
-        }
-        else {
-            container.show();
-            Cookies.set('overlayShown', 'yes', {expires: 7}); // za 7 dní zobrazíme znovu
         }
     }
 
