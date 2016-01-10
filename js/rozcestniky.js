@@ -31,7 +31,7 @@ function rozcestniky(map, layersControl) {
             html_content += " ";
             html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'>edit</a>";
             html_content += "<br>"
-            html_content += "<a href='" + b.url + "'>" + b.name + "</a><br>"
+            html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>" + b.name + "</a><br>"
             html_content += " <img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='guidepost'>"
             layer.bindPopup(html_content);
         }
