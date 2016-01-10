@@ -82,7 +82,7 @@ function initmap() {
     var closeOverlay = function () {
         map.scrollWheelZoom.enable();
         container.fadeOut('slow', function () {
-            $('nav .active').removeClass('active');
+            setTimeout(function(){ $('nav .active').removeClass('active'); }, 700);
         });
 
         $('nav .active').on('click.fader', function (event) {
