@@ -117,7 +117,8 @@ function initmap() {
     $(window).bind('hashchange', function (e) {
         if (location.hash != lastHash) {
             var hash = OSM.parseHash(location.hash);
-            map.setView([hash.lat, hash.lon], hash.zoom);
+            if (hash.center)
+                map.setView([hash.lat, hash.lon], hash.zoom);
             updateLayersFromCode(hash.layers);
             lastHash = location.hash;
         }
@@ -140,8 +141,15 @@ function initmap() {
 
     // -------------------- overlay --------------------
 
-    // skrytí obsahu při kliku / posunutí mapy
-    var container = $('#main .container');
+    var showOverlayOnClick = function () {
+        $('nav .active').on('click.fader', function (event) {
+            event.preventDefault();
+            map.scrollWheelZoom.disable();
+            container.fadeIn('slow');
+            $(this).addClass('active').off('click.fader');
+        });
+    };
+
     var closeOverlay = function () {
         map.scrollWheelZoom.enable();
         container.fadeOut('slow', function () {
@@ -150,30 +158,31 @@ function initmap() {
             }, 700);
         });
 
-        $('nav .active').on('click.fader', function (event) {
-            event.preventDefault();
-            map.scrollWheelZoom.disable();
-            container.fadeIn('slow');
-            $(this).addClass('active').off('click.fader');
-        });
+        showOverlayOnClick();
     };
+
+    // skrytí obsahu při kliku / posunutí mapy
+    var container = $('#main .container');
+
     map.scrollWheelZoom.disable(); // defaultně je otevřený = zakážem scroll-zoom
     map.on('click movestart', closeOverlay); //vždy
 
-    if (container.hasClass('splash')) { //pouze splash-screen
+    if (container.hasClass('splash')) { //pouze splash-screen (je defaultně skrytý přes css)
         $('.close-overlay').click(closeOverlay);
         container.click(function (event) {
             if (event.target.parentNode == this) //div.row děti v .containeru
                 setTimeout(closeOverlay, 200);
         });
 
-        // skrytí overlay, pokud byl zobrazen méně než 24h nazpět
-        var overlayShownLast = localStorage.getItem('overlayShownLast');
-        if (overlayShownLast > Date.now() - 1000 * 3600 * 24) {
-            closeOverlay();
+        // skrytí overlay
+        if (Cookies.get('overlayShown')) {
+            map.scrollWheelZoom.enable();
+            showOverlayOnClick();
+            $('nav .active').removeClass('active');
         }
         else {
-            localStorage.setItem('overlayShownLast', Date.now());
+            container.show();
+            Cookies.set('overlayShown', 'yes', {expires: 7}); // za 7 dní zobrazíme znovu
         }
     }
 

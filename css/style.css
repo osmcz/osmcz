@@ -76,6 +76,7 @@ body {
     background: transparent;
     padding: .5em;
     padding-top: 100px;
+    display: none;
 }
 
 .content-box-left, .content-box-right {
