@@ -71,41 +71,47 @@ function initmap() {
     }));
 
 
+    // nastavení polohy dle hashe nebo zapamatované
+    !setViewFromHash(location.hash)
+    && !setViewFromHash(localStorage.getItem('position'))
+    && map.setView(new L.LatLng(49.8, 15.44), 8);
+
+
     // skrytí obsahu při kliku / posunutí mapy
-    var container = $('#main>div');
+    var container = $('#main .container');
     var closeOverlay = function () {
         map.scrollWheelZoom.enable();
         container.fadeOut('slow', function () {
             $('nav .active').removeClass('active');
         });
 
-        $('nav .active').on('click.fader', function () {
+        $('nav .active').on('click.fader', function (event) {
+            event.preventDefault();
             map.scrollWheelZoom.disable();
             container.fadeIn('slow');
             $(this).addClass('active').off('click.fader');
         });
     };
-    map.on('click movestart', closeOverlay);
-    $('.close-overlay').click(closeOverlay);
-    container.click(function (event) {
-        if (event.target.parentNode == this) //div.row děti v .containeru
-            closeOverlay();
-    });
     map.scrollWheelZoom.disable(); // defaultně je otevřený = zakážem scroll-zoom
+    map.on('click movestart', closeOverlay); //vždy
 
-    // skrytí overlay, pokud byl zobrazen méně než 24h nazpět
-    var overlayShownLast = localStorage.getItem('overlayShownLast');
-    if (overlayShownLast > Date.now() - 1000 * 3600 * 24) {
-        closeOverlay();
-    }
-    else {
-        localStorage.setItem('overlayShownLast', Date.now());
+    if (container.hasClass('splash')) { //pouze splash-screen
+        $('.close-overlay').click(closeOverlay);
+        container.click(function (event) {
+            if (event.target.parentNode == this) //div.row děti v .containeru
+                setTimeout(closeOverlay, 200);
+        });
+
+        // skrytí overlay, pokud byl zobrazen méně než 24h nazpět
+        var overlayShownLast = localStorage.getItem('overlayShownLast');
+        if (overlayShownLast > Date.now() - 1000 * 3600 * 24) {
+            closeOverlay();
+        }
+        else {
+            localStorage.setItem('overlayShownLast', Date.now());
+        }
     }
 
-    // nastavení polohy dle hashe nebo zapamatované
-    !setViewFromHash(location.hash)
-    && !setViewFromHash(localStorage.getItem('position'))
-    && map.setView(new L.LatLng(49.8, 15.44), 8);
 
     // updatnutí při změně hashe
     var lastHash;

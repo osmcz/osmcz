@@ -66,14 +66,16 @@ body {
 #main .container {
     position:relative;
     z-index: 5;
-    padding: .5em;
+    padding: 1em;
     background: rgba(255,255,255,0.9);
     padding-top: 50px;
     margin-bottom: 260px;
 }
 
-#main .container.transparent {
+#main .container.splash {
     background: transparent;
+    padding: .5em;
+    padding-top: 100px;
 }
 
 .content-box-left, .content-box-right {
@@ -98,11 +100,14 @@ body {
 
 
 
-/* Main marketing message and sign up button */
+/* Primárně pro účely splashe */
 #main .jumbotron {
     border-radius: 0;
     text-align: center;
     margin-bottom: 0;
+}
+#main .jumbotron.transparent { /* jinde než splash */
+    background: transparent;
 }
 #main .jumbotron .close-overlay {
     font-size: 30px;
@@ -124,6 +129,7 @@ body {
         height: 110px;
     }
 }
+
 
 .twitter-follow {
     float: right;
@@ -160,6 +166,11 @@ body {
     position: absolute;
     margin-left: -60px;
 }
+.tweets .retweet {
+    color: #707070;
+    font-size: 80%;
+    padding: 3px 0 0 3px;
+}
 .tweets .profile {
     color: rgb(41, 47, 51);
     font-weight: bold;
@@ -178,9 +189,17 @@ body {
     font-size: 80%;
     padding-left: 5px;
     color: rgb(153, 153, 153);
+    text-decoration: none;
 }
 
 
 
+/*3 úroveň menu*/
+#main .nav.nav-tabs {
+    padding-top: 1em;
+}
+#main .nav.nav-tabs a {
+    color: #444;
+}
 
 
