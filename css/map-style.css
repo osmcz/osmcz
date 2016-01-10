@@ -6,6 +6,10 @@
     margin-left: -9px;
 }
 
+
+.leaflet-container .leaflet-control-search {
+    background-color: #fff;
+}
 .leaflet-control-search input.search-input {
     border: 0;
     outline:0;
@@ -21,4 +25,9 @@
 }
 .leaflet-control-search li.search-tip:hover {
     background: #ccc;
+}
+
+.leaflet-control-filelayer .glyphicon {
+    font-size: 70%;
+    margin-left: -3px;
 }

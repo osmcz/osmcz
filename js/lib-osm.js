@@ -101,7 +101,7 @@ OSM = {
             mapParams.lon = parseFloat(params.mlon);
             mapParams.lat = parseFloat(params.mlat);
             mapParams.zoom = parseInt(params.zoom || 12);
-        } else if (loc = $.cookie('_osm_location')) {
+        } else if (loc = Cookies.get('_osm_location')) {  //edit osmcz
             loc = loc.split("|");
             mapParams.lon = parseFloat(loc[0]);
             mapParams.lat = parseFloat(loc[1]);
@@ -109,7 +109,7 @@ OSM = {
         } else if (OSM.home) {
             mapParams.lon = OSM.home.lon;
             mapParams.lat = OSM.home.lat;
-            mapParams.zoom = 10;
+            mapParams.zoom = OSM.home.zoom; //edit osmcz
         } else if (OSM.location) {
             mapParams.bounds = L.latLngBounds(
                 [OSM.location.minlat,
@@ -204,7 +204,7 @@ OSM = {
         var center = map.getCenter().wrap(),
             zoom = map.getZoom(),
             precision = OSM.zoomPrecision(zoom);
-        return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, getLayersCodeOfMap(map)].join('|');
+        return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, OSM.getLayersCodeOfMap(map)].join('|');
     },
 
     distance: function (latlng1, latlng2) {

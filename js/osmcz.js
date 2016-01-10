@@ -1,6 +1,7 @@
 var OSMCZ_APP_VERSION = '0.1';
 
 var map, baseLayers, overlays;
+var marker = L.marker([0, 0]);
 initmap();
 
 function initmap() {
@@ -51,6 +52,7 @@ function initmap() {
     };
     overlays = {};
 
+    // -------------------- map controls --------------------
 
     var layersControl = L.control.layers(baseLayers, overlays).addTo(map);
     L.control.scale().addTo(map);
@@ -81,7 +83,7 @@ function initmap() {
 
     // leaflet-filelayer - upload GPX, KML a GeoJSON
     var style = {color: 'red', opacity: .6, fillOpacity: .5, weight: 4, clickable: false};
-    L.Control.FileLayerLoad.LABEL = '<span class="glyphicon glyphicon-folder-open small" aria-hidden="true"></span>';
+    L.Control.FileLayerLoad.LABEL = '<span class="glyphicon glyphicon-folder-open"></span>';
     L.Control.fileLayerLoad({
         fitBounds: true,
         layerOptions: {
@@ -93,11 +95,50 @@ function initmap() {
     }).addTo(map);
 
 
-    // nastavení polohy dle hashe nebo zapamatované
-    !setViewFromHash(location.hash)
-    && !setViewFromHash(localStorage.getItem('position'))
-    && map.setView(new L.LatLng(49.8, 15.44), 8);
+    // -------------------- map state --------------------
 
+    // nastavení polohy dle hashe nebo zapamatované v cookie nebo home
+    OSM.home = {lat: 49.8, lon: 15.44, zoom: 8};
+    var params = OSM.mapParams();
+    updateLayersFromCode(params.layers);
+    if (params.bounds) {
+        map.fitBounds(params.bounds);
+    } else {
+        map.setView([params.lat, params.lon], params.zoom);
+    }
+    if (params.marker) {
+        marker.setLatLng([params.mlat, params.mlon]).addTo(map);
+    }
+    if (params.object)
+        alert('Zatím nepodporováno //TODO!');
+
+    // updatnutí při změně hashe
+    var lastHash;
+    $(window).bind('hashchange', function (e) {
+        if (location.hash != lastHash) {
+            var hash = OSM.parseHash(location.hash);
+            map.setView([hash.lat, hash.lon], hash.zoom);
+            updateLayersFromCode(hash.layers);
+            lastHash = location.hash;
+        }
+    });
+
+    // pamatování poslední polohy v cookie a hashi
+    map.on('moveend zoomend layeradd layerremove', function () {
+        lastHash = OSM.formatHash(map)
+        location.hash = lastHash;
+        Cookies.set("_osm_location", OSM.locationCookie(map), {expires: 31});
+    });
+
+
+    // pokud přepnutá baselayer je mimo zoom, rozumně odzoomovat //TODO ověřit že funguje
+    map.on("baselayerchange", function (e) {
+        if (map.getZoom() > e.layer.options.maxZoom) {
+            map.setView(map.getCenter(), e.layer.options.maxZoom, {reset: true});
+        }
+    });
+
+    // -------------------- overlay --------------------
 
     // skrytí obsahu při kliku / posunutí mapy
     var container = $('#main .container');
@@ -136,45 +177,20 @@ function initmap() {
         }
     }
 
-
-    // updatnutí při změně hashe
-    var lastHash;
-    $(window).bind('hashchange', function (e) {
-        if (location.hash != lastHash) {
-            setViewFromHash(location.hash);
-            lastHash = location.hash;
-        }
-    });
-
-    // pamatování poslední polohy
-    map.on('moveend zoomend layeradd layerremove', function () {
-        lastHash = OSM.formatHash(map)
-        location.hash = lastHash;
-        localStorage.setItem('position', lastHash);
-    });
-
+    // -------------------- moduly --------------------
 
     new rozcestniky(map, layersControl);
+
 }
 
-
-function setViewFromHash(hash) {
-    if (!hash) return;
-    var loc = OSM.parseHash(hash);
-    if (!loc.center) return;
-    console.log('setviewfromhash', hash, loc);
-    map.setView(loc.center, loc.zoom);
-
-    // set layers from coded string
+// set layers from coded string
+function updateLayersFromCode(codedString) {
     var setLayer = function (key, layer) {
-        for (var pos in loc.layers) {
-            if (layer.options && layer.options.code == loc.layers[pos])
+        for (var pos in codedString) {
+            if (layer.options && layer.options.code == codedString[pos])
                 map.addLayer(layer);
         }
     };
     $.each(baseLayers, setLayer);
     $.each(overlays, setLayer);
-
-    return true;
 }
-
