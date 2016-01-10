@@ -102,6 +102,7 @@ function rozcestniky(map, layersControl) {
     function retrieve_geojson(data) {
         markers.clearLayers();
         map.removeLayer(markers);
+        layer_guidepost.clearLayers();
         layer_guidepost.addData(JSON.parse(data));
         markers.addLayer(layer_guidepost);
         map.addLayer(markers);
