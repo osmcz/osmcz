@@ -49,6 +49,8 @@ function initmap() {
 
     var layersControl = L.control.layers(baseLayers, overlays).addTo(map);
     L.control.scale().addTo(map);
+
+    // leaflet-locate
     L.control.locate({
         follow: true,
         locateOptions: {maxZoom: 15},
@@ -57,6 +59,8 @@ function initmap() {
             title: "Zobrazit moji aktuální polohu"
         }
     }).addTo(map);
+
+    // leaflet-search
     map.addControl(new L.Control.Search({
         url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
         jsonpParam: 'json_callback',
@@ -69,6 +73,19 @@ function initmap() {
         minLength: 2,
         zoom: 10
     }));
+
+    // leaflet-filelayer - upload GPX, KML a GeoJSON
+    var style = {color: 'red', opacity: .6, fillOpacity: .5, weight: 4, clickable: false};
+    L.Control.FileLayerLoad.LABEL = '<span class="glyphicon glyphicon-folder-open small" aria-hidden="true"></span>';
+    L.Control.fileLayerLoad({
+        fitBounds: true,
+        layerOptions: {
+            style: style,
+            pointToLayer: function (data, latlng) {
+                return L.circleMarker(latlng, {style: style});
+            }
+        }
+    }).addTo(map);
 
 
     // nastavení polohy dle hashe nebo zapamatované
