@@ -159,16 +159,22 @@ OSM = {
         return args;
     },
 
+    getLayersCodeOfMap: function (map) {
+        var layers = '';
+        map.eachLayer(function (layer) {
+            if (layer.options && layer.options.code)
+                layers += layer.options.code;
+        });
+        return layers;
+    },
+
     formatHash: function (args) {
         var center, zoom, layers;
 
         if (args instanceof L.Map) {
             center = args.getCenter();
             zoom = args.getZoom();
-            layers = '';
-            //osmcz added:
-            args.eachLayer(function(){ if (this.options && this.options.code) layers += this.options.code;});
-
+            layers = OSM.getLayersCodeOfMap(args);
         } else {
             center = args.center || L.latLng(args.lat, args.lon);
             zoom = args.zoom;
@@ -198,7 +204,7 @@ OSM = {
         var center = map.getCenter().wrap(),
             zoom = map.getZoom(),
             precision = OSM.zoomPrecision(zoom);
-        return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, map.getLayersCode()].join('|');
+        return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, getLayersCodeOfMap(map)].join('|');
     },
 
     distance: function (latlng1, latlng2) {

@@ -1,50 +1,55 @@
 var OSMCZ_APP_VERSION = '0.1';
 
-var map;
+var map, baseLayers, overlays;
 initmap();
 
 function initmap() {
     map = new L.Map('map');
     map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='http://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION)
 
-    var stamen = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
-        attribution: 'Map data CC-BY-SA <a href="http://openstreetmap.org">OSM.org</a>, imagery <a href="http://maps.stamen.com">Stamen Design</a>',
-        maxZoom: 18
-    });
-
-    var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-    });
-
     var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: 'OpenStreetMap.org & Mapbox'
     });
 
+    var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+        code: 'd'
+    });
+
     var ocm = L.tileLayer("http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: 'Data: <a href="http://opencyclemap.org">OpenCycleMap</a>'
+        attribution: 'Data: <a href="http://opencyclemap.org">OpenCycleMap</a>',
+        code: 'c'
     });
 
     var hikebike = L.tileLayer("http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: 'Data: <a href="http://www.hikebikemap.de">Hike &amp; Bike Map</a>'
+        attribution: 'Data: <a href="http://www.hikebikemap.de">Hike &amp; Bike Map</a>',
+        code: 'h'
     });
 
     var mtb = L.tileLayer("http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: 'OpenStreetMap.org a USGS'
+        attribution: 'OpenStreetMap.org a USGS',
+        code: 'm'
     });
 
-    var baseLayers = {
+    var vodovky = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+        attribution: 'Map data CC-BY-SA <a href="http://openstreetmap.org">OSM.org</a>, imagery <a href="http://maps.stamen.com">Stamen Design</a>',
+        maxZoom: 18,
+        code: 's'
+    });
+
+    baseLayers = {
         "Mapbox streets": mapbox.addTo(map),
         "MTBMap.cz": mtb,
         "OpenStreetMap Mapnik": osm,
         "OpenCycleMap": ocm,
         "Hike&bike": hikebike,
-        "Vodovky": stamen
+        "Vodovky": vodovky
     };
-    var overlays = {};
+    overlays = {};
 
 
     var layersControl = L.control.layers(baseLayers, overlays).addTo(map);
@@ -99,7 +104,9 @@ function initmap() {
     var closeOverlay = function () {
         map.scrollWheelZoom.enable();
         container.fadeOut('slow', function () {
-            setTimeout(function(){ $('nav .active').removeClass('active'); }, 700);
+            setTimeout(function () {
+                $('nav .active').removeClass('active');
+            }, 700);
         });
 
         $('nav .active').on('click.fader', function (event) {
@@ -140,7 +147,7 @@ function initmap() {
     });
 
     // pamatování poslední polohy
-    map.on('moveend zoomend', function () {
+    map.on('moveend zoomend layeradd layerremove', function () {
         lastHash = OSM.formatHash(map)
         location.hash = lastHash;
         localStorage.setItem('position', lastHash);
@@ -157,6 +164,17 @@ function setViewFromHash(hash) {
     if (!loc.center) return;
     console.log('setviewfromhash', hash, loc);
     map.setView(loc.center, loc.zoom);
+
+    // set layers from coded string
+    var setLayer = function (key, layer) {
+        for (var pos in loc.layers) {
+            if (layer.options && layer.options.code == loc.layers[pos])
+                map.addLayer(layer);
+        }
+    };
+    $.each(baseLayers, setLayer);
+    $.each(overlays, setLayer);
+
     return true;
 }
 
