@@ -7,6 +7,7 @@ initmap();
 function initmap() {
     map = new L.Map('map');
     map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='http://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION)
+    var osmAttr = '<span>&copy;</span><a href="http://openstreetmap.org/copyright"> přispěvatelé OpenStreetMap</a>';
 
     var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: 'OpenStreetMap.org & Mapbox'
@@ -14,25 +15,25 @@ function initmap() {
 
     var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+        attribution: osmAttr,
         code: 'd'
     });
 
     var ocm = L.tileLayer("http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: 'Data: <a href="http://opencyclemap.org">OpenCycleMap</a>',
+        attribution: osmAttr + ', <a href="http://opencyclemap.org">OpenCycleMap</a>',
         code: 'c'
     });
 
     var hikebike = L.tileLayer("http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: 'Data: <a href="http://www.hikebikemap.de">Hike &amp; Bike Map</a>',
+        attribution: osmAttr + ', <a href="http://www.hikebikemap.de">Hike &amp; Bike Map</a>',
         code: 'h'
     });
 
     var mtb = L.tileLayer("http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: 'OpenStreetMap.org a USGS',
+        attribution: osmAttr + ', <a href="http://www.mtbmap.cz">mtbmap.cz</a>',
         code: 'm'
     });
 
@@ -42,15 +43,44 @@ function initmap() {
         code: 's'
     });
 
+    var kct = L.tileLayer("http://tile.poloha.net/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="http://www.poloha.cz">poloha.cz</a>',
+        code: 'k'
+    });
+
+    var kctOverlay = L.tileLayer("http://tile.poloha.net/kct/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="http://www.poloha.cz">poloha.cz</a>',
+        opacity: 0.6,
+        code: 'K'
+    });
+
+    var ortofoto = L.tileLayer.wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
+        layers: 'GR_ORTFOTORGB',
+        format: 'image/jpeg',
+        transparent: false,
+        crs: L.CRS.EPSG4326,
+        minZoom: 7,
+        maxZoom: 18,
+        attribution: '<a href="http://www.cuzk.cz">ČÚZK</a>',
+        code: 'o'
+    });
+
+
     baseLayers = {
         "Mapbox streets": mapbox.addTo(map),
+        "KČT trasy poloha.net": kct,
         "MTBMap.cz": mtb,
         "OpenStreetMap Mapnik": osm,
         "OpenCycleMap": ocm,
         "Hike&bike": hikebike,
-        "Vodovky": vodovky
+        "Vodovky": vodovky,
+        "Ortofoto ČÚZK": ortofoto
     };
-    overlays = {};
+    overlays = {
+        "KČT trasy poloha.net": kctOverlay
+    };
 
     // -------------------- map controls --------------------
 
