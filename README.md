@@ -1,14 +1,15 @@
 # osmcz-app
 
-Mapová aplikace pro [openstreetmap.cz](http://openstreetmap.cz/)
+Responzivní mapová aplikace pro [openstreetmap.cz](http://openstreetmap.cz/)
 
 * **[DEMO](http://rawgit.com/osmcz/osmcz/master/index.html)** - vývojová větev
 * **[ISSUE TRACKER](https://github.com/osmcz/osmcz/issues)**
 
 
 ## Jak přispět do projektu
+viz [CONTRIBUTING.md](CONTRIBUTING.md)
 * hlásit chyby a podněty do issue trackeru
-* vylepšit webovou aplikaci - viz [CONTRIBUTING.md](CONTRIBUTING.md)
+* vylepšit webovou aplikaci
 
 
 ## Další poznámky
