@@ -18,11 +18,23 @@ body {
     position: relative;
     top: 11px;
 }
+.navbar .navbar-brand:before {
+    content: "beta";
+    position: absolute;
+    font-size: 9px;
+    margin-top: 17px;
+    margin-left: -16px;
+}
 .navbar .navbar-brand span {
     padding-left: 10px;
 }
 
-@media (min-width: 980px) {
+@media (min-width: 768px) {
+
+    .navbar .navbar-brand:before {
+        margin-left: 21px;
+    }
+
     .navbar .navbar-brand span {
         display: none;
     }
