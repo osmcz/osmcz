@@ -45,15 +45,22 @@ function initmap() {
 
     var kct = L.tileLayer("http://tile.poloha.net/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.poloha.cz">poloha.cz</a>',
+        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         code: 'k'
     });
 
     var kctOverlay = L.tileLayer("http://tile.poloha.net/kct/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.poloha.cz">poloha.cz</a>',
+        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 0.6,
         code: 'K'
+    });
+
+    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA", {
+        maxZoom: 22,
+        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+        opacity: 1,
+        code: 'O'
     });
 
     var ortofoto = L.tileLayer.wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
@@ -62,9 +69,16 @@ function initmap() {
         transparent: false,
         crs: L.CRS.EPSG4326,
         minZoom: 7,
-        maxZoom: 18,
+        maxZoom: 22,
         attribution: '<a href="http://www.cuzk.cz">ČÚZK</a>',
         code: 'o'
+    });
+    map.on('layeradd', function (event) {
+        if (event.layer == ortofoto || event.layer == vodovky) {  //TODO vypnutí overlay + přepnutí na druhou to buguje
+            if (!map.hasLayer(ortofotoOverlay)) {
+                map.addLayer(ortofotoOverlay);
+            }
+        }
     });
 
 
@@ -79,6 +93,7 @@ function initmap() {
         "Ortofoto ČÚZK": ortofoto
     };
     overlays = {
+        "Ortofoto popisky": ortofotoOverlay,
         "KČT trasy poloha.net": kctOverlay
     };
 
@@ -190,7 +205,7 @@ function initmap() {
 
         showOverlayOnClick();
 
-        if(location.pathname == '/splash'){
+        if (location.pathname == '/splash') {
             history.pushState({}, "", "/");
         }
     };
