@@ -29,7 +29,7 @@ function rozcestniky(map, layersControl) {
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='http://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
             html_content += " ";
-            html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'>edit</a>";
+            html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'><span class='glyphicon glyphicon-pencil' title='upravit'></span></a>";
             html_content += "<br>";
             html_content += "Číslo rozcestníku: ";
             html_content += "<a href='http://api.openstreetmap.cz/table/ref/"+ b.ref + "'>" + b.ref + "</a>";
