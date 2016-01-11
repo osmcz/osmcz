@@ -3,6 +3,8 @@ Jak správně přispět do tohoto projektu
 
 ## Hlášení issue
 
+Vždy ideálně vkládat se screenshotem, co je špatně či jaká je představa - pomůže to rychlejší orientaci.
+
 Vedeme trojí typ:
  - bugy (chyby) - štítek `bug`,
  - diskuze (nad obecnějším tématem) - štítek `diskuze`
@@ -11,7 +13,8 @@ Vedeme trojí typ:
 Možno doplnit štítek o jakou část projektu se jedná:
  - `osmcz-app` - mapová appka
  - `osmcz-web` - npress php webík
- - `osmcz-server` - různé api služby
+ - `osmcz-apiserver` - různé api služby (typicky běží na api.openstreetmap.cz či poloha.net)
+ - `osmcz-tileserver` - vlastní mapové dlaždice (typicky běží na poloha.net - spravuje @pedro042)
  - `osmcz-general` - obecné téma
 
 
@@ -38,4 +41,6 @@ Ideálně prosím dělat feature commity a psát srozumitelné commit message. P
 * Leaflet 0.7.3 http://leafletjs.com/
 * Bootstrap 3.3.6 http://getbootstrap.com/ - používat zejména css komponenty odsud
 * jQuery 1.11.3 http://jquery.com/
-
+* kvůli snazší editovatelnosti komunitou nepoužíváme tyto:
+ * LESS css compiler
+ * ES6 compiler
