@@ -66,6 +66,13 @@ function initmap() {
         code: 'O'
     });
 
+    var vrstevniceOverlay = L.tileLayer("http://tile.poloha.net/hills/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+        opacity: 0.6,
+        code: 'V'
+    });
+
     var ortofoto = L.tileLayer.wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
         layers: 'GR_ORTFOTORGB',
         format: 'image/jpeg',
@@ -97,7 +104,8 @@ function initmap() {
     };
     overlays = {
         "Ortofoto popisky": ortofotoOverlay,
-        "KČT trasy poloha.net": kctOverlay
+        "KČT trasy poloha.net": kctOverlay,
+        "Vrstevnice": vrstevniceOverlay
     };
 
     // -------------------- map controls --------------------
