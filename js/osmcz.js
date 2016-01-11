@@ -8,7 +8,7 @@ function initmap() {
     var devicePixelRatio = window.devicePixelRatio || 1,
         mapboxFormat = devicePixelRatio >= 2 ? '@2x.png' : '.png';
 
-    map = new L.Map('map');
+    map = new L.Map('map', {zoomControl: false});
     map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='http://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION)
     var osmAttr = '<span>&copy;</span><a href="http://openstreetmap.org/copyright"> přispěvatelé OpenStreetMap</a>';
 
@@ -59,7 +59,7 @@ function initmap() {
         code: 'K'
     });
 
-    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + mapboxFormat +"?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA", {
+    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + mapboxFormat + "?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA", {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 1,
@@ -105,6 +105,11 @@ function initmap() {
     var layersControl = L.control.layers(baseLayers, overlays).addTo(map);
     L.control.scale().addTo(map);
 
+    L.control.zoom({
+        zoomInTitle: 'Přiblížit',
+        zoomOutTitle: 'Oddálit'
+    }).addTo(map)
+
     // leaflet-locate
     L.control.locate({
         follow: true,
@@ -126,12 +131,14 @@ function initmap() {
         autoType: false,
         autoCollapse: true,
         minLength: 2,
-        zoom: 10
+        zoom: 10,
+        textPlaceholder: 'Hledat…'
     }));
 
     // leaflet-filelayer - upload GPX, KML a GeoJSON
     var style = {color: 'red', opacity: .6, fillOpacity: .5, weight: 4, clickable: false};
     L.Control.FileLayerLoad.LABEL = '<span class="glyphicon glyphicon-folder-open"></span>';
+    L.Control.FileLayerLoad.TITLE = 'Načíst lokální data (GPX, KML, GeoJSON)';
     L.Control.fileLayerLoad({
         fitBounds: true,
         layerOptions: {
