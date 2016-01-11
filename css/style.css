@@ -89,6 +89,8 @@ body {
     padding: .5em;
     padding-top: 100px;
     display: none;
+
+    background: url(../img/info-layer-switch.mini.svg) no-repeat right 63px;
 }
 
 .content-box-left, .content-box-right {
@@ -106,6 +108,11 @@ body {
         padding-left: 15px;
 
     }
+    #main .container.splash {
+        background: url(../img/info-layer-switch.svg) no-repeat right 90px;
+
+    }
+
 }
 
 
