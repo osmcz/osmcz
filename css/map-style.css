@@ -6,7 +6,6 @@
     margin-left: -9px;
 }
 
-
 .leaflet-container .leaflet-control-search {
     background-color: #fff;
 }
@@ -30,4 +29,8 @@
 .leaflet-control-filelayer .glyphicon {
     font-size: 70%;
     margin-left: -3px;
+}
+
+.leaflet-popup-content {
+    width:auto !important;
 }
