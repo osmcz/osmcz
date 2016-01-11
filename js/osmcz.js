@@ -99,7 +99,7 @@ function initmap() {
 
     // -------------------- map controls --------------------
 
-    //var layersControl = L.control.layers(baseLayers, overlays, { zoomControl:false }).addTo(map);
+    var layersControl = L.control.layers(baseLayers, overlays).addTo(map);
     L.control.scale().addTo(map);
     
     L.control.zoom({
