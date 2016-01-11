@@ -25,14 +25,18 @@ function rozcestniky(map, layersControl) {
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             var b = feature.properties;
-            var html_content = "guidepost";
-            html_content += " by ";
+            var html_content = "";
+            html_content += "Fotografii poskytl: ";
             html_content += "<a href='http://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
             html_content += " ";
             html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'>edit</a>";
-            html_content += "<br>"
-            html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>" + b.name + "</a><br>"
-            html_content += " <img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='guidepost'>"
+            html_content += "<br>";
+            html_content += "Číslo rozcestníku: ";
+            html_content += "<a href='http://api.openstreetmap.cz/table/ref/"+ b.ref + "'>" + b.ref + "</a>";
+            html_content += "<br>";
+            html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>";
+            html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
+            html_content += "</a>";
             layer.bindPopup(html_content);
         }
     });
