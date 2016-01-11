@@ -38,6 +38,12 @@ function rozcestniky(map, layersControl) {
     });
 
 
+    map.on('layeradd', function(event) {
+        if(event.layer == markers) {
+            load_data()
+        }
+    });
+
     map.on('moveend', load_data);
     map.on('drag', function (e) {
         if (!isLayerChosen())
@@ -101,7 +107,7 @@ function rozcestniky(map, layersControl) {
 
     function retrieve_geojson(data) {
         markers.clearLayers();
-        map.removeLayer(markers);
+//        map.removeLayer(markers);
         layer_guidepost.clearLayers();
         layer_guidepost.addData(JSON.parse(data));
         markers.addLayer(layer_guidepost);
