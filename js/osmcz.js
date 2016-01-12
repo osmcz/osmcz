@@ -111,7 +111,9 @@ function initmap() {
     // -------------------- map controls --------------------
 
     var layersControl = L.control.layers(baseLayers, overlays).addTo(map);
-    L.control.scale().addTo(map);
+    L.control.scale({
+        imperial: false
+    }).addTo(map);
 
     L.control.zoom({
         zoomInTitle: 'Přiblížit',
