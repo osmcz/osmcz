@@ -17,7 +17,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function rozcestniky(map, layerControl, overlays) {
+function rozcestniky(map, layersControl, overlays) {
     // -- constructor --
 
     var xhr;
@@ -69,7 +69,7 @@ function rozcestniky(map, layerControl, overlays) {
     });
 
     /* Add overlay to the map */
-    layerControl.addOverlay(markers, "Rozcestníky");
+    layersControl.addOverlay(markers, "Rozcestníky");
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
