@@ -17,11 +17,11 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function rozcestniky(map, layersControl) {
+function rozcestniky(map, layerControl, overlays) {
     // -- constructor --
 
     var xhr;
-    var markers = L.markerClusterGroup();
+    var markers = L.markerClusterGroup({code: 'G'});
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             var b = feature.properties;
@@ -68,7 +68,13 @@ function rozcestniky(map, layersControl) {
         }
     });
 
-    layersControl.addOverlay(markers, "Rozcestníky");
+    /* Add overlay to the map */
+    layerControl.addOverlay(markers, "Rozcestníky");
+
+    /* Add overlay to the overlays list as well
+     * This allows restoration of overlay state on load */
+    overlays["Rozcestníky"] = markers;
+
 
     // -- methods --
 

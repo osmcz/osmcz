@@ -91,7 +91,6 @@ function initmap() {
         }
     });
 
-
     baseLayers = {
         "Mapbox streets": mapbox.addTo(map),
         "KČT trasy poloha.net": kct,
@@ -159,6 +158,9 @@ function initmap() {
         }
     }).addTo(map);
 
+
+    // -------------------- moduly --------------------
+    new rozcestniky(map, layersControl, overlays);
 
     // -------------------- map state --------------------
 
@@ -254,10 +256,6 @@ function initmap() {
             $('nav .active').removeClass('active');
         }
     }
-
-    // -------------------- moduly --------------------
-
-    new rozcestniky(map, layersControl);
 
 }
 
