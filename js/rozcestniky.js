@@ -22,6 +22,13 @@ function rozcestniky(map, layersControl, overlays) {
 
     var xhr;
     var markers = L.markerClusterGroup({code: 'G'});
+
+    var guidepost_icon = L.icon({
+      iconUrl: "img/guidepost.png"
+    });
+
+    var commons_icon;
+
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             var b = feature.properties;
@@ -37,6 +44,7 @@ function rozcestniky(map, layersControl, overlays) {
             html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>";
             html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
             html_content += "</a>";
+            layer.setIcon(guidepost_icon);
             layer.bindPopup(html_content);
         }
     });
