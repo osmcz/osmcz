@@ -32,6 +32,9 @@ function rozcestniky(map, layersControl, overlays) {
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             var b = feature.properties;
+            if (!b.ref) {
+                b.ref = "nevíme";
+            }
             var html_content = "";
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='http://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
