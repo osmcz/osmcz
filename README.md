@@ -13,7 +13,7 @@ viz [CONTRIBUTING.md](CONTRIBUTING.md)
 
 
 ## Další poznámky
-* Kdo má zájem přidat se k organizaci [github.com/osmcz](https://github.com/osmcz), nechť napíše [Pavlovi](http://www.openstreetmap.org/user/zby-cz) nebo [Michalovi](http://www.openstreetmap.org/user/walley)
+* Kdo má zájem přidat se k organizaci [github.com/osmcz](https://github.com/osmcz), nechť napíše [Pavlovi](http://www.openstreetmap.org/user/zby-cz), [Michalovi](http://www.openstreetmap.org/user/walley) nebo [Mariánovi](http://www.openstreetmap.org/user/Marián%20Kyral)
 * [Developer notes na wiki](https://github.com/osmcz/osmcz/wiki)
 * Číslo release je na prvním řádku v `js/osmcz.js`, jednotlivé verze pak pomocí git-tagů
 * Zdrojové kódy jsou pod licencí MIT. 
