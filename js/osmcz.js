@@ -12,7 +12,7 @@ function initmap() {
     map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='http://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION)
     var osmAttr = '<span>&copy;</span><a href="http://openstreetmap.org/copyright"> přispěvatelé OpenStreetMap</a>';
 
-    var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}' + mapboxFormat + '?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
+    var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + mapboxFormat + '?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: 'OpenStreetMap.org & Mapbox'
     });
 
