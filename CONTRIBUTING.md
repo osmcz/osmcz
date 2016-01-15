@@ -22,8 +22,9 @@ Možno doplnit štítek o jakou část projektu se jedná:
 
 * Všechny knihovny je vhodné linkovat z CDN, aby se neplevelil repozitář.
 * Funkčnost commitu je vhodné ověřit na `http://rawgit.com/[user]/[repo]/[commit sha či větev]/index.html`
-* Featuru, kterou je možno oddělit, vložit do vlastního souboru, např `js/rozcestniky.js`
+* Featuru, kterou je možno oddělit, vložit do vlastního souboru, např `js/guideposts.js`
 * U větších úprav **před tvorbou založit ISSUE**, aby se probralo jak na to. Předejde se tím, že by pull-request nebyl přijatý!
+* **Commit message formát:** `<část aplikace>: <co se děje> #id`
 
 ### Zaslání úpravy ke schválení
 Nejsnazší cesta je nechat si to forknout githubem a rovnou vytvořit pull request.
