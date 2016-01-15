@@ -13,6 +13,12 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
         osmczDefaultLayer: true
     });
 
+    var mapboxGl = L.mapboxGL({
+        accessToken: 'pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA',
+        style: 'mapbox://styles/zbycz/cijg9crwn000mbgkh9za985fe'
+    });
+
+
     var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: osmAttr,
@@ -89,7 +95,8 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     });
 
     baseLayers["Mapbox streets"] = mapbox;
-    baseLayers["KČT trasy poloha.net"] = kct; 
+    baseLayers["Mapbox streets GL"] = mapboxGl;
+    baseLayers["KČT trasy poloha.net"] = kct;
     baseLayers["MTBMap.cz"] = mtb;
     baseLayers["OpenStreetMap Mapnik"] = osm;
     baseLayers["OpenCycleMap"] = ocm;
