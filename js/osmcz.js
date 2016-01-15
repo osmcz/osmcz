@@ -5,15 +5,15 @@ var marker = L.marker([0, 0]);
 initmap();
 
 function initmap() {
-    var devicePixelRatio = window.devicePixelRatio || 1,
-        mapboxFormat = devicePixelRatio >= 2 ? '@2x.png' : '.png';
-
     map = new L.Map('map', {zoomControl: false});
-    map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='http://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION)
-    var osmAttr = '<span>&copy;</span><a href="http://openstreetmap.org/copyright"> přispěvatelé OpenStreetMap</a>';
+    map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='http://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION);
 
-    var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + mapboxFormat + '?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
-        attribution: 'OpenStreetMap.org & Mapbox'
+    var devicePixelRatio = window.devicePixelRatio || 1,
+        retinaSuffix = devicePixelRatio >= 2 ? '@2x' : '';
+    var osmAttr = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a>';
+
+    var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
+        attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>, " + osmAttr
     });
 
     var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -59,9 +59,9 @@ function initmap() {
         code: 'K'
     });
 
-    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + mapboxFormat + "?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA", {
+    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + retinaSuffix + ".png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA", {
         maxZoom: 22,
-        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+        attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>, " + osmAttr,
         opacity: 1,
         code: 'O'
     });
