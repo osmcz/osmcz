@@ -88,12 +88,18 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         }
     });
 
-    var transport = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png", {
+    var dopravni = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
-        opacity: 0.6,
-        code: 'V'
+        code: 't'
     });
+
+    var zimni = L.tileLayer("http://www.opensnowmap.org/opensnowmap-overlay/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>',
+        code: 'z'
+    });
+
 
 
     baseLayers["Mapbox streets"] = mapbox;
@@ -104,10 +110,11 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Hike&bike"] = hikebike;
     baseLayers["Vodovky"] = vodovky;
     baseLayers["Ortofoto ČÚZK"] = ortofoto;
-    baseLayers["Dopravní"] = transport;
+    baseLayers["Dopravní"] = dopravni;
 
     overlays["Ortofoto popisky"] = ortofotoOverlay;
     overlays["KČT trasy poloha.net"] = kctOverlay;
     overlays["Vrstevnice"] = vrstevniceOverlay;
+    overlays["Zimní sporty"] = zimni;
 
 };
