@@ -1,7 +1,7 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
-osmcz.layers = function(map, baseLayers, overlays, controls) {
+osmcz.layers = function (map, baseLayers, overlays, controls) {
     // -- constructor --
 
     var devicePixelRatio = window.devicePixelRatio || 1,
@@ -88,14 +88,23 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
         }
     });
 
+    var transport = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
+        opacity: 0.6,
+        code: 'V'
+    });
+
+
     baseLayers["Mapbox streets"] = mapbox;
-    baseLayers["KČT trasy poloha.net"] = kct; 
+    baseLayers["KČT trasy poloha.net"] = kct;
     baseLayers["MTBMap.cz"] = mtb;
     baseLayers["OpenStreetMap Mapnik"] = osm;
     baseLayers["OpenCycleMap"] = ocm;
     baseLayers["Hike&bike"] = hikebike;
     baseLayers["Vodovky"] = vodovky;
-    baseLayers["Ortofoto ČÚZK"] = ortofoto
+    baseLayers["Ortofoto ČÚZK"] = ortofoto;
+    baseLayers["Dopravní"] = transport;
 
     overlays["Ortofoto popisky"] = ortofotoOverlay;
     overlays["KČT trasy poloha.net"] = kctOverlay;
