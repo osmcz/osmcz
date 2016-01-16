@@ -75,6 +75,8 @@ body {
 
 
 
+
+
 #main .container {
     position:relative;
     z-index: 5;
@@ -89,8 +91,13 @@ body {
     padding: .5em;
     padding-top: 100px;
     display: none;
-
-    background: url(../img/info-layer-switch.mini.svg) no-repeat right 63px;
+}
+#main .container.splash:before {
+    content: url(../img/info-layer-switch.mini.svg);
+    position: fixed;
+    right: 10px;
+    top: 62px;
+    z-index: 980;
 }
 
 .content-box-left, .content-box-right {
@@ -108,11 +115,12 @@ body {
         padding-left: 15px;
 
     }
-    #main .container.splash {
-        background: url(../img/info-layer-switch.svg) no-repeat right 90px;
 
+    #main .container.splash:before {
+        content: url(../img/info-layer-switch.svg);
+        right: 30px;
+        top: 70px;
     }
-
 }
 
 
