@@ -1,4 +1,4 @@
-var OSMCZ_APP_VERSION = '0.3';
+var OSMCZ_APP_VERSION = '0.4';
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]);
