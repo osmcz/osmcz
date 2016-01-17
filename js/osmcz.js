@@ -121,7 +121,9 @@ function updateLayersFromCode(codedString) {
             if (layer.options && layer.options.code == codedString[pos])
                 map.addLayer(layer);
         }
-        if (!codedString && layer.options && layer.options.osmczDefaultLayer)
+
+        // blank code or having only UPPERCASE = overlays --> display default layer
+        if ((!codedString || !codedString.match(/[a-z]/)) && layer.options && layer.options.osmczDefaultLayer)
             map.addLayer(layer);
     };
     $.each(baseLayers, setLayer);

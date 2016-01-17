@@ -13,6 +13,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         osmczDefaultLayer: true
     });
 
+    var turisticka = L.tileLayer("http://tile.poloha.net/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+        code: 'k'
+    });
+
     var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: osmAttr,
@@ -27,7 +33,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     var hikebike = L.tileLayer("http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.hikebikemap.de">Hike &amp; Bike Map</a>',
+        attribution: osmAttr + ', <a href="http://www.hikebikemap.org">Hike &amp; Bike Map</a>',
         code: 'h'
     });
 
@@ -43,13 +49,38 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 's'
     });
 
-    var kct = L.tileLayer("http://tile.poloha.net/{z}/{x}/{y}.png", {
+    var dopravni = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png", {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
-        code: 'k'
+        attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
+        code: 't'
     });
 
-    var kctOverlay = L.tileLayer("http://tile.poloha.net/kct/{z}/{x}/{y}.png", {
+    var ortofoto = L.tileLayer.wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
+        layers: 'GR_ORTFOTORGB',
+        format: 'image/jpeg',
+        transparent: false,
+        crs: L.CRS.EPSG4326,
+        minZoom: 7,
+        maxZoom: 22,
+        attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>',
+        code: 'o'
+    });
+    map.on('layeradd', function (event) {
+        if (event.layer == ortofoto || event.layer == vodovky) {  //TODO vypnutí overlay + přepnutí na druhou to buguje
+            if (!map.hasLayer(ortofotoOverlay)) {
+                setTimeout(function(){  // needs timeout or doesnt work
+                    console.log('added overlay');
+                    map.addLayer(ortofotoOverlay);
+                }, 300);
+            }
+        }
+    });
+
+
+    // --- overlays
+
+
+    var turistikaOverlay = L.tileLayer("http://tile.poloha.net/kct/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 0.6,
@@ -70,51 +101,42 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'V'
     });
 
-    var ortofoto = L.tileLayer.wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
-        layers: 'GR_ORTFOTORGB',
-        format: 'image/jpeg',
-        transparent: false,
-        crs: L.CRS.EPSG4326,
-        minZoom: 7,
-        maxZoom: 22,
-        attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>',
-        code: 'o'
-    });
-    map.on('layeradd', function (event) {
-        if (event.layer == ortofoto || event.layer == vodovky) {  //TODO vypnutí overlay + přepnutí na druhou to buguje
-            if (!map.hasLayer(ortofotoOverlay)) {
-                map.addLayer(ortofotoOverlay);
-            }
-        }
-    });
-
-    var dopravni = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png", {
-        maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
-        code: 't'
-    });
-
-    var zimni = L.tileLayer("http://www.opensnowmap.org/opensnowmap-overlay/{z}/{x}/{y}.png", {
+    var zimniOverlay = L.tileLayer("http://www.opensnowmap.org/opensnowmap-overlay/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>',
-        code: 'z'
+        code: 'Z'
     });
 
+    var lonviaHikingOverlay = new L.TileLayer('http://tile.lonvia.de/hiking/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: osmAttr + ', <a href="http://hiking.lonvia.de">Lonvias Hiking</a>',
+        opacity: 0.6,
+        code: 'H'
+    });
+
+    var lonviaCyclingOverlay = new L.TileLayer('http://tile.lonvia.de/cycling/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: osmAttr + ', <a href="http://cycling.lonvia.de">Lonvias Cycling</a>',
+        opacity: 0.6,
+        code: 'C'
+    });
 
 
     baseLayers["Mapbox streets"] = mapbox;
-    baseLayers["KČT trasy poloha.net"] = kct;
+    baseLayers["Turistická mapa"] = turisticka;
     baseLayers["MTBMap.cz"] = mtb;
     baseLayers["OpenStreetMap Mapnik"] = osm;
     baseLayers["OpenCycleMap"] = ocm;
-    baseLayers["Hike&bike"] = hikebike;
+    baseLayers["Hikebikemap.org"] = hikebike;
     baseLayers["Vodovky"] = vodovky;
     baseLayers["Ortofoto ČÚZK"] = ortofoto;
     baseLayers["Dopravní"] = dopravni;
 
     overlays["Ortofoto popisky"] = ortofotoOverlay;
-    overlays["KČT trasy poloha.net"] = kctOverlay;
-    overlays["Vrstevnice"] = vrstevniceOverlay;
-    overlays["Zimní sporty"] = zimni;
+    overlays["Turistické trasy ČR"] = turistikaOverlay;
+    overlays["Vrstevnice ČR"] = vrstevniceOverlay;
+    overlays["Zimní sporty"] = zimniOverlay;
+    overlays["Turistické trasy EU"] = lonviaHikingOverlay;
+    overlays["Cyklistické trasy EU"] = lonviaCyclingOverlay;
 
 };
