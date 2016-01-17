@@ -55,6 +55,10 @@ a:hover.as-text {
     .navbar .navbar-brand span {
         display: none;
     }
+
+    .navbar .navbar-brand:before {
+        margin-left: 11px;
+    }
 }
 
 .navbar {

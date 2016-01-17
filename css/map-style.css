@@ -34,3 +34,10 @@
 .leaflet-popup-content {
     width:auto !important;
 }
+
+@media (max-width: 285px) {
+    .leaflet-bottom .leaflet-control-scale {
+        margin-bottom: 2em;
+    }
+}
+
