@@ -67,7 +67,6 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
     map.on('layeradd', function(event) {
         if(event.layer == markers) {
             load_data()
-            alert('x');
         }
     });
 
