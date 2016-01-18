@@ -109,7 +109,7 @@ a:hover.as-text {
     position: fixed;
     right: 10px;
     top: 62px;
-    z-index: 980;
+    z-index: 10;
 }
 
 .content-box-left, .content-box-right {
@@ -118,6 +118,8 @@ a:hover.as-text {
 .content-box-inner {
     background: rgba(255,255,255,0.9);
     padding: 15px;
+    z-index: 15;
+    position: relative; /*because of z-index*/
 }
 @media screen and (min-width: 992px) {
     .content-box-left {
