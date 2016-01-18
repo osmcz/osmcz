@@ -25,6 +25,7 @@ Možno doplnit štítek o jakou část projektu se jedná:
 * Featuru, kterou je možno oddělit, vložit do vlastního souboru, např `js/guideposts.js`
 * U větších úprav **před tvorbou založit ISSUE**, aby se probralo jak na to. Předejde se tím, že by pull-request nebyl přijatý!
 * **Commit message formát:** `<část aplikace>: <co se děje> #id`
+* Commit message i komentáře v kódu prosíme **anglicky**
 
 ### Zaslání úpravy ke schválení
 Nejsnazší cesta je nechat si to forknout githubem a rovnou vytvořit pull request.
