@@ -7,9 +7,22 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
     var layersControl = controls.layers;
     var xhr;
     var markers = L.markerClusterGroup({code: 'G'});
+
+    var guidepost_icon = L.icon({
+      iconUrl: "img/guidepost.png"
+    });
+
+    var commons_icon;
+
+
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             var b = feature.properties;
+
+            if (!b.ref) {
+                b.ref = "nevíme";
+            }
+
             var html_content = "";
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='http://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
@@ -22,6 +35,8 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>";
             html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
             html_content += "</a>";
+
+            layer.setIcon(guidepost_icon);
             layer.bindPopup(html_content);
         }
     });
@@ -102,7 +117,6 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
     function retrieve_geojson(data) {
         markers.clearLayers();
-//        map.removeLayer(markers);
         layer_guidepost.clearLayers();
         layer_guidepost.addData(JSON.parse(data));
         markers.addLayer(layer_guidepost);
