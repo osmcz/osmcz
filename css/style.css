@@ -152,7 +152,7 @@ a:hover.as-text {
     background: transparent;
 }
 #main .jumbotron .close-overlay {
-    font-size: 30px;
+    font-size: 60px;
 }
 
 #main .jumbotron h1 img.osmlogo {
@@ -163,6 +163,9 @@ a:hover.as-text {
     #main .jumbotron {
         margin-top: 30px;
     }
+    #main .jumbotron .close-overlay {
+		    margin-right: -20px;
+		}
     #main .bottom-spacer {
         margin-bottom: 30px;
     }
