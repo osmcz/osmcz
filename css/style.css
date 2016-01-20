@@ -76,6 +76,21 @@ a:hover.as-text {
 }
 */
 
+.navbar .navbar-user .dropdown-toggle {
+    padding: 0 5px 0 15px;
+    line-height: 50px;
+}
+@media (min-width: 768px) {
+    .navbar .navbar-user  {
+        margin-left: 10px;
+    }
+}
+.navbar .facebook-like {
+    float: right;
+    padding: 15px 0 5px 0;
+}
+
+
 
 
 #map {
@@ -201,6 +216,9 @@ a:hover.as-text {
 .tweets li {
     padding: 8px 0 8px 60px;
 }
+.tweets.weeklys li {
+    padding-left: 0;
+}
 .tweets .permalink {
     float: right;
     font-size: 80%;
@@ -267,3 +285,23 @@ a:hover.as-text {
 }
 
 
+/* Page /komunita */
+.komunita {
+    margin-top: 2em;
+}
+.komunita h3 {
+    margin-top: 10px;
+}
+.komunita a img {
+    margin: 0;
+    display: inline;
+}
+.komunita table {
+    width: 100%;
+}
+.komunita table th {
+    line-height: 2;
+}
+.komunita .caption div {
+	margin: 0 0 4px;
+}
