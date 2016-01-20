@@ -65,15 +65,30 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>',
         code: 'o'
     });
-    map.on('layeradd', function (event) {
-        if (event.layer == ortofoto || event.layer == vodovky) {  //TODO vypnutí overlay + přepnutí na druhou to buguje
-            if (!map.hasLayer(ortofotoOverlay)) {
-                setTimeout(function(){  // needs timeout or doesnt work
+    map.on('baselayerchange', function (event) {
+        if (event.layer == ortofoto || event.layer == vodovky) {
+            setTimeout(function(){  // needs timeout or doesnt work
+                if (!map.hasLayer(ortofotoOverlay)) {
                     console.log('added overlay');
                     map.addLayer(ortofotoOverlay);
+                }
+                if (event.layer == ortofoto) {
+                    vrstevniceOverlay.setUrl(vrstevniceOverlayOrtoUrl);
+                } else {
+                    vrstevniceOverlay.setUrl(vrstevniceOverlayUrl);
+                }
+                vrstevniceOverlay.redraw();
+            }, 300);
+        } else {
+              setTimeout(function(){  // needs timeout or doesnt work
+                    console.log('removed overlay');
+                    if (map.hasLayer(ortofotoOverlay)) {
+                      map.removeLayer(ortofotoOverlay);
+                    }
+                    vrstevniceOverlay.setUrl(vrstevniceOverlayUrl);
+                    vrstevniceOverlay.redraw();
                 }, 300);
             }
-        }
     });
 
 
@@ -94,7 +109,9 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'O'
     });
 
-    var vrstevniceOverlay = L.tileLayer("http://tile.poloha.net/hills/{z}/{x}/{y}.png", {
+    var vrstevniceOverlayUrl = "http://tile.poloha.net/contours/{z}/{x}/{y}.png";
+    var vrstevniceOverlayOrtoUrl = "http://tile.poloha.net/contours_ortofoto/{z}/{x}/{y}.png";
+    var vrstevniceOverlay = L.tileLayer(vrstevniceOverlayUrl, {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 0.6,
@@ -138,5 +155,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     overlays["Zimní sporty"] = zimniOverlay;
     overlays["Turistické trasy EU"] = lonviaHikingOverlay;
     overlays["Cyklistické trasy EU"] = lonviaCyclingOverlay;
+
 
 };
