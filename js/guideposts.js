@@ -61,7 +61,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "</a>";
 
             layer.setIcon(guidepost_icon);
-            layer.bindPopup(html_content);
+            layer.bindPopup(html_content, {offset: new L.Point(1, -32)});
         }
     });
 
