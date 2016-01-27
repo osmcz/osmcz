@@ -128,5 +128,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     );
 
     overlays["Aktivní vrstva"] = geojsonTileLayer;
+    
+    map.on('drag', function (e) {
+        $(".leaflet-popup-close-button")[0].click();
+    });
+
+    
 };
 
