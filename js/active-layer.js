@@ -44,6 +44,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             '*': 'shop',
             chemist: 'pharmacy',
             grocery: 'grocery'
+        },
+        man_made: {
+            surveillance: 'camera'
         }
     };
 
