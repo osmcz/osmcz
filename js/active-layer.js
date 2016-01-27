@@ -90,7 +90,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                     for (var k in feature.properties.tags) {
                         popupContent += '<br><b>' + k + '</b> = ' + feature.properties.tags[k];
                     }
-                    popupContent += '<p><small>Zavřít možno kliknutím do mapy.</small></p></div>';
+                    popupContent += '<p><small>Zavřít možno kliknutím do mapy. Oteření popupu možno najetím či kliknutím.</small></p></div>';
 
                     layer.bindPopup(popupContent);
                 }

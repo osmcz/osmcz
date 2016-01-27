@@ -19,7 +19,13 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'k'
     });
 
-    var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var opentopomap = L.tileLayer("http://{s}.tile.opentopomap.org//{z}/{x}/{y}.png", {
+        maxZoom: 15,
+        attribution: osmAttr + ', <a href="http://opentopomap.org/">OpenTopoMap</a>',
+        code: 'u'
+    });
+
+    var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: osmAttr,
         code: 'd'
@@ -53,6 +59,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
         code: 't'
+    });
+
+    var bezpopisku = L.tileLayer("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}" + retinaSuffix + ".png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="https://cartodb.com/attributions#basemaps">CartoDB</a>',
+        code: 'b'
     });
 
     var ortofoto = L.tileLayer.wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
@@ -141,13 +153,15 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     baseLayers["Mapbox streets"] = mapbox;
     baseLayers["Turistická mapa"] = turisticka;
+    baseLayers["OpenTopoMap"] = opentopomap;
     baseLayers["MTBMap.cz"] = mtb;
     baseLayers["OpenStreetMap Mapnik"] = osm;
     baseLayers["OpenCycleMap"] = ocm;
     baseLayers["Hikebikemap.org"] = hikebike;
     baseLayers["Vodovky"] = vodovky;
-    baseLayers["Ortofoto ČÚZK"] = ortofoto;
     baseLayers["Dopravní"] = dopravni;
+    baseLayers["Bez popisků"] = bezpopisku;
+    baseLayers["Ortofoto ČÚZK"] = ortofoto;
 
     overlays["Ortofoto popisky"] = ortofotoOverlay;
     overlays["Turistické trasy ČR"] = turistikaOverlay;
