@@ -34,7 +34,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             bus_stop: 'bus'
         },
         railway: {
-            station: 'rail'
+            station: 'rail',
+            tram_stop: 'rail-light'
         },
         station: {
             subway: 'rail-metro',
