@@ -39,17 +39,21 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         station: {
             subway: 'rail-metro',
         },
-        shop: 'shop'
+        shop: {
+            '*': 'shop',
+            chemist: 'pharmacy',
+            grocery: 'grocery'
+        }
     };
 
-    function getIcon(tags){
+    function getIcon(tags) {
         var name = false;
-        for(var key in tags) {
+        for (var key in tags) {
             var val = tags[key];
-            if (typeof icons[key] == 'string')
-                name = icons[key];
-            else if (icons[key] && icons[key][val])
+            if (icons[key] && icons[key][val])
                 name = icons[key][val];
+            else if (icons[key] && icons[key]['*'])
+                name = icons[key]['*'];
         }
         if (!name)
             return;
