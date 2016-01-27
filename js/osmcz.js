@@ -10,6 +10,7 @@ function initmap() {
 
     // -------------------- map layers --------------------
     new osmcz.layers(map, baseLayers, overlays);
+    new osmcz.activeLayer(map, baseLayers, overlays, controls);
 
     // -------------------- map controls --------------------
     new osmcz.controls(map, baseLayers, overlays, controls);

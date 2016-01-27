@@ -14,7 +14,7 @@ L.TileLayer.Ajax = L.TileLayer.extend({
             }
             var s = req.status;
             if ((s >= 200 && s < 300) || s === 304) {
-                tile.datum = JSON.parse(req.responseText);
+                tile.datum = req.responseText && JSON.parse(req.responseText) || {type: "FeatureCollection", features: []};
                 layer._tileLoaded(tile, tilePoint);
             } else {
                 layer._tileLoaded(tile, tilePoint);
@@ -189,7 +189,7 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
 
             // When creating the layer for a unique key,
             // Force the geojson to be a geometry collection
-            if (!(key in this._keyLayers && geojson.geometry.type !== 'GeometryCollection')) {
+            if (!(key in this._keyLayers && geojson.geometry && geojson.geometry.type !== 'GeometryCollection')) {
                 geojson.geometry = {
                     type: 'GeometryCollection',
                     geometries: [geojson.geometry]
