@@ -39,22 +39,34 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             cafe: 'cafe',
             car_rental: 'car',
             school: 'school',
-            college: 'college'
+            college: 'college',
+            bicycle_parking: 'bicycle',
+            university: 'college',
+            library: 'library',
+            theatre: 'theatre',
+            public_building: 'town-hall',
         },
         highway: {
             bus_stop: 'bus'
+        },
+        leisure: {
+            playground: 'playground',
         },
         railway: {
             station: 'rail',
             tram_stop: 'rail-light'
         },
-        station: {
-            subway: 'rail-metro',
-        },
         shop: {
             '*': 'shop',
             chemist: 'pharmacy',
-            grocery: 'grocery'
+            grocery: 'grocery',
+            convenience: 'grocery'
+        },
+        station: {
+            subway: 'rail-metro'
+        },
+        tourism: {
+            hotel: 'lodging'
         },
         historic: {
             monument: 'monument',
@@ -74,18 +86,22 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else if (icons[key] && icons[key]['*'])
                 name = icons[key]['*'];
         }
-        if (!name)
-            return;
 
-        var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + name;
+        var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + name + '-18';
+        if (!name)
+            iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/circle-stroked-12';
+
+
         return L.icon({
-            iconUrl: iconUrl + '-18.png',
-            iconRetinaUrl: iconUrl + '-18@2x.png',
-            iconSize: [18, 18]
+            iconUrl: iconUrl + '.png',
+            iconRetinaUrl: iconUrl + '@2x.png',
+            iconSize: name ? [18, 18] : [10, 10],
+            popupAnchor: [0, -9]
         });
     }
 
     var timeout;
+    var hidePopupOnMouseOut = true;
 
     var geojsonURL = 'http://tile.poloha.net/json/{z}/{x}/{y}';
     var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
@@ -113,25 +129,38 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                     for (var k in feature.properties.tags) {
                         popupContent += '<br><b>' + k + '</b> = ' + feature.properties.tags[k];
                     }
-                    popupContent += '<p><small>Zavřít možno kliknutím do mapy. Oteření popupu možno najetím či kliknutím.</small></p></div>';
+                    //popupContent += '<p><small>Zavřít možno kliknutím do mapy. Oteření popupu možno najetím či kliknutím.</small></p>';
+                    popupContent += '</div>';
 
                     layer.bindPopup(popupContent);
                 }
 
                 if (!(layer instanceof L.Point)) {
+                    layer.on('click', function(event){
+                        console.log(event);
+                        if (event.target && event.target.feature) {
+                            clearTimeout(timeout);
+                            event.target.openPopup();
+                            hidePopupOnMouseOut = false;
+                        }
+                    });
+
                     layer.on('mouseover', function (event) {
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
                             timeout = setTimeout(function () {
-                                console.log(event.target.feature);
+                                //console.log(event.target.feature);
                                 event.target.openPopup();
                             }, 300);
                         }
-                        layer.setStyle(hoverStyle);
+                        //layer.setStyle(hoverStyle);
                     });
                     layer.on('mouseout', function (event) {
-                        clearTimeout(timeout);
-                        layer.setStyle(style);
+                        if (hidePopupOnMouseOut) {
+                            clearTimeout(timeout);
+                            layer.closePopup();
+                            //layer.setStyle(style);
+                        }
                     });
                 }
             }
@@ -139,11 +168,15 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     );
 
     overlays["Aktivní vrstva"] = geojsonTileLayer;
-    
+
     map.on('drag', function (e) {
-        $(".leaflet-popup-close-button")[0].click();
+        hidePopupOnMouseOut = true;
+        map.closePopup();
     });
 
-    
+    map.on('closepopup', function(){
+        hidePopupOnMouseOut = true;
+    });
+
 };
 
