@@ -34,8 +34,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             bus_stop: 'bus'
         },
         railway: {
-            station: 'rail',
-            tram_stop: 'rail-light'
+            station: 'rail'
         },
         station: {
             subway: 'rail-metro',
@@ -44,6 +43,10 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             '*': 'shop',
             chemist: 'pharmacy',
             grocery: 'grocery'
+        },
+        historic: {
+            monument: 'monument',
+            memorial: 'monument'
         }
     };
 
