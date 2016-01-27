@@ -24,7 +24,7 @@ Možno doplnit štítek o jakou část projektu se jedná:
 * Funkčnost commitu je vhodné ověřit na `http://rawgit.com/[user]/[repo]/[commit sha či větev]/index.html`
 * Featuru, kterou je možno oddělit, vložit do vlastního souboru, např `js/guideposts.js`
 * U větších úprav **před tvorbou založit ISSUE**, aby se probralo jak na to. Předejde se tím, že by pull-request nebyl přijatý!
-* **Commit message formát:** `<část aplikace>: <co se děje> #id`
+* **Commit message formát:** `<část aplikace>: <co se děje> #id`  -- nebo vizte [vzor](https://github.com/osmcz/osmcz/commits/master)
 * Commit message i komentáře v kódu prosíme **anglicky**
 
 ### Zaslání úpravy ke schválení
