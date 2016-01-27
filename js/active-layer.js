@@ -28,7 +28,18 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             toilets: 'toilets',
             telephone: 'telephone',
             fast_food: 'fast-food',
-            atm: 'bank'
+            bank: 'bank',
+            atm: 'bank',
+            waste_disposal: 'waste-basket',
+            pub: 'beer',
+            post_office: 'post',
+            post_box: 'post',
+            pharmacy: 'pharmacy',
+            bar: 'bar',
+            cafe: 'cafe',
+            car_rental: 'car',
+            school: 'school',
+            college: 'college'
         },
         highway: {
             bus_stop: 'bus'
