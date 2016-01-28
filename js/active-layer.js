@@ -74,6 +74,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         },
         man_made: {
             surveillance: 'camera'
+        },
+        place: {
+            city: 'square-18',
+            town: 'square-stroked-16',
+            village: 'circle-8'
         }
     };
 
@@ -86,16 +91,39 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else if (icons[key] && icons[key]['*'])
                 name = icons[key]['*'];
         }
+        
+        var pc = name ? name.split('-') : 0;
+        
+        if (name && IsNumeric(pc[pc.length-1])) {
+            
+            var icName = name.substring(0, name.length - pc[pc.length-1].length);
+            var icSize = parseInt(pc[pc.length-1]);
+            var size = [icSize, icSize];
 
-        var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + name + '-18';
-        if (!name)
-            iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/circle-stroked-12';
+            if (icSize <= 12 ) {
+                var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '12';
+            } else if (icSize > 12 && icSize <= 18) {
+                var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '18';
+            } else {
+                var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '24';
+            }    
+            
+            
+        } else if (name && !IsNumeric(pc[pc.length-1])) {
+            var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + name + '-18';
+            var size = [18, 18];
 
+        } else {
+            var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/circle-stroked-12';
+            var size = [10, 10];
+        }
+        
+          
 
         return L.icon({
             iconUrl: iconUrl + '.png',
             iconRetinaUrl: iconUrl + '@2x.png',
-            iconSize: name ? [18, 18] : [10, 10],
+            iconSize: size,
             popupAnchor: [0, -9]
         });
     }
@@ -177,6 +205,10 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     map.on('closepopup', function(){
         hidePopupOnMouseOut = true;
     });
+    
+    function IsNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
 
 };
 
