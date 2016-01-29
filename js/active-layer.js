@@ -220,11 +220,12 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     function template(feature) {
         var id = feature.properties.osm_id;
+        var osm_type = feature.properties.osm_type; 
         var addr = {};
         var tpl = '';
         tpl += permanentlyDisplayed ? '<a class="close">&times;</a>' : '';
         tpl += '<h4>' + (feature.properties.tags.name || 'Bod zájmu') + '</h4>';
-        tpl += '<a href="http://osm.org/node/' + id + '">osm node ' + id + '</a>'; //TODO využít osm_type
+        tpl += '<a href="http://osm.org/' + osm_type + '/' + id + '">osm ' + osm_type + ' ' + id + '</a>';
 
         $.each(feature.properties.tags, function (k, v) {
             if (k.match(/^addr:/))
