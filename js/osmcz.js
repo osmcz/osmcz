@@ -1,7 +1,11 @@
 var OSMCZ_APP_VERSION = '0.5';
 
+var osmcz = osmcz || {};
+osmcz.basePath = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost'].indexOf(location.hostname) !== -1 ? '/theme/' : '';
+
 var map, baseLayers = {}, overlays = {}, controls = {};
-var marker = L.marker([0, 0]);
+var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
+
 initmap();
 
 function initmap() {

@@ -31,13 +31,13 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
     var markers = L.markerClusterGroup({code: 'G'});
 
     var guidepost_icon = L.icon({
-      iconUrl: "img/guidepost.png",
+      iconUrl: osmcz.basePath + "img/guidepost.png",
       iconSize: [48, 48],
       iconAnchor: [23, 45]
     });
 
     var commons_icon = L.icon({
-      iconUrl: "img/commons_logo.png",
+      iconUrl: osmcz.basePath + "img/commons_logo.png",
       iconSize: [35, 48],
       iconAnchor: [17, 0]
     });
