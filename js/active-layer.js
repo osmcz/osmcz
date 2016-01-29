@@ -133,7 +133,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     }
 
     var timeout;
-    var hidePopupOnMouseOut = true;
+    var permanentlyDisplayed = false;
 
     var geojsonURL = 'http://tile.poloha.net/json/{z}/{x}/{y}';
     var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
@@ -145,53 +145,38 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             style: style,
 
             pointToLayer: function (feature, latlng) {
-                var icon = getIcon(feature.properties.tags);
-                if (icon)
-                    return L.marker(latlng, {icon: icon});
-                else
-                    return L.circleMarker(latlng, style);
+                return L.marker(latlng, {icon: getIcon(feature.properties.tags)});
             },
 
             onEachFeature: function (feature, layer) {
 
-                if (feature.properties) {
-                    var id = feature.properties.osm_id;
-                    var popupContent = '<div class="popup" style="width: 20em">'
-                        + '<a href="http://osm.org/node/' + id + '">osm node ' + id + '</a>';
-                    for (var k in feature.properties.tags) {
-                        popupContent += '<br><b>' + k + '</b> = ' + feature.properties.tags[k];
-                    }
-                    //popupContent += '<p><small>Zavřít možno kliknutím do mapy. Oteření popupu možno najetím či kliknutím.</small></p>';
-                    popupContent += '</div>';
-
-                    layer.bindPopup(popupContent);
-                }
-
                 if (!(layer instanceof L.Point)) {
                     layer.on('click', function (event) {
-                        console.log(event);
+                        console.log('click', event);
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
-                            event.target.openPopup();
-                            hidePopupOnMouseOut = false;
+                            permanentlyDisplayed = true;
+                            openPoiPanel(event.target.feature);
                         }
                     });
 
                     layer.on('mouseover', function (event) {
+                        if (permanentlyDisplayed)
+                            return;
+
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
                             timeout = setTimeout(function () {
-                                //console.log(event.target.feature);
-                                event.target.openPopup();
-                            }, 300);
+                                openPoiPanel(event.target.feature);
+                            }, 100);
                         }
-                        //layer.setStyle(hoverStyle);
                     });
                     layer.on('mouseout', function (event) {
-                        if (hidePopupOnMouseOut) {
+                        if (!permanentlyDisplayed) {
                             clearTimeout(timeout);
-                            layer.closePopup();
-                            //layer.setStyle(style);
+                            timeout = setTimeout(function () {
+                                defaultPoiPanel();
+                            }, 300);
                         }
                     });
                 }
@@ -199,20 +184,62 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         }
     );
 
+    $('#map-searchbar').on('click', '.close', function () {
+        defaultPoiPanel();
+        permanentlyDisplayed = false;
+    });
+
+
     overlays["Aktivní vrstva"] = geojsonTileLayer;
 
-    map.on('drag', function (e) {
-        hidePopupOnMouseOut = true;
-        map.closePopup();
+    map.on('layeradd', function(event) {
+        if(event.layer == geojsonTileLayer) {
+            $('#map-container').addClass('searchbar-on');
+            defaultPoiPanel();
+        }
+    });
+    map.on('layerremove', function(event) {
+        if(event.layer == geojsonTileLayer) {
+            $('#map-container').removeClass('searchbar-on');
+        }
     });
 
-    map.on('closepopup', function () {
-        hidePopupOnMouseOut = true;
-    });
 
     function IsNumeric(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
-};
+    function openPoiPanel(feature) {
+        $('#map-searchbar').html(template(feature));
+    }
 
+    function defaultPoiPanel() {
+        $('#map-searchbar').html("Najeďte myší na bod zájmu<br>nebo klikněte pro trvalé zobrazení.");
+
+    }
+
+    function template(feature) {
+        var id = feature.properties.osm_id;
+        var addr = {};
+        var tpl = '';
+        tpl += permanentlyDisplayed ? '<a class="close">&times;</a>' : '';
+        tpl += '<h4>' + (feature.properties.tags.name || 'Bod zájmu') + '</h4>';
+        tpl += '<a href="http://osm.org/node/' + id + '">osm node ' + id + '</a>'; //TODO využít osm_type
+
+        $.each(feature.properties.tags, function (k, v) {
+            if (k.match(/^addr:/))
+                addr[k] = v;
+            else
+                tpl += '<br><b>' + k + '</b> = ' + v;
+        });
+
+        if (addr['addr:street']) {
+            tpl += '<br><br>adresní bod:';
+            $.each(addr, function (k, v) {
+               tpl += '<br><b>' + k + '</b> = ' + v;
+            });
+        }
+        return tpl;
+    }
+
+};
