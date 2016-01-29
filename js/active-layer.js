@@ -34,7 +34,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             pub: 'beer',
             post_office: 'post',
             post_box: 'post',
-            pharmacy: 'pharmacy',
+            pharmacy: 'hospital',
+            doctors: 'hospital',
             bar: 'bar',
             cafe: 'cafe',
             car_rental: 'car',
@@ -53,19 +54,23 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             playground: 'playground',
         },
         railway: {
-            station: 'rail',
+            station: 'rail-24',
+            halt: 'rail-24',
             tram_stop: 'rail-light'
         },
         shop: {
             '*': 'shop',
             chemist: 'pharmacy',
             grocery: 'grocery',
+            supermarket: 'grocery',
             convenience: 'grocery'
         },
         station: {
             subway: 'rail-metro'
         },
         tourism: {
+            guest_house: 'lodging',
+            hostel: 'lodging',
             hotel: 'lodging'
         },
         historic: {
@@ -91,25 +96,25 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else if (icons[key] && icons[key]['*'])
                 name = icons[key]['*'];
         }
-        
+
         var pc = name ? name.split('-') : 0;
-        
-        if (name && IsNumeric(pc[pc.length-1])) {
-            
-            var icName = name.substring(0, name.length - pc[pc.length-1].length);
-            var icSize = parseInt(pc[pc.length-1]);
+
+        if (name && IsNumeric(pc[pc.length - 1])) {
+
+            var icName = name.substring(0, name.length - pc[pc.length - 1].length);
+            var icSize = parseInt(pc[pc.length - 1]);
             var size = [icSize, icSize];
 
-            if (icSize <= 12 ) {
+            if (icSize <= 12) {
                 var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '12';
             } else if (icSize > 12 && icSize <= 18) {
                 var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '18';
             } else {
                 var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '24';
-            }    
-            
-            
-        } else if (name && !IsNumeric(pc[pc.length-1])) {
+            }
+
+
+        } else if (name && !IsNumeric(pc[pc.length - 1])) {
             var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + name + '-18';
             var size = [18, 18];
 
@@ -117,8 +122,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/circle-stroked-12';
             var size = [10, 10];
         }
-        
-          
+
 
         return L.icon({
             iconUrl: iconUrl + '.png',
@@ -164,7 +168,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 }
 
                 if (!(layer instanceof L.Point)) {
-                    layer.on('click', function(event){
+                    layer.on('click', function (event) {
                         console.log(event);
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
@@ -202,10 +206,10 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         map.closePopup();
     });
 
-    map.on('closepopup', function(){
+    map.on('closepopup', function () {
         hidePopupOnMouseOut = true;
     });
-    
+
     function IsNumeric(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
