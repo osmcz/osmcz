@@ -36,7 +36,11 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
       iconAnchor: [23, 45]
     });
 
-    var commons_icon;
+    var commons_icon = L.icon({
+      iconUrl: "img/commons_logo.png",
+      iconSize: [35, 48],
+      iconAnchor: [17, 0]
+    });
 
 
     var layer_guidepost = new L.GeoJSON(null, {
@@ -61,7 +65,20 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "</a>";
 
             layer.setIcon(guidepost_icon);
-            layer.bindPopup(html_content, {offset: new L.Point(1, -32)});
+            layer.bindPopup(html_content, {
+              offset: new L.Point(1, -32),
+              minWidth: 500,
+              closeOnClick: false,
+            });
+        }
+    });
+
+    var layer_commons = new L.GeoJSON(null, {
+        onEachFeature: function (feature, layer) {
+            layer.setIcon(commons_icon);
+            layer.bindPopup(feature.properties.desc, {
+              closeOnClick: false,
+            });
         }
     });
 
@@ -106,6 +123,26 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         return map.hasLayer(markers);
     }
 
+
+    function request_from_url(url, success_callback, error_callback)
+    {
+        var defaultParameters = {
+            outputFormat: 'application/json'
+        };
+
+        var customParams = {
+            output: 'geojson',
+            bbox: map.getBounds().toBBoxString(),
+        };
+        var parameters = L.Util.extend(defaultParameters, customParams);
+
+        xhr = $.ajax({
+            url: url + L.Util.getParamString(parameters),
+            success: success_callback,
+            error: error_callback
+        });
+
+    }
     function load_data() {
         if (!isLayerChosen())
             return;
@@ -116,23 +153,13 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
         if (map.getZoom() > 1) {
 
-            var geoJsonUrl = 'http://api.openstreetmap.cz/table/all';
+            markers.clearLayers();
 
-            var defaultParameters = {
-                outputFormat: 'application/json'
-            };
+            var geo_json_url = 'http://api.openstreetmap.cz/table/all';
+            request_from_url(geo_json_url, retrieve_geojson, error_gj)
 
-            var customParams = {
-                output: 'geojson',
-                bbox: map.getBounds().toBBoxString(),
-            };
-            var parameters = L.Util.extend(defaultParameters, customParams);
-
-            xhr = $.ajax({
-                url: geoJsonUrl + L.Util.getParamString(parameters),
-                success: retrieve_geojson,
-                error: error_gj
-            });
+            geo_json_url = 'http://api.openstreetmap.cz/commons';
+            request_from_url(geo_json_url, retrieve_commons, error_gj)
 
         } else {
             layer_guidepost.clearLayers();
@@ -140,10 +167,16 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
     }
 
     function retrieve_geojson(data) {
-        markers.clearLayers();
         layer_guidepost.clearLayers();
         layer_guidepost.addData(JSON.parse(data));
         markers.addLayer(layer_guidepost);
+        map.addLayer(markers);
+    }
+
+    function retrieve_commons(data) {
+        layer_commons.clearLayers();
+        layer_commons.addData(JSON.parse(data));
+        markers.addLayer(layer_commons);
         map.addLayer(markers);
     }
 
