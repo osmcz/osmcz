@@ -93,11 +93,45 @@ a:hover.as-text {
 
 
 
-#map {
+.map-container {
     position:fixed;
-    height:100%;
-    width:100%;
+    top: 50px; bottom: 0;
+    right: 0; left: 0;
     z-index: 1;
+}
+.sidebar-inner {padding: 15px;}
+.map-container .close {font-size: 300%;}
+#map {
+    height: 100%;
+}
+#map-sidebar, #map-layers {
+    z-index: 3000;
+    max-width: 250px;
+    display: block;
+    background: rgba(255,255,255,0.6);
+    font-size: 130%;
+
+    position: absolute;
+    height: 100%;
+    overflow-y: scroll;
+}
+#map-layers {
+    right:0;
+    width: 250px;
+    text-align: right;
+}
+
+@media screen and (min-width: 768px) {
+    #map-sidebar, #map-layers {
+        position: relative;
+        float: left;
+        height: 100%;
+        overflow: auto;
+    }
+    #map-layers {
+        float: right;
+    }
+
 }
 
 
@@ -150,6 +184,9 @@ a:hover.as-text {
         right: 30px;
         top: 70px;
     }
+}
+@media screen and (max-width: 767px) {
+    .row {margin: 0;}
 }
 
 
