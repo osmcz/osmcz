@@ -84,6 +84,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             city: 'square-18',
             town: 'square-stroked-16',
             village: 'circle-8'
+        },
+        information: {
+            guidepost: 'guidepost'
         }
     };
 
@@ -98,6 +101,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         }
 
         var pc = name ? name.split('-') : 0;
+//         var iconBaseUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/';
+        var iconBaseUrl = 'https://cdn.rawgit.com/osmcz/maki/osmcz_v1/renders/';
+//         var iconBaseUrl = 'http://localhost/maki/renders/';
 
         if (name && IsNumeric(pc[pc.length - 1])) {
 
@@ -106,20 +112,20 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             var size = [icSize, icSize];
 
             if (icSize <= 12) {
-                var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '12';
+                var iconUrl = iconBaseUrl + icName + '12';
             } else if (icSize > 12 && icSize <= 18) {
-                var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '18';
+                var iconUrl = iconBaseUrl + icName + '18';
             } else {
-                var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + icName + '24';
+                var iconUrl = iconBaseUrl + icName + '24';
             }
 
 
         } else if (name && !IsNumeric(pc[pc.length - 1])) {
-            var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/' + name + '-18';
+            var iconUrl = iconBaseUrl + name + '-18';
             var size = [18, 18];
 
         } else {
-            var iconUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/circle-stroked-12';
+            var iconUrl = iconBaseUrl + 'circle-stroked-12';
             var size = [10, 10];
         }
 
@@ -220,7 +226,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     function template(feature) {
         var id = feature.properties.osm_id;
-        var osm_type = feature.properties.osm_type; 
+        var osm_type = feature.properties.osm_type;
         var addr = {};
         var tpl = '';
         tpl += permanentlyDisplayed ? '<a class="close">&times;</a>' : '';
