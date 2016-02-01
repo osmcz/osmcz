@@ -252,9 +252,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
         });
 
-        var section = function(obj, label) {
+        var section = function (obj, label) {
             if (Object.keys(obj).length) {
-                tpl.push('<h5>'+ label + '</h5>');
+                tpl.push('<h5>' + label + '</h5>');
                 $.each(obj, function (k, v) {
                     tpl.push('<b>' + k + '</b> = ' + v);
                     tpl.push('<br>');
@@ -268,6 +268,41 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         section(payment, 'Možnosti platby:');
 
         tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
+        tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
+
+        if (permanentlyDisplayed) {
+            if (feature.mapillary) {
+                setTimeout(function () { //after dom is created
+                    showMapillary();
+                }, 0);
+            }
+            else {
+                //TODO - limit=10 & choose the best oriented photo
+                var lon = feature.geometry.coordinates[0];
+                var lat = feature.geometry.coordinates[1];
+                $.ajax({
+                    url: 'http://api.mapillary.com/v1/im/close?lat=' + lat + '&lon=' + lon + '&distance=30&limit=1',
+                    dataType: 'json',
+                    jsonp: false,
+                    global: false,
+                    success: function (data) {
+                        feature.mapillary = data;
+                        showMapillary();
+                    }
+                });
+            }
+        }
+
+        function showMapillary() {
+            var mp = $('#mapillary-photo');
+            var mpTpl = '<h5>Nejbližší foto</h5>'
+                + '<a href="http://www.mapillary.com/map/im/_key/photo">'
+                + '<img src="http://images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'
+                + '</a>';
+            if (id = mp.attr('data-osm-id')) {
+                mp.html(mpTpl.replace(/_key/g, feature.mapillary[0].key));
+            }
+        };
 
         return tpl.join('');
     }

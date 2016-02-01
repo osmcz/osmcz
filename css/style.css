@@ -167,6 +167,21 @@ a:hover.as-text {
 #map-searchbar .close {
     margin-top: -6px;
 }
+#map-searchbar #mapillary-photo {
+    max-width: 250px;
+    margin-top: 1em;
+    font-size: 80%;
+    position: relative;
+}
+#map-searchbar #mapillary-photo a:after {
+    content: "Mapillary.com - otevřené street-view";
+    color: #ccc;
+    position: absolute;
+    left: 10px;
+    bottom: 0;
+    text-shadow: 0 0 4px #000;
+
+}
 
 
 
