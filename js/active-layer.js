@@ -162,7 +162,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
                             permanentlyDisplayed = true;
-                            openPoiPanel(event.target.feature);
+                            openPoiPanel(event.target.feature, event.target.options.icon.options.iconUrl);
                         }
                     });
 
@@ -173,7 +173,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
                             timeout = setTimeout(function () {
-                                openPoiPanel(event.target.feature);
+                                openPoiPanel(event.target.feature, event.target.options.icon.options.iconUrl);
                             }, 100);
                         }
                     });
@@ -215,8 +215,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
-    function openPoiPanel(feature) {
-        $('#map-searchbar').html(template(feature));
+    function openPoiPanel(feature, icon) {
+        $('#map-searchbar').html(template(feature, icon));
     }
 
     function defaultPoiPanel() {
@@ -224,28 +224,68 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     }
 
-    function template(feature) {
+    function template(feature, icon) {
         var id = feature.properties.osm_id;
         var osm_type = feature.properties.osm_type;
         var addr = {};
+        var name = {};
+        var payment = {};
         var tpl = '';
+        var br = "";
+
         tpl += permanentlyDisplayed ? '<a class="close">&times;</a>' : '';
-        tpl += '<h4>' + (feature.properties.tags.name || 'Bod zájmu') + '</h4>';
-        tpl += '<a href="http://osm.org/' + osm_type + '/' + id + '">osm ' + osm_type + ' ' + id + '</a>';
+        tpl += '<h4>' + '<img src="' + icon + '"/>&nbsp;' ;
+        tpl += (feature.properties.tags.name || 'Bod zájmu') + '</h4>';
 
         $.each(feature.properties.tags, function (k, v) {
             if (k.match(/^addr:/))
                 addr[k] = v;
-            else
-                tpl += '<br><b>' + k + '</b> = ' + v;
+            else if (k.match(/^name:/))
+                name[k] = v;
+            else if (k.match(/^payment:/))
+                payment[k] = v;
+            else {
+                if ( ! k.localeCompare('website') || ! k.localeCompare('contact:website')) {
+                    tpl += '<b>' + k + '</b> = ';
+                    tpl += '<a href="' + v +'">' + v +'</a><br/>';
+                }
+                else {
+                    tpl += '<b>' + k + '</b> = ' + v +'<br/>';
+                }
+            }
         });
 
-        if (addr['addr:street']) {
-            tpl += '<br><br>adresní bod:';
+        if (Object.keys(addr).length) {
+            tpl += '<h5>Adresní bod:</h5>';
+            br = "";
             $.each(addr, function (k, v) {
-               tpl += '<br><b>' + k + '</b> = ' + v;
+               tpl += br + '<b>' + k + '</b> = ' + v;
+               br = '<br/>';
             });
+            tpl += br;
         }
+
+        if (Object.keys(name).length) {
+            tpl += '<h5>Další jména:</h5>';
+            br = "";
+            $.each(name, function (k, v) {
+               tpl += br + '<b>' + k + '</b> = ' + v;
+               br = '<br/>';
+            });
+            tpl += br;
+        }
+
+        if (Object.keys(payment).length) {
+            tpl += '<h5>Možnosti platby:</h5>';
+            br = "";
+            $.each(payment, function (k, v) {
+               tpl += br + '<b>' + k + '</b> = ' + v;
+               br = '<br/>';
+            });
+            tpl += br;
+        }
+
+        tpl += '<br/><div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>';
         return tpl;
     }
 

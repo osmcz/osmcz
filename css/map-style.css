@@ -38,3 +38,11 @@
     }
 }
 
+/* Panel */
+#map-searchbar h4, h5 {
+    border-bottom: 1px solid #aaa;
+}
+
+#map-searchbar .osmid {
+    text-size: 90%;
+}
