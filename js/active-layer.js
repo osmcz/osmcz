@@ -140,6 +140,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     var timeout;
     var permanentlyDisplayed = false;
+    var marker = L.circleMarker([0,0]);
 
     var geojsonURL = 'http://tile.poloha.net/json/{z}/{x}/{y}';
     var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
@@ -190,12 +191,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         }
     );
 
-    $('#map-searchbar').on('click', '.close', function () {
-        defaultPoiPanel();
-        permanentlyDisplayed = false;
-    });
-
-
+    //add as overlay
     overlays["Aktivní vrstva"] = geojsonTileLayer;
 
     map.on('layeradd', function (event) {
@@ -209,6 +205,15 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             $('#map-container').removeClass('searchbar-on');
         }
     });
+
+    //reset panel
+    function resetPanel(){
+        defaultPoiPanel();
+        permanentlyDisplayed = false;
+        map.removeLayer(marker);
+    }
+    $('#map-searchbar').on('click', '.close', resetPanel);
+    map.on('click', resetPanel);
 
 
     function IsNumeric(n) {
@@ -271,6 +276,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
 
         if (permanentlyDisplayed) {
+            var lon = feature.geometry.coordinates[0];
+            var lat = feature.geometry.coordinates[1];
+
+            marker.setLatLng([lat, lon]).addTo(map);
+
             if (feature.mapillary) {
                 setTimeout(function () { //after dom is created
                     showMapillary();
@@ -278,8 +288,6 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
             else {
                 //TODO - limit=10 & choose the best oriented photo
-                var lon = feature.geometry.coordinates[0];
-                var lat = feature.geometry.coordinates[1];
                 $.ajax({
                     url: 'http://api.mapillary.com/v1/im/close?lat=' + lat + '&lon=' + lon + '&distance=30&limit=1',
                     dataType: 'json',
@@ -293,13 +301,13 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
         }
 
+        var mpTpl = '<h5>Nejbližší foto</h5>'
+            + '<a href="http://www.mapillary.com/map/im/_key/photo">'
+            + '<img src="http://images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'
+            + '</a>';
         function showMapillary() {
             var mp = $('#mapillary-photo');
-            var mpTpl = '<h5>Nejbližší foto</h5>'
-                + '<a href="http://www.mapillary.com/map/im/_key/photo">'
-                + '<img src="http://images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'
-                + '</a>';
-            if (id = mp.attr('data-osm-id')) {
+            if (id = mp.attr('data-osm-id') && feature.mapillary.length) {
                 mp.html(mpTpl.replace(/_key/g, feature.mapillary[0].key));
             }
         };
