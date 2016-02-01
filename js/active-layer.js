@@ -198,14 +198,14 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     overlays["Aktivní vrstva"] = geojsonTileLayer;
 
-    map.on('layeradd', function(event) {
-        if(event.layer == geojsonTileLayer) {
+    map.on('layeradd', function (event) {
+        if (event.layer == geojsonTileLayer) {
             $('#map-container').addClass('searchbar-on');
             defaultPoiPanel();
         }
     });
-    map.on('layerremove', function(event) {
-        if(event.layer == geojsonTileLayer) {
+    map.on('layerremove', function (event) {
+        if (event.layer == geojsonTileLayer) {
             $('#map-container').removeClass('searchbar-on');
         }
     });
@@ -230,12 +230,13 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var addr = {};
         var name = {};
         var payment = {};
-        var tpl = '';
-        var br = "";
 
-        tpl += permanentlyDisplayed ? '<a class="close">&times;</a>' : '';
-        tpl += '<h4>' + '<img src="' + icon + '"/>&nbsp;' ;
-        tpl += (feature.properties.tags.name || 'Bod zájmu') + '</h4>';
+        var tpl = [];
+        tpl.push(permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
+        tpl.push('<h4>');
+        tpl.push('<img src="' + icon + '">&nbsp;');
+        tpl.push(feature.properties.tags.name || 'Bod zájmu');
+        tpl.push('</h4>');
 
         $.each(feature.properties.tags, function (k, v) {
             if (k.match(/^addr:/))
@@ -245,48 +246,30 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else if (k.match(/^payment:/))
                 payment[k] = v;
             else {
-                if ( ! k.localeCompare('website') || ! k.localeCompare('contact:website')) {
-                    tpl += '<b>' + k + '</b> = ';
-                    tpl += '<a href="' + v +'">' + v +'</a><br/>';
-                }
-                else {
-                    tpl += '<b>' + k + '</b> = ' + v +'<br/>';
-                }
+                tpl.push('<b>' + k + '</b> = ');
+                tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
+                tpl.push('<br>');
             }
         });
 
-        if (Object.keys(addr).length) {
-            tpl += '<h5>Adresní bod:</h5>';
-            br = "";
-            $.each(addr, function (k, v) {
-               tpl += br + '<b>' + k + '</b> = ' + v;
-               br = '<br/>';
-            });
-            tpl += br;
-        }
+        var section = function(obj, label) {
+            if (Object.keys(obj).length) {
+                tpl.push('<h5>'+ label + '</h5>');
+                $.each(obj, function (k, v) {
+                    tpl.push('<b>' + k + '</b> = ' + v);
+                    tpl.push('<br>');
+                });
+                tpl.pop(); //remove last br
+            }
+        };
 
-        if (Object.keys(name).length) {
-            tpl += '<h5>Další jména:</h5>';
-            br = "";
-            $.each(name, function (k, v) {
-               tpl += br + '<b>' + k + '</b> = ' + v;
-               br = '<br/>';
-            });
-            tpl += br;
-        }
+        section(addr, 'Adresní bod:');
+        section(name, 'Další jména:');
+        section(payment, 'Možnosti platby:');
 
-        if (Object.keys(payment).length) {
-            tpl += '<h5>Možnosti platby:</h5>';
-            br = "";
-            $.each(payment, function (k, v) {
-               tpl += br + '<b>' + k + '</b> = ' + v;
-               br = '<br/>';
-            });
-            tpl += br;
-        }
+        tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
 
-        tpl += '<br/><div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>';
-        return tpl;
+        return tpl.join('');
     }
 
 };
