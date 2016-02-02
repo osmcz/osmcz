@@ -15,7 +15,7 @@ a:hover.as-text {
 
 
 
-/* Logo místo textu. Při collapsu se zobrazí i span. */
+/* Logo místo textu. Při vhodném místě se zobrazí i span. */
 .navbar .navbar-brand {
     line-height: 50px;
     padding: 0 20px 0 10px;
@@ -34,11 +34,11 @@ a:hover.as-text {
     margin-left: -16px;
 }
 .navbar .navbar-brand span {
+    display: inline;
     padding-left: 10px;
 }
 
-@media (min-width: 768px) {
-
+@media (min-width: 768px) and (max-width: 991px) {
     .navbar .navbar-brand:before {
         margin-left: 21px;
     }
@@ -64,18 +64,6 @@ a:hover.as-text {
 .navbar {
     z-index: 1000;
 }
-/*
-.nav-collapse .dropdown-menu li.active a {
-    color: #fff;
-}
-.nav-collapse .dropdown-menu li.active li a {
-    color: #000;
-}
-.nav-collapse .dropdown-menu li.active li.active a {
-    color: #fff;
-}
-*/
-
 .navbar .navbar-user .dropdown-toggle {
     padding: 0 5px 0 15px;
     line-height: 50px;
