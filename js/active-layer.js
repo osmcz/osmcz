@@ -232,6 +232,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     function template(feature, icon) {
         var id = feature.properties.osm_id;
         var osm_type = feature.properties.osm_type;
+        var general = []; // store k,v objects in array to allow sort them
         var name = {};
         var contact = {};
         var payment = {};
@@ -253,18 +254,38 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 contact[k] = v;
             else if (k.match(/^building/))
                 building[k] = v;
-            else if (k.match(/^wikipedia/)) {
-                tpl.push('<b>' + k + '</b> = <a href="https://www.wikipedia.org/wiki/' + v + '">'+ v + '</a>');
-                tpl.push('<br>');
-            }
             else if (!k.match(/^addr:/) &&
                      !k.match(/^ref:ruian:/)
-                    ) {
-                tpl.push('<b>' + k + '</b> = ');
-                tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
-                tpl.push('<br>');
-            }
+                    )
+                general.push({k:k, v:v});
         });
+
+        // sort the array
+        general.sort(function(a, b){
+          var nameA=a.k, nameB=b.k
+          if (nameA < nameB) //sort string ascending
+            return -1
+          if (nameA > nameB)
+            return 1
+          return 0 //default return value (no sorting)
+          });
+
+        if (general.length) {
+            for (var i in general)
+            {
+                var k = general[i].k;
+                var v = general[i].v;
+                if (k.match(/^wikipedia/)) {
+                    tpl.push('<b>' + k + '</b> = <a href="https://www.wikipedia.org/wiki/' + v + '">'+ v + '</a>');
+                }
+                else {
+                    tpl.push('<b>' + k + '</b> = ');
+                    tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
+                }
+                tpl.push('<br>');
+            };
+        };
+
 
         var section = function (obj, label) {
             if (Object.keys(obj).length) {
