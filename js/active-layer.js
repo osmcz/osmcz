@@ -233,7 +233,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var id = feature.properties.osm_id;
         var osm_type = feature.properties.osm_type;
         var name = {};
+        var contact = {};
         var payment = {};
+        var building = {};
 
         var tpl = [];
         tpl.push(permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
@@ -247,6 +249,10 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 name[k] = v;
             else if (k.match(/^payment:/))
                 payment[k] = v;
+            else if (k.match(/^contact:/) || k.match(/^phone/) || k.match(/^email/))
+                contact[k] = v;
+            else if (k.match(/^building/))
+                building[k] = v;
             else if (!k.match(/^addr:/) &&
                      !k.match(/^ref:ruian:/)
                     ) {
@@ -260,7 +266,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             if (Object.keys(obj).length) {
                 tpl.push('<h5>' + label + '</h5>');
                 $.each(obj, function (k, v) {
-                    tpl.push('<b>' + k + '</b> = ' + v);
+                    tpl.push('<b>' + k + '</b> = ');
+                    tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
                     tpl.push('<br>');
                 });
                 tpl.pop(); //remove last br
@@ -269,6 +276,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
         section(name, 'Další jména:');
         section(payment, 'Možnosti platby:');
+        section(contact, 'Kontakty:');
+        section(building, 'Budova:');
 
         tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
         tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
