@@ -232,7 +232,6 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     function template(feature, icon) {
         var id = feature.properties.osm_id;
         var osm_type = feature.properties.osm_type;
-        var addr = {};
         var name = {};
         var payment = {};
 
@@ -244,13 +243,13 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         tpl.push('</h4>');
 
         $.each(feature.properties.tags, function (k, v) {
-            if (k.match(/^addr:/))
-                addr[k] = v;
-            else if (k.match(/^name:/))
+            if (k.match(/^name:/))
                 name[k] = v;
             else if (k.match(/^payment:/))
                 payment[k] = v;
-            else {
+            else if (!k.match(/^addr:/) &&
+                     !k.match(/^ref:ruian:/)
+                    ) {
                 tpl.push('<b>' + k + '</b> = ');
                 tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
                 tpl.push('<br>');
@@ -268,7 +267,6 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
         };
 
-        section(addr, 'Adresní bod:');
         section(name, 'Další jména:');
         section(payment, 'Možnosti platby:');
 
