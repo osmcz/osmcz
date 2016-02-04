@@ -253,6 +253,10 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 contact[k] = v;
             else if (k.match(/^building/))
                 building[k] = v;
+            else if (k.match(/^wikipedia/)) {
+                tpl.push('<b>' + k + '</b> = <a href="https://www.wikipedia.org/wiki/' + v + '">'+ v + '</a>');
+                tpl.push('<br>');
+            }
             else if (!k.match(/^addr:/) &&
                      !k.match(/^ref:ruian:/)
                     ) {
