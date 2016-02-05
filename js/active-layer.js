@@ -90,6 +90,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         }
     };
 
+    // url of ajax proxy server for wikipedia and wikimedia
+    // var xhd_proxy_url = 'http://localhost/xhr_proxy.php';
+    var xhd_proxy_url = 'http://openstreetmap.cz/xhr_proxy.php';
+
+
     function getIcon(tags) {
         var name = false;
         for (var key in tags) {
@@ -322,12 +327,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
             else {
                 var v = feature.properties.tags.wikimedia_commons;
-                var url = 'https://commons.wikimedia.org/w/api.php'
-                        + '?action=query&titles=' + encodeURIComponent(v)
-                        + '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json';
+                var url = 'https://commons.wikimedia.org/w/api.php?action=query'
+                        + '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json'
+                        + '&titles=' + encodeURIComponent(v);
                 $.ajax({
-//                     url: 'http://localhost/xhr_proxy.php',
-                    url: 'http://openstreetmap.cz/xhr_proxy.php',
+                    url: $xhd_proxy_url,
                     data: {
                         url: url
                     },
