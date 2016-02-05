@@ -143,6 +143,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     var marker = L.circleMarker([0,0]);
 
     var geojsonURL = 'http://tile.poloha.net/json/{z}/{x}/{y}';
+    if (location.search.match(/active=sk/))  //temporary solution - soon merged in one endpoint
+        geojsonURL = 'http://tile.poloha.net/jsonsk/{z}/{x}/{y}';
+
     var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
             maxZoom: 25,
             code: 'A'
