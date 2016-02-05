@@ -37,3 +37,14 @@
         margin-bottom: 2em;
     }
 }
+
+@media (max-height: 650px) {
+    .leaflet-top.leaflet-right {
+        height: 50%;
+    }
+    .leaflet-control.leaflet-control-layers-expanded {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
