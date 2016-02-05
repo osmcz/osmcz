@@ -168,11 +168,18 @@ a:hover.as-text {
     left: 4px;
     bottom: 0;
     text-shadow: 0 0 4px #000;
-
 }
 
-
-
+#map-searchbar #wikimedia-commons {
+    max-width: 250px;
+    margin-top: 1em;
+    font-size: 80%;
+    position: relative;
+}
+#map-searchbar #wikimedia-commons .commons_logo {
+    margin-bottom: 5px;
+    padding-right: 5px;
+}
 
 
 #main .container {

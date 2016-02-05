@@ -162,7 +162,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
                 if (!(layer instanceof L.Point)) {
                     layer.on('click', function (event) {
-                        console.log('click', event);
+//                         console.log('click', event);
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
                             permanentlyDisplayed = true;
@@ -240,6 +240,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var contact = {};
         var payment = {};
         var building = {};
+        var wikimedia = {};
 
         var tpl = [];
         tpl.push(permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
@@ -257,6 +258,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 contact[k] = v;
             else if (k.match(/^building/))
                 building[k] = v;
+            else if (k.match(/^wikimedia_commons/) && v.match(/^File:/))
+                wikimedia = {k:k, v:v};
             else if (!k.match(/^addr:/) &&
                      !k.match(/^ref:ruian:/)
                     )
@@ -308,31 +311,78 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         section(building, 'Budova:');
 
         tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
+        tpl.push('<div id="wikimedia-commons" data-osm-id="' + id + '"></div>');
         tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
 
-        if (permanentlyDisplayed) {
-            var lon = feature.geometry.coordinates[0];
-            var lat = feature.geometry.coordinates[1];
-
-            marker.setLatLng([lat, lon]).addTo(map);
-
-            if (feature.mapillary) {
+        if (wikimedia.k) {
+            if (feature.wikimedia) {
                 setTimeout(function () { //after dom is created
-                    showMapillary();
+                    showWikimediaCommons();
                 }, 0);
             }
             else {
-                //TODO - limit=10 & choose the best oriented photo
+                var v = feature.properties.tags.wikimedia_commons;
+                var url = 'https://commons.wikimedia.org/w/api.php'
+                        + '?action=query&titles=' + encodeURIComponent(v)
+                        + '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json';
                 $.ajax({
-                    url: 'http://api.mapillary.com/v1/im/close?lat=' + lat + '&lon=' + lon + '&distance=30&limit=1',
+//                     url: 'http://localhost/xhr_proxy.php',
+                    url: 'http://openstreetmap.cz/xhr_proxy.php',
+                    data: {
+                        url: url
+                    },
                     dataType: 'json',
-                    jsonp: false,
-                    global: false,
                     success: function (data) {
-                        feature.mapillary = data;
-                        showMapillary();
+                        feature.wikimedia = data;
+                        showWikimediaCommons();
                     }
                 });
+            }
+        }
+
+        var wcmTpl = '<h5><a href="https://commons.wikimedia.org/">'
+            + '<img class="commons_logo" src="img/commons_logo.png" height="24"/></a>'
+            + 'Foto Wikimedia Commons</h5>'
+            + '<a href="_descriptionshorturl">'
+            + '<img src="_thumburl" width="250">'
+            + '</a>';
+
+        function showWikimediaCommons() {
+            var wcm = $('#wikimedia-commons');
+            if (id = wcm.attr('data-osm-id') && feature.wikimedia) {
+                var k = Object.keys(feature.wikimedia.query.pages)[0];
+                var descriptionshorturl = feature.wikimedia.query.pages[k].imageinfo[0].descriptionshorturl;
+                var thumburl = feature.wikimedia.query.pages[k].imageinfo[0].thumburl;
+                wcm.html(wcmTpl.replace(/_thumburl/g, thumburl).replace(/_descriptionshorturl/g, descriptionshorturl));
+            }
+        };
+
+
+        if (permanentlyDisplayed) {
+            if (! feature.wikimedia) {
+                var lon = feature.geometry.coordinates[0];
+                var lat = feature.geometry.coordinates[1];
+
+                marker.setLatLng([lat, lon]).addTo(map);
+
+                if (feature.mapillary && ! feature.wikimedia) {
+                    setTimeout(function () { //after dom is created
+                        showMapillary();
+                    }, 0);
+                }
+                else {
+                    //TODO - limit=10 & choose the best oriented photo
+                    $.ajax({
+                        url: 'http://api.mapillary.com/v1/im/close?lat=' + lat + '&lon=' + lon + '&distance=30&limit=1',
+                        dataType: 'json',
+                        jsonp: false,
+                        global: false,
+                        success: function (data) {
+                            feature.mapillary = data;
+                            showMapillary();
+                        }
+                    });
+                }
             }
         }
 
