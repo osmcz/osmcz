@@ -389,10 +389,14 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             if (id = wcm.attr('data-osm-id') && (feature.wikimedia || feature.wikipedia)) {
                 if (feature.wikimedia) {
                     var k = Object.keys(feature.wikimedia.query.pages)[0];
+                    if (!feature.wikimedia.query.pages[k].imageinfo.length)
+                        return
                     var descriptionshorturl = feature.wikimedia.query.pages[k].imageinfo[0].descriptionshorturl;
                     var thumburl = feature.wikimedia.query.pages[k].imageinfo[0].thumburl;
                 } else {
                     var k = Object.keys(feature.wikipedia.query.pages)[0];
+                    if (!feature.wikipedia.query.pages[k].pageimage)
+                        return
                     var descriptionshorturl = 'https://commons.wikimedia.org/wiki/File:' + feature.wikipedia.query.pages[k].pageimage;
                     var thumburl = feature.wikipedia.query.pages[k].thumbnail.source;
                 }
