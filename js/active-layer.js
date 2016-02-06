@@ -145,7 +145,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     var timeout;
     var permanentlyDisplayed = false;
-    var marker = L.circleMarker([0,0]);
+    var marker = L.circleMarker([0, 0]);
 
     var geojsonURL = 'http://tile.poloha.net/json/{z}/{x}/{y}';
     if (location.search.match(/active=sk/))  //temporary solution - soon merged in one endpoint
@@ -215,11 +215,12 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     });
 
     //reset panel
-    function resetPanel(){
+    function resetPanel() {
         defaultPoiPanel();
         permanentlyDisplayed = false;
         map.removeLayer(marker);
     }
+
     $('#map-searchbar').on('click', '.close', resetPanel);
     map.on('click', resetPanel);
 
@@ -248,6 +249,14 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var wikimedia = {};
         var wikipedia = {};
 
+        // show circle marker
+        if (permanentlyDisplayed) {
+            var lon = feature.geometry.coordinates[0];
+            var lat = feature.geometry.coordinates[1];
+
+            marker.setLatLng([lat, lon]).addTo(map);
+        }
+
         var tpl = [];
         tpl.push(permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
         tpl.push('<h4>');
@@ -265,46 +274,41 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else if (k.match(/^building/))
                 building[k] = v;
             else if (k.match(/^wikimedia_commons/) && v.match(/^File:/))
-                wikimedia = {k:k, v:v};
-            else if (!k.match(/^addr:/) &&
-                     !k.match(/^ref:ruian:/)
-                    ) {
+                wikimedia = {k: k, v: v};
+            else if (!k.match(/^addr:/) && !k.match(/^ref:ruian:/)) {
                 if (k.match(/^wikipedia/)) {
-                    wikipedia = {k:k, v:v};
+                    wikipedia = {k: k, v: v};
                 }
-                general.push({k:k, v:v});
+                general.push({k: k, v: v});
             }
         });
 
         // sort the array
-        general.sort(function(a, b){
-          var nameA=a.k, nameB=b.k
-          if (nameA < nameB) //sort string ascending
-            return -1
-          if (nameA > nameB)
-            return 1
-          return 0 //default return value (no sorting)
-          });
+        general.sort(function (a, b) {
+            return a.k.localeCompare(b.k);
+        });
 
         if (general.length) {
-            for (var i in general)
-            {
+            for (var i in general) {
                 var k = general[i].k;
                 var v = general[i].v;
                 if (k.match(/^wikipedia/)) {
-                    tpl.push('<b>' + k + '</b> = <a href="https://www.wikipedia.org/wiki/' + v + '">'+ v + '</a>');
+                    tpl.push('<b>' + k + '</b> = <a href="https://www.wikipedia.org/wiki/' + v + '">' + v + '</a>');
                 }
                 else {
                     tpl.push('<b>' + k + '</b> = ');
                     tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
                 }
                 tpl.push('<br>');
-            };
-        };
+            }
+        }
 
 
-        var section = function (obj, label) {
+        var section = function (obj, label, hide) {
             if (Object.keys(obj).length) {
+                hide && tpl.push('<p><b>' + label + '</b> <a href="#" onclick="$(this).parent().hide().next().show();return false">zobrazit</a></p>');
+                hide && tpl.push('<div style="display:none">');
+
                 tpl.push('<h5>' + label + '</h5>');
                 $.each(obj, function (k, v) {
                     tpl.push('<b>' + k + '</b> = ');
@@ -312,10 +316,12 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                     tpl.push('<br>');
                 });
                 tpl.pop(); //remove last br
+
+                hide && tpl.push('</div>');
             }
         };
 
-        section(name, 'Další jména:');
+        section(name, 'Další jména:', true);
         section(payment, 'Možnosti platby:');
         section(contact, 'Kontakty:');
         section(building, 'Budova:');
@@ -324,6 +330,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         tpl.push('<div id="wikimedia-commons" data-osm-id="' + id + '"></div>');
         tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
 
+
+        // ---------------------------------------- images ------------------------------------------
+        // TODO refactor
+
+        // show picture from wikimedia, if there is `wikimedia_commons` tag
         if (wikimedia.k) {
             if (feature.wikimedia) {
                 setTimeout(function () { //after dom is created
@@ -333,8 +344,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else {
                 var v = feature.properties.tags.wikimedia_commons;
                 var url = 'https://commons.wikimedia.org/w/api.php?action=query'
-                        + '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json'
-                        + '&titles=' + encodeURIComponent(v);
+                    + '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json'
+                    + '&titles=' + encodeURIComponent(v);
                 $.ajax({
                     url: xhd_proxy_url,
                     data: {
@@ -349,6 +360,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
         }
 
+        // show picture from wikipedia, if there is `wikipedia` tag
         if (!wikimedia.k && wikipedia.k) {
             if (feature.wikipedia) {
                 setTimeout(function () { //after dom is created
@@ -358,11 +370,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else {
                 var v = wikipedia.v;
                 var country = v.split(":")[0];
-                if ( country === v )
+                if (country === v)
                     country = "en"
-                var url = 'https://'+ country +'.wikipedia.org/w/api.php?action=query'
-                        + '&prop=pageimages&pithumbsize=240&format=json'
-                        + '&titles=' + encodeURIComponent(v);
+                var url = 'https://' + country + '.wikipedia.org/w/api.php?action=query'
+                    + '&prop=pageimages&pithumbsize=240&format=json'
+                    + '&titles=' + encodeURIComponent(v);
                 $.ajax({
                     url: xhd_proxy_url,
                     data: {
@@ -378,39 +390,37 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         }
 
         var wcmTpl = '<h5><a href="https://commons.wikimedia.org/">'
-            + '<img class="commons_logo" src="img/commons_logo.png" height="24"/></a>'
-            + 'Foto Wikimedia Commons</h5>'
+            + '<img class="commons_logo" src="' + osmcz.basePath + 'img/commons_logo.png" height="24"></a>'
+            + 'Foto z Wikipedie</h5>'
             + '<a href="_descriptionshorturl">'
             + '<img src="_thumburl" width="250">'
             + '</a>';
 
         function showWikimediaCommons() {
             var wcm = $('#wikimedia-commons');
-            if (id = wcm.attr('data-osm-id') && (feature.wikimedia || feature.wikipedia)) {
+            if (id == wcm.attr('data-osm-id') && (feature.wikimedia || feature.wikipedia)) {
                 if (feature.wikimedia) {
                     var k = Object.keys(feature.wikimedia.query.pages)[0];
                     if (!feature.wikimedia.query.pages[k].imageinfo.length)
-                        return
+                        return;
                     var descriptionshorturl = feature.wikimedia.query.pages[k].imageinfo[0].descriptionshorturl;
                     var thumburl = feature.wikimedia.query.pages[k].imageinfo[0].thumburl;
                 } else {
                     var k = Object.keys(feature.wikipedia.query.pages)[0];
                     if (!feature.wikipedia.query.pages[k].pageimage)
-                        return
+                        return;
                     var descriptionshorturl = 'https://commons.wikimedia.org/wiki/File:' + feature.wikipedia.query.pages[k].pageimage;
                     var thumburl = feature.wikipedia.query.pages[k].thumbnail.source;
                 }
                 wcm.html(wcmTpl.replace(/_thumburl/g, thumburl).replace(/_descriptionshorturl/g, descriptionshorturl));
             }
-        };
+        }
 
 
+        // show closest mapillary photo if no photo so far
         if (permanentlyDisplayed) {
-            if (! feature.wikimedia && ! feature.wikipedia ) {
-                var lon = feature.geometry.coordinates[0];
-                var lat = feature.geometry.coordinates[1];
-
-                marker.setLatLng([lat, lon]).addTo(map);
+            if (!feature.wikimedia && !feature.wikipedia) {
+                //TODO WP tag != existing WP photo --> chain mapillary after the WP request?
 
                 if (feature.mapillary) {
                     setTimeout(function () { //after dom is created
@@ -437,12 +447,13 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             + '<a href="http://www.mapillary.com/map/im/_key/photo">'
             + '<img src="http://images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'
             + '</a>';
+
         function showMapillary() {
             var mp = $('#mapillary-photo');
-            if (id = mp.attr('data-osm-id') && feature.mapillary.length) {
+            if (id == mp.attr('data-osm-id') && feature.mapillary.length) {
                 mp.html(mpTpl.replace(/_key/g, feature.mapillary[0].key));
             }
-        };
+        }
 
         return tpl.join('');
     }
