@@ -91,7 +91,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     };
 
     // url of ajax proxy server for wikipedia and wikimedia
-    // var xhd_proxy_url = 'http://localhost/xhr_proxy.php';
+//     var xhd_proxy_url = 'http://localhost/xhr_proxy.php';
     var xhd_proxy_url = 'http://openstreetmap.cz/xhr_proxy.php';
 
 
@@ -246,6 +246,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var payment = {};
         var building = {};
         var wikimedia = {};
+        var wikipedia = {};
 
         var tpl = [];
         tpl.push(permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
@@ -267,8 +268,12 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 wikimedia = {k:k, v:v};
             else if (!k.match(/^addr:/) &&
                      !k.match(/^ref:ruian:/)
-                    )
+                    ) {
+                if (k.match(/^wikipedia/)) {
+                    wikipedia = {k:k, v:v};
+                }
                 general.push({k:k, v:v});
+            }
         });
 
         // sort the array
@@ -331,13 +336,41 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                         + '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json'
                         + '&titles=' + encodeURIComponent(v);
                 $.ajax({
-                    url: $xhd_proxy_url,
+                    url: xhd_proxy_url,
                     data: {
                         url: url
                     },
                     dataType: 'json',
                     success: function (data) {
                         feature.wikimedia = data;
+                        showWikimediaCommons();
+                    }
+                });
+            }
+        }
+
+        if (!wikimedia.k && wikipedia.k) {
+            if (feature.wikipedia) {
+                setTimeout(function () { //after dom is created
+                    showWikimediaCommons();
+                }, 0);
+            }
+            else {
+                var v = wikipedia.v;
+                var country = v.split(":")[0];
+                if ( country === v )
+                    country = "en"
+                var url = 'https://'+ country +'.wikipedia.org/w/api.php?action=query'
+                        + '&prop=pageimages&pithumbsize=240&format=json'
+                        + '&titles=' + encodeURIComponent(v);
+                $.ajax({
+                    url: xhd_proxy_url,
+                    data: {
+                        url: url
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        feature.wikipedia = data;
                         showWikimediaCommons();
                     }
                 });
@@ -353,23 +386,29 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
         function showWikimediaCommons() {
             var wcm = $('#wikimedia-commons');
-            if (id = wcm.attr('data-osm-id') && feature.wikimedia) {
-                var k = Object.keys(feature.wikimedia.query.pages)[0];
-                var descriptionshorturl = feature.wikimedia.query.pages[k].imageinfo[0].descriptionshorturl;
-                var thumburl = feature.wikimedia.query.pages[k].imageinfo[0].thumburl;
+            if (id = wcm.attr('data-osm-id') && (feature.wikimedia || feature.wikipedia)) {
+                if (feature.wikimedia) {
+                    var k = Object.keys(feature.wikimedia.query.pages)[0];
+                    var descriptionshorturl = feature.wikimedia.query.pages[k].imageinfo[0].descriptionshorturl;
+                    var thumburl = feature.wikimedia.query.pages[k].imageinfo[0].thumburl;
+                } else {
+                    var k = Object.keys(feature.wikipedia.query.pages)[0];
+                    var descriptionshorturl = 'https://commons.wikimedia.org/wiki/File:' + feature.wikipedia.query.pages[k].pageimage;
+                    var thumburl = feature.wikipedia.query.pages[k].thumbnail.source;
+                }
                 wcm.html(wcmTpl.replace(/_thumburl/g, thumburl).replace(/_descriptionshorturl/g, descriptionshorturl));
             }
         };
 
 
         if (permanentlyDisplayed) {
-            if (! feature.wikimedia) {
+            if (! feature.wikimedia && ! feature.wikipedia ) {
                 var lon = feature.geometry.coordinates[0];
                 var lat = feature.geometry.coordinates[1];
 
                 marker.setLatLng([lat, lon]).addTo(map);
 
-                if (feature.mapillary && ! feature.wikimedia) {
+                if (feature.mapillary) {
                     setTimeout(function () { //after dom is created
                         showMapillary();
                     }, 0);
