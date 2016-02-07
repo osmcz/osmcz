@@ -181,6 +181,10 @@ a:hover.as-text {
     padding-right: 5px;
 }
 
+#map-searchbar #guidepost .guidepost_logo {
+    margin-bottom: 5px;
+    padding-right: 5px;
+}
 
 #main .container {
     position:relative;

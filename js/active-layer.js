@@ -248,6 +248,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var building = {};
         var wikimedia = {};
         var wikipedia = {};
+        var guidepost = {};
 
         // show circle marker
         if (permanentlyDisplayed) {
@@ -278,6 +279,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             else if (!k.match(/^addr:/) && !k.match(/^ref:ruian:/)) {
                 if (k.match(/^wikipedia/)) {
                     wikipedia = {k: k, v: v};
+                } else if (k.match(/^information/) && v.match(/^guidepost/)) {
+                    guidepost = {k: k, v: v};
                 }
                 general.push({k: k, v: v});
             }
@@ -328,6 +331,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
         tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
         tpl.push('<div id="wikimedia-commons" data-osm-id="' + id + '"></div>');
+        tpl.push('<div id="guidepost" data-osm-id="' + id + '"></div>');
         tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
 
 
@@ -389,6 +393,30 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
         }
 
+        // show guidepost picture from openstreetmap.cz
+        if (guidepost.k) {
+            if (feature.guidepost) {
+                setTimeout(function () { //after dom is created
+                    showGuidepost();
+                }, 0);
+            }
+            else {
+                var ref = feature.properties.tags.ref;
+                $.ajax({
+                    url: 'http://api.openstreetmap.cz/table/ref/' + ref,
+                    data: {
+                        outputFormat: 'application/json',
+                        output : 'geojson'
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        feature.guidepost = data;
+                        showGuidepost();
+                    }
+                });
+            }
+        }
+
         var wcmTpl = '<h5><a href="https://commons.wikimedia.org/">'
             + '<img class="commons_logo" src="' + osmcz.basePath + 'img/commons_logo.png" height="24"></a>'
             + 'Foto z Wikipedie</h5>'
@@ -413,6 +441,28 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                     var thumburl = feature.wikipedia.query.pages[k].thumbnail.source;
                 }
                 wcm.html(wcmTpl.replace(/_thumburl/g, thumburl).replace(/_descriptionshorturl/g, descriptionshorturl));
+            }
+        }
+
+
+        var gpTpl = '<h5>'
+            + '<img class="guidepost_logo" src="' + osmcz.basePath + 'img/guidepost.png" height="24">'
+            + 'Foto rozcestníku</h5>'
+            + '<b>Fotografii poskytl:</b> _autor<br/>'
+            + '<a href="_imgUrl">'
+            + '<img src="_imgUrl" width="250">'
+            + '</a>';
+
+        function showGuidepost() {
+            var gp = $('#guidepost');
+            if (id == gp.attr('data-osm-id') && (feature.guidepost)) {
+                // TODO: show all guideposts
+                 if (!feature.guidepost.features.length)
+                     return;
+                var autor = feature.guidepost.features[0].properties.attribution;
+                var imgUrl = 'http://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
+                var gpostId = feature.guidepost.features[0].properties.id;
+                gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, imgUrl));
             }
         }
 
