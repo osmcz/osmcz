@@ -248,13 +248,12 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var building = {};
         var wikimedia = {};
         var wikipedia = {};
-        var guidepost = {};
+        var guidepost = false;
+        var lon = feature.geometry.coordinates[0];
+        var lat = feature.geometry.coordinates[1];
 
         // show circle marker
         if (permanentlyDisplayed) {
-            var lon = feature.geometry.coordinates[0];
-            var lat = feature.geometry.coordinates[1];
-
             marker.setLatLng([lat, lon]).addTo(map);
         }
 
@@ -274,16 +273,16 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 contact[k] = v;
             else if (k.match(/^building/))
                 building[k] = v;
+            else if (k.match(/^addr:|^ref:ruian:/)) //skip TODO show in expert mode
+                undefined;
+            else
+                general.push({k: k, v: v});
+
+            // global flags
+            if (k.match(/^wikipedia/))
+                wikipedia = {k: k, v: v};
             else if (k.match(/^wikimedia_commons/) && v.match(/^File:/))
                 wikimedia = {k: k, v: v};
-            else if (!k.match(/^addr:/) && !k.match(/^ref:ruian:/)) {
-                if (k.match(/^wikipedia/)) {
-                    wikipedia = {k: k, v: v};
-                } else if (k.match(/^information/) && v.match(/^guidepost/)) {
-                    guidepost = {k: k, v: v};
-                }
-                general.push({k: k, v: v});
-            }
         });
 
         // sort the array
@@ -295,13 +294,11 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             for (var i in general) {
                 var k = general[i].k;
                 var v = general[i].v;
-                if (k.match(/^wikipedia/)) {
-                    tpl.push('<b>' + k + '</b> = <a href="https://www.wikipedia.org/wiki/' + v + '">' + v + '</a>');
-                }
-                else {
-                    tpl.push('<b>' + k + '</b> = ');
+                tpl.push('<b>' + k + '</b> = ');
+                if (k.match(/^wikipedia/))
+                    tpl.push('<a href="https://www.wikipedia.org/wiki/' + v + '">' + v + '</a>');
+                else
                     tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
-                }
                 tpl.push('<br>');
             }
         }
@@ -337,6 +334,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
         // ---------------------------------------- images ------------------------------------------
         // TODO refactor
+
+
+        // -----------------  WP & WM -----------------
 
         // show picture from wikimedia, if there is `wikimedia_commons` tag
         if (wikimedia.k) {
@@ -393,29 +393,6 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
         }
 
-        // show guidepost picture from openstreetmap.cz
-        if (guidepost.k) {
-            if (feature.guidepost) {
-                setTimeout(function () { //after dom is created
-                    showGuidepost();
-                }, 0);
-            }
-            else {
-                var ref = feature.properties.tags.ref;
-                $.ajax({
-                    url: 'http://api.openstreetmap.cz/table/ref/' + ref,
-                    data: {
-                        outputFormat: 'application/json',
-                        output : 'geojson'
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        feature.guidepost = data;
-                        showGuidepost();
-                    }
-                });
-            }
-        }
 
         var wcmTpl = '<h5><a href="https://commons.wikimedia.org/">'
             + '<img class="commons_logo" src="' + osmcz.basePath + 'img/commons_logo.png" height="24"></a>'
@@ -444,32 +421,59 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
         }
 
+        // -----------------  GUIDEPOST -----------------
 
-        var gpTpl = '<h5>'
-            + '<img class="guidepost_logo" src="' + osmcz.basePath + 'img/guidepost.png" height="24">'
-            + 'Foto rozcestníku</h5>'
-            + '<b>Fotografii poskytl:</b> _autor<br/>'
-            + '<a href="_imgUrl">'
-            + '<img src="_imgUrl" width="250">'
-            + '</a>';
 
-        function showGuidepost() {
-            var gp = $('#guidepost');
-            if (id == gp.attr('data-osm-id') && (feature.guidepost)) {
-                // TODO: show all guideposts
-                 if (!feature.guidepost.features.length)
-                     return;
-                var autor = feature.guidepost.features[0].properties.attribution;
-                var imgUrl = 'http://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
-                var gpostId = feature.guidepost.features[0].properties.id;
-                gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, imgUrl));
+        // show guidepost picture from openstreetmap.cz
+        if (feature.properties.tags.information == 'guidepost') {
+            if (feature.guidepost) {
+                setTimeout(function () { //after dom is created
+                    showGuidepost();
+                }, 0);
+            }
+            else {
+                var ref = feature.properties.tags.ref;
+                $.ajax({
+                    url: 'http://api.openstreetmap.cz/table/close?lat=' + lat + '&lon=' + lon + '&distance=50&limit=1',
+                    //url: 'http://api.openstreetmap.cz/table/ref/' + ref,
+                    data: {
+                        outputFormat: 'application/json',
+                        output : 'geojson'
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        feature.guidepost = data;
+                        showGuidepost();
+                    }
+                });
             }
         }
 
+        var gpTpl = '<h5>Foto rozcestníku</h5>'
+            + '<a href="_imgUrl">'
+            + '<img src="_imgUrl" width="250">'
+            + '</a><br>'
+            + '<b>Fotografii poskytl:</b> _autor'
+            + "<a href='http://api.openstreetmap.cz/table/id/_id' target='_blank'><span class='glyphicon glyphicon-pencil' title='upravit'></span></a>";
+
+        function showGuidepost() {
+            var gp = $('#guidepost');
+            if (id == gp.attr('data-osm-id') && feature.guidepost) {
+                // TODO: show all guideposts
+                if (!feature.guidepost.features.length)
+                    return;
+                var autor = feature.guidepost.features[0].properties.attribution;
+                var imgUrl = 'http://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
+                var gpostId = feature.guidepost.features[0].properties.id;
+                gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, imgUrl).replace(/_id/g, gpostId));
+            }
+        }
+
+        // -----------------  MAPILLARY -----------------
 
         // show closest mapillary photo if no photo so far
         if (permanentlyDisplayed) {
-            if (!feature.wikimedia && !feature.wikipedia) {
+            if (!feature.wikimedia && !feature.wikipedia && !feature.guidepost) {
                 //TODO WP tag != existing WP photo --> chain mapillary after the WP request?
 
                 if (feature.mapillary) {
