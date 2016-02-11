@@ -295,9 +295,15 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 var k = general[i].k;
                 var v = general[i].v;
                 tpl.push('<b>' + k + '</b> = ');
-                if (k.match(/^wikipedia/))
+                // wikipedia=* or xxx:wikipedia=*
+                if (k.match(/^wikipedia$/) || k.match(/:wikipedia$/))
                     tpl.push('<a href="https://www.wikipedia.org/wiki/' + v + '">' + v + '</a>');
+                // wikipedia:<country>=* or xxx:wikipedia:<country>=*
+                else if (k.match(/^wikipedia:/) || k.match(/:wikipedia:/)) {
+                    tpl.push('<a href="https://www.wikipedia.org/wiki/' + k.split(":").pop() + ':' + v + '">' + v + '</a>');
+                }
                 else
+                  // Just standard url
                     tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
                 tpl.push('<br>');
             }
