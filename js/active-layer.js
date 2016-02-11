@@ -283,8 +283,16 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 general.push({k: k, v: v});
 
             // global flags
-            if (k.match(/^wikipedia/))
-                wikipedia = {k: k, v: v};
+            if (k.match(/^wikipedia/)) {
+                // Prefer wikipedia over wikipedia:cs over first one
+                if (k.match(/^wikipedia$/))
+                    wikipedia = {k: k, v: v};
+                else if (k.match(/^wikipedia:cs$/) &&
+                         (!wikipedia.k || (wikipedia.k && !wikipedia.k == "wikipedia")))
+                    wikipedia = {k: k, v: k.split(":").pop() + ":" + v};
+                else if (!wikipedia.k && k.match(/^wikipedia:/))
+                    wikipedia = {k: k, v: k.split(":").pop() + ":" + v};
+            }
             else if (k.match(/^wikimedia_commons/) && v.match(/^File:/))
                 wikimedia = {k: k, v: v};
         });
