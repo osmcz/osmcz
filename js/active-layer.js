@@ -147,6 +147,10 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     var permanentlyDisplayed = false;
     var marker = L.circleMarker([0, 0]);
 
+    // Get preferred user language and use it on wikipedia
+    var userLang = (window.navigator.userLanguage || window.navigator.language).split("-")[0];
+    var wikiLang = (userLang ? "?uselang=" + userLang : "" );
+
     var geojsonURL = 'http://tile.poloha.net/json/{z}/{x}/{y}';
     if (location.search.match(/active=sk/))  //temporary solution - soon merged in one endpoint
         geojsonURL = 'http://tile.poloha.net/jsonsk/{z}/{x}/{y}';
@@ -297,10 +301,10 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 tpl.push('<b>' + k + '</b> = ');
                 // wikipedia=* or xxx:wikipedia=*
                 if (k.match(/^wikipedia$/) || k.match(/:wikipedia$/))
-                    tpl.push('<a href="https://www.wikipedia.org/wiki/' + v + '">' + v + '</a>');
+                    tpl.push('<a href="https://www.wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
                 // wikipedia:<country>=* or xxx:wikipedia:<country>=*
                 else if (k.match(/^wikipedia:/) || k.match(/:wikipedia:/)) {
-                    tpl.push('<a href="https://www.wikipedia.org/wiki/' + k.split(":").pop() + ':' + v + '">' + v + '</a>');
+                    tpl.push('<a href="https://www.wikipedia.org/wiki/' + k.split(":").pop() + ':' + v + wikiLang + '">' + v + '</a>');
                 }
                 else
                   // Just standard url
