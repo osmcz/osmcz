@@ -343,6 +343,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 wikimedia = {k: k, v: v};
             else if (k.match(/^wikidata/))
                 wikidata = {k: k, v: v};
+            else if (k.match(/^image$/)  && v.match(/^File:/))
+                wikimedia = {k: 'wikimedia_commons', v: v};
         });
 
         // sort the array
@@ -366,6 +368,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                     tpl.push('<a href="https://www.wikidata.org/wiki/' + v + wikiLang + '">' + v + '</a>');
                 // wikimedia commons=*
                 else if (k.match(/^wikimedia_commons$/))
+                    tpl.push('<a href="https://commons.wikimedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+                else if (k.match(/^image$/) && v.match(/^File:/))
+                    // handle image as wikimedia_commons
                     tpl.push('<a href="https://commons.wikimedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
                 else
                   // Just standard url
