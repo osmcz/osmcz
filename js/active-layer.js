@@ -372,6 +372,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 else if (k.match(/^image$/) && v.match(/^File:/))
                     // handle image as wikimedia_commons
                     tpl.push('<a href="https://commons.wikimedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+                // Katalog národního památkového ústavu
+                else if (k.match(/^ref:npu$/))
+                    tpl.push('<a href="http://pamatkovykatalog.cz/?mode=parametric&isProtected=1&presenter=ElementsResults&indexId=' + encodeURIComponent(v) + '">' + v + '</a>');
                 else
                   // Just standard url
                     tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
