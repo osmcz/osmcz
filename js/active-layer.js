@@ -239,9 +239,54 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     function defaultPoiPanel() {
         $('#map-searchbar').html("Najeďte myší na bod zájmu<br>nebo klikněte pro trvalé zobrazení.");
-
     }
 
+    // ------- Wikidata, wikimedia commons and wikipedia functions -------
+    //
+    // Prepare correct api request
+    function getWikiApiUrl (we) {
+      if (we.k == "wikimedia_commons") { // wikimedia commons tag
+        return 'https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json'
+                + '&titles=' + encodeURIComponent(we.v);
+      } else if (we.k == "wikidata") { // wikidata tag
+        return 'https://www.wikidata.org/w/api.php?action=wbgetclaims&property=P18&format=json'
+                + '&entity=' + encodeURIComponent(we.v);
+      } else { // wikipedia tag
+        var country = we.v.split(":")[0];
+        if (country === we.v)
+          country = "en"
+          return 'https://' + country + '.wikipedia.org/w/api.php?action=query&prop=pageimages&pithumbsize=240&format=json'
+                  + '&titles=' + encodeURIComponent(we.v);
+      }
+    }
+
+    // Analyze reply and identify wikidata / wikimedia / wikipedia content
+    function getWikiType(d) {
+        if (d.query) {
+            if (Object.keys(d.query.pages)[0]) {
+                var k = Object.keys(d.query.pages)[0];
+                if (d.query.pages[k].imageinfo)
+                return 'wikimedia';
+                if (d.query.pages[k].pageimage)
+                return 'wikipedia';
+            }
+        }
+        if (d.claims)
+          return 'wikidata';
+    }
+
+    // In wikidata entry is image name. but we need thumbnail,
+    // so we will convert wikidata reply to wikimedia_commons tag
+    function processWikidataReply(d) {
+        var w = {};
+        if (d.claims.P18) {
+            w.k = 'wikimedia_commons';
+            w.v = 'File:' + d.claims.P18[0].mainsnak.datavalue.value;
+        }
+        return w;
+    }
+
+    // ------- POI panel template  -------
     function template(feature, icon) {
         var id = feature.properties.osm_id;
         var osm_type = feature.properties.osm_type;
@@ -250,6 +295,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         var contact = {};
         var payment = {};
         var building = {};
+        var wikidata = {};
         var wikimedia = {};
         var wikipedia = {};
         var guidepost = false;
@@ -295,6 +341,8 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             }
             else if (k.match(/^wikimedia_commons/) && v.match(/^File:/))
                 wikimedia = {k: k, v: v};
+            else if (k.match(/^wikidata/))
+                wikidata = {k: k, v: v};
         });
 
         // sort the array
@@ -353,73 +401,95 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         // ---------------------------------------- images ------------------------------------------
         // TODO refactor
 
-
         // -----------------  WP & WM -----------------
 
-        // show picture from wikimedia, if there is `wikimedia_commons` tag
-        if (wikimedia.k) {
-            if (feature.wikimedia) {
-                setTimeout(function () { //after dom is created
-                    showWikimediaCommons();
-                }, 0);
-            }
-            else {
-                var v = feature.properties.tags.wikimedia_commons;
-                var url = 'https://commons.wikimedia.org/w/api.php?action=query'
-                    + '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json'
-                    + '&titles=' + encodeURIComponent(v);
-                $.ajax({
-                    url: xhd_proxy_url,
-                    data: {
-                        url: url
-                    },
-                    dataType: 'json',
-                    success: function (data) {
+        if (feature.wikimedia || feature.wikipedia) {
+            setTimeout(function () { //after dom is created
+                showWikimediaCommons();
+            }, 0);
+        }
+
+        // Show picture from wikimedia commons if there is `wikidata` or `wikimedia_commons` or `wikipedia` tag
+        // Priorities:
+        //      1) wikidata
+        //      2) wikimedia_commons
+        //      3) wikipedia
+        //
+        // There is also fallback - if wikidata reply does not contains image and wikimedia_commons or wikipedia
+        // tags exists, they will be checked as well.
+
+        if (wikimedia.k || wikipedia.k || wikidata.k) {
+            var url;
+            if (wikidata.k)
+                url = getWikiApiUrl(wikidata);
+            else if (wikimedia.k)
+                url = getWikiApiUrl(wikimedia);
+            else
+                url = getWikiApiUrl(wikipedia);
+
+            $.ajax({
+                url: xhd_proxy_url,
+                data: {
+                    url: url
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var replyType = getWikiType(data);
+                    if (replyType == 'wikimedia') {
                         feature.wikimedia = data;
                         showWikimediaCommons();
                     }
-                });
-            }
-        }
-
-        // show picture from wikipedia, if there is `wikipedia` tag
-        if (!wikimedia.k && wikipedia.k) {
-            if (feature.wikipedia) {
-                setTimeout(function () { //after dom is created
-                    showWikimediaCommons();
-                }, 0);
-            }
-            else {
-                var v = wikipedia.v;
-                var country = v.split(":")[0];
-                if (country === v)
-                    country = "en"
-                var url = 'https://' + country + '.wikipedia.org/w/api.php?action=query'
-                    + '&prop=pageimages&pithumbsize=240&format=json'
-                    + '&titles=' + encodeURIComponent(v);
-                $.ajax({
-                    url: xhd_proxy_url,
-                    data: {
-                        url: url
-                    },
-                    dataType: 'json',
-                    success: function (data) {
+                    else if (replyType == 'wikipedia') {
                         feature.wikipedia = data;
                         showWikimediaCommons();
                     }
-                });
-            }
-        }
+                    else if (replyType == 'wikidata') {
+                        var reply = processWikidataReply(data);
+                        if (!reply.k) {
+                            // Wikidata entry does not contains image
+                            // try other tags
+                            if (wikimedia.k)
+                                reply = wikimedia;
+                            else if (wikipedia.k)
+                                reply = wikipedia;
+                        }
 
+                        // get image thumbnail url or try wikimedia/wikipedia if there is no image on wikidata
+                        if (reply.k) {
+                            var url = getWikiApiUrl(reply);
+                            $.ajax({
+                                url: xhd_proxy_url,
+                                data: {
+                                    url: url
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (getWikiType(data) == 'wikimedia') {
+                                        feature.wikimedia = data;
+                                        showWikimediaCommons();
+                                    } else if (getWikiType(data) == 'wikipedia') {
+                                        feature.wikipedia = data;
+                                        showWikimediaCommons();
+                                    }
+                                }
+                            });
+                         }
+                    }
+                }
+            });
+    }
 
-        var wcmTpl = '<h5><a href="https://commons.wikimedia.org/">'
-            + '<img class="commons_logo" src="' + osmcz.basePath + 'img/commons_logo.png" height="24"></a>'
-            + 'Foto z Wikipedie</h5>'
-            + '<a href="_descriptionshorturl">'
-            + '<img src="_thumburl" width="250">'
-            + '</a>';
-
+        // Show image from wikimedia commons
         function showWikimediaCommons() {
+
+            // Template
+            var wcmTpl = '<h5><a href="https://commons.wikimedia.org/">'
+                + '<img class="commons_logo" src="' + osmcz.basePath + 'img/commons_logo.png" height="24"></a>'
+                + 'Foto z Wikipedie</h5>'
+                + '<a href="_descriptionshorturl">'
+                + '<img src="_thumburl" width="250">'
+                + '</a>';
+
             var wcm = $('#wikimedia-commons');
             if (id == wcm.attr('data-osm-id') && (feature.wikimedia || feature.wikipedia)) {
                 if (feature.wikimedia) {
