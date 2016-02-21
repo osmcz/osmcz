@@ -14,7 +14,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     });
 
     var turisticka = L.tileLayer("http://tile.poloha.net/{z}/{x}/{y}.png", {
-        maxZoom: 18,
+        maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         code: 'k'
     });
@@ -114,7 +114,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
 
     var turistikaOverlay = L.tileLayer("http://tile.poloha.net/kct/{z}/{x}/{y}.png", {
-        maxZoom: 18,
+        maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 0.6,
         code: 'K'
@@ -130,7 +130,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var vrstevniceOverlayUrl = "http://tile.poloha.net/contours/{z}/{x}/{y}.png";
     var vrstevniceOverlayOrtoUrl = "http://tile.poloha.net/contours_ortofoto/{z}/{x}/{y}.png";
     var vrstevniceOverlay = L.tileLayer(vrstevniceOverlayUrl, {
-        maxZoom: 18,
+        maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 0.6,
         code: 'V'
