@@ -152,6 +152,25 @@ a:hover.as-text {
     padding-top: 1em;
     font-size: 90%;
 }
+
+#map-searchbar .ohopen {
+    padding-top: 1em;
+    font-size: 90%;
+    color: #00ff00;
+}
+
+#map-searchbar .ohclosed {
+    padding-top: 1em;
+    font-size: 90%;
+    color: #ff0000;
+}
+
+#map-searchbar .ohlasthour {
+    padding-top: 1em;
+    font-size: 90%;
+    color: #ff7600;
+}
+
 #map-searchbar .close {
     margin-top: -6px;
 }
