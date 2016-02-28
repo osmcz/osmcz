@@ -153,6 +153,7 @@ a:hover.as-text {
     font-size: 90%;
 }
 
+/* Opening hours */
 #map-searchbar .ohopen {
     padding-top: 1em;
     font-size: 90%;
@@ -168,7 +169,11 @@ a:hover.as-text {
 #map-searchbar .ohlasthour {
     padding-top: 1em;
     font-size: 90%;
-    color: #ff7600;
+    color: #ffcc00;
+}
+
+#map-searchbar .oh-times {
+    padding-left: 2em;
 }
 
 #map-searchbar .close {

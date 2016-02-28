@@ -326,7 +326,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
           var idxToday = "#" + getFormatedDate(new Date());
           var idxTomorrow = "#" + getFormatedDate(shiftDay((new Date()), 1));
 
-          var days = ["Ne","Po","Út","St","Čt","Pá","So","Ne"];
+          var days = ["Neděle","Pondělí","Úterý","Středa","Čtvrtek","Pátek","Sobota","Neděle"];
           var specialDays = [];
           specialDays[idxToday] = "Dnes";
           specialDays[idxTomorrow] = "Zítra";
@@ -396,15 +396,15 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
           var clVisible = "";
           if (!bVisible)
-              clVisible='class="oh1" style="display:none"';
+              clVisible='class="oh-extended" style="display:none"';
 
           while (formatedDayFrom != formatedDayTo) {
               ret.push('<tr ' + clVisible + '>');
 
               if (idx in aOH) {
-                  ret.push('<td><b>' + getDayName(idxDay) + '</b>: </td><td>' + aOH[idx].join(', ') + '</td></tr>');
+                  ret.push('<td><b>' + getDayName(idxDay) + '</b>: </td><td class="oh-times">' + aOH[idx].join(', ') + '</td></tr>');
               } else
-                  ret.push("<td><b>" + getDayName(idxDay) + "</b>: </td><td>" + "Zavřeno" + "</td></tr>");
+                  ret.push("<td><b>" + getDayName(idxDay) + '</b>: </td><td class="oh-times">' + "zavřeno" + "</td></tr>");
 
               idxDay = shiftDay(idxDay, 1);
               formatedDayFrom = getFormatedDate(idxDay);
@@ -461,7 +461,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         $(".toggler").click(function(e){
             e.preventDefault();
             console.log("toggler");
-            $('.oh'+$(this).attr('data-oh')).toggle();
+            $('.oh'+$(this).attr('data-oh')).show();
         });
 
       // prepare opening hours table
@@ -472,7 +472,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
       ret.push('</h5>');
       ret.push('<table>');
       ret = ret.concat(formatWeek(intervals, today, 1, true));
-      ret.push('<tr><td colspan="2"><a href="#" class="toggler" data-oh="1">další dny</a></td></tr>');
+      ret.push('<tr><td colspan="2"><a href="#" onclick="$(\'.oh-extended\').toggle();$(this).parent().hide()">...</a></td></tr>');
       ret = ret.concat(formatWeek(intervals, shiftDay(today,2), 5, false));
       ret.push('</table>');
 //       ret.push('<div class="osmid"><b>osm data:</b> ' + v + '</div>');
