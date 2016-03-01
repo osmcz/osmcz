@@ -469,10 +469,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
       ret.push('<h5>Otevírací hodiny');
       ret.push(' <span class="' + ohClass + '">');
       ret.push('(' + ohStateFormated + ')</span>');
-      ret.push('</h5>');
+      ret.push(' <a href="#" onclick="if ($(\'.oh-extended\').is(\':visible\')) {$(\'.oh-toggle\').html(\'&#9660;\');} else {$(\'.oh-toggle\').html(\'&#9650;\');} $(\'.oh-extended\').toggle(200);"><span class="oh-toggle">&#9660;</span></a></h5>');
       ret.push('<table>');
       ret = ret.concat(formatWeek(intervals, today, 1, true));
-      ret.push('<tr><td colspan="2"><a href="#" onclick="$(\'.oh-extended\').toggle();$(this).parent().hide()">...</a></td></tr>');
       ret = ret.concat(formatWeek(intervals, shiftDay(today,2), 5, false));
       ret.push('</table>');
 //       ret.push('<div class="osmid"><b>osm data:</b> ' + v + '</div>');
