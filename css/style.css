@@ -12,6 +12,9 @@ a:hover.as-text {
     color: #333;
     text-decoration: none;
 }
+.close {
+  opacity: 0.6;
+}
 
 
 
@@ -96,7 +99,7 @@ a:hover.as-text {
     z-index: 3000;
     max-width: 250px;
     display: block;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.8);
     font-size: 130%;
 
     position: absolute;
@@ -106,7 +109,19 @@ a:hover.as-text {
 #map-layers {
     right:0;
     width: 250px;
-    text-align: right;
+    text-align: left;
+    font-size: 13px;
+    display: none;
+}
+#map-layers h2 {
+  margin: 10px 0;
+}
+#map-layers label {
+  display: block;
+}
+#map-layers button.close {
+  position: fixed;
+  right: 20px;
 }
 
 @media screen and (min-width: 768px) {
@@ -119,8 +134,22 @@ a:hover.as-text {
     #map-layers {
         float: right;
     }
-
 }
+
+#map-container a.leaflet-control-layers-toggle {
+    width: 46px;
+    height: 66px;
+    background-position: center 5px;
+    padding-top: 33px;
+    font-size: 10px;
+    color: #000 !important;
+    text-align: center;
+}
+#map-container a.leaflet-control-layers-toggle:before { content: "Mapové vrstvy"; }
+#map-container a.leaflet-control-layers-toggle:hover { text-decoration: none; }
+
+
+
 
 /* temporary solution, may be implemented as L.control */
 #map-searchbar {

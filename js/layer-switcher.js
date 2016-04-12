@@ -80,10 +80,17 @@ osmcz.LayerSwitcher = L.Control.extend({
 
 		var form = this._form = L.DomUtil.create('form', className + '-list');
 
+    $('#map-layers button.close').click(function(){
+      $('#map-layers').hide();
+      $(container).show();
+    });
+
+
 		if (this.options.collapsed) {
 			if (!L.Browser.android) {
 				L.DomEvent
-				    .on(container, 'mouseover', this._expand, this)
+            .on(container, 'click', this._expand, this)  //osmcz
+            //.on(container, 'mouseover', this._expand, this)
 				    .on(container, 'mouseout', this._collapse, this);
 			}
 			var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
@@ -113,7 +120,8 @@ osmcz.LayerSwitcher = L.Control.extend({
 		this._separator = L.DomUtil.create('div', className + '-separator', form);
 		this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
 
-		container.appendChild(form);
+    //container.appendChild(form);
+    $('#map-layers-content').append(form);
 	},
 
 	_addLayer: function (layer, name, overlay) {
@@ -241,12 +249,14 @@ osmcz.LayerSwitcher = L.Control.extend({
 	},
 
 	_expand: function () {
+    $('#map-layers').show();
+    $(this._container).hide();
 
-		L.DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
+		//L.DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
 	},
 
 	_collapse: function () {
-		this._container.className = this._container.className.replace(' leaflet-control-layers-expanded', '');
+		//this._container.className = this._container.className.replace(' leaflet-control-layers-expanded', '');
 	}
 });
 
