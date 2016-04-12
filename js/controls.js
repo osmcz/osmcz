@@ -4,7 +4,7 @@ var osmcz = osmcz || {};
 osmcz.controls = function (map, baseLayers, overlays, controls) {
     // -- constructor --
 
-    controls.layers = L.control.layers(baseLayers, overlays).addTo(map);
+    controls.layers = osmcz.layerSwitcher(baseLayers, overlays).addTo(map);
 
     controls.scale = L.control.scale({
         imperial: false
@@ -58,4 +58,3 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
     }).addTo(map);
 
 };
-
