@@ -79,6 +79,7 @@ a:hover.as-text {
 .navbar .facebook-like {
     float: right;
     padding: 15px 0 5px 0;
+    width: 78px; /*allow overflow*/
 }
 
 
@@ -345,6 +346,12 @@ a:hover.as-text {
     margin-right: 1ex;
 }
 
+.tweets-sidebar {border-top: 1px #eee solid; margin-top: 1em;}
+.tweets-sidebar.float {float:right; margin-left: 1em;}
+@media (min-width: 992px) {
+    .tweets-sidebar {border:0; border-left: 1px #eee solid;}
+}
+
 
 .tweets {
     list-style-type: none;
@@ -442,4 +449,25 @@ a:hover.as-text {
 }
 .komunita .caption div {
 	margin: 0 0 4px;
+}
+.komunita .caption .glyphicon {
+  font-size: 14px;
+  color: black;
+}
+.komunita .stat {
+    color: #aaa;
+    font-size: 80%;
+    padding-left: .4em;
+}
+.komunita .stat .glyphicon {
+    color: #eee;
+}
+@media (min-width: 768px) {
+    .komunita .thumbnail .caption {
+        padding-bottom: 0;
+    }
+    .komunita .thumbnail {
+        height: 162px;
+        overflow-y : auto;
+    }
 }
