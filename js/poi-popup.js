@@ -70,7 +70,7 @@ osmcz.poiPopup.close = function () {
     if (!$('#map-container').hasClass('js_active-layer-on'))
         $('#map-container').removeClass('searchbar-on');
 
-    var path = (location.host === 'openstreetmap.cz')
+    var path = (location.host === 'openstreetmap.cz' || location.host === 'osm.localhost')
         ? '/'
         : location.pathname;
 
@@ -78,7 +78,7 @@ osmcz.poiPopup.close = function () {
 };
 
 osmcz.poiPopup.setUrl = function (p) {
-    var path = (location.host === 'openstreetmap.cz')
+    var path = (location.host === 'openstreetmap.cz' || location.host === 'osm.localhost')
         ? ('/' + p.osm_type + '/' + p.osm_id)
         : ('?' + p.osm_type + '=' + p.osm_id);
 
@@ -215,7 +215,8 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
     section(contact, 'Kontakty:');
     section(building, 'Budova:');
 
-    tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
+    //tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
+    tpl.push('<div class="osmid"><a href="http://osmap.cz/' + osm_type + '/' + id + '">osmap.cz/' + osm_type + '/' + id + '</a></div>');
     tpl.push('<div id="wikimedia-commons" data-osm-id="' + id + '"></div>');
     tpl.push('<div id="guidepost" data-osm-id="' + id + '"></div>');
     tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
@@ -477,5 +478,3 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
     }
 
 };
-
-
