@@ -29,8 +29,9 @@ osmcz.poiPopup.open = function (object) {
 
             var geojson = osm_geojson.osm2geojson(data)
             var feature = geojson.features[0];
+            var tags = feature.properties;
             feature.properties = {  //poloha.net style
-                tags: feature.properties,
+                tags: tags,
                 osm_id: object.id,
                 osm_type: object.type
             };
@@ -81,7 +82,7 @@ osmcz.poiPopup.setUrl = function (p) {
         ? ('/' + p.osm_type + '/' + p.osm_id)
         : ('?' + p.osm_type + '=' + p.osm_id);
 
-    history.replaceState('', '',  path + location.hash);
+    history.replaceState('', '', path + location.hash);
 }
 
 
@@ -118,6 +119,9 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
     tpl.push('</h4>');
 
     $.each(feature.properties.tags, function (k, v) {
+        k = k + "";
+        v = v + "";
+
         if (k.match(/^name:/))
             name[k] = v;
         else if (k.match(/^payment:/))
