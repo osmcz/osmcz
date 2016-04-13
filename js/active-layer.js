@@ -20,128 +20,9 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     };
 
 
-    //The later - the more priority https://www.mapbox.com/maki/
-    var icons = {
-        amenity: {
-            restaurant: 'restaurant',
-            fuel: 'fuel',
-            toilets: 'toilets',
-            telephone: 'telephone',
-            fast_food: 'fast-food',
-            bank: 'bank',
-            atm: 'bank',
-            waste_disposal: 'waste-basket',
-            pub: 'beer',
-            post_office: 'post',
-            post_box: 'post',
-            pharmacy: 'hospital',
-            doctors: 'hospital',
-            bar: 'bar',
-            cafe: 'cafe',
-            car_rental: 'car',
-            school: 'school',
-            college: 'college',
-            bicycle_parking: 'bicycle',
-            university: 'college',
-            library: 'library',
-            theatre: 'theatre',
-            public_building: 'town-hall',
-        },
-        highway: {
-            bus_stop: 'bus'
-        },
-        leisure: {
-            playground: 'playground',
-        },
-        railway: {
-            station: 'rail-24',
-            halt: 'rail-24',
-            tram_stop: 'rail-light'
-        },
-        shop: {
-            '*': 'shop',
-            chemist: 'pharmacy',
-            grocery: 'grocery',
-            supermarket: 'grocery',
-            convenience: 'grocery'
-        },
-        station: {
-            subway: 'rail-metro'
-        },
-        tourism: {
-            guest_house: 'lodging',
-            hostel: 'lodging',
-            hotel: 'lodging'
-        },
-        historic: {
-            monument: 'monument',
-            memorial: 'monument'
-        },
-        man_made: {
-            surveillance: 'camera'
-        },
-        place: {
-            city: 'square-18',
-            town: 'square-stroked-16',
-            village: 'circle-8'
-        },
-        information: {
-            guidepost: 'guidepost'
-        }
-    };
-
     // url of ajax proxy server for wikipedia and wikimedia
-//     var xhd_proxy_url = 'http://localhost/xhr_proxy.php';
     var xhd_proxy_url = 'http://openstreetmap.cz/xhr_proxy.php';
 
-
-    function getIcon(tags) {
-        var name = false;
-        for (var key in tags) {
-            var val = tags[key];
-            if (icons[key] && icons[key][val])
-                name = icons[key][val];
-            else if (icons[key] && icons[key]['*'])
-                name = icons[key]['*'];
-        }
-
-        var pc = name ? name.split('-') : 0;
-//         var iconBaseUrl = 'https://cdn.rawgit.com/mapbox/maki/v0.5.0/renders/';
-        var iconBaseUrl = 'https://cdn.rawgit.com/osmcz/maki/osmcz_v1/renders/';
-//         var iconBaseUrl = 'http://localhost/maki/renders/';
-
-        if (name && IsNumeric(pc[pc.length - 1])) {
-
-            var icName = name.substring(0, name.length - pc[pc.length - 1].length);
-            var icSize = parseInt(pc[pc.length - 1]);
-            var size = [icSize, icSize];
-
-            if (icSize <= 12) {
-                var iconUrl = iconBaseUrl + icName + '12';
-            } else if (icSize > 12 && icSize <= 18) {
-                var iconUrl = iconBaseUrl + icName + '18';
-            } else {
-                var iconUrl = iconBaseUrl + icName + '24';
-            }
-
-
-        } else if (name && !IsNumeric(pc[pc.length - 1])) {
-            var iconUrl = iconBaseUrl + name + '-18';
-            var size = [18, 18];
-
-        } else {
-            var iconUrl = iconBaseUrl + 'circle-stroked-12';
-            var size = [10, 10];
-        }
-
-
-        return L.icon({
-            iconUrl: iconUrl + '.png',
-            iconRetinaUrl: iconUrl + '@2x.png',
-            iconSize: size,
-            popupAnchor: [0, -9]
-        });
-    }
 
     var timeout;
     var permanentlyDisplayed = false;
@@ -164,7 +45,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
             style: style,
 
             pointToLayer: function (feature, latlng) {
-                return L.marker(latlng, {icon: getIcon(feature.properties.tags)});
+                return L.marker(latlng, {icon: osmcz.iconsService.get(feature.properties.tags)});
             },
 
             onEachFeature: function (feature, layer) {
@@ -228,10 +109,6 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     $('#map-searchbar').on('click', '.close', resetPanel);
     map.on('click', resetPanel);
 
-
-    function IsNumeric(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-    }
 
     function openPoiPanel(feature, icon) {
         $('#map-searchbar').html(template(feature, icon));
