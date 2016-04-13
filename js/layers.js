@@ -60,14 +60,14 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
         code: 't'
     });
-    
+
     var opnv = L.tileLayer("http://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.öpnvkarte.de/">öpnvkarte</a>',
         code: 'ö'
     });
 
-    var bezpopisku = L.tileLayer("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}" + retinaSuffix + ".png", {
+    var menepopisku = L.tileLayer("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}" + retinaSuffix + ".png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="https://cartodb.com/attributions#basemaps">CartoDB</a>',
         code: 'b'
@@ -167,7 +167,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Vodovky"] = vodovky;
     baseLayers["Dopravní"] = dopravni;
     baseLayers["Dopravní öpnv"] = opnv;
-    baseLayers["Bez popisků"] = bezpopisku;
+    baseLayers["Méně popisků"] = menepopisku;
     baseLayers["Ortofoto ČÚZK"] = ortofoto;
 
     overlays["Ortofoto popisky"] = ortofotoOverlay;
