@@ -24,9 +24,14 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                 if (!(layer instanceof L.Point)) {
                     layer.on('click', function (event) {
                         if (event.target && event.target.feature) {
+                            console.log('active-layer: click', event.target.feature);
+
                             clearTimeout(timeout);
                             osmcz.permanentlyDisplayed = true;
                             openPoiPanel(event.target.feature, event.target.options.icon.options.iconUrl);
+
+                            // change url, it is then possible to load without active layer
+                            osmcz.poiPopup.setUrl(event.target.feature.properties);
                         }
                     });
 
@@ -59,23 +64,25 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     map.on('layeradd', function (event) {
         if (event.layer == geojsonTileLayer) {
-            $('#map-container').addClass('searchbar-on');
+            $('#map-container').addClass('searchbar-on js_active-layer-on');
             defaultPoiPanel();
         }
     });
     map.on('layerremove', function (event) {
         if (event.layer == geojsonTileLayer) {
-            $('#map-container').removeClass('searchbar-on');
+            $('#map-container').removeClass('searchbar-on js_active-layer-on');
         }
     });
 
     //reset panel
     function resetPanel() {
+        console.log('active-layer: reset-panel');
+
         osmcz.poiPopup.close();
         defaultPoiPanel();
     }
 
-    $('#map-searchbar').on('click', '.close', resetPanel);
+    $('#map-searchbar').on('click', '.close', resetPanel);  // TODO delegate closing on poiPopup.close() and fire event
     map.on('click', resetPanel);
 
 

@@ -15,16 +15,74 @@ osmcz._map = false;
 
 
 // static methods
-osmcz.poiPopup.open = function (id) {
-    osmcz.permanentlyDisplayed = true;
+osmcz.poiPopup.open = function (object) {
+
+    $.ajax({
+        url: 'http://www.openstreetmap.org' + OSM.apiUrl({type: object.type, id: object.id}),
+        dataType: 'xml',
+        jsonp: false,
+        global: false,
+        success: function (data) {
+            console.log("loaded xml", data);
+
+            osmcz.permanentlyDisplayed = true;
+
+            var geojson = osm_geojson.osm2geojson(data)
+            var feature = geojson.features[0];
+            feature.properties = {  //poloha.net style
+                tags: feature.properties,
+                osm_id: object.id,
+                osm_type: object.type
+            };
+
+
+            if (feature.geometry.type !== 'Point') { //take first coord of Polygon - TODO centroid or draw geometry
+                feature.geometry = {
+                    type: 'Point',
+                    coordinates: feature.geometry.coordinates[0][0]
+                };
+            }
+
+            console.log("geojson feature:", feature);
+
+            // zoom to feature
+            var lon = feature.geometry.coordinates[0];
+            var lat = feature.geometry.coordinates[1];
+            osmcz._map.setView([lat, lon]);
+
+            //set icon and show
+            var icon = osmcz.iconsService.get(feature.properties.tags);
+            $('#map-container').addClass('searchbar-on');
+            $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon.options.iconUrl));
+        }
+    });
+
 };
 
 
 osmcz.poiPopup.close = function () {
+    console.log('poi-popup: close');
+
     osmcz._map.removeLayer(osmcz._marker);
     osmcz.permanentlyDisplayed = false;
 
+    if (!$('#map-container').hasClass('js_active-layer-on'))
+        $('#map-container').removeClass('searchbar-on');
+
+    var path = (location.host === 'openstreetmap.cz')
+        ? '/'
+        : location.pathname;
+
+    history.replaceState('', '', path + location.hash);
 };
+
+osmcz.poiPopup.setUrl = function (p) {
+    var path = (location.host === 'openstreetmap.cz')
+        ? ('/' + p.osm_type + '/' + p.osm_id)
+        : ('?' + p.osm_type + '=' + p.osm_id);
+
+    history.replaceState('', '',  path + location.hash);
+}
 
 
 // ------- POI panel template  -------
@@ -369,14 +427,10 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
     return tpl.join('');
 
 
-
-
-
-
     // ------- Wikidata, wikimedia commons and wikipedia functions -------
     //
     // Prepare correct api request
-    function getWikiApiUrl (we) {
+    function getWikiApiUrl(we) {
         if (we.k == "wikimedia_commons") { // wikimedia commons tag
             return 'https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json'
                 + '&titles=' + encodeURIComponent(we.v);

@@ -8,7 +8,7 @@ OSM = {
 //<% end %>
 //MAX_REQUEST_AREA:      <%= MAX_REQUEST_AREA.to_json %>,
 //SERVER_URL:            <%= SERVER_URL.to_json %>,
-//API_VERSION:           <%= API_VERSION.to_json %>,
+    API_VERSION:           0.6,
 //STATUS:                <%= STATUS.to_json %>,
 //MAX_NOTE_REQUEST_AREA: <%= MAX_NOTE_REQUEST_AREA.to_json %>,
 //OVERPASS_URL:          <%= OVERPASS_URL.to_json %>,
