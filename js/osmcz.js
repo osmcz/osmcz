@@ -21,6 +21,8 @@ function initmap() {
 
     // -------------------- modules --------------------
     new osmcz.guideposts(map, baseLayers, overlays, controls);
+    new osmcz.poiPopup(map);
+
 
     // -------------------- map state --------------------
 
