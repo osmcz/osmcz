@@ -30,6 +30,8 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
     var xhr;
     var markers = L.markerClusterGroup({code: 'G'});
 
+    var autoload_lock = false;
+
     var guidepost_icon = L.icon({
       iconUrl: osmcz.basePath + "img/guidepost.png",
       iconSize: [48, 48],
@@ -45,6 +47,9 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
+
+            layer.on('click', function(e) {autoload_lock = true;});
+
             var b = feature.properties;
 
             if (!b.ref) {
@@ -69,6 +74,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
               offset: new L.Point(1, -32),
               minWidth: 500,
               closeOnClick: false,
+              autoPan: false,
             });
         }
     });
@@ -82,14 +88,22 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         }
     });
 
+   map.on('popupclose', function(e) {
+     autoload_lock = false;
+   });
 
     map.on('layeradd', function(event) {
-        if(event.layer == markers) {
-            load_data()
+        if(event.layer == markers && !autoload_lock) {
+//            load_data();
         }
     });
 
-    map.on('moveend', load_data);
+    map.on('moveend', function(event) {
+      if(!autoload_lock) {
+        load_data();
+      }
+    });
+
     map.on('drag', function (e) {
         if (!isLayerChosen())
             return;
@@ -144,6 +158,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
     }
     function load_data() {
+
         if (!isLayerChosen())
             return;
 
