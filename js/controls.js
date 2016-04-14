@@ -58,29 +58,13 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
     }).addTo(map);
 
 
-    // leaflet-coordinates
-    controls.coordinates = L.control.coordinates({
-        position: "bottomleft", //optional default "bootomright"
-        decimals: 4, //optional default 4
-        decimalSeperator: ".", //optional default "."
-        labelTemplateLat: "Šířka/délka: {y}", //optional default "Lat: {y}"
-        labelTemplateLng: "{x}", //optional default "Lng: {x}"
-        enableUserInput: true, //optional default true
-        useDMS: false, //optional default false
-        useLatLngOrder: true, //ordering of labels, default false-> lng-lat
-        markerType: L.marker, //optional default L.marker
-        markerProps: {}, //optional default {},
-        labelFormatterLng: function (lng) {
-            var precision = OSM.zoomPrecision(map.getZoom());
-            return lng.toFixed(precision) + "°";
-        },
-        labelFormatterLat: function (lat) {
-            var precision = OSM.zoomPrecision(map.getZoom());
-            return lat.toFixed(precision) + "°, ";
-        }
-        //customLabelFcn: function (latLonObj, opts) {
-        //    return "Geohash: " + encodeGeoHash(latLonObj.lat, latLonObj.lng);
-        //}
-    }).addTo(map);
+    // Leaflet Coordinates Control
+    var c = new L.Control.Coordinates(); // you can send options to the constructor if you want to, otherwise default values are used
+
+    c.addTo(map);
+
+    map.on('click', function(e) {
+        c.setCoordinates(e);
+    });
 
 };
