@@ -5,9 +5,9 @@ osmcz.basePath = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost'].indexOf(locat
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
+var guideposts;
 
 initmap();
-var g;
 
 function initmap() {
     map = new L.Map('map', {zoomControl: false});
@@ -21,8 +21,7 @@ function initmap() {
     new osmcz.controls(map, baseLayers, overlays, controls);
 
     // -------------------- modules --------------------
-    g = new osmcz.guideposts(map, baseLayers, overlays, controls);
-    //g.move_point();
+    guideposts = new osmcz.guideposts(map, baseLayers, overlays, controls);
     new osmcz.poiPopup(map);
 
 
