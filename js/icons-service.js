@@ -91,12 +91,14 @@ osmcz.iconsService.table = {
         library: 'library',
         theatre: 'theatre',
         public_building: 'town-hall',
+        townhall: 'town-hall',
+        police: 'police',
+        cinema: 'cinema',
+        parking: 'parking',
+        prison: 'prison',
     },
     highway: {
         bus_stop: 'bus'
-    },
-    leisure: {
-        playground: 'playground',
     },
     railway: {
         station: 'rail-24',
@@ -116,11 +118,20 @@ osmcz.iconsService.table = {
     tourism: {
         guest_house: 'lodging',
         hostel: 'lodging',
-        hotel: 'lodging'
+        hotel: 'lodging',
+        museum: 'museum',
+        attraction: 'star-stroked',
+        zoo: 'zoo'
     },
     historic: {
         monument: 'monument',
-        memorial: 'monument'
+        memorial: 'monument',
+        wayside_cross: 'religious-christian'
+    },
+    religion: {
+      christian: 'religious-christian',
+      jewish: 'religious-jewish',
+      muslim: 'religious-muslim',
     },
     man_made: {
         surveillance: 'camera'
@@ -131,7 +142,28 @@ osmcz.iconsService.table = {
         village: 'circle-8'
     },
     information: {
-        guidepost: 'guidepost'
+        guidepost: 'guidepost',
+//         board: 'board'
+    },
+    sport: {
+        '*': 'pitch',
+        swimming: 'swimming',
+        football: 'soccer',
+        soccer: 'soccer',
+        tennis: 'tennis',
+        basketball: 'basketball',
+        golf: 'golf',
+    },
+    leisure: {
+        playground: 'playground',
+        miniature_golf: 'golf',
+        swimming_pool: 'swimming',
+    },
+    landuse: {
+        cemetery: 'cemetery'
+    },
+    natural: {
+        peak: 'triangle'
     }
 };
 
