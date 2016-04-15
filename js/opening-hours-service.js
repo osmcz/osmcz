@@ -181,7 +181,7 @@ osmcz.openingHoursService.getHtml = function (v) {
 
     // prepare opening hours table
     var ret = [];
-    ret.push('<h5 title="' + v + '">Otevírací hodiny</h5>');
+    ret.push('<h5 title="' + v + '">Otevírací hodiny');
     ret.push(' <span class="' + ohClass + '">');
     ret.push('(' + ohStateFormated + ')</span>');
     ret.push(' <a href="#" onclick="if ($(\'.oh-extended\').is(\':visible\')) {$(\'.oh-toggle\').html(\'&#9660;\');} else {$(\'.oh-toggle\').html(\'&#9650;\');} $(\'.oh-extended\').toggle(200); return false"><span class="oh-toggle">&#9660;</span></a></h5>');
