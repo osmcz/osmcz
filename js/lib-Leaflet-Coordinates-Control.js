@@ -52,7 +52,7 @@ L.Control.Coordinates = L.Control.extend({
         lngCoordinateDMS = DDToDMS(lngCoordinate, this.options.precision, "lon", true)
         ;
 
-      var coorsText = "<h4>Gps souřadnice</h4>";
+      var coorsText = "<h4>GPS souřadnice</h4>";
       coorsText += '<div class="gpsCoor">' + latCoordinate + " " + lngCoordinate + "</div>";
       coorsText += '<div class="gpsCoor">' + latCoordinateDM + " " + lngCoordinateDM + "</div>";
       coorsText += '<div class="gpsCoor">' + latCoordinateDMS + " " + lngCoordinateDMS + "</div>";
