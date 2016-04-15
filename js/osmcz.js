@@ -7,6 +7,7 @@ var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
 
 initmap();
+var g;
 
 function initmap() {
     map = new L.Map('map', {zoomControl: false});
@@ -20,7 +21,8 @@ function initmap() {
     new osmcz.controls(map, baseLayers, overlays, controls);
 
     // -------------------- modules --------------------
-    new osmcz.guideposts(map, baseLayers, overlays, controls);
+    g = new osmcz.guideposts(map, baseLayers, overlays, controls);
+    //g.move_point();
     new osmcz.poiPopup(map);
 
 
