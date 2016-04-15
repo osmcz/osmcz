@@ -197,7 +197,7 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
             hide && tpl.push('<p><b>' + label + '</b> <a href="#" onclick="$(this).parent().hide().next().show();return false">zobrazit</a></p>');
             hide && tpl.push('<div style="display:none">');
 
-            tpl.push('<h5>' + label + '</h5>');
+            tpl.push('<h5>' + label + ' <a href="#" onclick="$(this).parent().parent().hide().prev().show();return false">skrýt</a></h5>');
             $.each(obj, function (k, v) {
                 tpl.push('<b>' + k + '</b> = ');
                 tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);
