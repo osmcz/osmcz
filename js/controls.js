@@ -11,16 +11,6 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
         zoomOutTitle: 'Oddálit'
     }).addTo(map)
 
-    // leaflet-locate
-    controls.locate = L.control.locate({
-        follow: true,
-        locateOptions: {maxZoom: 15},
-        icon: 'glyphicon glyphicon-map-marker',
-        strings: {
-            title: "Zobrazit moji aktuální polohu"
-        }
-    }).addTo(map);
-
     // leaflet-search
     controls.search = new L.Control.Search({
         url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
@@ -37,6 +27,15 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
     });
     controls.search.addTo(map);
 
+    // leaflet-locate
+    controls.locate = L.control.locate({
+        follow: true,
+        locateOptions: {maxZoom: 15},
+        icon: 'glyphicon glyphicon-map-marker',
+        strings: {
+            title: "Zobrazit moji aktuální polohu"
+        }
+    }).addTo(map);
 
     // leaflet-filelayer - upload GPX, KML a GeoJSON
     var style = {color: 'red', opacity: .6, fillOpacity: .5, weight: 4, clickable: false};
