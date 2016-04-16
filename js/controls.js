@@ -11,21 +11,67 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
         zoomOutTitle: 'Oddálit'
     }).addTo(map)
 
-    // leaflet-search
-    controls.search = new L.Control.Search({
-        url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
-        jsonpParam: 'json_callback',
-        propertyName: 'display_name',
-        propertyLoc: ['lat', 'lon'],
-        circleLocation: false,
-        markerLocation: true,
-        autoType: false,
-        autoCollapse: true,
-        minLength: 2,
-        zoom: 10,
-        textPlaceholder: 'Hledat…'
+//     // leaflet-search
+//     controls.search = new L.Control.Search({
+//         url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
+//         jsonpParam: 'json_callback',
+//         propertyName: 'display_name',
+//         propertyLoc: ['lat', 'lon'],
+//         circleLocation: false,
+//         markerLocation: true,
+//         autoType: false,
+//         autoCollapse: true,
+//         minLength: 2,
+//         zoom: 10,
+//         textPlaceholder: 'Hledat…'
+//     });
+//     controls.search.addTo(map);
+
+    var options = {
+        bounds: true,
+        position: 'topleft',
+        latlng: true,
+        expanded: false,
+        markers: false,
+        placeholder: 'Hledat...',
+        title: 'Hledat...',
+        place: true
+    }
+
+    var highlightMarker;
+
+    controls.search = new L.control.geocoder('search-QmT7HAv', options).addTo(map);
+
+    controls.search.on('select', function (e) {
+        console.log('You’ve selected', e.feature.properties.id);
+        if (highlightMarker) {
+            map.removeLayer(highlightMarker);
+            highlightMarker = null;
+        }
+        var osm = e.feature.properties.id.split(':');
+        if (osm[0] == "node" || osm[0] == "way") {
+            osmcz.poiPopup.open({type: osm[0], id: osm[1]});
+        } else {
+            var coordinates = e.feature.geometry.coordinates;
+            highlightMarker = new L.marker([coordinates[1], coordinates[0]]).addTo(map);
+        }
+        this.collapse();
     });
-    controls.search.addTo(map);
+
+    controls.search.on('highlight', function (e) {
+        console.log('You’ve highlighted', e.feature.properties.id);
+        if (highlightMarker)
+            map.removeLayer(highlightMarker);
+        var coordinates = e.feature.geometry.coordinates;
+        highlightMarker = new L.marker([coordinates[1], coordinates[0]]).addTo(map);
+    });
+
+    controls.search.on('reset', function (e) {
+        if (highlightMarker) {
+            map.removeLayer(highlightMarker);
+            highlightMarker = null;
+        }
+    });
 
     // leaflet-locate
     controls.locate = L.control.locate({

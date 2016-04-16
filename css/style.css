@@ -293,7 +293,7 @@ a:hover.as-text {
 
 
 /* Leaflet-Coordinates-Control plugin */
-.leaflet-control-coordinates {
+#map .leaflet-control-coordinates {
   background: white;
   border-radius: 4px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
@@ -301,31 +301,31 @@ a:hover.as-text {
   padding: 2px 5px;
 }
 
-.leaflet-control-coordinates.hidden {
+#map .leaflet-control-coordinates.hidden {
   display: none;
 }
 
-.leaflet-control-coordinates-lng {
+#map .leaflet-control-coordinates-lng {
   padding-left: 5px;
 }
 
-.gpsCoor {
+#map .gpsCoor {
   padding-bottom: 10px;
 }
 
-.leaflet-control-coordinates-gps h4 {
+#map .leaflet-control-coordinates-gps h4 {
   text-align: center;
   font-weight: bold;
   font-size: 120%;
   text-decoration: underline;
 }
 
-.leaflet-control-coordinates-icon {
+#map .leaflet-control-coordinates-icon {
   text-align: right;
   padding-left: 5px;
 }
 
-.leaflet-control-coordinates-gps {
+#map .leaflet-control-coordinates-gps {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
 }
 
