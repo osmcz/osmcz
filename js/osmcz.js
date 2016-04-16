@@ -22,6 +22,7 @@ function initmap() {
 
     // -------------------- modules --------------------
     guideposts = new osmcz.guideposts(map, baseLayers, overlays, controls);
+    gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls);
     new osmcz.poiPopup(map);
 
 

@@ -1,5 +1,5 @@
 /*
- guideposts for osmcz
+ guidepost check from OsmHiCheck for osmcz
  Javascript code for openstreetmap.cz website
  Copyright (C) 2015,2016
 
@@ -23,15 +23,12 @@ and
  */
 
 var osmcz = osmcz || {};
-osmcz.gp-check = function(map, baseLayers, overlays, controls) {
+osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     // -- constructor --
 
     var layersControl = controls.layers;
     var xhr;
-    var markers = L.markerClusterGroup({code: 'C'});
-    var moving_marker;
-    var autoload_lock = false;
-    var moving_flag = false;
+    var markers = L.markerClusterGroup({code: 'B'});
 
     var gp_check_icon = L.icon({
       iconUrl: osmcz.basePath + "img/gp_check.png",
@@ -39,42 +36,47 @@ osmcz.gp-check = function(map, baseLayers, overlays, controls) {
       iconAnchor: [23, 45]
     });
 
-    var layer_gp_check = new L.GeoJSON(null, {
+    var layer_gpcheck = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             layer.setIcon(gp_check_icon);
-            layer.bindPopup(feature.properties.desc, {
+            layer.bindPopup(feature.properties.name, {
               closeOnClick: false,
             });
         }
     });
 
-    map.on('popupclose', function(e) {
-      autoload_lock = false;
-    });
 
-    map.on('layeradd', function(event) {
-        if(event.layer == markers && !autoload_lock) {
-//        load_data();
-        }
-    });
+        map.on('layeradd', function(event) {
+                  if(event.layer == markers) {
+                                load_data()
+                                        }
+                                            });
 
     map.on('drag', function (e) {
         if (!isLayerChosen())
             return;
 
-        console.log(map.hasLayer(markers));
+        if (typeof xhr !== 'undefined') {
+            xhr.abort();
+        }
+    });
+    
+    map.on('movestart', function (e) {
+        if (!isLayerChosen())
+            return;
 
         if (typeof xhr !== 'undefined') {
             xhr.abort();
         }
     });
 
+
     /* Add overlay to the map */
-    layersControl.addOverlay(markers, "Foto rozcestníků");
+    layersControl.addOverlay(markers, "Chybné rozcestníky");
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
-    overlays["Foto rozcestníků"] = markers;
+    overlays["Chybné rozcestníky"] = markers;
 
     // -- methods --
 
@@ -89,7 +91,7 @@ osmcz.gp-check = function(map, baseLayers, overlays, controls) {
         };
 
         var customParams = {
-            output: 'geojson',
+            json: 'yes',
             bbox: map.getBounds().toBBoxString(),
         };
         var parameters = L.Util.extend(defaultParameters, customParams);
@@ -113,18 +115,17 @@ osmcz.gp-check = function(map, baseLayers, overlays, controls) {
 
         if (map.getZoom() > 1) {
             markers.clearLayers();
-
-            var geo_json_url = 'http://osm.fit.vutbr.cz/OsmHiCheck/gp/?get.json';
+            var geo_json_url = 'http://osm.fit.vutbr.cz/OsmHiCheck/gp/';
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
         } else {
-            layer_guidepost.clearLayers();
+            layer_gpcheck.clearLayers();
         }
     }
 
     function retrieve_geojson(data) {
-        layer_gp_check.clearLayers();
-        layer_gp_check.addData(JSON.parse(data));
-        markers.addLayer(layer_gp_check);
+        layer_gpcheck.clearLayers();
+        layer_gpcheck.addData(data);
+        markers.addLayer(layer_gpcheck);
         map.addLayer(markers);
     }
 
