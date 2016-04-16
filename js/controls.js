@@ -6,10 +6,6 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
 
     controls.layers = osmcz.layerSwitcher(baseLayers, overlays).addTo(map);
 
-    controls.scale = L.control.scale({
-        imperial: false
-    }).addTo(map);
-
     controls.zoom = L.control.zoom({
         zoomInTitle: 'Přiblížit',
         zoomOutTitle: 'Oddálit'
@@ -59,12 +55,15 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
 
 
     // Leaflet Coordinates Control
-    var c = new L.Control.Coordinates(); // you can send options to the constructor if you want to, otherwise default values are used
-
-    c.addTo(map);
-
-    map.on('click', function(e) {
-        c.setCoordinates(e);
+    controls.coordinates = new L.Control.Coordinates(); // you can send options to the constructor if you want to, otherwise default values are used
+    controls.coordinates.addTo(map);
+    map.on('click', function (e) {
+        controls.coordinates.setCoordinates(e);
     });
+
+    // scale
+    controls.scale = L.control.scale({
+        imperial: false
+    }).addTo(map);
 
 };

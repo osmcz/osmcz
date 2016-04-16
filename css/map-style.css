@@ -48,3 +48,18 @@
         overflow-x: hidden;
     }
 }
+
+#map .leaflet-control-coordinates {
+    background: rgba(255, 255, 255, 0.5);
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    display: inline-block;
+    float: none;
+    margin-bottom: 5px;
+}
+#map .leaflet-control-scale {
+    display: inline-block;
+    float: none;
+    vertical-align: bottom;
+}
