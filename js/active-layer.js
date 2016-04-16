@@ -64,13 +64,13 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
     map.on('layeradd', function (event) {
         if (event.layer == geojsonTileLayer) {
-            $('#map-container').addClass('searchbar-on js_active-layer-on');
-            defaultPoiPanel();
+            //$('#map-container').addClass('searchbar-on js_active-layer-on');
+            //defaultPoiPanel();
         }
     });
     map.on('layerremove', function (event) {
         if (event.layer == geojsonTileLayer) {
-            $('#map-container').removeClass('searchbar-on js_active-layer-on');
+            //$('#map-container').removeClass('searchbar-on js_active-layer-on');
         }
     });
 
@@ -87,11 +87,13 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
 
     function openPoiPanel(feature, icon) {
+        $('#map-container').addClass('searchbar-on');
         $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon));
     }
 
     function defaultPoiPanel() {
-        $('#map-searchbar').html("Najeďte myší na bod nebo klikněte.");
+        $('#map-container').removeClass('searchbar-on');
+        //$('#map-searchbar').html("Najeďte myší na bod nebo klikněte.");
     }
 
 };

@@ -67,8 +67,8 @@ osmcz.poiPopup.close = function () {
     osmcz._map.removeLayer(osmcz._marker);
     osmcz.permanentlyDisplayed = false;
 
-    if (!$('#map-container').hasClass('js_active-layer-on'))
-        $('#map-container').removeClass('searchbar-on');
+    //if (!$('#map-container').hasClass('js_active-layer-on'))
+    $('#map-container').removeClass('searchbar-on');
 
     var path = (location.host === 'openstreetmap.cz' || location.host === 'osm.localhost')
         ? '/'
@@ -196,8 +196,9 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
         if (Object.keys(obj).length) {
             hide && tpl.push('<p><b>' + label + '</b> <a href="#" onclick="$(this).parent().hide().next().show();return false">zobrazit</a></p>');
             hide && tpl.push('<div style="display:none">');
+            hide && tpl.push('<h5>' + label + ' <a href="#" onclick="$(this).parent().parent().hide().prev().show();return false">skrýt</a></h5>');
 
-            tpl.push('<h5>' + label + ' <a href="#" onclick="$(this).parent().parent().hide().prev().show();return false">skrýt</a></h5>');
+            hide || tpl.push('<h5>' + label + '</h5>');
             $.each(obj, function (k, v) {
                 tpl.push('<b>' + k + '</b> = ');
                 tpl.push(v.match(/^https?:\/\/.+/) ? ('<a href="' + v + '">' + v + '</a>') : v);

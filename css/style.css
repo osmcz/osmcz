@@ -169,7 +169,7 @@ a:hover.as-text {
     display: none;
 }
 #map-container.searchbar-on .leaflet-top.leaflet-left {
-    margin-top: 40px;
+    //margin-top: 40px; // when search-input will be displayed - move controls
 }
 #map-container.searchbar-on #map-searchbar {
     display: block;
