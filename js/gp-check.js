@@ -28,7 +28,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
     var layersControl = controls.layers;
     var xhr;
-    var markers = L.markerClusterGroup({code: 'B'});
+    var check_markers = L.markerClusterGroup({code: 'B'});
 
     var gp_check_icon = L.icon({
       iconUrl: osmcz.basePath + "img/gp_check.png",
@@ -47,7 +47,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
 
         map.on('layeradd', function(event) {
-                  if(event.layer == markers) {
+                  if(event.layer == check_markers) {
                                 load_data()
                                         }
                                             });
@@ -72,16 +72,16 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
 
     /* Add overlay to the map */
-    layersControl.addOverlay(markers, "Chybné rozcestníky");
+    layersControl.addOverlay(check_markers, "Chybné rozcestníky");
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
-    overlays["Chybné rozcestníky"] = markers;
+    overlays["Chybné rozcestníky"] = check_markers;
 
     // -- methods --
 
     function isLayerChosen() {
-        return map.hasLayer(markers);
+        return map.hasLayer(check_markers);
     }
 
     function request_from_url(url, success_callback, error_callback)
@@ -114,7 +114,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         }
 
         if (map.getZoom() > 1) {
-            markers.clearLayers();
+            check_markers.clearLayers();
             var geo_json_url = 'http://osm.fit.vutbr.cz/OsmHiCheck/gp/';
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
         } else {
@@ -125,8 +125,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     function retrieve_geojson(data) {
         layer_gpcheck.clearLayers();
         layer_gpcheck.addData(data);
-        markers.addLayer(layer_gpcheck);
-        map.addLayer(markers);
+        check_markers.addLayer(layer_gpcheck);
+        map.addLayer(check_markers);
     }
 
 
