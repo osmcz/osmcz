@@ -35,13 +35,21 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
       iconSize: [48, 48],
       iconAnchor: [23, 45]
     });
+    var gp_check_noref_icon = L.icon({
+      iconUrl: osmcz.basePath + "img/gp_check_noref.png",
+      iconSize: [48, 48],
+      iconAnchor: [23, 45]
+    });
 
     var layer_gpcheck = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
-            layer.setIcon(gp_check_icon);
-            layer.bindPopup(feature.properties.name, {
-              closeOnClick: false,
-            });
+            if(feature.properties.class == "noref"){
+              layer.setIcon(gp_check_noref_icon);
+            } else {
+              layer.setIcon(gp_check_icon);
+            }
+            layer.bindPopup(feature.properties.name + '<br/><br/><i>'+ feature.properties.class + '</i>', 
+                            { closeOnClick: false, });
         }
     });
 
