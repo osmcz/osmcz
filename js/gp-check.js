@@ -48,8 +48,19 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             } else {
               layer.setIcon(gp_check_icon);
             }
-            layer.bindPopup(feature.properties.name + '<br/><br/><i>'+ feature.properties.class + '</i>', 
-                            { closeOnClick: false, });
+            var html_content = '<h6>' + feature.properties.name + '</h6>';
+            if (feature.properties.class == 'missing')
+                html_content += ('<br/><br/><i>Typ: chybí foto</i>');
+            else if (feature.properties.class == 'noref')
+                html_content += ('<br/><br/><i>Typ: chybí ref</i>')
+            else
+                html_content += ('<br/><br/><i>Typ: neznámý</i>');
+            layer.bindPopup(html_content, {
+                offset: new L.Point(1, -32),
+                minWidth: 150,
+                closeOnClick: false,
+                autoPan: false,
+                });
         }
     });
 
@@ -68,7 +79,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             xhr.abort();
         }
     });
-    
+
     map.on('movestart', function (e) {
         if (!isLayerChosen())
             return;
@@ -77,7 +88,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             xhr.abort();
         }
     });
-    
+
     map.on('moveend', function(event) {
        load_data();
     });
