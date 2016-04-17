@@ -54,11 +54,11 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     });
 
 
-        map.on('layeradd', function(event) {
-                  if(event.layer == check_markers) {
-                                load_data()
-                                        }
-                                            });
+    map.on('layeradd', function(event) {
+         if(event.layer == check_markers) {
+             load_data()
+         }
+    });
 
     map.on('drag', function (e) {
         if (!isLayerChosen())
@@ -76,6 +76,10 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         if (typeof xhr !== 'undefined') {
             xhr.abort();
         }
+    });
+    
+    map.on('moveend', function(event) {
+       load_data();
     });
 
 
