@@ -69,6 +69,12 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
             html_content += "</a>";
 
+//better ui needed
+//            html_content += "<br>";
+//            html_content += "<a href='#' onclick='javascript:g.move_point()'>move</a>";
+//            html_content += "<br>";
+//            html_content += "<a href='#' onclick='javascript:g.finish_moving()'>done</a>";
+
             layer.setIcon(guidepost_icon);
             layer.bindPopup(html_content, {
               offset: new L.Point(1, -32),
@@ -81,9 +87,11 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
     var layer_commons = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
+            layer.on('click', function(e) {autoload_lock = true;});
             layer.setIcon(commons_icon);
             layer.bindPopup(feature.properties.desc, {
               closeOnClick: false,
+              autoPan: false,
             });
         }
     });
@@ -146,7 +154,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         });
         moving_marker.bindPopup('Presun me na cilove misto');
         moving_marker.addTo(map);
-        moving_flag = false; //user will now interact with placed marker until hi hit done
+        moving_flag = false; //user will now interact with placed marker until he is done
     }
 
     function destroy_moving_marker()
@@ -157,15 +165,29 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
     osmcz.guideposts.prototype.finish_moving = function()
     {
-      moving_flag = false;
-      if (moving_marker) {
-        final_lat = moving_marker.getLatLng().lat;
-        final_lon = moving_marker.getLatLng().lng;
-        destroy_moving_marker();
-      } else {
-        alert ("Vyberte novou pozici");
-      }
-      //make ajax call
+        moving_flag = false;
+        if (moving_marker) {
+            final_lat = moving_marker.getLatLng().lat;
+            final_lon = moving_marker.getLatLng().lng;
+            destroy_moving_marker();
+        } else {
+            alert ("Vyberte novou pozici");
+        }
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://api.openstreetmap.cz/table/tags/',
+          data: 'id=" . $id . "&tag=' + val,
+          timeout:3000
+        })
+        .done(function(data) {
+            return true;
+        })
+        .fail(function() {
+            return false;
+        })
+        .always(function(data) {
+        });
     }
 
     osmcz.guideposts.prototype.move_point = function()
