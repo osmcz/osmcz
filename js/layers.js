@@ -10,7 +10,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
-        osmczDefaultLayer: true
+        osmczDefaultLayer: true,
+        maxNativeZoom: 23
     });
 
     var turisticka = L.tileLayer("http://tile.poloha.net/{z}/{x}/{y}.png", {
@@ -110,6 +111,26 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     });
 
 
+
+    var osmbBack = new L.TileLayer('https://{s}.tiles.mapbox.com/v3/osmbuildings.kbpalbpk/{z}/{x}/{y}.png', {
+        attribution: 'Map tiles &copy; <a href="http://mapbox.com">MapBox</a>',
+        maxZoom: 18,
+        maxNativeZoom: 20,
+        code: '3'
+    });
+    var osmb25d;
+    map.on('baselayerchange', function (event) {
+        if (event.layer == osmbBack) {
+            osmb25d = new OSMBuildings(map).load();
+        }
+        else {
+            if (osmb25d) delete osmb25d; //doesnt work
+        }
+    });
+
+
+
+
     // --- overlays
 
 
@@ -169,6 +190,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Dopravní öpnv"] = opnv;
     baseLayers["Méně popisků"] = menepopisku;
     baseLayers["Ortofoto ČÚZK"] = ortofoto;
+    baseLayers["OSMBuildings \"3D\""] = osmbBack;
 
     overlays["Ortofoto popisky"] = ortofotoOverlay;
     overlays["Turistické trasy ČR"] = turistikaOverlay;
