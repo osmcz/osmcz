@@ -181,6 +181,7 @@ a:hover.as-text {
 #map-searchbar .osmid {
     padding-top: 1em;
     font-size: 90%;
+    white-space: nowrap;
 }
 
 /* Opening hours */
@@ -328,6 +329,28 @@ a:hover.as-text {
 .leaflet-control-coordinates-gps {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
 }
+
+/* gp-check */
+.gp-check-popup {
+    min-width: 250px;
+    max-width: 350px;
+}
+
+.gp-check-popup h6 {
+  font-size: 1.2em;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.red {
+  color: red;
+}
+
+.no-foto {
+  text-align: center;
+  font-size: 2em;
+}
+
 
 /* Primárně pro účely splashe */
 #main .jumbotron {

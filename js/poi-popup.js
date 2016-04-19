@@ -87,7 +87,7 @@ osmcz.poiPopup.setUrl = function (p) {
 
 
 // ------- POI panel template  -------
-osmcz.poiPopup.getHtml = function (feature, icon) {
+osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
 
     //TODO refactor
 
@@ -112,11 +112,15 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
     }
 
     var tpl = [];
-    tpl.push(osmcz.permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
-    tpl.push('<h4>');
-    tpl.push('<img src="' + icon + '">&nbsp;');
-    tpl.push(feature.properties.tags.name || 'Bod zájmu');
-    tpl.push('</h4>');
+
+    // Not needed when we are inside popup
+    if (!embedded) {
+      tpl.push(osmcz.permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
+      tpl.push('<h4>');
+      tpl.push('<img src="' + icon + '">&nbsp;');
+      tpl.push(feature.properties.tags.name || 'Bod zájmu');
+      tpl.push('</h4>');
+    }
 
     $.each(feature.properties.tags, function (k, v) {
         k = k + "";
@@ -215,6 +219,11 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
     section(payment, 'Možnosti platby:');
     section(contact, 'Kontakty:');
     section(building, 'Budova:');
+
+    // Finish there when we are inside popup
+    if (embedded) {
+        return tpl.join('');
+    }
 
     //tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
     tpl.push('<div class="osmid"><a href="http://osmap.cz/' + osm_type + '/' + id + '">osmap.cz/' + osm_type + '/' + id + '</a></div>');
@@ -375,7 +384,7 @@ osmcz.poiPopup.getHtml = function (feature, icon) {
         + '<img src="_imgUrl" width="250">'
         + '</a><br>'
         + '<b>Fotografii poskytl:</b> _autor'
-        + "<a href='http://api.openstreetmap.cz/table/id/_id' target='_blank'><span class='glyphicon glyphicon-pencil' title='upravit'></span></a>";
+        + " <a href='http://api.openstreetmap.cz/table/id/_id' target='_blank'><span class='glyphicon glyphicon-pencil' title='upravit'></span></a>";
 
     function showGuidepost() {
         var gp = $('#guidepost');

@@ -48,18 +48,25 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             } else {
               layer.setIcon(gp_check_icon);
             }
-            var html_content = '<h6>' + feature.properties.name + '</h6>';
-            if (feature.properties.class == 'missing')
-                html_content += ('<br/><br/><i>Typ: chybí foto</i>');
-            else if (feature.properties.class == 'noref')
-                html_content += ('<br/><br/><i>Typ: chybí ref</i>')
-            else
-                html_content += ('<br/><br/><i>Typ: neznámý</i>');
+            var html_content = '<div class="gp-check-popup"><h6>' + feature.properties.name + '</h6>';
+            html_content += '<button type="button" class="btn btn-info fa-4x">';
+            html_content += '   <div class="glyphicon glyphicon-plus-sign no-foto"></div>';
+            html_content += '</button><br/><br/>';
+            html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí foto<br/>');
+            if (feature.properties.class == 'noref') {
+                html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí ref<br/>');
+            }
+            html_content += '<br/><h6>Data v OSM</h6>';
+            html_content += '<div id="gp-check" gp-check-id=' + feature.id + '></div>';
+            html_content += '<br/><div class="osmid"><a href="http://osmap.cz/node/' + feature.id + '">osmap.cz/node/' + feature.id + '</a></div>';
+            html_content += '</div>';
             layer.bindPopup(html_content, {
                 offset: new L.Point(1, -32),
                 minWidth: 150,
                 closeOnClick: false,
-                autoPan: false,
+                autoPan: true,
+                keepInView: true,
+                autoPanPadding: new L.Point(5, 5)
                 });
         }
     });
@@ -93,6 +100,34 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
        load_data();
     });
 
+    map.on('popupopen', function(e) {
+      var osmid = e.popup._source.feature.id;
+      $.ajax({
+          url: 'http://www.openstreetmap.org' + OSM.apiUrl({type: "node", id: osmid}),
+          dataType: 'xml',
+          jsonp: false,
+          global: false,
+          success: function (data) {
+              console.log("loaded xml", data);
+
+              osmcz.permanentlyDisplayed = true;
+
+              var geojson = osm_geojson.osm2geojson(data)
+              var feature = geojson.features[0];
+              var tags = feature.properties;
+              feature.properties = {  //poloha.net style
+                  tags: tags,
+                  osm_id: osmid,
+                  osm_type: "node"
+              };
+
+              //show result
+              var gc = $('#gp-check');
+              if (osmid == gc.attr('gp-check-id'))
+                gc.html(osmcz.poiPopup.getHtml(feature, null, true));
+          }
+      });
+    });
 
     /* Add overlay to the map */
     layersControl.addOverlay(check_markers, "Chybné rozcestníky");
