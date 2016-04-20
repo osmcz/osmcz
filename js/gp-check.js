@@ -52,9 +52,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += '<button type="button" class="btn btn-info fa-4x">';
             html_content += '   <div class="glyphicon glyphicon-plus-sign no-foto"></div>';
             html_content += '</button><br/><br/>';
-            html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí foto<br/>');
+            if (feature.properties.class == 'missing') {
+                html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí foto<br/>');
+            }
             if (feature.properties.class == 'noref') {
-                html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí ref<br/>');
+                html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí tag ref<br/>');
+                html_content += ('<span class="glyphicon glyphicon-remove red"></span> nepoužité/vadné foto<br/>');
             }
             html_content += '<br/><h6>Data v OSM</h6>';
             html_content += '<div id="gp-check" gp-check-id=' + feature.id + '></div>';
