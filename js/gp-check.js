@@ -31,7 +31,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     var check_markers = L.markerClusterGroup({code: 'B'});
 
     var gp_check_icon = L.icon({
-      iconUrl: osmcz.basePath + "img/gp_check.png",
+      iconUrl: osmcz.basePath + "img/gp_check_missing.png",
       iconSize: [48, 48],
       iconAnchor: [23, 45]
     });
@@ -40,11 +40,18 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
       iconSize: [48, 48],
       iconAnchor: [23, 45]
     });
+    var gp_check_noimg_icon = L.icon({
+      iconUrl: osmcz.basePath + "img/gp_check_noimg.png",
+      iconSize: [48, 48],
+      iconAnchor: [23, 45]
+    });
 
     var layer_gpcheck = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             if(feature.properties.class == "noref"){
               layer.setIcon(gp_check_noref_icon);
+            } else if(feature.properties.class == "noimg"){
+              layer.setIcon(gp_check_noimg_icon);
             } else {
               layer.setIcon(gp_check_icon);
             }
