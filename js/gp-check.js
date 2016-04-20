@@ -48,6 +48,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
     var layer_gpcheck = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
+
+            // Choose right icon
             if(feature.properties.class == "noref"){
               layer.setIcon(gp_check_noref_icon);
             } else if(feature.properties.class == "noimg"){
@@ -55,10 +57,16 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             } else {
               layer.setIcon(gp_check_icon);
             }
+
+            // Guidepost name
             var html_content = '<div class="gp-check-popup"><h6>' + feature.properties.name + '</h6>';
-            html_content += '<button type="button" class="btn btn-info fa-4x">';
+
+            // Missing image button - TODO: add simple upload form
+            html_content += '<button type="button" class="btn btn-info fa-4x disabled">';
             html_content += '   <div class="glyphicon glyphicon-plus-sign no-foto"></div>';
             html_content += '</button><br/><br/>';
+
+            // List of missing thinks
             if (feature.properties.class == 'missing') {
                 html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí tag ref<br/>');
                 html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí foto<br/>');
@@ -70,10 +78,37 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             if (feature.properties.class == 'noimg') {
                 html_content += ('<span class="glyphicon glyphicon-remove red"></span> chybí foto<br/>');
             }
+
+            // Data in OSM - element is filled during popup open event
             html_content += '<br/><h6>Data v OSM</h6>';
             html_content += '<div id="gp-check" gp-check-id=' + feature.id + '></div>';
-            html_content += '<br/><div class="osmid"><a href="http://osmap.cz/node/' + feature.id + '">osmap.cz/node/' + feature.id + '</a></div>';
+
+            // Links to node on osmap.cz and osm.org
+            html_content += '<br/><div class="osmid"><a href="http://osmap.cz/node/' + feature.id + '">osmap.cz/node/' + feature.id + '</a>';
+            html_content += ' | <a href="http://openstreetmap.org/node/' + feature.id + '">OSM.org</a><br/>';
+
+            // Edit in iD button
+            html_content += '<a href="http://www.openstreetmap.org/edit?editor=id&node=' + feature.id + '"><button type="button" class="btn btn-default btn-xs">';
+            html_content += '   <div class="glyphicon glyphicon-pencil"></div> iD';
+            html_content += '</button></a> ';
+
+            // Edit in JOSM/Merkaartor button
+            html_content += '<a href="#"><button type="button" class="btn btn-default btn-xs"';
+            html_content += 'onclick="$.ajax';
+            html_content += '   ({';
+            html_content += '       url: \'http://127.0.0.1:8111/load_and_zoom\',';
+            html_content += '       data: {';
+            html_content += '           left:   ' + (feature.geometry.coordinates[0] - 0.0001) + ',';
+            html_content += '           top:    ' + (feature.geometry.coordinates[1] + 0.0001) + ',';
+            html_content += '           right:  ' + (feature.geometry.coordinates[0] + 0.0001) + ',';
+            html_content += '           bottom: ' + (feature.geometry.coordinates[1] - 0.0001) + ',';
+            html_content += '       },';
+            html_content += '       type: \'get\'';
+            html_content += '   });">';
+            html_content += '   <div class="glyphicon glyphicon-pencil"></div> JOSM / Merkaartor';
+            html_content += '</button></a>';
             html_content += '</div>';
+
             layer.bindPopup(html_content, {
                 offset: new L.Point(1, -32),
                 minWidth: 150,
