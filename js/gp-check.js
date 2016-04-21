@@ -94,18 +94,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
             // Edit in JOSM/Merkaartor button
             html_content += '<a href="#"><button type="button" class="btn btn-default btn-xs"';
-            html_content += 'onclick="$.ajax';
-            html_content += '   ({';
-            html_content += '       url: \'http://127.0.0.1:8111/load_and_zoom\',';
-            html_content += '       data: {';
-            html_content += '           left:   ' + (feature.geometry.coordinates[0] - 0.0001) + ',';
-            html_content += '           top:    ' + (feature.geometry.coordinates[1] + 0.0001) + ',';
-            html_content += '           right:  ' + (feature.geometry.coordinates[0] + 0.0001) + ',';
-            html_content += '           bottom: ' + (feature.geometry.coordinates[1] - 0.0001) + ',';
-            html_content += '       },';
-            html_content += '       type: \'get\'';
-            html_content += '   });">';
-            html_content += '   <div class="glyphicon glyphicon-pencil"></div> JOSM / Merkaartor';
+            html_content += ' onclick="osmcz.gpcheck.callRemoteEditor(' + feature.geometry.coordinates + ')">';
+            html_content += '<div class="glyphicon glyphicon-pencil"></div> JOSM / Merkaartor';
             html_content += '</button></a>';
             html_content += '</div>';
 
@@ -236,6 +226,20 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         map.addLayer(check_markers);
     }
 
+    // TODO: separate this to some library
+    osmcz.gpcheck.callRemoteEditor = function(lon, lat) {
+      $.ajax
+         ({
+             url: 'http://127.0.0.1:8111/load_and_zoom',
+             data: {
+                 left:   lon - 0.0005,
+                 top:    lat + 0.0005,
+                 right:  lon + 0.0005,
+                 bottom: lat - 0.0005
+             },
+             type: 'get'
+         });
+    }
 
     function error_gj(data) {
         console.log(data);
