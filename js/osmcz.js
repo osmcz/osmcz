@@ -41,12 +41,12 @@ function initmap() {
         marker.setLatLng([params.mlat, params.mlon]).addTo(map);
     }
     if (params.object)
-        osmcz.poiPopup.open(params.object);
+        osmcz.poiPopup.load(params.object);
 
     // load osm object by URL osmap.cz/node/123
     var loadObject = /^\/(node|way|relation)\/(\d+)$/.exec(location.pathname);
     if (loadObject)
-        osmcz.poiPopup.open({type: loadObject[1], id: loadObject[2]});
+        osmcz.poiPopup.load({type: loadObject[1], id: loadObject[2]});
 
     // update on hash change
     var lastHash;
