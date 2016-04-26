@@ -347,13 +347,34 @@ a:hover.as-text {
   white-space: nowrap;
 }
 
-.red {
-  color: red;
-}
-
 .no-foto {
   text-align: center;
   font-size: 2em;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+/* gc-check - image upload form */
+#gpc-img-upload-form {
+    width:300px;
+}
+
+input[type=file], input[type=text] {
+    background:#eee;
+    color:#000;
+    padding:5px;
+    border:2px solid #eee;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin: 2px;
+}
+
+input[type=text]:focus {
+    border:2px solid blue;
 }
 
 
