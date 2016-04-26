@@ -107,6 +107,11 @@ a:hover.as-text {
     height: 100%;
     overflow-y: scroll;
 }
+
+#map-sidebar {
+    display: none;
+}
+
 #map-layers {
     right:0;
     width: 250px;
