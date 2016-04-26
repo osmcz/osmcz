@@ -121,6 +121,10 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
     var lon = feature.geometry.coordinates[0];
     var lat = feature.geometry.coordinates[1];
 
+    // Get preferred user language and use it on wikipedia
+    var userLang = (window.navigator.userLanguage || window.navigator.language).split("-")[0];
+    var wikiLang = (userLang ? "?uselang=" + userLang : "" );
+
     // show circle marker
     if (osmcz.permanentlyDisplayed) {
         osmcz._marker.setLatLng([lat, lon]).addTo(osmcz._map);
@@ -260,11 +264,6 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
 
     // url of ajax proxy server for wikipedia and wikimedia
     var xhd_proxy_url = 'http://openstreetmap.cz/xhr_proxy.php';
-
-    // Get preferred user language and use it on wikipedia
-    var userLang = (window.navigator.userLanguage || window.navigator.language).split("-")[0];
-    var wikiLang = (userLang ? "?uselang=" + userLang : "" );
-
 
     // Show picture from wikimedia commons if there is `wikidata` or `wikimedia_commons` or `wikipedia` tag
     // Priorities:
