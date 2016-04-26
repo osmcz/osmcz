@@ -15,7 +15,7 @@ osmcz._map = false;
 
 
 // static methods
-osmcz.poiPopup.open = function (object) {
+osmcz.poiPopup.load = function (object) {
 
     $.ajax({
         url: 'http://www.openstreetmap.org' + OSM.apiUrl({type: object.type, id: object.id}),
@@ -44,6 +44,10 @@ osmcz.poiPopup.open = function (object) {
                 };
             }
 
+            if (feature.properties.tags.name) {
+                document.title = feature.properties.tags.name + ' ~ OpenStreetMap.cz';
+            }
+
             console.log("geojson feature:", feature);
 
             // zoom to feature
@@ -60,6 +64,15 @@ osmcz.poiPopup.open = function (object) {
 
 };
 
+osmcz.poiPopup.open = function (feature, icon) {  //currently from active-layer
+  $('#map-container').addClass('searchbar-on');
+  $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon));
+  document.title = 'OpenStreetMap.cz';
+  if (feature.properties.tags.name) {
+    document.title = feature.properties.tags.name + ' ~ OpenStreetMap.cz';
+  }
+};
+
 
 osmcz.poiPopup.close = function () {
     console.log('poi-popup: close');
@@ -69,6 +82,8 @@ osmcz.poiPopup.close = function () {
 
     //if (!$('#map-container').hasClass('js_active-layer-on'))
     $('#map-container').removeClass('searchbar-on');
+
+    document.title = 'OpenStreetMap.cz';
 
     var path = (location.host === 'openstreetmap.cz' || location.host === 'osm.localhost')
         ? '/'

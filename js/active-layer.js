@@ -28,7 +28,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
 
                             clearTimeout(timeout);
                             osmcz.permanentlyDisplayed = true;
-                            openPoiPanel(event.target.feature, event.target.options.icon.options.iconUrl);
+                            osmcz.poiPopup.open(event.target.feature, event.target.options.icon.options.iconUrl);
 
                             // change url, it is then possible to load without active layer
                             osmcz.poiPopup.setUrl(event.target.feature.properties);
@@ -42,7 +42,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
                         if (event.target && event.target.feature) {
                             clearTimeout(timeout);
                             timeout = setTimeout(function () {
-                                openPoiPanel(event.target.feature, event.target.options.icon.options.iconUrl);
+                                osmcz.poiPopup.open(event.target.feature, event.target.options.icon.options.iconUrl);
                             }, 100);
                         }
                     });
@@ -85,11 +85,6 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     $('#map-searchbar').on('click', '.close', resetPanel);  // TODO delegate closing on poiPopup.close() and fire event
     map.on('click', resetPanel);
 
-
-    function openPoiPanel(feature, icon) {
-        $('#map-container').addClass('searchbar-on');
-        $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon));
-    }
 
     function defaultPoiPanel() {
         $('#map-container').removeClass('searchbar-on');
