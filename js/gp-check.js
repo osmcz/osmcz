@@ -403,6 +403,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     osmcz.gpcheck.uploadFormData = function(osmid) {
         var formData = new FormData($('#gpc-img-upload-form[data-osm-id="' + osmid + '"]')[0]);
 
+        $("#gpc-upl-result").html('<span class="glyphicon glyphicon-refresh text-info gly-spin"></span>');
+
         $.ajax({
 //             url: 'http://localhost/api/upload/guidepost.php',
             url: 'http://map.openstreetmap.cz/guidepost.php',
