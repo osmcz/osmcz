@@ -265,8 +265,8 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         content.innerHTML += "<div id='guidepost_move_info'>";
         content.innerHTML += "</div>";
         content.innerHTML += "<hr>";
-        content.innerHTML += "<button onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>";
-        content.innerHTML += "<button onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>";
+        content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>";
+        content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>";
     }
 
     osmcz.guideposts.prototype.move_point = function(gid, glat, glon)
