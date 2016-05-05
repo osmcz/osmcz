@@ -360,7 +360,7 @@ a:hover.as-text {
 
 /* gc-check - image upload form */
 #gpc-img-upload-form {
-    width:300px;
+    width:350px;
 }
 
 input[type=file], input[type=text] {
