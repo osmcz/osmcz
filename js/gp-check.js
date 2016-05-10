@@ -67,7 +67,6 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             var lat = feature.geometry.coordinates[1];
             var lon = feature.geometry.coordinates[0];
             html_content += '<div id="gpc-upload-img">';
-//             html_content += '  <button id="gpc-upload-btn" type="button" class="btn btn-info fa-4x" onclick="$(this).hide(); $(\'#gpc-missing\').hide();$(\'#gp-check\').hide();$(\'#gpc-img-upload-form\').show(200);return false">';
             html_content += '  <button id="gpc-upload-btn" type="button" class="btn btn-info fa-4x center-block" onclick="osmcz.gpcheck.popupFormatToggle(' + osmid + ');return false;" title="Máte fotografii? Vložte ji prosím.">';
             html_content += '     <div class="glyphicon glyphicon-plus-sign no-foto vcenter"></div><span style="margin-left: 10px"><strong>Vložit fotografii</strong></span>';
             html_content += '  </button>';
@@ -80,33 +79,76 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += '    <fieldset>';
             html_content += '        <img id="gpc-preview" height="200" onload="osmcz.gpcheck.readExif(this, ' + osmid + ')" src="" alt="Náhled fotografie..." style="display:none; margin-bottom:5px;"><br/>';
             html_content += '        <input name="uploadedfile" type="file" id="guidepostfile" onchange="osmcz.gpcheck.previewFile(' + osmid + ')" size="20" style="display: none"/>';
-            html_content += '        <div id="imgSelBtnDiv">';
-            html_content += '        <input type="button" id="imgSelBtn" value="Vyberte fotografii" onclick="osmcz.gpcheck.selectImageClicked('+osmid+');" class="btn btn-default btn-xs" />';
+            html_content += '        <div id="imgSelBtnDiv" class="center-block">';
+            html_content += '        <input type="button" id="imgSelBtn" value="Vyberte fotografii" onclick="osmcz.gpcheck.selectImageClicked('+osmid+');" class="btn btn-default btn-xs btn" />';
             html_content += '        <span id="gpc-img-message" style="padding-left: 10px"></span></div><br/>';
             html_content += '    </fieldset>';
             html_content += '    <fieldset>';
-            html_content += '        <label>Autor: </label><input type="text" id="author" name="author" placeholder="Vaše jméno/přezdívka" size="20" onchange="osmcz.gpcheck.authorChanged(' + osmid + ')" class="input-small">';
-            html_content += '        <span id="gpc-author-message" style="padding-left: 5px"></span><br/>';
-            html_content += '        <div id="coors-block">';
-            html_content += '        <label><input type="radio" name="coorsSource"  id="rbSourceOsm" value="osm" checked="checked" onchange="osmcz.gpcheck.coordSourceChanged('+osmid+');">';
-            html_content += '        Lat/Lon (Osm): </label>';
-            html_content += '        <input type="text" id="latOsm" onchange="osmcz.gpcheck.latlonChanged('+osmid+');" name="latOsm" value="' + lat + '" size="10" title="Lat" class="input-small"/> / ';
-            html_content += '        <input type="text" id="lonOsm" onchange="osmcz.gpcheck.latlonChanged('+osmid+');" name="lonOsm" value="' + lon + '" size="10" title="Lon" class="input-small"/>';
-            html_content += '        <span id="gpc-latlon-message" style="padding-left: 5px"></span><br/>';
-            html_content += '        <label><input type="radio" name="coorsSource" id="rbSourceExif" value="photo" onchange="osmcz.gpcheck.coordSourceChanged('+osmid+');" disabled="yes">';
-            html_content += '        Lat/Lon (Exif): </label>';
-            html_content += '        <input type="text" id="latExif" name="latExif" value="--.---" size="10" title="Lat" class="input-small" disabled="yes"/> / ';
-            html_content += '        <input type="text" id="lonExif"  name="lonExif" value="--.---" size="10" title="Lon" class="input-small" disabled="yes"/>';
-            html_content += '        <div/>';
-            html_content += '        <label>ref: </label><input type="text" id="ref" name="ref" value="" size="20" class="input-small"/><br/>';
-            html_content += '        <label>Poznámka: </label><input type="text" id="note" name="note" value="" size="20" placeholder="" class="input-small"/>';
+            html_content += '        <div id="coors-block" class="coors-block">';
+            html_content += '          <span class="legend">Lat/Lon</span><span id="gpc-latlon-distance" class="pull-right"></span><br/>';
+            html_content += '          <div class="row flex-v-center">';
+            html_content += '            <div class="col-xs-3">';
+            html_content += '              <label><input type="radio" name="coorsSource" id="rbSourceOsm" value="osm" checked="checked" onchange="osmcz.gpcheck.coordSourceChanged('+osmid+');">';
+            html_content += '              Osm: </label>';
+            html_content += '            </div>';
+            html_content += '            <div class="col-xs-9">';
+            html_content += '              <input type="text" id="latOsm" onchange="osmcz.gpcheck.latlonChanged('+osmid+');" name="latOsm" value="' + lat + '" osm-orig-value="' + lat + '" size="10" title="Lat" class="input-small"/> / ';
+            html_content += '              <input type="text" id="lonOsm" onchange="osmcz.gpcheck.latlonChanged('+osmid+');" name="lonOsm" value="' + lon + '" osm-orig-value="' + lon + '" size="10" title="Lon" class="input-small"/>';
+            html_content += '              <span id="gpc-latlon-message" style="padding-left: 5px"></span><br/>';
+            html_content += '            </div>';
+            html_content += '          </div>';
+            html_content += '          <div class="row flex-v-center">';
+            html_content += '            <div class="col-xs-3">';
+            html_content += '              <label><input type="radio" name="coorsSource" id="rbSourceExif" value="photo" onchange="osmcz.gpcheck.coordSourceChanged('+osmid+');" disabled="yes">';
+            html_content += '              Exif: </label>';
+            html_content += '            </div>';
+            html_content += '            <div class="col-xs-9">';
+            html_content += '              <input type="text" id="latExif" name="latExif" value="--.---" size="10" title="Lat" class="input-small" disabled="yes"/> / ';
+            html_content += '              <input type="text" id="lonExif"  name="lonExif" value="--.---" size="10" title="Lon" class="input-small" disabled="yes"/>';
+            html_content += '            </div>';
+            html_content += '          </div>';
+            html_content += '        </div><br/>';
+            html_content += '    </fieldset>';
+            html_content += '    <fieldset>';
+            html_content += '      <div class="coors-block">';
+            html_content += '        <div class="row flex-v-center">';
+            html_content += '          <div class="col-xs-3">';
+            html_content += '            <label class="text-right">Autor: </label>';
+            html_content += '          </div>';
+            html_content += '          <div class="col-xs-9">';
+            html_content += '            <input type="text" id="author" name="author" placeholder="Vaše jméno/přezdívka" size="20" onchange="osmcz.gpcheck.authorChanged(' + osmid + ')" class="input-small">';
+            html_content += '          </div>';
+            html_content += '        </div>';
+            html_content += '        <div class="row flex-v-center">';
+            html_content += '          <div class="col-xs-3">';
+            html_content += '            <label>Ref: </label>';
+            html_content += '          </div>';
+            html_content += '          <div class="col-xs-9">';
+            html_content += '            <input type="text" id="ref" name="ref" value="" size="20" class="input-small"/>';
+            html_content += '          </div>';
+            html_content += '        </div>';
+            html_content += '        <div class="row flex-v-center">';
+            html_content += '          <div class="col-xs-3">';
+            html_content += '            <label>Poznámka: </label>';
+            html_content += '          </div>';
+            html_content += '          <div class="col-xs-9">';
+            html_content += '            <input type="text" id="note" name="note" value="" size="20" placeholder="" class="input-small"/>';
+            html_content += '          </div>';
+            html_content += '        </div>';
+            html_content += '      </div>';
             html_content += '    </fieldset><br/>';
             html_content += '    <fieldset>';
-            html_content += '        <button id="backBtn" onclick="osmcz.gpcheck.popupFormatToggle(' + osmid + ');return false;" class="btn btn-default btn-xs">Zpět</button> ';
-            html_content += '        <span style="margin:2em"></span>';
-            html_content += '        <input type="reset" id="resetBtn" name="reset" value="Reset" class="btn btn-default btn-xs"/>';
-            html_content += '        <input type="submit" id="submitBtn" name="submitBtn" value="Nahrát fotografii" onclick="osmcz.gpcheck.uploadFormData(' + osmid + ');return false;" class="btn btn-default btn-xs"/>';
-            html_content += '        <span id="gpc-upl-result" style="padding-left: 10px"></span>';
+            html_content += '        <div class="row">';
+            html_content += '          <div class="col-md-6 ">';
+            html_content += '            <button id="backBtn" onclick="osmcz.gpcheck.popupFormatToggle(' + osmid + ');return false;" class="btn btn-default btn-xs back">Zpět</button> ';
+            html_content += '            <input type="reset" id="resetBtn" name="reset" value="Reset" onclick="osmcz.gpcheck.resetForm(' + osmid + ');return false;" class="btn btn-default btn-xs"/>';
+//             html_content += '        <span style="margin:2em"></span>';
+            html_content += '          </div>';
+            html_content += '          <div class="col-md-2 col-md-offset-2">';
+            html_content += '            <input type="submit" id="submitBtn" name="submitBtn" value="Nahrát fotografii" onclick="osmcz.gpcheck.uploadFormData(' + osmid + ');return false;" class="btn btn-default btn-xs next"/>';
+            html_content += '          </div>';
+            html_content += '        </div>';
+            html_content += '        <div id="gpc-upl-result" class="gpc-upl-result"></div>';
             html_content += '    </fieldset>';
             html_content += '  </form>';
             html_content += '</div>';
@@ -136,15 +178,17 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += ' | <a href="http://openstreetmap.org/node/' + feature.id + '">OSM.org</a><br/>';
 
             // Edit in iD button
-            html_content += '<a href="http://www.openstreetmap.org/edit?editor=id&node=' + feature.id + '"><button type="button" class="btn btn-default btn-xs">';
-            html_content += '   <div class="glyphicon glyphicon-pencil"></div> iD';
-            html_content += '</button></a> ';
+            html_content += '<div id="gp-check-edit-btns">';
+            html_content += '  <a href="http://www.openstreetmap.org/edit?editor=id&node=' + feature.id + '"><button type="button" class="btn btn-default btn-xs">';
+            html_content += '     <div class="glyphicon glyphicon-pencil"></div> iD';
+            html_content += '  </button></a> ';
 
             // Edit in JOSM/Merkaartor button
-            html_content += '<a href="#"><button type="button" class="btn btn-default btn-xs"';
-            html_content += ' onclick="osmcz.gpcheck.callRemoteEditor(' + feature.geometry.coordinates + ')">';
-            html_content += '<div class="glyphicon glyphicon-pencil"></div> JOSM / Merkaartor';
-            html_content += '</button></a>';
+            html_content += '  <a href="#"><button type="button" class="btn btn-default btn-xs"';
+            html_content += '   onclick="osmcz.gpcheck.callRemoteEditor(' + feature.geometry.coordinates + ')">';
+            html_content += '  <div class="glyphicon glyphicon-pencil"></div> JOSM / Merkaartor';
+            html_content += '  </button></a>';
+            html_content += '  </div>';
             html_content += '</div>';
 
             layer.bindPopup(html_content, {
@@ -217,6 +261,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
                 if ('ref' in tags){
                   var ref =  $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #ref');;
                   ref.val(tags.ref);
+                  ref.attr('osm-orig-value', tags.ref);
                 }
               }
           }
@@ -315,10 +360,13 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         var latExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latExif');
         var lonExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonExif');
 
+        var distanceLabel = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-latlon-distance');
+
         preview.attr("src", "");
         preview.attr("alt", "Generuji náhled. Počkejte prosím...");
         latExif.val('--.---');
         lonExif.val('--.---');
+        distanceLabel.html('');
 
         reader.onloadend = function () {
             preview.attr("src", reader.result);
@@ -378,22 +426,42 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             rbSourceExif.prop("checked",true);
             lat.val(latExif.val());
             lon.val(lonExif.val());
+            updateDistanceLabel(osmid);
         }
     }
 
+    function updateDistanceLabel(osmid) {
+
+        var latExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latExif');
+        var lonExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonExif');
+        var latOsm = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latOsm');
+        var lonOsm = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonOsm');
+        var distanceLabel = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-latlon-distance');
+
+        if (latExif.val() != "--.---" && !osmcz.coorsError ) {
+            distanceLabel.html("(Rozdíl: " +
+                               Math.abs(OSM.distance(
+                                {'lat': latOsm.val(), 'lng': lonOsm.val()},
+                                {'lat': latExif.val(), 'lng': lonExif.val()})).toFixed(2) +" metrů)");
+        } else {
+            distanceLabel.html("");
+        }
+    }
     // Check author field, show alert when missing
     osmcz.gpcheck.authorChanged = function(osmid) {
         var author = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #author');
-        var message = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-author-message');
-        message.html('');
+        author.removeClass("inputError");
+        author.prop("title","");
+        osmcz.authorError = false;
 
         if (author.val() == '') {
-            message.html('<span class="glyphicon glyphicon-alert text-danger" title="Povinné pole!"></span>');
+          author.addClass("inputError");
+          author.prop("title","Povinné pole!");
+          osmcz.authorError = true;
         } else {
             if (author.val() != Cookies.get("_gp_check_author")) {
                 Cookies.set("_gp_check_author", author.val(), {expires: 90});
             }
-
         }
 
         osmcz.gpcheck.updateSubmitBtnStatus(osmid);
@@ -405,25 +473,45 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         var lat = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lat');
         var lon = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lon');
         var coorsSource = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] input[name="coorsSource"]:checked').val();
-        var message = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-latlon-message');
-        message.html('');
 
-        if (latOsm.val() == '' || lonOsm.val() == '') {
-            message.html('<span class="glyphicon glyphicon-alert text-danger" title="Povinné pole!"></span>');
+        latOsm.removeClass("inputError");
+        latOsm.prop("title","");
+
+        lonOsm.removeClass("inputError");
+        lonOsm.prop("title","");
+
+        osmcz.coorsError = false;
+
+        if (latOsm.val() == '') {
+            latOsm.addClass("inputError");
+            latOsm.prop("title","Povinné pole!");
+            osmcz.coorsError = true;
+        }
+
+        if (lonOsm.val() == '') {
+            lonOsm.addClass("inputError");
+            lonOsm.prop("title","Povinné pole!");
+            osmcz.coorsError = true;
         }
 
         if (latOsm.val() < -90 || latOsm.val() > 90) {
-            message.html('<span class="glyphicon glyphicon-alert text-danger" title="Lat: Hodnota mimo rozsah!"></span>');
+            latOsm.addClass("inputError");
+            latOsm.prop("title","Hodnota mimo rozsah!");
+            osmcz.coorsError = true;
         }
 
         if (lonOsm.val() < -180 || lonOsm.val() > 180) {
-            message.html('<span class="glyphicon glyphicon-alert text-danger" title="Lon: Hodnota mimo rozsah!"></span>');
+            lonOsm.addClass("inputError");
+            lonOsm.prop("title","Hodnota mimo rozsah!");
+            osmcz.coorsError = true;
         }
 
-        if (message.html() == '' && coorsSource == "osm") {
+        if (!osmcz.coorsError && coorsSource == "osm") {
             lat.val(latOsm.val());
             lon.val(lonOsm.val());
         }
+
+        updateDistanceLabel(osmid);
 
         osmcz.gpcheck.updateSubmitBtnStatus(osmid);
     }
@@ -448,20 +536,16 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
               lon.val(lonOsm.val());
           }
         }
-
-        var jedna = 1;
     }
 
     // Check status of message fields, disable submit button when there is any issue
     osmcz.gpcheck.updateSubmitBtnStatus = function(osmid) {
         var imgMsg = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-img-message');
-        var authorMsg = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-author-message');
-        var latlonMsg = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-latlon-message');
         var submitBtn = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #submitBtn');
 
         if (imgMsg.contents().size() == 0 &&
-            authorMsg.contents().size() == 0 &&
-            latlonMsg.contents().size() == 0
+            !osmcz.authorError &&
+            !osmcz.coorsError
            )
         {
             submitBtn.prop('disabled', false);
@@ -476,6 +560,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             $("#gpc-upload-btn").hide();
             $("#gpc-missing").hide();
             $("#gp-check").hide();
+            $("#gp-check-edit-btns").hide();
             if (Cookies.get("_gp_check_author") != null)
                 $("#author").val(Cookies.get("_gp_check_author"));
             $("#imgSelBtn").focus();
@@ -487,9 +572,71 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             autoload_lock = false;
             $("#gpc-img-upload-form").hide();
             $("#gpc-upload-btn").show(50);
+            $("#gp-check-edit-btns").show(50);
             $("#gpc-missing").show(50);
             $("#gp-check").show(100);
         }
+    }
+
+    // Reset form
+    osmcz.gpcheck.resetForm = function(osmid) {
+        var preview = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-preview');
+        var imgMessage = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-img-message');
+
+        var latExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latExif');
+        var lonExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonExif');
+        var rbSourceExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] input[id="rbSourceExif"]');
+
+        var latOsm = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latOsm');
+        var lonOsm = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonOsm');
+
+        var distanceLabel = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-latlon-distance');
+
+        var author = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #author');
+        var ref = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #ref');
+        var note = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #note');
+
+        var resultMessage = $("#gpc-upl-result").html('<span class="glyphicon glyphicon-refresh text-info gly-spin"></span>');
+
+
+        preview.attr("src", '');
+        preview.attr("alt", '');
+        preview.hide();
+        latExif.val('--.---');
+        lonExif.val('--.---');
+        $("input[name=coorsSource][value=osm]").prop('checked', true);
+        rbSourceExif.attr("disabled", "disabled");
+        rbSourceExif.prop("checked",false);
+
+        distanceLabel.html('');
+        imgMessage.html('<span class="glyphicon glyphicon-alert text-danger" title="Povinné pole!"></span>');
+
+        latOsm.removeClass("inputError");
+        latOsm.prop("title","");
+        latOsm.val(latOsm.attr("osm-orig-value"));
+
+        lonOsm.removeClass("inputError");
+        lonOsm.prop("title","");
+        lonOsm.val(lonOsm.attr("osm-orig-value"));
+
+        osmcz.coorsError = false;
+
+        author.removeClass("inputError");
+        author.prop("title","");
+        osmcz.authorError = false;
+        author.val('');
+
+        if (Cookies.get("_gp_check_author") != null)
+          $("#author").val(Cookies.get("_gp_check_author"));
+
+        ref.val(ref.attr("osm-orig-value"));
+        note.val('');
+
+        resultMessage.html('');
+
+        osmcz.gpcheck.authorChanged(osmid);
+        osmcz.gpcheck.latlonChanged(osmid);
+
     }
 
     // Upload form via ajax
@@ -499,8 +646,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         $("#gpc-upl-result").html('<span class="glyphicon glyphicon-refresh text-info gly-spin"></span>');
 
         $.ajax({
-//             url: 'http://localhost/api/upload/guidepost.php',
-             url: 'http://map.openstreetmap.cz/guidepost.php',
+//              url: 'http://localhost/api/upload/guidepost.php',
+            url: 'http://map.openstreetmap.cz/guidepost.php',
             type: 'POST',
             data: formData,
             async: false,
@@ -512,12 +659,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
                 if (result[0] == 1) { //OK
                     message.html(' <span class="text-success"><span class="glyphicon glyphicon-ok text-success"></span> <strong>OK</strong></span>');
                 } else { // Error during upload
-                    message.html(' <span class="text-danger"><span class="glyphicon glyphicon-alert text-danger"></span><br/><br/><u>Chyba:</u> ' + result[1] + '</span>');
+                    message.html(' <span class="text-danger"><span class="glyphicon glyphicon-alert text-danger"></span> <u> Chyba:</u> ' + result[1] + '</span>');
                 }
             },
             fail: function(data) {
                 var message = $("#gpc-upl-result");
-                message.html(' <span class="text-danger"><span class="glyphicon glyphicon-alert text-danger"></span><br/><br/><u>Chyba:</u> ' + data +'</span>');
+                message.html(' <span class="text-danger"><span class="glyphicon glyphicon-alert text-danger"></span> <u>Chyba:</u> ' + data +'</span>');
                 return false;
             },
             cache: false,

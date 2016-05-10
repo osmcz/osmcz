@@ -358,6 +358,10 @@ a:hover.as-text {
     float: none;
 }
 
+.flex-v-center {
+    display: flex;
+    align-items: center;
+}
 /* gc-check - image upload form */
 #gpc-img-upload-form {
     width:350px;
@@ -374,7 +378,29 @@ input[type=file], input[type=text] {
 }
 
 input[type=text]:focus {
-    border:2px solid blue;
+    border:2px solid #337ab7;
+}
+
+input[type=text].inputError {
+    border:2px solid #d9534f;
+}
+
+#gpc-img-upload-form .legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#gpc-img-upload-form .gpc-upl-result {
+  padding-top: 5px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.coors-block {
+    background: #DDD;
+    padding: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
 
 /* Spin icon
