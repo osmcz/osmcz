@@ -31,6 +31,11 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     var check_markers = L.markerClusterGroup({code: 'B'});
     var autoload_lock = false;
 
+    // ExifMarker - show line between OSM and Exif coors
+    var exifMarker = L.marker([0, 0], {clickable: false, title: 'Souřadnice z exifu fotky'});
+    var osmExifPolyline = L.polyline([[0, 0], [0, 0]],  {color: 'purple', clickable: false, dashArray: '20,30', opacity: 0.8});
+
+
     var gp_check_icon = L.icon({
       iconUrl: osmcz.basePath + "img/gp_check_missing.png",
       iconSize: [48, 48],
@@ -195,7 +200,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
                 offset: new L.Point(1, -32),
                 minWidth: 150,
                 closeOnClick: false,
-                autoPan: true,
+                autoPan: false,
                 keepInView: true,
                 autoPanPadding: new L.Point(5, 5)
                 });
@@ -270,6 +275,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
     map.on('popupclose', function(e) {
       autoload_lock = false;
+      cleanExifMarker();
     });
 
     /* Add overlay to the map */
@@ -345,6 +351,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
          });
     }
 
+    // Cleanup Exif marker
+    function cleanExifMarker() {
+        map.removeLayer(exifMarker);
+        map.removeLayer(osmExifPolyline);
+    }
+
     // Select image clicked
     osmcz.gpcheck.selectImageClicked = function(osmid){
         $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #guidepostfile').click();
@@ -359,6 +371,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
         var latExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latExif');
         var lonExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonExif');
+        var rbSourceExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] input[id="rbSourceExif"]');
 
         var distanceLabel = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-latlon-distance');
 
@@ -367,6 +380,11 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         latExif.val('--.---');
         lonExif.val('--.---');
         distanceLabel.html('');
+
+        $("input[name=coorsSource][value=osm]").prop('checked', true);
+        rbSourceExif.attr("disabled", "disabled");
+        rbSourceExif.prop("checked",false);
+
 
         reader.onloadend = function () {
             preview.attr("src", reader.result);
@@ -399,8 +417,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         var latExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latExif');
         var lonExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonExif');
         var rbSourceExif = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] input[id="rbSourceExif"]');
+        var latOsm = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #latOsm');
+        var lonOsm = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonOsm');
         var lat = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lat');
         var lon = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lon');
+
+        cleanExifMarker();
 
         function base64ToArrayBuffer (base64) {
             base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
@@ -426,6 +448,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             rbSourceExif.prop("checked",true);
             lat.val(latExif.val());
             lon.val(lonExif.val());
+            exifMarker.setLatLng([latExif.val(), lonExif.val()]).addTo(map);
+            osmExifPolyline.setLatLngs([L.latLng(latOsm.attr("osm-orig-value"), lonOsm.attr("osm-orig-value")), L.latLng(latExif.val(), lonExif.val())]).addTo(map);
             updateDistanceLabel(osmid);
         }
     }
@@ -576,6 +600,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             autoload_lock = true;
         } else {
             autoload_lock = false;
+            cleanExifMarker();
             $("#gpc-img-upload-form").hide();
             $("#gpc-upload-btn").show(50);
             $("#gp-check-edit-btns").show(50);
@@ -604,6 +629,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
         var resultMessage = $("#gpc-upl-result").html('<span class="glyphicon glyphicon-refresh text-info gly-spin"></span>');
 
+
+        cleanExifMarker();
 
         preview.attr("src", '');
         preview.attr("alt", '');
