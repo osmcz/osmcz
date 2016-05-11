@@ -438,11 +438,17 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         var lonOsm = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #lonOsm');
         var distanceLabel = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-latlon-distance');
 
+
         if (latExif.val() != "--.---" && !osmcz.coorsError ) {
-            distanceLabel.html("(Rozdíl: " +
-                               Math.abs(OSM.distance(
-                                {'lat': latOsm.val(), 'lng': lonOsm.val()},
-                                {'lat': latExif.val(), 'lng': lonExif.val()})).toFixed(2) +" metrů)");
+            var distance = Math.abs(OSM.distance( {'lat': latOsm.val(), 'lng': lonOsm.val()},
+                                                  {'lat': latExif.val(), 'lng': lonExif.val()})).toFixed(2);
+            if (distance > 50.01) {
+              distanceLabel.html('<span class="glyphicon glyphicon-alert text-warning"></span> '+
+                                 '<strong class="text-warning" title="Rozdíl exif a osm souřadnic je větší než 50 metrů">(Rozdíl: ' +
+                                  distance.replace(/(\d)(?=(\d{3})+\.)/g, '$1 ') + ' metrů)</strong>');
+            } else {
+              distanceLabel.html("(Rozdíl: " + distance.replace(/(\d)(?=(\d{3})+\.)/g, '$1 ') + " metrů)");
+            }
         } else {
             distanceLabel.html("");
         }
