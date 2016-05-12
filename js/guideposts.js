@@ -55,14 +55,19 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             layer.on('click', function(e) {autoload_lock = true;});
 
             // fill hashtags
-            function parse_hashtags(tags) {
-              if (tags.length > 0) {
+            function parse_hashtags(pt) {
+              if ( pt != null ) {
+                var tags = pt.split(';');
+                if (tags.length > 0) {
 
-                var i, tags_content = "";
-                for (i = 0; i < tags.length; i++) {
-                  tags_content += '<a href="http://api.openstreetmap.cz/table/hashtag/' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
+                  var i, tags_content = "";
+                  for (i = 0; i < tags.length; i++) {
+                    tags_content += '<a href="http://api.openstreetmap.cz/table/hashtag/' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
+                  }
+                  return (tags_content);
+                } else {
+                  return ("");
                 }
-                return (tags_content);
               } else {
                 return ("");
               }
@@ -86,7 +91,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
             html_content += "</a>";
 
-            html_content += "<div id='hashtags'>" + parse_hashtags(b.tags.split(';')) + "</div>";
+            html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
 
             html_content += "<div class='buttons-bar'>";
             html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'><button type='button' class='btn btn-default btn-xs'>";
