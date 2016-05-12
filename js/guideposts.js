@@ -48,10 +48,25 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
       iconAnchor: [17, 0]
     });
 
+
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
 
             layer.on('click', function(e) {autoload_lock = true;});
+
+            // fill hashtags
+            function parse_hashtags(tags) {
+              if (tags.length > 0) {
+
+                var i, tags_content = "";
+                for (i = 0; i < tags.length; i++) {
+                  tags_content += '<a href="http://api.openstreetmap.cz/table/hashtag/' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
+                }
+                return (tags_content);
+              } else {
+                return ("");
+              }
+            }
 
             var b = feature.properties;
             var geometry = feature.geometry.coordinates;
@@ -71,13 +86,14 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
             html_content += "</a>";
 
-            html_content += "<br><br>";
+            html_content += "<div id='hashtags'>" + parse_hashtags(b.tags.split(';')) + "</div>";
 
+            html_content += "<div class='buttons-bar'>";
             html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'><button type='button' class='btn btn-default btn-xs'>";
             html_content += '   <div class="glyphicon glyphicon-pencil"></div> Upravit';
             html_content += '</button></a>';
 
-            html_content += "&nbsp;";
+            html_content += "<span class='space-2em'/>";
 
             html_content += "<a href='#'>";
             html_content += '<button type="button" class="btn btn-default btn-xs"';
@@ -85,6 +101,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += '<div class="glyphicon glyphicon-move"></div> Přesunout';
             html_content += "</button>";
             html_content += "</a>";
+            html_content += "</div>";
 
             layer.setIcon(guidepost_icon);
             layer.bindPopup(html_content, {

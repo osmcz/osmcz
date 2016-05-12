@@ -451,6 +451,22 @@ input[type=text].inputError {
 }
 /* Spin icon END */
 
+/* guidepost.js */
+#hashtags {
+  padding: 1em 0 1em 0;
+  line-height: 2;
+  text-align: center;
+}
+
+.buttons-bar {
+  text-align: center;
+}
+
+.space-2em {
+  margin-left: 2em;
+}
+
+
 /* Primárně pro účely splashe */
 #main .jumbotron {
     border-radius: 0;
