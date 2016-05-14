@@ -145,12 +145,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += '    <fieldset>';
             html_content += '        <div class="row">';
             html_content += '          <div class="col-md-6 ">';
-            html_content += '            <button id="backBtn" onclick="osmcz.gpcheck.popupFormatToggle(' + osmid + ');return false;" class="btn btn-default btn-xs back">Zpět</button> ';
+            html_content += '            <button id="backBtn" onclick="osmcz.gpcheck.popupFormatToggle(' + osmid + ');return false;" class="btn btn-default btn-xs">Zpět</button> ';
             html_content += '            <input type="reset" id="resetBtn" name="reset" value="Reset" onclick="osmcz.gpcheck.resetForm(' + osmid + ');return false;" class="btn btn-default btn-xs"/>';
 //             html_content += '        <span style="margin:2em"></span>';
             html_content += '          </div>';
             html_content += '          <div class="col-md-2 col-md-offset-2">';
-            html_content += '            <input type="submit" id="submitBtn" name="submitBtn" value="Nahrát fotografii" onclick="osmcz.gpcheck.uploadFormData(' + osmid + ');return false;" class="btn btn-default btn-xs next"/>';
+            html_content += '            <input type="submit" id="submitBtn" name="submitBtn" value="Nahrát fotografii" onclick="osmcz.gpcheck.uploadFormData(' + osmid + ');return false;" class="btn btn-default btn-xs"/>';
             html_content += '          </div>';
             html_content += '        </div>';
             html_content += '        <div id="gpc-upl-result" class="gpc-upl-result"></div>';
