@@ -395,10 +395,13 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
 
     var gpTpl = '<h5>Foto rozcestníku</h5>'
         + '<a href="_imgUrl">'
-        + '<img src="_imgUrl" width="250">'
-        + '</a><br>'
-        + '<b>Fotografii poskytl:</b> _autor'
-        + " <a href='http://api.openstreetmap.cz/table/id/_id' target='_blank'><span class='glyphicon glyphicon-pencil' title='upravit'></span></a>";
+        + '  <img src="_imgUrl" width="250">'
+        + '</a>'
+        + '<div class="margin-top-05"><b>Fotografii poskytl: </b> _autor'
+        + '<span style="margin: 0.5em"/>'
+        + ' <a href="http://api.openstreetmap.cz/table/id/_id" target="_blank" class="btn btn-default btn-xs">'
+        + '   <span class="glyphicon glyphicon-pencil" title="upravit"></span> upravit</a>'
+        + '</div>'
 
     function showGuidepost() {
         var gp = $('#guidepost');
