@@ -8,7 +8,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         retinaSuffix = devicePixelRatio >= 2 ? '@2x' : '';
     var osmAttr = '&copy; <a href="http://openstreetmap.org/copyright">OSM</a>'; //abbrevation not recommended on other websites
 
-    var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
+    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         osmczDefaultLayer: true
     });
@@ -19,13 +19,13 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'k'
     });
 
-    var opentopomap = L.tileLayer("http://{s}.tile.opentopomap.org//{z}/{x}/{y}.png", {
+    var opentopomap = L.tileLayer("https://{s}.tile.opentopomap.org//{z}/{x}/{y}.png", {
         maxZoom: 15,
         attribution: osmAttr + ', <a href="http://opentopomap.org/">OpenTopoMap</a>',
         code: 'u'
     });
 
-    var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: osmAttr,
         code: 'd'
