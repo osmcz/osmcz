@@ -87,8 +87,8 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "Číslo rozcestníku: ";
             html_content += "<a href='http://api.openstreetmap.cz/table/ref/"+ b.ref + "'>" + b.ref + "</a>";
             html_content += "<br>";
-            html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>";
-            html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
+            html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>"; // @TODO: upravit, až bude HTTPS verze
+            html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>"; // @TODO: upravit, až bude HTTPS verze
             html_content += "</a>";
 
             html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
@@ -237,7 +237,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
         $.ajax({
           type: 'POST',
-          url: 'http://api.openstreetmap.cz/table/move_photo',
+          url: 'http://api.openstreetmap.cz/table/move_photo', // @TODO: upravit, až bude HTTPS verze
           data: 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon,
           timeout:3000
         })
@@ -339,10 +339,10 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
             markers.clearLayers();
 
-            var geo_json_url = 'http://api.openstreetmap.cz/table/all';
+            var geo_json_url = 'http://api.openstreetmap.cz/table/all'; // @TODO: upravit, až bude HTTPS verze
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
 
-            geo_json_url = 'http://api.openstreetmap.cz/commons';
+            geo_json_url = 'http://api.openstreetmap.cz/commons'; // @TODO: upravit, až bude HTTPS verze
             request_from_url(geo_json_url, retrieve_commons, error_gj)
 
         } else {
