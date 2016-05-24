@@ -11,7 +11,7 @@ initmap();
 
 function initmap() {
     map = new L.Map('map', {zoomControl: false});
-    map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='http://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION);
+    map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION);
 
     // -------------------- map layers --------------------
     new osmcz.layers(map, baseLayers, overlays);

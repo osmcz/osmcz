@@ -179,12 +179,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += '<br/><span class="glyphicon glyphicon-refresh text-info gly-spin"></span> Načítám podrobnosti z OSM.org</div>';
 
             // Links to node on osmap.cz and osm.org
-            html_content += '<br/><div class="osmid"><a href="http://osmap.cz/node/' + feature.id + '">osmap.cz/node/' + feature.id + '</a>';
-            html_content += ' | <a href="http://openstreetmap.org/node/' + feature.id + '">OSM.org</a><br/>';
+            html_content += '<br/><div class="osmid"><a href="http://osmap.cz/node/' + feature.id + '">osmap.cz/node/' + feature.id + '</a>'; // @TODO: upravit, až bude HTTPS verze
+            html_content += ' | <a href="https://openstreetmap.org/node/' + feature.id + '">OSM.org</a><br/>';
 
             // Edit in iD button
             html_content += '<div id="gp-check-edit-btns">';
-            html_content += '  <a href="http://www.openstreetmap.org/edit?editor=id&node=' + feature.id + '"><button type="button" class="btn btn-default btn-xs">';
+            html_content += '  <a href="https://www.openstreetmap.org/edit?editor=id&node=' + feature.id + '"><button type="button" class="btn btn-default btn-xs">';
             html_content += '     <div class="glyphicon glyphicon-pencil"></div> iD';
             html_content += '  </button></a> ';
 
@@ -241,7 +241,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     map.on('popupopen', function(e) {
       var osmid = e.popup._source.feature.id;
       $.ajax({
-          url: 'http://www.openstreetmap.org' + OSM.apiUrl({type: "node", id: osmid}),
+          url: 'https://www.openstreetmap.org' + OSM.apiUrl({type: "node", id: osmid}),
           dataType: 'xml',
           jsonp: false,
           global: false,
@@ -322,7 +322,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
         if (map.getZoom() > 1) {
             check_markers.clearLayers();
-            var geo_json_url = 'http://osm.fit.vutbr.cz/OsmHiCheck/gp/';
+            var geo_json_url = 'http://osm.fit.vutbr.cz/OsmHiCheck/gp/'; // @TODO: upravit, až bude HTTPS verze
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
         } else {
             layer_gpcheck.clearLayers();
@@ -340,7 +340,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     osmcz.gpcheck.callRemoteEditor = function(lon, lat) {
       $.ajax
          ({
-             url: 'http://127.0.0.1:8111/load_and_zoom',
+             url: 'http://127.0.0.1:8111/load_and_zoom', // @FIXME: cross-domain+HTTPS? https://josm.openstreetmap.de/ticket/10033
              data: {
                  left:   lon - 0.0005,
                  top:    lat + 0.0005,
@@ -680,7 +680,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
         $.ajax({
 //              url: 'http://localhost/api/upload/guidepost.php',
-            url: 'http://map.openstreetmap.cz/guidepost.php',
+            url: 'http://map.openstreetmap.cz/guidepost.php', // @TODO: upravit, až bude funkční HTTPS verze
             type: 'POST',
             data: formData,
             async: false,

@@ -6,7 +6,7 @@ function note(lat, lon, text) {
 
     this.send = function() {
         var jqxhr = $.ajax({
-                url: "http://map.openstreetmap.cz/upload.php",
+                url: "http://map.openstreetmap.cz/upload.php", // @TODO: upravit, až bude HTTPS verze
                 type: "post", //send it through get method
                 data: {
                     lat: this.lat,
