@@ -234,7 +234,11 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
     };
 
     section(name, 'Další jména:', true);
-    tpl = tpl.concat(osmcz.openingHoursService.getHtml(openingHours));
+    try {
+        tpl = tpl.concat(osmcz.openingHoursService.getHtml(openingHours));
+    } catch (err) {
+        tpl.push("<b>opening_hours</b> = " + openingHours + "<br> <em>(Nepodařilo se naparsovat: "+err+")</em>");
+    }
     section(payment, 'Možnosti platby:');
     section(contact, 'Kontakty:');
     section(building, 'Budova:');
