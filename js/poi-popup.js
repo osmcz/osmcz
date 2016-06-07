@@ -195,14 +195,19 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
             var v = general[i].v;
             tpl.push('<b>' + k + '</b> = ');
             // wikipedia=* or xxx:wikipedia=*
-            if (k.match(/^wikipedia$/) || k.match(/:wikipedia$/))
-                tpl.push('<a href="https://wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+            if (k.match(/^wikipedia$/) || k.match(/:wikipedia$/)) {
+                if (v.match(/:/)) {
+                  tpl.push('<a href="https://' + v.split(":")[0] + '.wikipedia.org/wiki/' + v.split(":")[1] + wikiLang + '">' + v + '</a>');
+                } else {
+                  tpl.push('<a href="https://wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+                }
+            }
             // wikipedia:<country>=* or xxx:wikipedia:<country>=*
             else if (k.match(/^wikipedia:/) || k.match(/:wikipedia:/))
-                tpl.push('<a href="https://wikipedia.org/wiki/' + k.split(":").pop() + ':' + v + wikiLang + '">' + v + '</a>');
+                tpl.push('<a href="https://' + k.split(":").pop() + '.wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
             // wikidata=*
             else if (k.match(/^wikidata$/))
-                tpl.push('<a href="https://wikidata.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+                tpl.push('<a href="https://www.wikidata.org/wiki/' + v + wikiLang + '">' + v + '</a>');
             // wikimedia commons=*
             else if (k.match(/^wikimedia_commons$/))
                 tpl.push('<a href="https://commons.wikimedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
