@@ -42,6 +42,12 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
       iconAnchor: [23, 45]
     });
 
+    var infopane_icon = L.icon({
+      iconUrl: osmcz.basePath + "img/infopane.png",
+      iconSize: [48, 48],
+      iconAnchor: [23, 45]
+    });
+
     var commons_icon = L.icon({
       iconUrl: osmcz.basePath + "img/commons_logo.png",
       iconSize: [35, 48],
@@ -108,7 +114,12 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "</a>";
             html_content += "</div>";
 
-            layer.setIcon(guidepost_icon);
+            if (b.tags && b.tags.indexOf("infotabule") > -1) {
+              layer.setIcon(infopane_icon);
+            } else {
+              layer.setIcon(guidepost_icon);
+            }
+
             layer.bindPopup(html_content, {
               offset: new L.Point(1, -32),
               minWidth: 500,
