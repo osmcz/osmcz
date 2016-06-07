@@ -17,6 +17,11 @@ osmcz._map = false;
 // static methods
 osmcz.poiPopup.load = function (object) {
 
+    // exit when osm object does not exists or osmid is null
+    if ((! object) || (! "id" in object) ) {
+      return;
+    }
+
     $.ajax({
         url: 'https://www.openstreetmap.org' + OSM.apiUrl({type: object.type, id: object.id}),
         dataType: 'xml',

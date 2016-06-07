@@ -240,6 +240,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
     map.on('popupopen', function(e) {
       var osmid = e.popup._source.feature.id;
+
+      // exit when osmid is null
+      if (! osmid) {
+        return;
+      }
+
       $.ajax({
           url: 'https://www.openstreetmap.org' + OSM.apiUrl({type: "node", id: osmid}),
           dataType: 'xml',
