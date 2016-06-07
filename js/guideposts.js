@@ -82,6 +82,14 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             var b = feature.properties;
             var geometry = feature.geometry.coordinates;
 
+            var ftype;
+
+            if (b.tags && b.tags.indexOf("infotabule") > -1) {
+              ftype = "infopane";
+            } else {
+              ftype = "guidepost";
+            }
+
             if (!b.ref) {
                 b.ref = "nevíme";
             }
@@ -90,9 +98,11 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='http://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
             html_content += "<br>";
-            html_content += "Číslo rozcestníku: ";
-            html_content += "<a href='http://api.openstreetmap.cz/table/ref/"+ b.ref + "'>" + b.ref + "</a>";
-            html_content += "<br>";
+            if (ftype == "guidepost" ) {
+              html_content += "Číslo rozcestníku: ";
+              html_content += "<a href='http://api.openstreetmap.cz/table/ref/"+ (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
+              html_content += "<br>";
+            }
             html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>"; // @TODO: upravit, až bude HTTPS verze
             html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>"; // @TODO: upravit, až bude HTTPS verze
             html_content += "</a>";
@@ -114,7 +124,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             html_content += "</a>";
             html_content += "</div>";
 
-            if (b.tags && b.tags.indexOf("infotabule") > -1) {
+            if (ftype == "infopane") {
               layer.setIcon(infopane_icon);
             } else {
               layer.setIcon(guidepost_icon);
