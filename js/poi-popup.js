@@ -196,13 +196,13 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
             tpl.push('<b>' + k + '</b> = ');
             // wikipedia=* or xxx:wikipedia=*
             if (k.match(/^wikipedia$/) || k.match(/:wikipedia$/))
-                tpl.push('<a href="https://www.wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+                tpl.push('<a href="https://wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
             // wikipedia:<country>=* or xxx:wikipedia:<country>=*
             else if (k.match(/^wikipedia:/) || k.match(/:wikipedia:/))
-                tpl.push('<a href="https://www.wikipedia.org/wiki/' + k.split(":").pop() + ':' + v + wikiLang + '">' + v + '</a>');
+                tpl.push('<a href="https://wikipedia.org/wiki/' + k.split(":").pop() + ':' + v + wikiLang + '">' + v + '</a>');
             // wikidata=*
             else if (k.match(/^wikidata$/))
-                tpl.push('<a href="https://www.wikidata.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+                tpl.push('<a href="https://wikidata.org/wiki/' + v + wikiLang + '">' + v + '</a>');
             // wikimedia commons=*
             else if (k.match(/^wikimedia_commons$/))
                 tpl.push('<a href="https://commons.wikimedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
