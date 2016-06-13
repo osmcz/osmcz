@@ -360,10 +360,10 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
             markers.clearLayers();
 
-            var geo_json_url = 'http://api.openstreetmap.cz/table/all'; // @TODO: upravit, až bude HTTPS verze
+            var geo_json_url = 'https://api.openstreetmap.cz/table/all';
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
 
-            geo_json_url = 'http://api.openstreetmap.cz/commons'; // @TODO: upravit, až bude HTTPS verze
+            geo_json_url = 'https://api.openstreetmap.cz/commons';
             request_from_url(geo_json_url, retrieve_commons, error_gj)
 
         } else {
