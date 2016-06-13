@@ -68,7 +68,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
                   var i, tags_content = "";
                   for (i = 0; i < tags.length; i++) {
-                    tags_content += '<a href="http://api.openstreetmap.cz/table/hashtag/' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
+                    tags_content += '<a href="https://api.openstreetmap.cz/table/hashtag/' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
                   }
                   return (tags_content);
                 } else {
@@ -96,21 +96,21 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
             var html_content = "";
             html_content += "Fotografii poskytl: ";
-            html_content += "<a href='http://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
+            html_content += "<a href='https://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
             html_content += "<br>";
             if (ftype == "guidepost" ) {
               html_content += "Číslo rozcestníku: ";
-              html_content += "<a href='http://api.openstreetmap.cz/table/ref/"+ (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
+              html_content += "<a href='https://api.openstreetmap.cz/table/ref/"+ (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
               html_content += "<br>";
             }
-            html_content += "<a href='http://map.openstreetmap.cz/" + b.url + "'>"; // @TODO: upravit, až bude HTTPS verze
-            html_content += "<img src='http://map.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>"; // @TODO: upravit, až bude HTTPS verze
+            html_content += "<a href='https://api.openstreetmap.cz/" + b.url + "'>";
+            html_content += "<img src='https://api.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
             html_content += "</a>";
 
             html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
 
             html_content += "<div class='buttons-bar'>";
-            html_content += "<a href='http://api.openstreetmap.cz/table/id/" + b.id + "'><button type='button' class='btn btn-default btn-xs'>";
+            html_content += "<a href='https://api.openstreetmap.cz/table/id/" + b.id + "'><button type='button' class='btn btn-default btn-xs'>";
             html_content += '   <div class="glyphicon glyphicon-pencil"></div> Upravit';
             html_content += '</button></a>';
 
@@ -258,7 +258,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
         $.ajax({
           type: 'POST',
-          url: 'http://api.openstreetmap.cz/table/move_photo', // @TODO: upravit, až bude HTTPS verze
+          url: 'https://api.openstreetmap.cz/table/move_photo',
           data: 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon,
           timeout:3000
         })
