@@ -170,7 +170,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         if (!isLayerChosen())
             return;
 
-        console.log(map.hasLayer(markers));
+//         console.log(map.hasLayer(markers));
 
         if (typeof xhr !== 'undefined') {
             xhr.abort();
