@@ -373,9 +373,11 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
     function retrieve_geojson(data) {
         layer_guidepost.clearLayers();
-        layer_guidepost.addData(JSON.parse(data));
-        markers.addLayer(layer_guidepost);
-        map.addLayer(markers);
+        if (data != "") {
+            layer_guidepost.addData(JSON.parse(data));
+            markers.addLayer(layer_guidepost);
+            map.addLayer(markers);
+        }
     }
 
     function retrieve_commons(data) {
