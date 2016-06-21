@@ -258,7 +258,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
         $.ajax({
           type: 'POST',
-          url: 'https://api.openstreetmap.cz/table/move_photo',
+          url: 'https://api.openstreetmap.cz/table/move',
           data: 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon,
           timeout:3000
         })
