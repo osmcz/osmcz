@@ -107,7 +107,7 @@ osmcz.poiPopup.setUrl = function (p) {
 
 
 // ------- POI panel template  -------
-osmcz.poiPopup.getHtml = function (feature, icon, embedded = false) {
+osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
 
     //TODO refactor
 
