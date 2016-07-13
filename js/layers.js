@@ -7,7 +7,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var devicePixelRatio = window.devicePixelRatio || 1,
         retinaSuffix = devicePixelRatio >= 2 ? '@2x' : '';
     var osmAttr = '&copy; <a href="https://openstreetmap.org/copyright">OSM</a>'; //abbrevation not recommended on other websites
-    var fakeHttps = location.host === 'openstreetmap.cz' ? '/proxy.php/' : 'https://';
+    var fakeHttps = location.host === 'openstreetmap.cz' ? '/proxy.php/' : 'http://';
 
     var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
