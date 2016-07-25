@@ -20,11 +20,10 @@ and
 
  (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
- */
+*/
 
 var osmcz = osmcz || {};
 osmcz.guideposts = function(map, baseLayers, overlays, controls) {
-    // -- constructor --
 
     var layersControl = controls.layers;
     var xhr;
@@ -288,6 +287,8 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         .always(function(data) {
         });
 
+        note.note_api(1,1,"nazdar");
+
         hide_sidebar();
     }
 
@@ -316,14 +317,15 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         var content = document.getElementById("sidebar-content");
         content.innerHTML = "<h1>Přesun rozcestníku</h1>";
         content.innerHTML += "<p>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]</p>";
-//  content.innerHTML += "<h2>Informace</h2>";
-//  content.innerHTML += "<p>id:" + gp_id + "</p>";
         content.innerHTML += "<h3>Současná pozice</h3>";
         content.innerHTML += "<p>lat, lon:</p>";
         content.innerHTML += "<p>" + gp_lat.toFixed(6) + "," + gp_lon.toFixed(6) + "</p>";
         content.innerHTML += "<h3>Přesunujete na</h3>";
         content.innerHTML += "<div id='guidepost_move_info'>";
+        content.innerHTML += "Klikněte do mapy";
         content.innerHTML += "</div>";
+        content.innerHTML += "<h3>poslat informaci</h3>";
+        content.innerHTML += "<textarea rows='1' cols='15'>id:" + gp_id + "moje zprava</textarea>";
         content.innerHTML += "<hr>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>";
