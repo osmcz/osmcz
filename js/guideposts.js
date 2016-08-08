@@ -287,7 +287,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         .always(function(data) {
         });
 
-        note.note_api(1,1,"nazdar");
+        note.note_api(final_lat, final_lon, document.getElementById("gp_usr_message").value);
 
         hide_sidebar();
     }
@@ -325,7 +325,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         content.innerHTML += "Klikněte do mapy";
         content.innerHTML += "</div>";
         content.innerHTML += "<h3>poslat informaci</h3>";
-        content.innerHTML += "<textarea rows='1' cols='15'>id:" + gp_id + "moje zprava</textarea>";
+        content.innerHTML += "<textarea rows='1' cols='15' id='gp_usr_message'>id:" + gp_id + "moje zprava</textarea>";
         content.innerHTML += "<hr>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>";
