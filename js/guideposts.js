@@ -287,7 +287,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         .always(function(data) {
         });
 
-        osmcz.note.note_api(final_lat, final_lon, document.getElementById("gp_usr_message").value);
+        note.note_api(final_lat, final_lon, document.getElementById("gp_usr_message").value);
 
         hide_sidebar();
     }
