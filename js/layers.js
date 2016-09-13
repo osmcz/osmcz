@@ -178,6 +178,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Dopravní öpnv"] = opnv;
     baseLayers["Méně popisků"] = menepopisku;
     baseLayers["Ortofoto ČÚZK"] = ortofoto;
+    baseLayers["Metropolis"] = metropolis;
 
     overlays["Ortofoto popisky"] = ortofotoOverlay;
     overlays["Turistické trasy ČR"] = turistikaOverlay;
