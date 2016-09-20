@@ -84,14 +84,14 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>', // @TODO: upravit, až bude HTTPS verze
         code: 'o'
     });
-    
-    var metropolis = L.tileLayer(fakeHttps + "api.mapbox.com/styles/v1/severak/cinr478gg00aucam0o6lran4v/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2V2ZXJhayIsImEiOiJjaXQxenM2ZTEwMGIyMnRwZGMwZzF6Y2VsIn0.-uZbcCAI3ABqnbg6h1mrhQ", {
+
+    var metropolis = L.tileLayer("https://api.mapbox.com/styles/v1/severak/cinr478gg00aucam0o6lran4v/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2V2ZXJhayIsImEiOiJjaXQxenM2ZTEwMGIyMnRwZGMwZzF6Y2VsIn0.-uZbcCAI3ABqnbg6h1mrhQ", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href=\'https://www.mapbox.com/about/maps/\'>Mapbox</a>, <a href=\'http://severak.svita.cz\'>Severák</a>',
         code: 'b'
     });
-    
-    
+
+
     map.on('baselayerchange', function (event) {
         if (event.layer == ortofoto || event.layer == vodovky) {
             setTimeout(function(){  // needs timeout or doesnt work
