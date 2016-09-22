@@ -723,10 +723,12 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
     // Upload form via ajax
     osmcz.gpcheck.uploadFormData = function(osmid) {
+        var license = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #license option:selected').val();
+
         var formData = new FormData($('#gpc-img-upload-form[data-osm-id="' + osmid + '"]')[0]);
+        formData.append('license', license);
 
         //Check selected license and update cookie if needed
-        var license = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #license option:selected').val();
         if (Cookies.get("_gp_check_license") == null ||
              (Cookies.get("_gp_check_license") != null &&
               license != Cookies.get("_gp_check_license")
