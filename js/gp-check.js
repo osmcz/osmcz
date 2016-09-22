@@ -126,6 +126,15 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += '        </div>';
             html_content += '        <div class="row flex-v-center">';
             html_content += '          <div class="col-xs-3">';
+            html_content += '            <label class="text-right">Licence: </label>';
+            html_content += '          </div>';
+            html_content += '          <div class="col-xs-9 form-group"  >';
+            html_content += '            <select id="license" class="form-control">';
+            html_content += '            </select>';
+            html_content += '          </div>';
+            html_content += '        </div>';
+            html_content += '        <div class="row flex-v-center">';
+            html_content += '          <div class="col-xs-3">';
             html_content += '            <label>Ref: </label>';
             html_content += '          </div>';
             html_content += '          <div class="col-xs-9">';
@@ -483,6 +492,36 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             distanceLabel.html("");
         }
     }
+
+    // Get licenses list from api
+    osmcz.gpcheck.getLicenses = function(osmid) {
+        var license = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #license option:selected').text();
+        if (license == "" ) {
+            // Get list of licenses
+            $.ajax({
+                url: 'http://api.openstreetmap.cz/table/licenseinfo?output=json',
+                success: function (data) {
+                    if (data != "") {
+                        //show result
+                        var lcSel = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #license');
+                        JSON.parse(data, function(k, v) {
+                            if (k != "") {
+                                lcSel.append($('<option>', {
+                                        value: k,
+                                        text : v,
+                                        title: v
+                                    }));
+                                }
+                            });
+                            if (Cookies.get("_gp_check_license") != null)
+                                lcSel.val(Cookies.get("_gp_check_license")).change();
+                        }
+                    },
+                cache: true
+            });
+        }
+    }
+
     // Check author field, show alert when missing
     osmcz.gpcheck.authorChanged = function(osmid) {
         var author = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #author');
@@ -603,6 +642,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             $("#gpc-img-upload-form").show(200);
             osmcz.gpcheck.previewFile(osmid);
             osmcz.gpcheck.authorChanged(osmid);
+            osmcz.gpcheck.getLicenses(osmid);
             autoload_lock = true;
         } else {
             autoload_lock = false;
@@ -668,6 +708,9 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         if (Cookies.get("_gp_check_author") != null)
           $("#author").val(Cookies.get("_gp_check_author"));
 
+        if (Cookies.get("_gp_check_license") != null)
+          $("#license").val(Cookies.get("_gp_check_license")).change();
+
         ref.val(ref.attr("osm-orig-value"));
         note.val('');
 
@@ -682,10 +725,19 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     osmcz.gpcheck.uploadFormData = function(osmid) {
         var formData = new FormData($('#gpc-img-upload-form[data-osm-id="' + osmid + '"]')[0]);
 
+        //Check selected license and update cookie if needed
+        var license = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #license option:selected').val();
+        if (Cookies.get("_gp_check_license") == null ||
+             (Cookies.get("_gp_check_license") != null &&
+              license != Cookies.get("_gp_check_license")
+             )) {
+                Cookies.set("_gp_check_license", license, {expires: 90});
+        }
+
         $("#gpc-upl-result").html('<span class="glyphicon glyphicon-refresh text-info gly-spin"></span>');
 
         $.ajax({
-//              url: 'http://localhost/api/upload/guidepost.php',
+//             url: 'http://localhost/api/upload/guidepost.php',
             url: 'http://map.openstreetmap.cz/guidepost.php', // @TODO: upravit, až bude funkční HTTPS verze
             type: 'POST',
             data: formData,
