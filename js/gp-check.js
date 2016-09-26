@@ -167,7 +167,6 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += '  </form>';
             html_content += '</div>';
 
-
             // List of missing thinks
             html_content += '<div id="gpc-missing"><br/>';
             if (feature.properties.class == 'missing') {
@@ -504,19 +503,19 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
                     if (data != "") {
                         //show result
                         var lcSel = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #license');
-                        JSON.parse(data, function(k, v) {
-                            if (k != "") {
-                                lcSel.append($('<option>', {
-                                        value: k,
-                                        text : v,
-                                        title: v
-                                    }));
-                                }
+                        var jsonObj = JSON.parse(data);
+                        Object.keys(jsonObj.licenses).forEach(function(k) {
+                            lcSel.append($('<option>', {
+                                    value: k,
+                                    text : jsonObj.licenses[k],
+                                    title: jsonObj.licenses[k]
+                                }));
                             });
-                            if (Cookies.get("_gp_check_license") != null)
-                                lcSel.val(Cookies.get("_gp_check_license")).change();
-                        }
-                    },
+
+                        if (Cookies.get("_gp_check_license") != null)
+                            lcSel.val(Cookies.get("_gp_check_license")).change();
+                    }
+                },
                 cache: true
             });
         }
