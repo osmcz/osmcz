@@ -145,7 +145,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'V'
     });
 
-    var zimniOverlay = L.tileLayer(fakeHttps + "www.opensnowmap.org/opensnowmap-overlay/{z}/{x}/{y}.png", {
+//     var zimniOverlay = L.tileLayer(fakeHttps + "www.opensnowmap.org/opensnowmap-overlay/{z}/{x}/{y}.png", {
+//         maxZoom: 18,
+//         attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>', // @TODO: upravit, až bude HTTPS verze
+//         code: 'Z'
+//     });
+    var zimniOverlay = L.tileLayer(fakeHttps + "www.opensnowmap.org/tiles-pistes/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>', // @TODO: upravit, až bude HTTPS verze
         code: 'Z'
