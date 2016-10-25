@@ -368,7 +368,7 @@ a:hover.as-text {
     width:350px;
 }
 
-input[type=file], input[type=text], select {
+#gpc-img-upload-form input[type=file], input[type=text], select {
     background:#eee !important;
     color:#000 !important;
     padding:5px !important;
@@ -378,11 +378,11 @@ input[type=file], input[type=text], select {
     margin: 2px;
 }
 
-input[type=text]:focus, select:focus {
+#gpc-img-upload-form input[type=text]:focus, select:focus {
     border:2px solid #337ab7 !important;
 }
 
-input[type=text].inputError {
+#gpc-img-upload-form input[type=text].inputError {
     border:2px solid #d9534f;
 }
 
