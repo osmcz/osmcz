@@ -187,7 +187,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
             html_content += '<br/><span class="glyphicon glyphicon-refresh text-info gly-spin"></span> Načítám podrobnosti z OSM.org</div>';
 
             // Links to node on osmap.cz and osm.org
-            html_content += '<br/><div class="osmid"><a href="http://osmap.cz/node/' + feature.id + '">osmap.cz/node/' + feature.id + '</a>'; // @TODO: upravit, až bude HTTPS verze
+            html_content += '<br/><div class="osmid"><a href="https://osmap.cz/node/' + feature.id + '">osmap.cz/node/' + feature.id + '</a>'; // @TODO: upravit, až bude HTTPS verze
             html_content += ' | <a href="https://openstreetmap.org/node/' + feature.id + '">OSM.org</a><br/>';
 
             // Edit in iD button
@@ -498,7 +498,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         if (license == "" ) {
             // Get list of licenses
             $.ajax({
-                url: 'http://api.openstreetmap.cz/table/licenseinfo?output=json',
+                url: 'https://api.openstreetmap.cz/table/licenseinfo?output=json',
                 success: function (data) {
                     if (data != "") {
                         //show result
