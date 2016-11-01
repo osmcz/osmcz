@@ -739,7 +739,8 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
 
         $.ajax({
 //             url: 'http://localhost/api/upload/guidepost.php',
-            url: 'http://map.openstreetmap.cz/guidepost.php', // @TODO: upravit, až bude funkční HTTPS verze
+//            url: 'http://map.openstreetmap.cz/guidepost.php', // @TODO: upravit, až bude funkční HTTPS verze
+            url: 'https://api.openstreetmap.cz/guidepost.php',
             type: 'POST',
             data: formData,
             async: false,
