@@ -1,4 +1,4 @@
-var OSMCZ_APP_VERSION = '0.11';
+var OSMCZ_APP_VERSION = '0.12';
 
 var osmcz = osmcz || {};
 osmcz.basePath = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost'].indexOf(location.hostname) !== -1 ? '/theme/' : '';
