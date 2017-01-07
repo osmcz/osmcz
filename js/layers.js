@@ -74,7 +74,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'b'
     });
 
-    var ortofoto = L.tileLayer.wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
+    var ortofoto = L.tileLayer.wms('https://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
         layers: 'GR_ORTFOTORGB',
         format: 'image/jpeg',
         transparent: false,
