@@ -391,9 +391,8 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         }
         else {
             var ref = feature.properties.tags.ref;
-            var osmczApiPrefix = (location.host === 'openstreetmap.cz') ? '/proxy.php/' : 'http://'; // @TODO: upravit, až bude HTTPS verze
             $.ajax({
-                url: osmczApiPrefix + 'api.openstreetmap.cz/table/close?lat=' + lat + '&lon=' + lon + '&distance=50&limit=1',
+                url: 'https://api.openstreetmap.cz/table/close?lat=' + lat + '&lon=' + lon + '&distance=50&limit=1', // @TODO: upravit, až bude HTTPS verze
                 //url: 'http://api.openstreetmap.cz/table/ref/' + ref,
                 data: {
                     outputFormat: 'application/json',
