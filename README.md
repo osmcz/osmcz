@@ -4,7 +4,8 @@ Responzivní mapová aplikace pro [openstreetmap.cz](http://openstreetmap.cz/)
 
 * **[DEMO](http://rawgit.com/osmcz/osmcz/master/index.html)** - vývojová větev
 * **[ISSUE TRACKER](https://github.com/osmcz/osmcz/issues)**
-
+* ** pro publikaci na webu commitněte změny do větve production a zkontrolujte,
+     že případné změny index.html jsou přeneseny do patřičného *.latte
 
 ## Jak přispět do projektu
 viz [CONTRIBUTING.md](CONTRIBUTING.md)
