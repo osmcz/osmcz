@@ -1,0 +1,80 @@
+{block title}{if $x=$page->getMeta('html-title')}{$x}{else}{$page[heading]}{/if}{/block}
+
+{block layout_aftertitle}{if $x=$page->getMeta('html-aftertitle')}{$x}{else}{include #parent}{/if}{/block}
+
+{block map}{include #osmczmap}{/block}
+
+{block content}
+
+<div id="main">
+    <div class="container" n:snippet="content">
+
+        {var $tweets = !$page->getMeta('hidetwitter')}
+        <div class="row" n:tag-if="$tweets">
+            <div n:class="$tweets ? col-md-8">
+
+                {* top menu navigace meta: section-submenu-id *}
+                <ul class="nav nav-tabs" n:if="$id = $page->getInheritedMeta('section-submenu-id')">
+                    {foreach PagesModel::getPageById($id)->getChildNodes() as $row}
+                        <li n:class='in_array($row, $crumbs) ? active'>
+                            <a href='{$row->link()}'>{$row->name}</a>
+                        </li>
+                    {/foreach}
+                </ul>
+
+                {* main page heading *}
+                <h1 n:if="$page->getMeta(title) != 'no'">{$page[heading]}</h1>
+
+                <div n:foreach="$flashes as $flash" class="flash bg-success">
+                    {$flash->message}
+                </div>
+
+                {if $presenter->triggerEvent('allowPageContentDisplay')}
+                    {if $presenter->triggerEvent('displayPageContent')}
+                        {!$page->content}
+                    {/if}
+                {/if}
+
+                {if $page->getMeta('zebricek')}
+                    {include inc_zebricek.latte}
+                {/if}
+
+                {if $page->getMeta('komunita') && $page->getMeta('project_tag') && !$page->getMeta('komunitawide')}
+                    <h3>Zainteresovaní lidé z komunity</h3>
+                    {include inc_komunita.latte, is_project_page => true, is_wide => $page->getMeta(hidetwitter)}
+                {/if}
+
+            </div>
+            <div class="tweets-sidebar col-md-4" n:if="$tweets">
+                {include inc_twitter.latte}
+            </div>
+        </div>
+
+
+        {if $page->getMeta('komunita') && $page->getMeta('project_tag') && $page->getMeta('komunitawide')}
+            <h3>Zainteresovaní lidé z komunity</h3>
+            {include inc_komunita.latte, is_project_page => true, is_wide => true}
+        {/if}
+
+        {* hlavní komunitní stránka -- pod twitterem *}
+        {if $page->getMeta('komunita') && !$page->getMeta('project_tag')}
+            {include inc_komunita.latte, is_project_page => false, is_wide => true}
+        {/if}
+
+
+        <hr>
+
+        <footer>
+            <p class="pull-right" n:if="$presenter->user->isLoggedIn()">
+                <a n:href=":Admin:Pages:edit $presenter->page->id, lang=>$presenter->page->lang"
+                   class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    editovat tuto stránku</a></p>
+
+            <p class="text-center">(c) 2015-{date('Y')} <a href="/komunita">Česká komunita OpenStreetMap</a>
+            <br><small>Chyba? <a href="&#109;ailto&#58;dev&#64;openstreetmap.cz">dev&#64;openstreetmap.cz</a></small>
+        </footer>
+
+    </div>
+    <!-- /container -->
+</div><!-- /main -->

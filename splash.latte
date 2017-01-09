@@ -1,0 +1,126 @@
+{block title}OpenStreetMap.cz{/block}
+{block layout_aftertitle}{/block}
+
+{block map}{include #osmczmap}{/block}
+
+{block content}
+<div class="container splash">
+
+    <div class="row">
+        <div class="content-box-inner jumbotron col-md-8 col-md-offset-2 bottom-spacer">
+            <button type="button" class="close close-overlay" aria-label="Close"><span>&times;</span>
+            </button>
+
+            <h1>Hezky, české&nbsp;<img src="/theme/img/osmcz.220x220.png" alt="Logo OSMCZ" width="110" height="110"
+                                       title="přeci OpenStreetMapy :-)" class="osmlogo">!</h1>
+
+            <p class="lead">OpenStreetMap je mapa, kterou může kdokoliv upravovat. Něco jako Wikipedie. Česká
+                <a href="/komunita">komunita</a> Vám zde nabízí mapovou aplikaci, své <a href="/projekty">projekty</a>, odborníky
+                či&nbsp;<a href="/skoleni">školení</a>.</p>
+
+            <p style="font-size:85%;">Tento web je zatím beta-verze, zapojte se do bouřlivého vývoje na <a
+                        href="https://github.com/osmcz/osmcz"><img src="https://github.com/favicon.ico" width="13"
+                                                                   style="margin:0 4px" alt="">githubu</a>.</p>
+
+            <p><a href="/vyuziti" class="btn btn-primary btn-large">Zjistit více o OSM</a>
+                <a href="/galerie" class="btn btn-large">Prohlédnout galerii</a></p>
+        </div>
+    </div>
+
+    {snippet content}
+        <div class="row">
+
+            <div class="content-box-left col-md-4 col-md-offset-2">
+                <div class="content-box-inner bottom-spacer">
+                    <h2>Tweety <a href="https://twitter.com/intent/follow?screen_name=osmcz"
+                                  class="btn btn-link twitter-follow">Sledovat @osmcz</a></h2>
+                    {$presenter[TwitterPlugin]->write('twitter')}
+                </div>
+
+                <div class="content-box-inner">
+                    <img src="https://maps.me/en/images/mapsme_logo.svg" alt="maps.me">
+
+                    <p class="text3">Detailní a zcela offline mapy pro všechny mobilní zařízení. Včetně navigace a
+                        offline editace POI.</p>
+
+                    <a href="https://maps.me/iphone-app-pro" title="MAPS.ME in the Apple AppStore"><img height="33"
+                                                                                                        src="https://maps.me/images/appstore_badge.svg"></a>
+                    <a href="https://maps.me/android-app-pro" title="MAPS.ME in the Google Play Store"><img height="33"
+                                                                                                            src="https://maps.me/images/googleplay_badge.svg"></a>
+                    <a href="https://maps.me/amazon-app-pro" title="MAPS.ME in the Amazon AppStore"><img height="33"
+                                                                                                         src="https://maps.me/images/amazon_badge.svg"></a>
+                    <br><a class="text-muted" href="https://maps.me/get">další platformy</a>
+                </div>
+            </div>
+
+            <div class="content-box-right col-md-4">
+                <div class="content-box-inner bottom-spacer">
+                    <h2>Český týdeník</h2>
+                    {$presenter[TwitterPlugin]->write('weekly')}
+                </div>
+
+                <div class="content-box-inner bottom-spacer">
+                    <h2>Konference</h2>
+
+                    <table class="konference">
+                        {var $limit = isset($_GET[konf]) ? $_GET[konf] : 3}
+                        {foreach dibi::query('SELECT * FROM mailarchive ORDER BY date DESC LIMIT %i', $limit) as $r}
+                        <tr title="{$r[date]|date:'j.n. H:i'} {$r[name]} ({!$r[from]|replace:'@':'&#64;'})
+{$r[subject]}
+-------
+{$r[text]|truncate:200}">
+                            <td class="img"><img
+                                        src="https://www.gravatar.com/avatar/{md5(strtolower($r[from]))}?s=32&d=mm"
+                                        alt="gravatar" width="32" height="32">
+                            <td class="subject">{$r[subject]|truncate:50}
+                            <td class="date">{$r[date]|timeago}
+                                {/foreach}
+                    </table>
+
+                    <p class="text-right">
+                        <a class="ajax btn btn-link" n:href="this konf=>$limit+5">načíst více</a>
+                        <a class="btn btn-sm btn-default" href="https://lists.openstreetmap.org/pipermail/talk-cz/"
+                           role="button">Archiv konference</a>
+                        <a class="btn btn-sm btn-success" href="/komunita" role="button">Napište nám</a>
+                    </p>
+
+                </div>
+
+                {var $splash = PagesModel::getPageById(29)}
+                <div class="content-box-inner bottom-spacer" n:if="$splash->getMeta('show_content')">
+                    {!$splash->content}
+                </div>
+
+                <div class="content-box-inner">
+                    <h2>Newsletter</h2>
+
+                    <p>Občasné info o dění v komunitě - méně než 1× za čtvrtrok. Zde <a href="/newsletter">archiv</a>.
+                    </p>
+
+                    <form action="//zby.us11.list-manage.com/subscribe/post?u=cb9a83e4c66e393586b89e370&amp;id=81b42f6aac"
+                          method="post" target="_blank">
+                        <div class="input-group">
+                            <input type="email" value="" name="EMAIL" placeholder="email" required
+                                   class="form-control input-sm">
+                              <span class="input-group-btn">
+                                <input type="submit" value="Přihlásit" name="subscribe" class="btn btn-sm btn-default">
+                              </span>
+                        </div>
+                        <!-- /input-group -->
+                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;"><input type="text"
+                                                                               name="b_cb9a83e4c66e393586b89e370_81b42f6aac"
+                                                                               tabindex="-1" value=""></div>
+                    </form>
+                    <p>&nbsp;</p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    {/snippet}
+
+
+</div><!-- /container -->

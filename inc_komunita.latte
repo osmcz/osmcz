@@ -1,0 +1,94 @@
+{if $is_project_page}
+    {var $query = dibi::query("SELECT users.*, count(mailarchive.from) talk_cz_mails
+                        FROM users LEFT JOIN mailarchive ON `from` = email
+                        WHERE email != '' AND public = 1 AND projects LIKE '%($page->id)%'
+                        GROUP BY email
+                        ORDER BY fullname")}
+{else}
+    {var $query = dibi::query("SELECT users.*, count(mailarchive.from) talk_cz_mails
+                        FROM users LEFT JOIN mailarchive ON `from` = email
+                        WHERE email != '' AND public = 1
+                        GROUP BY email
+                        ORDER BY fullname")}
+{/if}
+
+<div class="row komunita">
+    {foreach $query as $r}
+        <div n:class="$is_wide ? 'col-sm-6 col-lg-4' : col-lg-6">
+            <div class="thumbnail">
+                <img src="{$r->img}" alt="avatar" class="pull-right" width="80">
+
+                <div class="caption">
+                    <h3>
+                        {$r->fullname}
+                        <a n:if="$r->twitter" href="https://twitter.com/{$r->twitter}"><img src="/theme/img/twitter.svg"
+                                                                                            width="16" alt="tw"></a>
+                        <a n:if="$r->github" href="https://github.com/{$r->github}"><img
+                                    src="https://github.com/favicon.ico" width="16" alt="gh"></a>
+                        <a n:if="$r->contact" title="napsat e-mail"
+                           href="&#109;ailto&#58;{!str_replace('@', '&#064;', htmlspecialchars($r->contact))}">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                        </a>
+                    </h3>
+
+
+                    <div>
+                        <img src="/theme/img/logo-osm.svg" width="16" alt="">
+                        <a href="http://www.openstreetmap.org/user/{$r->username}">{$r->username}</a>
+                        <span class="stat"
+                              title="Počet changesetů na osm.org (účet vytvořen {$r->account_created|date:'j.n.Y'})">
+                            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                            {$r->changesets}
+                        </span>
+
+                        <span class="stat" title="Počet příspěvků v konferenci talk-cz">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                            {$r->talk_cz_mails}
+                        </span>
+                    </div>
+                    <div n:if="false && $r->about_me">{$r->about_me}</div>
+                    <div class="tags">
+                        {if $r->tags}
+                            {foreach explode(",", $r->tags) as $t}
+                                <span class="label label-info">{$t}</span>
+                            {/foreach}
+                        {/if}
+                        {if $r->projects}
+                            {foreach explode(",", $r->projects) as $id}
+                                {var $p = PagesModel::getPageById(trim($id,'()'))}
+                                <a href="{$p->link()}" class="label label-success"
+                                   title="Otevřít stránku projektu &quot;{$p->name}&quot;">{$p->getMeta('project_tag')}</a>
+                            {/foreach}
+                        {/if}
+                        {if $r->places}
+                            {foreach explode(",", $r->places) as $p}
+                                <span class="label label-warning">{$p}</span>
+                            {/foreach}
+                        {/if}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {/foreach}
+</div>
+
+{if !$is_project_page}
+    {if $user->isLoggedIn() AND $user->identity->username}
+        <div class="komunita">
+            <h3 id="add-myself">Můj profil na této stránce</h3>
+
+            <p>Profil na této stránce je jakýsi medailonek, který slouží pro přehled v rámci české komunity.
+                Primární uživatelská stránka zůstává na osm.org.</p>
+
+            <p>Obrázek je třeba změnit na <a
+                        href="https://www.openstreetmap.org/user/{$user->identity->username}/account">osm.org</a>
+                <a n:href="Oauth:login" class="btn btn-default btn-xs">Znovu načíst</a>
+                nebo <a href="https://gravatar.com/emails/">gravatar.com</a>. </p>
+
+            {control CommunityFormPlugin}
+        </div>
+    {else}
+        <a n:href="Oauth:login backUrl => '/komunita#add-myself'" class="btn btn-default">Přidat svůj profil</a>
+    {/if}
+{/if}
