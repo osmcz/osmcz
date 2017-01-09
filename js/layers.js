@@ -38,7 +38,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'c'
     });
 
-    var hikebike = L.tileLayer(fakeHttps + "toolserver.org/tiles/hikebike/{z}/{x}/{y}.png", {
+    var hikebike = L.tileLayer(fakeHttps + "{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.hikebikemap.org">Hike &amp; Bike Map</a>', // @TODO: upravit, až bude HTTPS verze
         code: 'h'
@@ -50,7 +50,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'm'
     });
 
-    var vodovky = L.tileLayer('https://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+    var vodovky = L.tileLayer(fakeHttps + '{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
         attribution: '&copy; CC-BY-SA <a href="https://openstreetmap.org/copyright">OSM</a>, imagery <a href="http://maps.stamen.com">Stamen Design</a>',
         maxZoom: 18,
         code: 's'
@@ -62,7 +62,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 't'
     });
 
-    var opnv = L.tileLayer(fakeHttps + "tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png", {
+    var opnv = L.tileLayer("https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.öpnvkarte.de/">öpnvkarte</a>', // @TODO: upravit, až bude HTTPS verze
         code: 'ö'
@@ -136,8 +136,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'O'
     });
 
-    var vrstevniceOverlayUrl = "http://tile.poloha.net/contours/{z}/{x}/{y}.png";
-    var vrstevniceOverlayOrtoUrl = "http://tile.poloha.net/contours_ortofoto/{z}/{x}/{y}.png";
+    var vrstevniceOverlayUrl = fakeHttps + "tile.poloha.net/contours/{z}/{x}/{y}.png";
+    var vrstevniceOverlayOrtoUrl = fakeHttps + "tile.poloha.net/contours_ortofoto/{z}/{x}/{y}.png";
     var vrstevniceOverlay = L.tileLayer(vrstevniceOverlayUrl, {
         maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>', // @TODO: upravit, až bude HTTPS verze
@@ -150,22 +150,22 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 //         attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>', // @TODO: upravit, až bude HTTPS verze
 //         code: 'Z'
 //     });
-    var zimniOverlay = L.tileLayer(fakeHttps + "www.opensnowmap.org/tiles-pistes/{z}/{x}/{y}.png", {
+    var zimniOverlay = L.tileLayer("https://www.opensnowmap.org/tiles-pistes/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>', // @TODO: upravit, až bude HTTPS verze
+        attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>',
         code: 'Z'
     });
 
-    var lonviaHikingOverlay = new L.TileLayer('http://tile.lonvia.de/hiking/{z}/{x}/{y}.png', {
+    var lonviaHikingOverlay = new L.TileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
         maxZoom: 17,
-        attribution: osmAttr + ', <a href="http://hiking.lonvia.de">Lonvias Hiking</a>', // @TODO: upravit, až bude HTTPS verze
+        attribution: osmAttr + ', <a href="http://hiking.lonvia.de">Lonvias Hiking</a>',
         opacity: 0.6,
         code: 'H'
     });
 
-    var lonviaCyclingOverlay = new L.TileLayer('http://tile.lonvia.de/cycling/{z}/{x}/{y}.png', {
+    var lonviaCyclingOverlay = new L.TileLayer('https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png', {
         maxZoom: 17,
-        attribution: osmAttr + ', <a href="http://cycling.lonvia.de">Lonvias Cycling</a>', // @TODO: upravit, až bude HTTPS verze
+        attribution: osmAttr + ', <a href="http://cycling.lonvia.de">Lonvias Cycling</a>',
         opacity: 0.6,
         code: 'C'
     });
