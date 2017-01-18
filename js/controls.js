@@ -22,7 +22,7 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
         autoType: false,
         autoCollapse: true,
         minLength: 2,
-        zoom: 10,
+        zoom: 14,
         textPlaceholder: 'Hledat…'
     });
     controls.search.addTo(map);
