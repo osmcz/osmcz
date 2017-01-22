@@ -5,10 +5,7 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
     // -- constructor --
 
     var timeout;
-    var geojsonURL = 'http://tile.poloha.net/json/{z}/{x}/{y}';
-    if (location.host === 'openstreetmap.cz')
-        geojsonURL = '/proxy.php/tile.poloha.net/json/{z}/{x}/{y}';
-
+    var geojsonURL = 'https://tile.poloha.net/json/{z}/{x}/{y}';
 
     var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
             maxZoom: 25,

@@ -16,7 +16,6 @@ osmcz._map = false;
 
 // static methods
 osmcz.poiPopup.load = function (object) {
-    var fakeHttps = location.host === 'openstreetmap.cz' ? '/proxy.php/' : 'http://';
 
     // exit when osm object does not exists or osmid is null
     if ((! object) || (! "id" in object) ) {
@@ -33,7 +32,7 @@ osmcz.poiPopup.load = function (object) {
 
             osmcz.permanentlyDisplayed = true;
 
-            var geojson = osm_geojson.osm2geojson(data)
+            var geojson = osm_geojson.osm2geojson(data);
             var feature = geojson.features[0];
             var tags = feature.properties;
             feature.properties = {  //poloha.net style
@@ -104,7 +103,7 @@ osmcz.poiPopup.setUrl = function (p) {
         : ('?' + p.osm_type + '=' + p.osm_id);
 
     history.replaceState('', '', path + location.hash);
-}
+};
 
 
 // ------- POI panel template  -------
@@ -277,7 +276,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         }, 0);
     }
 
-    // url of ajax proxy server for wikipedia and wikimedia
+    // url of ajax proxy server for wikipedia and wikimedia (CORS not HTTPS)
     var xhd_proxy_url = 'https://openstreetmap.cz/xhr_proxy.php';
 
     // Show picture from wikimedia commons if there is `wikidata` or `wikimedia_commons` or `wikipedia` tag
@@ -462,7 +461,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
     // "_key" se nahrazuje OSM IDčkem
     var mpTpl = '<h5>Nejbližší foto</h5>'
         + '<a href="https://www.mapillary.com/map/im/_key/photo">'
-        + '<img src="' + fakeHttps + 'images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'
+        + '<img src="' + osmcz.fakeHttps + 'images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'
         + '</a>';
 
     function showMapillary() {

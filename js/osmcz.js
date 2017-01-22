@@ -1,7 +1,10 @@
 var OSMCZ_APP_VERSION = '0.14';
 
 var osmcz = osmcz || {};
-osmcz.basePath = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost'].indexOf(location.hostname) !== -1 ? '/theme/' : '';
+osmcz.production = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost', 'zby.cz'].indexOf(location.hostname) !== -1;
+osmcz.basePath = osmcz.production ? '/theme/' : '';
+osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
+
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
@@ -63,7 +66,7 @@ function initmap() {
 
     // remember last location in hash AND cookie
     map.on('moveend zoomend layeradd layerremove', function () {
-        lastHash = OSM.formatHash(map)
+        lastHash = OSM.formatHash(map);
         location.hash = lastHash;
         Cookies.set("_osm_location", OSM.locationCookie(map), {expires: 31});
     });
