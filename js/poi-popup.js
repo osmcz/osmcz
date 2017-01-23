@@ -259,7 +259,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
     }
 
     //tpl.push('<div class="osmid"><a href="http://osm.org/' + osm_type + '/' + id + '">osm ID: ' + osm_type + '/' + id + '</a></div>');
-    tpl.push('<div class="osmid"><a href="http://osmap.cz/' + osm_type + '/' + id + '">osmap.cz/' + osm_type + '/' + id + '</a></div>'); // @FIXME: asi by mělo být taky HTTPS?
+    tpl.push('<div class="osmid"><a href="https://osmap.cz/' + osm_type + '/' + id + '">osmap.cz/' + osm_type + '/' + id + '</a></div>');
     tpl.push('<div id="wikimedia-commons" data-osm-id="' + id + '"></div>');
     tpl.push('<div id="guidepost" data-osm-id="' + id + '"></div>');
     tpl.push('<div id="mapillary-photo" data-osm-id="' + id + '"></div>');
@@ -392,8 +392,8 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         else {
             var ref = feature.properties.tags.ref;
             $.ajax({
-                url: 'https://api.openstreetmap.cz/table/close?lat=' + lat + '&lon=' + lon + '&distance=50&limit=1', // @TODO: upravit, až bude HTTPS verze
-                //url: 'http://api.openstreetmap.cz/table/ref/' + ref,
+                url: 'https://api.openstreetmap.cz/table/close?lat=' + lat + '&lon=' + lon + '&distance=50&limit=1',
+                //url: 'https://api.openstreetmap.cz/table/ref/' + ref,
                 data: {
                     outputFormat: 'application/json',
                     output: 'geojson'
@@ -413,7 +413,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         + '</a>'
         + '<div class="margin-top-05"><b>Fotografii poskytl: </b> _autor'
         + '<span style="margin: 0.5em"/>'
-        + ' <a href="http://api.openstreetmap.cz/table/id/_id" target="_blank" class="btn btn-default btn-xs">' // @TODO: upravit, až bude HTTPS verze
+        + ' <a href="https://api.openstreetmap.cz/table/id/_id" target="_blank" class="btn btn-default btn-xs">'
         + '   <span class="glyphicon glyphicon-pencil" title="upravit"></span> upravit</a>'
         + '</div>'
 
@@ -424,7 +424,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
             if (!feature.guidepost.features.length)
                 return;
             var autor = feature.guidepost.features[0].properties.attribution;
-            var imgUrl = 'http://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url; // @TODO: upravit, až bude HTTPS verze
+            var imgUrl = 'https://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
             var gpostId = feature.guidepost.features[0].properties.id;
             gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, imgUrl).replace(/_id/g, gpostId));
         }
