@@ -15,15 +15,15 @@ L.TileLayer.Ajax = L.TileLayer.extend({
             var s = req.status;
             if ((s >= 200 && s < 300) || s === 304) {
                 tile.datum = req.responseText && JSON.parse(req.responseText) || {type: "FeatureCollection", features: []};
-                layer._tileLoaded(tile, tilePoint);
+                layer._tileReady(tilePoint, null, tile);
             } else {
-                layer._tileLoaded(tile, tilePoint);
+                layer._tileReady(tilePoint, null, tile);
             }
         };
     },
     // Load the requested tile via AJAX
     _loadTile: function (tile, tilePoint) {
-        this._adjustTilePoint(tilePoint);
+//         this._adjustTilePoint(tilePoint);
         var layer = this;
         var req = new XMLHttpRequest();
         this._requests.push(req);
@@ -144,7 +144,7 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
             this._map.addLayer(this._clipPathRectangles[clipPathId]);
 
             // Add a clip path element to the SVG defs element
-            // With a path element that has the hidden rectangle's SVG path string  
+            // With a path element that has the hidden rectangle's SVG path string
             var path = document.createElementNS(L.Path.SVG_NS, 'path');
             var pathString = this._clipPathRectangles[clipPathId].getPathString();
             path.setAttribute('d', pathString);
@@ -162,7 +162,7 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
     // * If the options.unique function is specified, merge geometries into GeometryCollections
     // grouped by the key returned by options.unique(feature) for each GeoJSON feature
     // * If options.clipTiles is set, and the browser is using SVG, perform SVG clipping on each
-    // tile's GeometryCollection 
+    // tile's GeometryCollection
     addTileData: function (geojson, tilePoint) {
         var features = L.Util.isArray(geojson) ? geojson : geojson.features,
             i, len, feature;
