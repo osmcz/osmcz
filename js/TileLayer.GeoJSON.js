@@ -2,8 +2,14 @@
 L.TileLayer.Ajax = L.TileLayer.extend({
     _requests: [],
     _addTile: function (tilePoint) {
-        var tile = { datum: null, processed: false };
-        this._tiles[tilePoint.x + ':' + tilePoint.y] = tile;
+        var tile = {
+            datum: null,
+            processed: false,
+            el: document.createElement('div'),  // TODO QuickFix, this element should not be created at all
+            coords: tilePoint
+        };
+        var key = this._tileCoordsToKey(tilePoint);
+        this._tiles[key] = tile;
         this._loadTile(tile, tilePoint);
     },
     // XMLHttpRequest handler; closure over the XHR object, the layer, and the tile
@@ -198,7 +204,7 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
 
             // Transform the geojson into a new Layer
             try {
-                incomingLayer = L.GeoJSON.geometryToLayer(geojson, options.pointToLayer, options.coordsToLatLng);
+                incomingLayer = L.GeoJSON.geometryToLayer(geojson, options);
             }
             // Ignore GeoJSON objects that could not be parsed
             catch (e) {
@@ -220,7 +226,7 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
         else {
             // Transform the geojson into a new layer
             try {
-                incomingLayer = L.GeoJSON.geometryToLayer(geojson, options.pointToLayer, options.coordsToLatLng);
+                incomingLayer = L.GeoJSON.geometryToLayer(geojson, options);
             }
             // Ignore GeoJSON objects that could not be parsed
             catch (e) {
@@ -245,8 +251,8 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
         return this;
     },
 
-    _tileLoaded: function (tile, tilePoint) {
-        L.TileLayer.Ajax.prototype._tileLoaded.apply(this, arguments);
+    _tileReady: function (tilePoint, err, tile) {
+        L.TileLayer.Ajax.prototype._tileReady.apply(this, arguments);
         if (tile.datum === null) { return null; }
         this.addTileData(tile.datum, tilePoint);
     }
