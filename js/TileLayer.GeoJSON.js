@@ -23,7 +23,7 @@ L.TileLayer.Ajax = L.TileLayer.extend({
                 tile.datum = req.responseText && JSON.parse(req.responseText) || {type: "FeatureCollection", features: []};
                 layer._tileReady(tilePoint, null, tile);
             } else {
-                layer._tileReady(tilePoint, null, tile);
+                layer._tileReady(tilePoint, s, tile);
             }
         };
     },
