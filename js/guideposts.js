@@ -1,7 +1,7 @@
 /*
  guideposts for osmcz
  Javascript code for openstreetmap.cz website
- Copyright (C) 2015,2016
+ Copyright (C) 2015-2017
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
 
     var layersControl = controls.layers;
     var xhr;
-    var markers = L.markerClusterGroup({code: 'G'});
+    var markers = L.markerClusterGroup({code: 'G', chunkedLoading: true, chunkProgress: update_progress_bar});
     var moving_marker;
     var autoload_lock = false;
     var moving_flag = false;
@@ -430,6 +430,17 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
         hc += "</div>";
 
         sidebar.innerHTML = hc;
+    }
+
+    function update_progress_bar(processed, total, elapsed, layers_array) {
+      if (elapsed > 1000) {
+        // if it takes more than a second to load, display the progress bar:
+        // tbd see http://leaflet.github.io/Leaflet.markercluster/example/marker-clustering-realworld.50000.html
+      }
+
+      if (processed === total) {
+        // all markers processed - hide the progress bar:
+      }
     }
 
 };
