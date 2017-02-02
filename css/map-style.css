@@ -58,8 +58,15 @@
     float: none;
     margin-bottom: 5px;
 }
+
 #map .leaflet-control-scale {
     display: inline-block;
     float: none;
     vertical-align: bottom;
+}
+
+#map .leaflet-condensed-attribution {
+    float: none;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
