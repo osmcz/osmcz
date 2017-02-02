@@ -13,8 +13,14 @@ var guideposts;
 initmap();
 
 function initmap() {
-    map = new L.Map('map', {zoomControl: false});
-    map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION);
+    map = new L.Map('map', {zoomControl: false, condensedAttributionControl: false});
+
+    L.control.condensedAttribution({
+                emblem: '<div class="emblem-wrap glyphicon glyphicon-info-sign"></div>',
+                prefix: "<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION
+              }).addTo(map);
+
+//       map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION);
 
     // -------------------- map layers --------------------
     new osmcz.layers(map, baseLayers, overlays);

@@ -476,6 +476,61 @@ a:hover.as-text {
 }
 
 
+/* leaflet-condensed-attribution plugin*/
+.leaflet-container .leaflet-condensed-attribution {
+  margin: 10px;
+  padding: 0;
+  border-radius: 5px 10px 15px;
+  border: 2px solid rgba(0,0,0,.2);
+  background: rgba(255,255,255,.8);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.leaflet-condensed-attribution .attributes-body {
+  display: none;
+  padding: 0 4px 0 6px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.leaflet-condensed-attribution:hover .attributes-body {
+  display: inline-block !important;
+}
+
+.leaflet-condensed-attribution .attributes-emblem {
+  height: 20px;
+  width: 20px;
+  font-size: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+@media (min-width: 650px) {
+  .leaflet-condensed-attribution .attributes-body {
+    display: inline-block !important;
+  }
+  .leaflet-condensed-attribution .attributes-emblem {
+    display: none;
+  }
+  .leaflet-container .leaflet-condensed-attribution {
+    border-radius: 0px;
+    border: 0px;
+  }
+}
+
+
+/* End of leaflet-condensed-attribution plugin style*/
+
+
 /* Primárně pro účely splashe */
 #main .jumbotron {
     border-radius: 0;
