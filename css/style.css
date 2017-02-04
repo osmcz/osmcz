@@ -480,9 +480,10 @@ a:hover.as-text {
 .leaflet-container .leaflet-condensed-attribution {
   margin: 10px;
   padding: 0;
-  border-radius: 5px 10px 15px;
+  border-radius: 15px;
   border: 2px solid rgba(0,0,0,.2);
-  background: rgba(255,255,255,.8);
+  background: rgba(255,255,255,.5);
+  vertical-align: middle;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -490,18 +491,22 @@ a:hover.as-text {
 
 .leaflet-condensed-attribution .attributes-body {
   display: none;
-  padding: 0 4px 0 6px;
-  height: 20px;
-  line-height: 20px;
+  padding: 0 4px 0 4px;
+  text-align: center;
 }
 
-.leaflet-condensed-attribution:hover .attributes-body {
+.leaflet-condensed-attribution:hover,
+.leaflet-condensed-attribution:focus {
+  border-radius: 0px 15px 15px 0px;
+}
+
+.leaflet-condensed-attribution:hover .attributes-body,
+.leaflet-condensed-attribution:focus .attributes-body {
   display: inline-block !important;
 }
 
 .leaflet-condensed-attribution .attributes-emblem {
-  height: 20px;
-  width: 20px;
+  margin: 2px;
   font-size: 14px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -514,6 +519,7 @@ a:hover.as-text {
           justify-content: center;
 }
 
+/* Always expanded and without emblem on bigger screens */
 @media (min-width: 650px) {
   .leaflet-condensed-attribution .attributes-body {
     display: inline-block !important;
@@ -526,7 +532,6 @@ a:hover.as-text {
     border: 0px;
   }
 }
-
 
 /* End of leaflet-condensed-attribution plugin style*/
 
