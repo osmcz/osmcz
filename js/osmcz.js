@@ -20,8 +20,6 @@ function initmap() {
                 prefix: "<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION
               }).addTo(map);
 
-//       map.attributionControl.setPrefix("<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION);
-
     // -------------------- map layers --------------------
     new osmcz.layers(map, baseLayers, overlays);
     new osmcz.activeLayer(map, baseLayers, overlays, controls);
@@ -38,9 +36,22 @@ function initmap() {
 
     // -------------------- map state --------------------
 
-    // set location from hash OR remembered cookie OR deafult home
+    // set location from hash OR remembered cookie OR default home
     OSM.home = {lat: 49.8, lon: 15.44, zoom: 8};
     var params = OSM.mapParams();
+
+    // When no layer parameter set,
+    // use stored layers from location Hash cookie (if available)
+    if (!params.layers && Cookies.get('_osm_location')) {
+        params.layers = (Cookies.get('_osm_location')).split('|')[3];
+    }
+
+    // If no base layer in layers parameter,
+    // use the stored base layer from location Hash cookie (if available)
+    if (params.layers && !params.layers.match(/[a-z]/) && Cookies.get('_osm_location')) {
+        params.layers += (Cookies.get('_osm_location')).split('|')[3].match(/[a-z]/);
+    }
+
     updateLayersFromCode(params.layers);  //default layer without code
     if (params.bounds) {
         map.fitBounds(params.bounds);
