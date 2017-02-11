@@ -37,8 +37,8 @@ L.TileLayer.Ajax = L.TileLayer.extend({
         req.open('GET', this.getTileUrl(tilePoint), true);
         req.send();
     },
-    _reset: function () {
-        L.TileLayer.prototype._reset.apply(this, arguments);
+    _resetView: function () {
+        L.TileLayer.prototype._resetView.apply(this, arguments);
         for (var i = 0; i < this._requests.length; i++) {
             this._requests[i].abort();
         }
@@ -72,11 +72,12 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
         map.removeLayer(this.geojsonLayer);
         L.TileLayer.Ajax.prototype.onRemove.call(this, map);
     },
-    _reset: function () {
+    _resetView: function () {
         this.geojsonLayer.clearLayers();
+        this._removeTilesAtZoom(this._map.getZoom());
         this._keyLayers = {};
         this._removeOldClipPaths();
-        L.TileLayer.Ajax.prototype._reset.apply(this, arguments);
+        L.TileLayer.Ajax.prototype._resetView.apply(this, arguments);
     },
 
     // Remove clip path elements from other earlier zoom levels
