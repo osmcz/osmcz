@@ -11,7 +11,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         autoZIndex: true
     },
 
-    initialize: function (baseLayers, overlays, options) {
+    initialize: function (baseLayers, baseOverlays, extraOverlays, options) {
         L.setOptions(this, options);
 
         this._layers = {};
@@ -22,8 +22,12 @@ osmcz.LayerSwitcher = L.Control.extend({
             this._addLayer(baseLayers[i], i);
         }
 
-        for (i in overlays) {
-            this._addLayer(overlays[i], i, true);
+        for (i in baseOverlays) {
+            this._addLayer(baseOverlays[i], i, true, 'base');
+        }
+
+        for (i in extraOverlays) {
+            this._addLayer(extraOverlays[i], i, true, 'extra');
         }
     },
 
@@ -50,8 +54,8 @@ osmcz.LayerSwitcher = L.Control.extend({
         return this;
     },
 
-    addOverlay: function (layer, name) {
-        this._addLayer(layer, name, true);
+    addOverlay: function (layer, name, group) {
+        this._addLayer(layer, name, true, group);
         this._update();
         return this;
     },
@@ -118,19 +122,37 @@ osmcz.LayerSwitcher = L.Control.extend({
 
         this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
         this._separator = L.DomUtil.create('div', className + '-separator', form);
-        this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
+        this._tabs = L.DomUtil.create('ul', 'nav nav-pills', form);
+        this._tabs.innerHTML  = '<li class="active"><a data-toggle="pill" href="#lsBase">Základní</a></li>';
+        this._tabs.innerHTML += '<li><a data-toggle="pill" href="#lsExtra">Extra</a></li>';
+
+        this._tab_content = L.DomUtil.create('div', 'tab-content', form);
+
+        var lsBaseDiv = document.createElement('div');
+        lsBaseDiv.id = 'lsBase';
+        lsBaseDiv.className = 'tab-pane fade in active';
+        this._tab_content.appendChild(lsBaseDiv);
+
+        var lsExtraDiv = document.createElement('div');
+        lsExtraDiv.id = 'lsExtra';
+        lsExtraDiv.className = 'tab-pane fade';
+        this._tab_content.appendChild(lsExtraDiv);
+
+        this._overlaysListBase = lsBaseDiv;
+        this._overlaysListExtra = lsExtraDiv;
 
     //container.appendChild(form);
     $('#map-layers-content').append(form);
     },
 
-    _addLayer: function (layer, name, overlay) {
+    _addLayer: function (layer, name, overlay, group) {
         var id = L.stamp(layer);
 
         this._layers[id] = {
             layer: layer,
             name: name,
-            overlay: overlay
+            overlay: overlay,
+            group: group
         };
 
         if (this.options.autoZIndex && layer.setZIndex) {
@@ -145,7 +167,8 @@ osmcz.LayerSwitcher = L.Control.extend({
         }
 
         this._baseLayersList.innerHTML = '';
-        this._overlaysList.innerHTML = '';
+        this._overlaysListBase.innerHTML = '';
+        this._overlaysListExtra.innerHTML = '';
 
         var baseLayersPresent = false,
             overlaysPresent = false,
@@ -218,7 +241,13 @@ osmcz.LayerSwitcher = L.Control.extend({
         label.appendChild(input);
         label.appendChild(name);
 
-        var container = obj.overlay ? this._overlaysList : this._baseLayersList;
+//         var container = obj.overlay ? this._overlaysListBase : this._baseLayersList;
+        var container;
+        if (!obj.overlay ) {
+            container = this._baseLayersList;
+        } else {
+            container = obj.group == 'base' ? this._overlaysListBase : this._overlaysListExtra;
+        }
         container.appendChild(label);
 
         return label;
