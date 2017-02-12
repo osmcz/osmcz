@@ -6,7 +6,7 @@ osmcz.basePath = osmcz.production ? '/theme/' : '';
 osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
 
 
-var map, baseLayers = {}, overlays = {}, controls = {};
+var map, baseLayers = {}, baseOverlays = {}, extraOverlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
 var guideposts;
 
@@ -21,16 +21,16 @@ function initmap() {
               }).addTo(map);
 
     // -------------------- map layers --------------------
-    new osmcz.layers(map, baseLayers, overlays);
-    new osmcz.activeLayer(map, baseLayers, overlays, controls);
+    new osmcz.layers(map, baseLayers, baseOverlays, extraOverlays);
+    new osmcz.activeLayer(map, baseLayers, baseOverlays, controls);
 
     // -------------------- map controls --------------------
-    new osmcz.controls(map, baseLayers, overlays, controls);
+    new osmcz.controls(map, baseLayers, baseOverlays, extraOverlays, controls);
 
     // -------------------- modules --------------------
     note = new osmcz.note();
-    guideposts = new osmcz.guideposts(map, baseLayers, overlays, controls);
-    gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls);
+    guideposts = new osmcz.guideposts(map, baseLayers, baseOverlays, controls);
+    gpcheck = new osmcz.gpcheck(map, baseLayers, extraOverlays, controls);
     new osmcz.poiPopup(map);
 
 
@@ -162,5 +162,6 @@ function updateLayersFromCode(codedString) {
             map.addLayer(layer);
     };
     $.each(baseLayers, setLayer);
-    $.each(overlays, setLayer);
+    $.each(baseOverlays, setLayer);
+    $.each(extraOverlays, setLayer);
 }

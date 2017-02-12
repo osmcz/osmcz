@@ -154,9 +154,6 @@ a:hover.as-text {
 #map-container a.leaflet-control-layers-toggle:before { content: "Mapové vrstvy"; }
 #map-container a.leaflet-control-layers-toggle:hover { text-decoration: none; }
 
-
-
-
 /* temporary solution, may be implemented as L.control */
 #map-searchbar {
     position: absolute;
@@ -296,6 +293,14 @@ a:hover.as-text {
 @media screen and (max-width: 767px) {
     .row {margin: 0;}
 }
+
+/*Layer Switch - overlay groups*/
+
+.nav>li>a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 
 
 /* Leaflet-Coordinates-Control plugin */

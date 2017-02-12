@@ -201,7 +201,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
     });
 
     /* Add overlay to the map */
-    layersControl.addOverlay(markers, "Foto rozcestníků");
+    layersControl.addOverlay(markers, "Foto rozcestníků", 'base');
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
