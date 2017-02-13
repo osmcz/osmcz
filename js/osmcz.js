@@ -21,7 +21,7 @@ function initmap() {
               }).addTo(map);
 
     // -------------------- map layers --------------------
-    new osmcz.layers(map, baseLayers, baseOverlays, extraOverlays);
+    new osmcz.layers(map, baseLayers, baseOverlays, extraOverlays, controls);
     new osmcz.activeLayer(map, baseLayers, baseOverlays, controls);
 
     // -------------------- map controls --------------------

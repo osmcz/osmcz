@@ -1,7 +1,7 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
-osmcz.layers = function (map, baseLayers, overlays, controls) {
+osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls) {
     // -- constructor --
 
     var devicePixelRatio = window.devicePixelRatio || 1,
@@ -157,20 +157,57 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'Z'
     });
 
-    var lonviaHikingOverlay = new L.TileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
+    var lonviaHikingOverlay = new L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
         maxZoom: 17,
         attribution: osmAttr + ', <a href="http://hiking.lonvia.de">Lonvias Hiking</a>',
         opacity: 0.6,
         code: 'H'
     });
 
-    var lonviaCyclingOverlay = new L.TileLayer('https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png', {
+    var lonviaCyclingOverlay = new L.tileLayer('https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png', {
         maxZoom: 17,
         attribution: osmAttr + ', <a href="http://cycling.lonvia.de">Lonvias Cycling</a>',
         opacity: 0.6,
         code: 'C'
     });
 
+    var katastralniMapaOverlay = new L.tileLayer.wms('https://services.cuzk.cz/wms/wms.asp', {
+//         layers: 'DEF_PARCELY,DEF_BUDOVY,RST_PK_I,RST_KMD_I,dalsi_p_mapy_i,obrazy_parcel_i,parcelni_cisla_i,hranice_parcel_barevne,omp_i',
+        layers: 'parcelni_cisla_i,obrazy_parcel_i,RST_KMD_I,hranice_parcel_i,DEF_BUDOVY,RST_KN_I,dalsi_p_mapy_i,prehledka_kat_prac,prehledka_kat_uz,prehledka_kraju-linie',
+        format: 'image/png',
+        transparent: true,
+        crs: L.CRS.EPSG3857,
+        minZoom: 7,
+        maxZoom: 22,
+        attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>', // @TODO: upravit, až bude HTTPS verze
+        code: 'X'
+    });
+
+    var lpisOverlay = L.tileLayer.wms('http://eagri.cz/public/app/wms/plpis.fcgi', {
+        layers: 'LPIS_FB4,LPIS_FB4_KOD',
+        format: 'image/png',
+        transparent: true,
+        crs: L.CRS.EPSG4326,
+        attribution: " <a href='http://www.eagri.cz.cz'>eagri.cz</a>",
+        code: 'L'
+    });
+
+    // Poloha.net - RUIAN layers
+    var parcelyUrl = 'https://tile.poloha.net/parcely/{z}/{x}/{y}.png',
+        uliceUrl = 'https://tile.poloha.net/ulice/{z}/{x}/{y}.png',
+        budovyUrl = 'https://tile.poloha.net/budovy/{z}/{x}/{y}.png',
+        todobudovyUrl = 'https://tile.poloha.net/budovy-todo/{z}/{x}/{y}.png',
+        landuseUrl = 'https://tile.poloha.net/landuse/{z}/{x}/{y}.png',
+        adresyUrl = 'https://tile.poloha.net/adresy/{z}/{x}/{y}.png';
+
+    var ruianAttr = '&copy; <a href="http://www.cuzk.cz">ČÚZK</a> (<a href="https://www.poloha.net">poloha.net</a>)';
+
+    var ruianParcelyOverlay = new L.tileLayer(parcelyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '1'}),
+        ruianUliceOverlay = new L.tileLayer(uliceUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '2'}),
+        ruianBudovyOverlay = new L.tileLayer(budovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '3'}),
+        ruianBudovyTodoOverlay = new L.tileLayer(todobudovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '4'}),
+        ruianLanduseOverlay = new L.tileLayer(landuseUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '5'}),
+        ruianAdresyOverlay = new L.tileLayer(adresyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '6'});
 
     baseLayers["Mapbox streets"] = mapbox;
     baseLayers["Turistická mapa"] = turisticka;
@@ -186,12 +223,22 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Ortofoto ČÚZK"] = ortofoto;
     baseLayers["Metropolis"] = metropolis;
 
-    overlays["Ortofoto popisky"] = ortofotoOverlay;
-    overlays["Turistické trasy ČR"] = turistikaOverlay;
-    overlays["Vrstevnice ČR"] = vrstevniceOverlay;
-    overlays["Zimní sporty"] = zimniOverlay;
-    overlays["Turistické trasy EU"] = lonviaHikingOverlay;
-    overlays["Cyklistické trasy EU"] = lonviaCyclingOverlay;
+    baseOverlays["Ortofoto popisky"] = ortofotoOverlay;
+    baseOverlays["Turistické trasy ČR"] = turistikaOverlay;
+    baseOverlays["Vrstevnice ČR"] = vrstevniceOverlay;
+    baseOverlays["Zimní sporty"] = zimniOverlay;
+    baseOverlays["Turistické trasy EU"] = lonviaHikingOverlay;
+    baseOverlays["Cyklistické trasy EU"] = lonviaCyclingOverlay;
+
+    extraOverlays["Katastrální mapa ČÚZK"] = katastralniMapaOverlay;
+    extraOverlays["pLPIS"] = lpisOverlay;
+
+    extraOverlays["RUIAN: adresy"] = ruianAdresyOverlay;
+    extraOverlays["RUIAN: budovy"] = ruianBudovyOverlay;
+    extraOverlays["RUIAN: budovy TODO"] = ruianBudovyTodoOverlay;
+    extraOverlays["RUIAN: ulice"] = ruianUliceOverlay;
+    extraOverlays["RUIAN: parcely"] = ruianParcelyOverlay;
+    extraOverlays["RUIAN: landuse"] = ruianLanduseOverlay;
 
 
 };
