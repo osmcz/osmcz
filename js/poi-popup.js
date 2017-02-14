@@ -458,10 +458,10 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         }
     }
 
-    // "_key" se nahrazuje OSM IDčkem
-    var mpTpl = '<h5>Nejbližší foto</h5>'
+    // "_key" se nahrazuje mapillary IDčkem
+    var mpTpl = '<h5>Nejbližší street-view</h5>'
         + '<a href="https://www.mapillary.com/map/im/_key/photo">'
-        + '<img src="' + osmcz.fakeHttps + 'images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'
+        + '<img src="' + osmcz.fakeHttps + 'images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'  //@todo https viz https://github.com/mapillary/mapillary_issues/issues/2419
         + '</a>';
 
     function showMapillary() {
