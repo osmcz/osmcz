@@ -100,12 +100,16 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
                     console.log('added overlay');
                     map.addLayer(ortofotoOverlay);
                 }
+
                 if (event.layer == ortofoto) {
                     vrstevniceOverlay.setUrl(vrstevniceOverlayOrtoUrl);
+                    katastralniMapaOverlay.setParams({layers: katastralniMapaOverlayLayersOrto}, true);
                 } else {
                     vrstevniceOverlay.setUrl(vrstevniceOverlayUrl);
+                    katastralniMapaOverlay.setParams({layers: katastralniMapaOverlayLayers}, true);
                 }
                 vrstevniceOverlay.redraw();
+                katastralniMapaOverlay.redraw();
             }, 300);
         } else {
               setTimeout(function(){  // needs timeout or doesnt work
@@ -115,6 +119,9 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
                     }
                     vrstevniceOverlay.setUrl(vrstevniceOverlayUrl);
                     vrstevniceOverlay.redraw();
+
+                    katastralniMapaOverlay.setParams({layers: katastralniMapaOverlayLayers}, true);
+                    katastralniMapaOverlay.redraw();
                 }, 300);
             }
     });
@@ -157,23 +164,25 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
         code: 'Z'
     });
 
-    var lonviaHikingOverlay = new L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
+    var lonviaHikingOverlay = L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
         maxZoom: 17,
         attribution: osmAttr + ', <a href="http://hiking.lonvia.de">Lonvias Hiking</a>',
         opacity: 0.6,
         code: 'H'
     });
 
-    var lonviaCyclingOverlay = new L.tileLayer('https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png', {
+    var lonviaCyclingOverlay = L.tileLayer('https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png', {
         maxZoom: 17,
         attribution: osmAttr + ', <a href="http://cycling.lonvia.de">Lonvias Cycling</a>',
         opacity: 0.6,
         code: 'C'
     });
 
-    var katastralniMapaOverlay = new L.tileLayer.wms('https://services.cuzk.cz/wms/wms.asp', {
+    var katastralniMapaOverlayLayers = 'parcelni_cisla,obrazy_parcel,RST_KMD,hranice_parcel,DEF_BUDOVY,RST_KN,dalsi_p_mapy,prehledka_kat_prac,prehledka_kat_uz,prehledka_kraju-linie'
+        katastralniMapaOverlayLayersOrto = 'parcelni_cisla_i,obrazy_parcel_i,RST_KMD_I,hranice_parcel_i,DEF_BUDOVY,RST_KN_I,dalsi_p_mapy_i,prehledka_kat_prac,prehledka_kat_uz,prehledka_kraju-linie';
+    var katastralniMapaOverlay = L.tileLayer.wms('https://services.cuzk.cz/wms/wms.asp', {
 //         layers: 'DEF_PARCELY,DEF_BUDOVY,RST_PK_I,RST_KMD_I,dalsi_p_mapy_i,obrazy_parcel_i,parcelni_cisla_i,hranice_parcel_barevne,omp_i',
-        layers: 'parcelni_cisla_i,obrazy_parcel_i,RST_KMD_I,hranice_parcel_i,DEF_BUDOVY,RST_KN_I,dalsi_p_mapy_i,prehledka_kat_prac,prehledka_kat_uz,prehledka_kraju-linie',
+        layers: katastralniMapaOverlayLayers,
         format: 'image/png',
         transparent: true,
         crs: L.CRS.EPSG3857,
@@ -202,12 +211,12 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
 
     var ruianAttr = '&copy; <a href="http://www.cuzk.cz">ČÚZK</a> (<a href="https://www.poloha.net">poloha.net</a>)';
 
-    var ruianParcelyOverlay = new L.tileLayer(parcelyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '1'}),
-        ruianUliceOverlay = new L.tileLayer(uliceUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '2'}),
-        ruianBudovyOverlay = new L.tileLayer(budovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '3'}),
-        ruianBudovyTodoOverlay = new L.tileLayer(todobudovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '4'}),
-        ruianLanduseOverlay = new L.tileLayer(landuseUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '5'}),
-        ruianAdresyOverlay = new L.tileLayer(adresyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '6'});
+    var ruianParcelyOverlay = L.tileLayer(parcelyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '1'}),
+        ruianUliceOverlay = L.tileLayer(uliceUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '2'}),
+        ruianBudovyOverlay = L.tileLayer(budovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '3'}),
+        ruianBudovyTodoOverlay = L.tileLayer(todobudovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '4'}),
+        ruianLanduseOverlay = L.tileLayer(landuseUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '5'}),
+        ruianAdresyOverlay = L.tileLayer(adresyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '6'});
 
     baseLayers["Mapbox streets"] = mapbox;
     baseLayers["Turistická mapa"] = turisticka;
