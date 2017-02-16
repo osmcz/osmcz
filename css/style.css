@@ -301,7 +301,18 @@ a:hover.as-text {
     padding-bottom: 5px;
 }
 
-
+div[aria-expanded=true] .glyphicon-triangle-right {
+   display: none;
+}
+div[aria-expanded=false] .glyphicon-triangle-right {
+   display: inline  !important;
+}
+div[aria-expanded=false] .glyphicon-triangle-bottom {
+   display: none;
+}
+div[aria-expanded=true] .glyphicon-triangle-bottom {
+   display: inline !important;
+}
 
 /* Leaflet-Coordinates-Control plugin */
 .leaflet-control-coordinates {

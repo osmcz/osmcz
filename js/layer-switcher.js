@@ -67,6 +67,29 @@ osmcz.LayerSwitcher = L.Control.extend({
         return this;
     },
 
+    // Create header button
+    _createGroupHeader: function (headerName, target, expanded) {
+        var content, glHideRight, glHideBottom;
+
+        if (expanded) {
+          glHideRight = 'style="display:none"';
+        } else {
+          glHideBottom = 'style="display:none"';
+        }
+
+        var grpBase = document.createElement('div');
+        grpBase.className = 'btn btn-primary btn-block btn-xs';
+        grpBase.setAttribute("data-toggle", "collapse");
+        grpBase.setAttribute("data-target", '#' + target);
+
+        content  = '<i class="glyphicon glyphicon-triangle-right  pull-left" ' + glHideRight + '></i>';
+        content += '<i class="glyphicon glyphicon-triangle-bottom pull-left" ' + glHideBottom + '></i>';
+        content += headerName;
+        grpBase.innerHTML = content;
+
+        return grpBase;
+    },
+
     _initLayout: function () {
         var className = 'leaflet-control-layers',
             container = this._container = L.DomUtil.create('div', className);
@@ -122,27 +145,29 @@ osmcz.LayerSwitcher = L.Control.extend({
 
         this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
         this._separator = L.DomUtil.create('div', className + '-separator', form);
-        this._tabs = L.DomUtil.create('ul', 'nav nav-pills', form);
-        this._tabs.innerHTML  = '<li class="active"><a data-toggle="pill" href="#lsBase">Základní</a></li>';
-        this._tabs.innerHTML += '<li><a data-toggle="pill" href="#lsExtra">Extra</a></li>';
 
-        this._tab_content = L.DomUtil.create('div', 'tab-content', form);
+        this._form.appendChild(this._createGroupHeader("Základní", "lsBase", true));
 
         var lsBaseDiv = document.createElement('div');
         lsBaseDiv.id = 'lsBase';
-        lsBaseDiv.className = 'tab-pane fade in active';
-        this._tab_content.appendChild(lsBaseDiv);
+        lsBaseDiv.className = 'collapse';
+        this._form.appendChild(lsBaseDiv);
+
+        this._form.appendChild(this._createGroupHeader("Extra", "lsExtra", false));
 
         var lsExtraDiv = document.createElement('div');
         lsExtraDiv.id = 'lsExtra';
-        lsExtraDiv.className = 'tab-pane fade';
-        this._tab_content.appendChild(lsExtraDiv);
+        lsExtraDiv.className = 'collapse';
+        this._form.appendChild(lsExtraDiv);
 
         this._overlaysListBase = lsBaseDiv;
         this._overlaysListExtra = lsExtraDiv;
 
-    //container.appendChild(form);
-    $('#map-layers-content').append(form);
+        //container.appendChild(form);
+        $('#map-layers-content').append(form);
+
+        // Expand base overlays by default
+        this._overlaysListBase.className = 'collapse in';
     },
 
     _addLayer: function (layer, name, overlay, group) {
