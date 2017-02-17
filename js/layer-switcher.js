@@ -289,15 +289,25 @@ osmcz.LayerSwitcher = L.Control.extend({
     },
 
     _addItem: function (obj) {
+
+        if (!obj.group ) {
+            // requested group does not exists
+            return;
+        }
+
         var label = document.createElement('label'),
             input,
             checked = this._map.hasLayer(obj.layer);
+
+        var name = document.createElement('span');
+        name.innerHTML = ' ' + obj.name;
 
         if (obj.overlay) {
             input = document.createElement('input');
             input.type = 'checkbox';
             input.className = 'leaflet-control-layers-selector';
             input.defaultChecked = checked;
+            name.className = 'lsOverlay';
         } else {
             input = this._createRadioElement('leaflet-base-layers', checked);
         }
@@ -306,15 +316,9 @@ osmcz.LayerSwitcher = L.Control.extend({
 
         L.DomEvent.on(input, 'click', this._onInputClick, this);
 
-        var name = document.createElement('span');
-        name.innerHTML = ' ' + obj.name;
 
         label.appendChild(input);
         label.appendChild(name);
-
-        if (!obj.group ) {
-            return;
-        }
 
         var container = this._groups[obj.group];
 
