@@ -1,7 +1,7 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
-osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls) {
+osmcz.layers = function (map, baseLayers, overlays, controls) {
     // -- constructor --
 
     var devicePixelRatio = window.devicePixelRatio || 1,
@@ -89,7 +89,7 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
     var metropolis = L.tileLayer("https://api.mapbox.com/styles/v1/severak/cinr478gg00aucam0o6lran4v/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2V2ZXJhayIsImEiOiJjaXQxenM2ZTEwMGIyMnRwZGMwZzF6Y2VsIn0.-uZbcCAI3ABqnbg6h1mrhQ", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href=\'https://www.mapbox.com/about/maps/\'>Mapbox</a>, <a href=\'http://severak.svita.cz\'>Severák</a>',
-        code: 'b'
+        code: 'r'
     });
 
 
@@ -97,7 +97,7 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
         if (event.layer == ortofoto || event.layer == vodovky) {
             setTimeout(function(){  // needs timeout or doesnt work
                 if (!map.hasLayer(ortofotoOverlay)) {
-                    console.log('added overlay');
+//                     console.log('added overlay');
                     map.addLayer(ortofotoOverlay);
                 }
 
@@ -113,7 +113,7 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
             }, 300);
         } else {
               setTimeout(function(){  // needs timeout or doesnt work
-                    console.log('removed overlay');
+//                     console.log('removed overlay');
                     if (map.hasLayer(ortofotoOverlay)) {
                       map.removeLayer(ortofotoOverlay);
                     }
@@ -128,7 +128,6 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
 
 
     // --- overlays
-
 
     var turistikaOverlay = L.tileLayer("https://tile.poloha.net/kct/{z}/{x}/{y}.png", {
         maxZoom: 20,
@@ -218,36 +217,69 @@ osmcz.layers = function (map, baseLayers, baseOverlays, extraOverlays, controls)
         ruianLanduseOverlay = L.tileLayer(landuseUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '5'}),
         ruianAdresyOverlay = L.tileLayer(adresyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '6'});
 
-    baseLayers["Mapbox streets"] = mapbox;
-    baseLayers["Turistická mapa"] = turisticka;
-    baseLayers["OpenTopoMap"] = opentopomap;
-    baseLayers["MTBMap.cz"] = mtb;
-    baseLayers["OpenStreetMap Mapnik"] = osm;
-    baseLayers["OpenCycleMap"] = ocm;
-    baseLayers["Hikebikemap.org"] = hikebike;
-    baseLayers["Vodovky"] = vodovky;
-    baseLayers["Dopravní"] = dopravni;
-    baseLayers["Dopravní öpnv"] = opnv;
-    baseLayers["Méně popisků"] = menepopisku;
-    baseLayers["Ortofoto ČÚZK"] = ortofoto;
-    baseLayers["Metropolis"] = metropolis;
+    var aktivniOverlay = new osmcz.activeLayer(map);
 
-    baseOverlays["Ortofoto popisky"] = ortofotoOverlay;
-    baseOverlays["Turistické trasy ČR"] = turistikaOverlay;
-    baseOverlays["Vrstevnice ČR"] = vrstevniceOverlay;
-    baseOverlays["Zimní sporty"] = zimniOverlay;
-    baseOverlays["Turistické trasy EU"] = lonviaHikingOverlay;
-    baseOverlays["Cyklistické trasy EU"] = lonviaCyclingOverlay;
 
-    extraOverlays["Katastrální mapa ČÚZK"] = katastralniMapaOverlay;
-    extraOverlays["pLPIS"] = lpisOverlay;
+    // Base group
+    baseLayers["Základní"] = {};
+    baseLayers["Základní"]["Mapbox streets"] = mapbox;
+    baseLayers["Základní"]["OpenStreetMap Mapnik"] = osm;
+    baseLayers["Základní"]["OpenTopoMap"] = opentopomap;
+    baseLayers["Základní"]["Metropolis"] = metropolis;
+    baseLayers["Základní"]["Méně popisků"] = menepopisku;
 
-    extraOverlays["RUIAN: adresy"] = ruianAdresyOverlay;
-    extraOverlays["RUIAN: budovy"] = ruianBudovyOverlay;
-    extraOverlays["RUIAN: budovy TODO"] = ruianBudovyTodoOverlay;
-    extraOverlays["RUIAN: ulice"] = ruianUliceOverlay;
-    extraOverlays["RUIAN: parcely"] = ruianParcelyOverlay;
-    extraOverlays["RUIAN: landuse"] = ruianLanduseOverlay;
+    // Ortofoto group
+    baseLayers["Letecké"] = {};
+    baseLayers["Letecké"]["Ortofoto ČÚZK"] = ortofoto;
 
+    overlays["Letecké"] = {};
+    overlays["Letecké"]["Ortofoto popisky"] = ortofotoOverlay;
+
+    // Information group
+    baseLayers["Informace"] = {};
+    overlays["Informace"] = {};
+    overlays["Informace"]["Aktivní vrstva"] = aktivniOverlay;
+
+    // Hiking group
+    baseLayers["Turistické"] = {};
+    baseLayers["Turistické"]["Turistická mapa"] = turisticka;
+    baseLayers["Turistické"]["MTBMap.cz"] = mtb;
+    baseLayers["Turistické"]["Hikebikemap.org"] = hikebike;
+
+    overlays["Turistické"] = {};
+    overlays["Turistické"]["Turistické trasy ČR"] = turistikaOverlay;
+    overlays["Turistické"]["Turistické trasy EU"] = lonviaHikingOverlay;
+    overlays["Turistické"]["Vrstevnice ČR"] = vrstevniceOverlay;
+
+    // Sport group
+    baseLayers["Sport"] = {};
+    baseLayers["Sport"]["OpenCycleMap"] = ocm;
+
+    overlays["Sport"] = {};
+    overlays["Sport"]["Cyklistické trasy EU"] = lonviaCyclingOverlay;
+    overlays["Sport"]["Zimní sporty"] = zimniOverlay;
+
+    // Transport group
+    baseLayers["Dopravní"] = {};
+    baseLayers["Dopravní"]["Dopravní"] = dopravni;
+    baseLayers["Dopravní"]["Dopravní öpnv"] = opnv;
+
+    // Efects group
+    baseLayers["Efektní"] = {};
+    baseLayers["Efektní"]["Vodovky"] = vodovky;
+
+    // Special group
+    overlays["Speciální"] = {};
+    overlays["Speciální"]["Katastrální mapa ČÚZK"] = katastralniMapaOverlay;
+    overlays["Speciální"]["Pole a louky (pLPIS)"] = lpisOverlay;
+
+    // RUIAN group
+    overlays["RÚIAN"] = {};
+    overlays["RÚIAN"]["Adresy"] = ruianAdresyOverlay;
+    overlays["RÚIAN"]["Budovy"] = ruianBudovyOverlay;
+    overlays["RÚIAN"]["Budovy TODO"] = ruianBudovyTodoOverlay;
+    overlays["RÚIAN"]["Ulice"] = ruianUliceOverlay;
+    overlays["RÚIAN"]["Parcely"] = ruianParcelyOverlay;
+    overlays["RÚIAN"]["Landuse"] = ruianLanduseOverlay;
 
 };

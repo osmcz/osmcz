@@ -6,9 +6,9 @@ osmcz.basePath = osmcz.production ? '/theme/' : '';
 osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
 
 
-var map, baseLayers = {}, baseOverlays = {}, extraOverlays = {}, controls = {};
+var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
-var guideposts;
+var guideposts, gpcheck;
 
 initmap();
 
@@ -21,18 +21,19 @@ function initmap() {
               }).addTo(map);
 
     // -------------------- map layers --------------------
-    new osmcz.layers(map, baseLayers, baseOverlays, extraOverlays, controls);
-    new osmcz.activeLayer(map, baseLayers, baseOverlays, controls);
+    new osmcz.layers(map, baseLayers, overlays, controls);
 
     // -------------------- map controls --------------------
-    new osmcz.controls(map, baseLayers, baseOverlays, extraOverlays, controls);
+    new osmcz.controls(map, baseLayers, overlays, controls);
+
+    // Expand base group by default
+    controls.layers.expandGroup("Základní")
 
     // -------------------- modules --------------------
     note = new osmcz.note();
-    guideposts = new osmcz.guideposts(map, baseLayers, baseOverlays, controls);
-    gpcheck = new osmcz.gpcheck(map, baseLayers, extraOverlays, controls);
+    guideposts = new osmcz.guideposts(map, baseLayers, overlays, controls, "Turistické");
+    gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls, "Speciální");
     new osmcz.poiPopup(map);
-
 
     // -------------------- map state --------------------
 
@@ -152,6 +153,9 @@ function initmap() {
 // set layers from coded string
 function updateLayersFromCode(codedString) {
     var setLayer = function (key, layer) {
+        if (layer == null) {
+            return;
+        }
         for (var pos in codedString) {
             if (layer.options && layer.options.code == codedString[pos])
                 map.addLayer(layer);
@@ -161,7 +165,18 @@ function updateLayersFromCode(codedString) {
         if ((!codedString || !codedString.match(/[a-z]/)) && layer.options && layer.options.osmczDefaultLayer)
             map.addLayer(layer);
     };
-    $.each(baseLayers, setLayer);
-    $.each(baseOverlays, setLayer);
-    $.each(extraOverlays, setLayer);
+
+    var group, layer;
+
+    for (group in baseLayers){
+        for(layer in baseLayers[group]) {
+            setLayer(layer, baseLayers[group][layer]);
+        }
+    }
+
+    for (group in overlays){
+        for(layer in overlays[group]) {
+            setLayer(layer, overlays[group][layer]);
+        }
+    }
 }

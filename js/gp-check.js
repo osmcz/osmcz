@@ -23,7 +23,7 @@ and
  */
 
 var osmcz = osmcz || {};
-osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
+osmcz.gpcheck = function(map, baseLayers, overlays, controls, group) {
     // -- constructor --
 
     var layersControl = controls.layers;
@@ -293,11 +293,11 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
     });
 
     /* Add overlay to the map */
-    layersControl.addOverlay(check_markers, "Chybné rozcestníky", 'extra');
+    layersControl.addOverlay(check_markers, "Chybné rozcestníky", group);
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
-    overlays["Chybné rozcestníky"] = check_markers;
+    overlays[group]["Chybné rozcestníky"] = check_markers;
 
     // -- methods --
 
@@ -617,7 +617,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         var imgMsg = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-img-message');
         var submitBtn = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #submitBtn');
 
-        if (imgMsg.contents().size() == 0 &&
+        if (imgMsg.contents().length == 0 &&
             !osmcz.authorError &&
             !osmcz.coorsError
            )
@@ -782,6 +782,5 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
         // all markers processed - hide the progress bar:
       }
     }
-
 };
 

@@ -23,7 +23,7 @@ and
 */
 
 var osmcz = osmcz || {};
-osmcz.guideposts = function(map, baseLayers, overlays, controls) {
+osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
     var layersControl = controls.layers;
     var xhr;
@@ -199,13 +199,12 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls) {
             }
         }
     });
-
     /* Add overlay to the map */
-    layersControl.addOverlay(markers, "Foto rozcestníků", 'base');
+    layersControl.addOverlay(markers, "Foto rozcestníků", group);
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
-    overlays["Foto rozcestníků"] = markers;
+    overlays[group]["Foto rozcestníků"] = markers;
 
     // -- methods --
 
