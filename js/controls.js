@@ -1,10 +1,10 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
-osmcz.controls = function (map, baseLayers, baseOverlays, extraOverlays, controls) {
+osmcz.controls = function (map, baseLayers, overlays, controls) {
     // -- constructor --
 
-    controls.layers = osmcz.layerSwitcher(baseLayers, baseOverlays, extraOverlays).addTo(map);
+    controls.layers = osmcz.layerSwitcher(baseLayers, overlays).addTo(map);
 
     controls.zoom = L.control.zoom({
         zoomInTitle: 'Přiblížit',

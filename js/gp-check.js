@@ -23,10 +23,9 @@ and
  */
 
 var osmcz = osmcz || {};
-osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
+osmcz.gpcheck = function(map) {
     // -- constructor --
 
-    var layersControl = controls.layers;
     var xhr;
     var check_markers = L.markerClusterGroup({code: 'B', chunkedLoading: true, chunkProgress: update_progress_bar});
     var autoload_lock = false;
@@ -291,13 +290,6 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
       autoload_lock = false;
       cleanExifMarker();
     });
-
-    /* Add overlay to the map */
-    layersControl.addOverlay(check_markers, "Chybné rozcestníky", 'extra');
-
-    /* Add overlay to the overlays list as well
-     * This allows restoration of overlay state on load */
-    overlays["Chybné rozcestníky"] = check_markers;
 
     // -- methods --
 
@@ -783,5 +775,6 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls) {
       }
     }
 
+    return check_markers;
 };
 

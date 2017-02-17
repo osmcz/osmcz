@@ -1,7 +1,7 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
-osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
+osmcz.activeLayer = function (map) {
     // -- constructor --
 
     var timeout;
@@ -59,9 +59,6 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         }
     );
 
-    //add as overlay
-    overlays["Aktivní vrstva"] = geojsonTileLayer;
-
     map.on('layeradd', function (event) {
         if (event.layer == geojsonTileLayer) {
             //$('#map-container').addClass('searchbar-on js_active-layer-on');
@@ -91,4 +88,5 @@ osmcz.activeLayer = function (map, baseLayers, overlays, controls) {
         //$('#map-searchbar').html("Najeďte myší na bod nebo klikněte.");
     }
 
+    return geojsonTileLayer;
 };
