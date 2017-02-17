@@ -296,11 +296,6 @@ a:hover.as-text {
 
 /*Layer Switch - overlay groups*/
 
-.nav>li>a {
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
 div[aria-expanded=true] .glyphicon-triangle-right {
    display: none;
 }
@@ -312,6 +307,13 @@ div[aria-expanded=false] .glyphicon-triangle-bottom {
 }
 div[aria-expanded=true] .glyphicon-triangle-bottom {
    display: inline !important;
+}
+
+/* Overlay label style */
+.lsOverlay {
+  color: #333;
+  font-style: italic;
+  font-weight: normal;
 }
 
 /* Leaflet-Coordinates-Control plugin */
