@@ -217,9 +217,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         ruianLanduseOverlay = L.tileLayer(landuseUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '5'}),
         ruianAdresyOverlay = L.tileLayer(adresyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '6'});
 
-    var aktivniOverlay = osmcz.activeLayer(map),
-        guidepostsOverlay = osmcz.guideposts(map),
-        gpcheckOverlay = osmcz.gpcheck(map);
+    var aktivniOverlay = new osmcz.activeLayer(map);
 
 
     // Base group
@@ -252,7 +250,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     overlays["Turistické"]["Turistické trasy ČR"] = turistikaOverlay;
     overlays["Turistické"]["Turistické trasy EU"] = lonviaHikingOverlay;
     overlays["Turistické"]["Vrstevnice ČR"] = vrstevniceOverlay;
-    overlays["Turistické"]["Foto rozcestníků"] = guidepostsOverlay;
 
     // Sport group
     baseLayers["Sport"] = {};
@@ -275,7 +272,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     overlays["Speciální"] = {};
     overlays["Speciální"]["Katastrální mapa ČÚZK"] = katastralniMapaOverlay;
     overlays["Speciální"]["Pole a louky (pLPIS)"] = lpisOverlay;
-    overlays["Speciální"]["Chybné rozcestníky"] = gpcheckOverlay;
 
     // RUIAN group
     overlays["RÚIAN"] = {};

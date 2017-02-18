@@ -8,6 +8,7 @@ osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
+var guideposts, gpcheck;
 
 initmap();
 
@@ -30,8 +31,9 @@ function initmap() {
 
     // -------------------- modules --------------------
     note = new osmcz.note();
+    guideposts = new osmcz.guideposts(map, baseLayers, overlays, controls, "Turistické");
+    gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls, "Speciální");
     new osmcz.poiPopup(map);
-
 
     // -------------------- map state --------------------
 

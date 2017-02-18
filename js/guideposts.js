@@ -23,10 +23,11 @@ and
 */
 
 var osmcz = osmcz || {};
-osmcz.guideposts = function(map) {
+osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
+    var layersControl = controls.layers;
     var xhr;
-    var markers = L.markerClusterGroup({code: 'G', zIndex: null, chunkedLoading: true, chunkProgress: update_progress_bar});
+    var markers = L.markerClusterGroup({code: 'G', chunkedLoading: true, chunkProgress: update_progress_bar});
     var moving_marker;
     var autoload_lock = false;
     var moving_flag = false;
@@ -198,6 +199,12 @@ osmcz.guideposts = function(map) {
             }
         }
     });
+    /* Add overlay to the map */
+    layersControl.addOverlay(markers, "Foto rozcestníků", group);
+
+    /* Add overlay to the overlays list as well
+     * This allows restoration of overlay state on load */
+    overlays[group]["Foto rozcestníků"] = markers;
 
     // -- methods --
 
@@ -435,6 +442,5 @@ osmcz.guideposts = function(map) {
       }
     }
 
-    return markers;
 };
 
