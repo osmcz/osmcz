@@ -617,7 +617,7 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls, group) {
         var imgMsg = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #gpc-img-message');
         var submitBtn = $('#gpc-img-upload-form[data-osm-id="' + osmid + '"] #submitBtn');
 
-        if (imgMsg.contents().size() == 0 &&
+        if (imgMsg.contents().length == 0 &&
             !osmcz.authorError &&
             !osmcz.coorsError
            )
