@@ -4,7 +4,7 @@ var osmcz = osmcz || {};
 osmcz.controls = function (map, baseLayers, overlays, controls) {
     // -- constructor --
 
-    controls.layers = osmcz.layerSwitcher(baseLayers, overlays).addTo(map);
+    controls.layers = osmcz.layerSwitcher(baseLayers, overlays, {priorityGroups: ["Základní", 'Letecké', 'Informace']}).addTo(map);
 
     controls.zoom = L.control.zoom({
         zoomInTitle: 'Přiblížit',

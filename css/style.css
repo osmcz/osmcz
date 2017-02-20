@@ -309,6 +309,14 @@ div[aria-expanded=true] .glyphicon-triangle-bottom {
    display: inline !important;
 }
 
+div[group-active=true]{
+   color: blue;
+}
+
+div[group-active=false]{
+   color: black;
+}
+
 /* Overlay label style */
 .lsOverlay {
   color: #333;
