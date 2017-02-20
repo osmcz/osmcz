@@ -14,14 +14,22 @@ osmcz.LayerSwitcher = L.Control.extend({
     initialize: function (baseLayers, overlays, options) {
         L.setOptions(this, options);
 
-        this._layers = {};
-        this._groups = {};
-        this._groupsHeaders = {};
+        this._layers = {}; // List of layers
+        this._groups = {}; // List of groups
+        this._groupsHeaders = {}; // List of groups headers
+        this._cntActiveInGroup = {}; // Store number of active layers per group
         this._lastZIndex = 0;
         this._handlingClick = false;
 
         this._lastLayerId = 0;
         this._layersIdMap = {};
+
+        // Create priority groups first to preserve given groups order
+        if (options["priorityGroups"]){
+            for (i in options["priorityGroups"]) {
+                this.addGroup(options["priorityGroups"][i]);
+            }
+        }
 
         for (grp in baseLayers) {
           for (layer in baseLayers[grp])
@@ -85,30 +93,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         }
     },
 
-    // Create header button
-    _addGroupHeader: function (name, target, expanded) {
-        var content, glHideRight, glHideBottom;
-
-        if (expanded) {
-          glHideRight = 'style="display:none"';
-        } else {
-          glHideBottom = 'style="display:none"';
-        }
-
-        var grpBase = document.createElement('div');
-        grpBase.className = 'btn btn-default btn-block btn-xs';
-        grpBase.setAttribute("data-toggle", "collapse");
-        grpBase.setAttribute("data-target", '#' + target);
-
-        content  = '<i class="glyphicon glyphicon-triangle-right  pull-left" ' + glHideRight + '></i>';
-        content += '<i class="glyphicon glyphicon-triangle-bottom pull-left" ' + glHideBottom + '></i>';
-        content += name;
-        grpBase.innerHTML = content;
-
-        return grpBase;
-    },
-
-    _addGroup: function (id) {
+    addGroup: function (id) {
 
         if (this._groups[id]) {
           // Group already exists, nothing to do
@@ -140,6 +125,30 @@ osmcz.LayerSwitcher = L.Control.extend({
         element.className = 'collapse';
 
         this._groups[id] = element;
+        this._cntActiveInGroup[id] = 0;
+    },
+
+    // Create header button
+    _addGroupHeader: function (name, target, expanded) {
+        var content, glHideRight, glHideBottom;
+
+        if (expanded) {
+          glHideRight = 'style="display:none"';
+        } else {
+          glHideBottom = 'style="display:none"';
+        }
+
+        var grpBase = document.createElement('div');
+        grpBase.className = 'btn btn-default btn-block btn-xs';
+        grpBase.setAttribute("data-toggle", "collapse");
+        grpBase.setAttribute("data-target", '#' + target);
+
+        content  = '<i class="glyphicon glyphicon-triangle-right  pull-left" ' + glHideRight + '></i>';
+        content += '<i class="glyphicon glyphicon-triangle-bottom pull-left" ' + glHideBottom + '></i>';
+        content += name;
+        grpBase.innerHTML = content;
+
+        return grpBase;
     },
 
     _initLayout: function () {
@@ -223,7 +232,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         };
 
         if (group) {
-            this._addGroup(group);
+            this.addGroup(group);
         }
 
         if (this.options.autoZIndex && layer.setZIndex) {
@@ -237,8 +246,14 @@ osmcz.LayerSwitcher = L.Control.extend({
             return;
         }
 
-        for (var id in this._groups) {
-            this._groups[id].innerHTML = '';
+        for (var group in this._groups) {
+            this._groups[group].innerHTML = '';
+            this._cntActiveInGroup[group] = 0;
+            for (var layer in this._layers) {
+                if (this._layers[layer].group == group) {
+                    this._cntActiveInGroup[group]++;
+                }
+            }
         }
 
         var baseLayersPresent = false,
@@ -251,6 +266,8 @@ osmcz.LayerSwitcher = L.Control.extend({
             overlaysPresent = overlaysPresent || obj.overlay;
             baseLayersPresent = baseLayersPresent || !obj.overlay;
         }
+
+        this._updateGroupHeaders();
 
         this._separator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
     },
@@ -299,6 +316,13 @@ osmcz.LayerSwitcher = L.Control.extend({
             input,
             checked = this._map.hasLayer(obj.layer);
 
+        if (!checked) {
+            if (this._cntActiveInGroup[obj.group] > 0) {
+                this._cntActiveInGroup[obj.group]--;
+            }
+        }
+
+
         var name = document.createElement('span');
         name.innerHTML = ' ' + obj.name;
 
@@ -342,13 +366,20 @@ osmcz.LayerSwitcher = L.Control.extend({
 
             if (input.checked && !this._map.hasLayer(obj.layer)) {
                 this._map.addLayer(obj.layer);
+                this._cntActiveInGroup[obj.group]++;
 
             } else if (!input.checked && this._map.hasLayer(obj.layer)) {
                 this._map.removeLayer(obj.layer);
+                if (this._cntActiveInGroup[obj.group] > 0) {
+                    this._cntActiveInGroup[obj.group]--;
+                }
+
             }
         }
 
         this._handlingClick = false;
+
+        this._updateGroupHeaders();
 
         this._refocusOnMap();
     },
@@ -362,6 +393,17 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     _collapse: function () {
         //this._container.className = this._container.className.replace(' leaflet-control-layers-expanded', '');
+    },
+
+    // Update Group headers to indicate, which group contains enables layers
+    _updateGroupHeaders: function () {
+        for (group in this._cntActiveInGroup) {
+            if (this._cntActiveInGroup[group] == 0) {
+                this._groupsHeaders[group].setAttribute('group-active', 'false');
+            } else {
+                this._groupsHeaders[group].setAttribute('group-active', 'true');
+            }
+        }
     }
 });
 
