@@ -93,6 +93,18 @@ osmcz.LayerSwitcher = L.Control.extend({
         }
     },
 
+    expandAllGroups: function () {
+        for (group in this._groups) {
+            this.expandGroup(group);
+        }
+    },
+
+    collapseAllGroups: function () {
+        for (group in this._groups) {
+            this.collapseGroup(group);
+        }
+    },
+
     addGroup: function (id) {
 
         if (this._groups[id]) {
@@ -177,8 +189,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         if (this.options.collapsed) {
             if (!L.Browser.android) {
                 L.DomEvent
-            .on(container, 'click', this._expand, this)  //osmcz
-            //.on(container, 'mouseover', this._expand, this)
+                    .on(container, 'click', this._expand, this)  //osmcz
                     .on(container, 'mouseout', this._collapse, this);
             }
             var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
@@ -203,6 +214,30 @@ osmcz.LayerSwitcher = L.Control.extend({
         } else {
             this._expand();
         }
+
+        this._separator = L.DomUtil.create('div', className + '-separator', form);
+
+        var toolbar = document.createElement('div');
+        toolbar.className = "btn-toolbar"
+        toolbar.setAttribute ('role', 'toolbar');
+
+        var btnExpandAll = document.createElement('button');
+        btnExpandAll.className = 'btn btn-secondary btn-default btn-xs';
+        btnExpandAll.setAttribute ('type', 'button');
+        btnExpandAll.setAttribute ('title', 'Rozbalit vše');
+        btnExpandAll.setAttribute("onclick", "controls.layers.expandAllGroups();");
+        btnExpandAll.innerHTML = '<i class="glyphicon glyphicon-collapse-down"></i>';
+
+        var btnCollapseAll = document.createElement('button');
+        btnCollapseAll.className = 'btn btn-secondary  btn-default btn-xs';
+        btnCollapseAll.setAttribute ('type', 'button');
+        btnCollapseAll.setAttribute ('title', 'Sbalit vše');
+        btnCollapseAll.setAttribute("onclick", "controls.layers.collapseAllGroups();");
+        btnCollapseAll.innerHTML = '<i class="glyphicon glyphicon-collapse-up" ></i>';
+
+        toolbar.appendChild(btnExpandAll);
+        toolbar.appendChild(btnCollapseAll);
+        this._form.appendChild(toolbar);
 
         this._separator = L.DomUtil.create('div', className + '-separator', form);
 
