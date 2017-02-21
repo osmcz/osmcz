@@ -26,8 +26,12 @@ function initmap() {
     // -------------------- map controls --------------------
     new osmcz.controls(map, baseLayers, overlays, controls);
 
-    // Expand base group by default
-    controls.layers.expandGroup("Základní")
+    // Restore previous state or expand base group by default
+    if (Cookies.get("_ls_expanded_groups")) {
+        controls.layers.expandGroup();
+    } else {
+        controls.layers.expandGroup("Základní");
+    }
 
     // -------------------- modules --------------------
     note = new osmcz.note();

@@ -80,16 +80,30 @@ osmcz.LayerSwitcher = L.Control.extend({
     },
 
     expandGroup: function (group) {
-        if (this._groups[group]) {
-            this._groups[group].className = 'collapse in';
-            this._groupsHeaders[group].setAttribute('aria-expanded', 'true');
+        // If no parameter set, use stored cookie
+        if (group == null && Cookies.get("_ls_expanded_groups") != null) {
+            var grpList = Cookies.get("_ls_expanded_groups").split("|");
+            for (i in grpList) {
+                if (this._groups[grpList[i]]) {
+                    this.expandGroup(grpList[i]);
+                }
+            }
+        } else {
+            if (this._groups[group] &&
+                this._groupsHeaders[group].getAttribute('aria-expanded') == null) {
+                this._updateGroupCookie(group);
+                this._groups[group].className = 'collapse in';
+                this._groupsHeaders[group].setAttribute('aria-expanded', 'true');
+            }
         }
     },
 
     collapseGroup: function (group) {
-        if (this._groups[group]) {
+        if (this._groups[group] &&
+            this._groupsHeaders[group].getAttribute('aria-expanded') == "true") {
+            this._updateGroupCookie(group);
             this._groups[group].className = 'collapse';
-            this._groupsHeaders[group].setAttribute('aria-expanded', 'false');
+            this._groupsHeaders[group].removeAttribute('aria-expanded');
         }
     },
 
@@ -154,6 +168,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         grpBase.className = 'btn btn-default btn-block btn-xs';
         grpBase.setAttribute("data-toggle", "collapse");
         grpBase.setAttribute("data-target", '#' + target);
+        grpBase.setAttribute("onclick", "controls.layers._updateGroupCookie('" + name + "');");
 
         content  = '<i class="glyphicon glyphicon-triangle-right  pull-left" ' + glHideRight + '></i>';
         content += '<i class="glyphicon glyphicon-triangle-bottom pull-left" ' + glHideBottom + '></i>';
@@ -439,6 +454,31 @@ osmcz.LayerSwitcher = L.Control.extend({
                 this._groupsHeaders[group].setAttribute('group-active', 'true');
             }
         }
+    },
+
+    // Update cookie containig list of expanded groups so they can be restored next time
+    _updateGroupCookie: function (group) {
+
+            if (this._groups[group]) {
+                if (this._groupsHeaders[group].getAttribute('aria-expanded') == null) {
+
+                    var expandCookie = Cookies.get("_ls_expanded_groups") == null ? group : Cookies.get("_ls_expanded_groups") + '|' + group;
+                    Cookies.set("_ls_expanded_groups", expandCookie, {expires: 90});
+                } else {
+                    if (Cookies.get("_ls_expanded_groups") == null) {
+                        return;
+                    } else {
+                        var cc = Cookies.get("_ls_expanded_groups").split("|");
+                        var expandCookie = [];
+                        for (i in cc) {
+                            if (cc[i] != group) {
+                                expandCookie.push(cc[i]);
+                            }
+                        }
+                        Cookies.set("_ls_expanded_groups", expandCookie.join("|"), {expires: 90});
+                    }
+                }
+            }
     }
 });
 
