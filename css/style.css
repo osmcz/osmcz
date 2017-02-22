@@ -310,11 +310,21 @@ div[aria-expanded=true] .glyphicon-triangle-bottom {
 }
 
 div[group-active=true]{
-   color: blue;
+   color: blue !important;
 }
 
 div[group-active=false]{
    color: black;
+}
+
+.leaflet-control-layers-list input[type=checkbox]:checked + span {
+  color: blue;
+  font-style: normal;
+}
+
+.leaflet-control-layers-list input[type=radio]:checked + span {
+  color: blue;
+  font-style: normal;
 }
 
 /* Overlay label style */
