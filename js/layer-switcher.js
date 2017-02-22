@@ -89,21 +89,22 @@ osmcz.LayerSwitcher = L.Control.extend({
                 }
             }
         } else {
-            if (this._groups[group] &&
-                this._groupsHeaders[group].getAttribute('aria-expanded') == null) {
-                this._updateGroupCookie(group);
-                this._groups[group].className = 'collapse in';
-                this._groupsHeaders[group].setAttribute('aria-expanded', 'true');
+            if (this._groups[group]) {
+                if (this._groupsHeaders[group].getAttribute('aria-expanded') == null ||
+                    this._groupsHeaders[group].getAttribute('aria-expanded') == 'false') {
+                    this._updateGroupCookie(group);
+                    $("#" + this._groups[group].id).collapse("show");
+                }
             }
         }
     },
 
     collapseGroup: function (group) {
-        if (this._groups[group] &&
-            this._groupsHeaders[group].getAttribute('aria-expanded') == "true") {
-            this._updateGroupCookie(group);
-            this._groups[group].className = 'collapse';
-            this._groupsHeaders[group].removeAttribute('aria-expanded');
+        if (this._groups[group]) {
+            if (this._groupsHeaders[group].getAttribute('aria-expanded') == "true") {
+                this._updateGroupCookie(group);
+                $("#" + this._groups[group].id).collapse("hide");
+            }
         }
     },
 
@@ -460,8 +461,8 @@ osmcz.LayerSwitcher = L.Control.extend({
     _updateGroupCookie: function (group) {
 
             if (this._groups[group]) {
-                if (this._groupsHeaders[group].getAttribute('aria-expanded') == null) {
-
+                if (this._groupsHeaders[group].getAttribute('aria-expanded') == null ||
+                    this._groupsHeaders[group].getAttribute('aria-expanded') == "false") {
                     var expandCookie = Cookies.get("_ls_expanded_groups") == null ? group : Cookies.get("_ls_expanded_groups") + '|' + group;
                     Cookies.set("_ls_expanded_groups", expandCookie, {expires: 90});
                 } else {
