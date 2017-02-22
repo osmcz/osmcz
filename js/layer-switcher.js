@@ -233,8 +233,11 @@ osmcz.LayerSwitcher = L.Control.extend({
 
         this._separator = L.DomUtil.create('div', className + '-separator', form);
 
+        var clfix = document.createElement('div');
+        clfix.className = "clearfix";
+
         var toolbar = document.createElement('div');
-        toolbar.className = "btn-toolbar"
+        toolbar.className = "btn-toolbar inline";
         toolbar.setAttribute ('role', 'toolbar');
 
         var btnExpandAll = document.createElement('button');
@@ -251,9 +254,26 @@ osmcz.LayerSwitcher = L.Control.extend({
         btnCollapseAll.setAttribute("onclick", "controls.layers.collapseAllGroups();");
         btnCollapseAll.innerHTML = '<i class="glyphicon glyphicon-eject" ></i>';
 
+        var btnSetting = document.createElement('button');
+        btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right';
+        btnSetting.setAttribute ('type', 'button');
+        btnSetting.setAttribute ('title', 'Nastavení');
+        btnSetting.setAttribute ('data-toggle', 'collapse');
+        btnSetting.setAttribute ('data-target', '#lssetup');
+        btnSetting.innerHTML = '<i class="glyphicon glyphicon-cog" ></i>';
+
         toolbar.appendChild(btnExpandAll);
         toolbar.appendChild(btnCollapseAll);
-        this._form.appendChild(toolbar);
+        toolbar.appendChild(btnSetting);
+        clfix.appendChild(toolbar);
+        this._form.appendChild(clfix);
+
+        var lssetup = document.createElement('div');
+        lssetup.className = "lssetup collapse";
+        lssetup.setAttribute('id', 'lssetup');
+        lssetup.innerHTML = '<h3>Nastavení</h3><div>Tady bude nějaké nastavení.</div>';
+
+        this._form.appendChild(lssetup);
 
         this._separator = L.DomUtil.create('div', className + '-separator', form);
 
