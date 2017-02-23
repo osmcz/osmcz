@@ -133,7 +133,22 @@ a:hover.as-text {
 }
 
 #map-layers div #ls-info {
-  padding-left: 10px;
+  margin-top: -20px;
+  margin-right: -50px;
+}
+
+.ls-info-body {
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+.btn-header {
+    padding: 10px 5px 0px 5px;
+    font-size: 150%;
+    color: black;
+}
+
+.btn-header:hover {
+    opacity: 0.6;
 }
 
 @media screen and (min-width: 768px) {
