@@ -119,6 +119,11 @@ a:hover.as-text {
     font-size: 13px;
     display: none;
 }
+
+@media (max-width: 992px) {
+    #map-layers {width: 180px;}
+}
+
 #map-layers h2, .h2 {
   margin: 10px 0;
   font-size: 24px;
