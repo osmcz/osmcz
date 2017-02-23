@@ -129,6 +129,7 @@ a:hover.as-text {
 #map-layers button.close {
   position: fixed;
   right: 20px;
+  top: 45px;
 }
 
 #map-layers div #ls-info {
@@ -224,7 +225,7 @@ a:hover.as-text {
 }
 
 #map-searchbar .close {
-    margin-top: -6px;
+    margin-top: -18px;
 }
 #map-searchbar #mapillary-photo {
     max-width: 250px;
