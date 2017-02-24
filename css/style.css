@@ -156,6 +156,15 @@ a:hover.as-text {
     opacity: 0.6;
 }
 
+.flip {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(1);
+    -webkit-transform: scaleY(1);
+    transform: scaleY(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
 @media screen and (min-width: 768px) {
     #map-sidebar, #map-layers {
         position: relative;

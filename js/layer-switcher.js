@@ -245,14 +245,14 @@ osmcz.LayerSwitcher = L.Control.extend({
         btnExpandAll.setAttribute ('type', 'button');
         btnExpandAll.setAttribute ('title', 'Rozbalit vše');
         btnExpandAll.setAttribute("onclick", "controls.layers.expandAllGroups();");
-        btnExpandAll.innerHTML = '<i class="glyphicon glyphicon-collapse-down"></i>';
+        btnExpandAll.innerHTML = '<i class="glyphicon glyphicon-eject flip"></i>';
 
         var btnCollapseAll = document.createElement('button');
         btnCollapseAll.className = 'btn btn-secondary  btn-default btn-xs';
         btnCollapseAll.setAttribute ('type', 'button');
         btnCollapseAll.setAttribute ('title', 'Sbalit vše');
         btnCollapseAll.setAttribute("onclick", "controls.layers.collapseAllGroups();");
-        btnCollapseAll.innerHTML = '<i class="glyphicon glyphicon-collapse-up" ></i>';
+        btnCollapseAll.innerHTML = '<i class="glyphicon glyphicon-eject" ></i>';
 
         var btnSetting = document.createElement('button');
         btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right';
