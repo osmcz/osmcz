@@ -14,15 +14,24 @@ osmcz.LayerSwitcher = L.Control.extend({
     initialize: function (baseLayers, overlays, options) {
         L.setOptions(this, options);
 
+        this._mode = 'basic'; // Layer switcher mode - basic or groups
+
         this._layers = {}; // List of layers
         this._groups = {}; // List of groups
         this._groupsHeaders = {}; // List of groups headers
         this._cntActiveInGroup = {}; // Store number of active layers per group
         this._lastZIndex = 0;
         this._handlingClick = false;
+        this._defaultLayer = null; // default layer - set from layer.options.osmczDefaultLayer
 
         this._lastLayerId = 0;
-        this._layersIdMap = {};
+        this._layersIdMap = {}; // Mapping between internal layer ID and Leaflet object ID
+
+
+        // Restore mode from cookie - if exists
+        if ( Cookies.get("_ls_mode") ) {
+            this._mode = Cookies.get("_ls_mode");
+        }
 
         // Create priority groups first to preserve given groups order
         if (options["priorityGroups"]){
@@ -231,59 +240,150 @@ osmcz.LayerSwitcher = L.Control.extend({
             this._expand();
         }
 
-        this._separator = L.DomUtil.create('div', className + '-separator', form);
+        // Prepare layout
+        this._separatorMain = L.DomUtil.create('div', className + '-separator', form);
 
         var clfix = document.createElement('div');
         clfix.className = "clearfix";
 
+        // Main toolbar
         var toolbar = document.createElement('div');
         toolbar.className = "btn-toolbar inline";
         toolbar.setAttribute ('role', 'toolbar');
 
-        var btnExpandAll = document.createElement('button');
-        btnExpandAll.className = 'btn btn-secondary btn-default btn-xs';
-        btnExpandAll.setAttribute ('type', 'button');
-        btnExpandAll.setAttribute ('title', 'Rozbalit vše');
-        btnExpandAll.setAttribute("onclick", "controls.layers.expandAllGroups();");
-        btnExpandAll.innerHTML = '<i class="glyphicon glyphicon-eject flip"></i>';
+        // Collapse group
+        var collapseGroup = document.createElement('div');
+        collapseGroup.className = "btn-group btn-group-xs";
+        collapseGroup.setAttribute('role', 'group');
+        collapseGroup.setAttribute('id', 'collapseGroup');
 
-        var btnCollapseAll = document.createElement('button');
-        btnCollapseAll.className = 'btn btn-secondary  btn-default btn-xs';
-        btnCollapseAll.setAttribute ('type', 'button');
-        btnCollapseAll.setAttribute ('title', 'Sbalit vše');
-        btnCollapseAll.setAttribute("onclick", "controls.layers.collapseAllGroups();");
-        btnCollapseAll.innerHTML = '<i class="glyphicon glyphicon-eject" ></i>';
+        // Expand all button
+        this._btnExpandAll = document.createElement('button');
+        this._btnExpandAll.className = 'btn btn-secondary btn-default btn-xs';
+        this._btnExpandAll.setAttribute ('type', 'button');
+        this._btnExpandAll.setAttribute ('title', 'Rozbalit vše');
+        this._btnExpandAll.setAttribute ('id', 'btnExpandAll');
+        this._btnExpandAll.setAttribute("onclick", "controls.layers.expandAllGroups();");
+        this._btnExpandAll.innerHTML = '<i class="glyphicon glyphicon-eject flip"></i>';
 
-        var btnSetting = document.createElement('button');
-        btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right';
-        btnSetting.setAttribute ('type', 'button');
-        btnSetting.setAttribute ('title', 'Nastavení');
-        btnSetting.setAttribute ('data-toggle', 'collapse');
-        btnSetting.setAttribute ('data-target', '#lssetup');
-        btnSetting.innerHTML = '<i class="glyphicon glyphicon-cog" ></i>';
+        // Collapse all button
+        this._btnCollapseAll = document.createElement('button');
+        this._btnCollapseAll.className = 'btn btn-secondary  btn-default btn-xs';
+        this._btnCollapseAll.setAttribute ('type', 'button');
+        this._btnCollapseAll.setAttribute ('title', 'Sbalit vše');
+        this._btnCollapseAll.setAttribute ('id', 'btnCollapseAll');
+        this._btnCollapseAll.setAttribute("onclick", "controls.layers.collapseAllGroups();");
+        this._btnCollapseAll.innerHTML = '<i class="glyphicon glyphicon-eject" ></i>';
 
-        toolbar.appendChild(btnExpandAll);
-        toolbar.appendChild(btnCollapseAll);
-        toolbar.appendChild(btnSetting);
-        clfix.appendChild(toolbar);
-        this._form.appendChild(clfix);
+        // Fill collapse group
+        collapseGroup.appendChild(this._btnExpandAll);
+        collapseGroup.appendChild(this._btnCollapseAll);
+
+        // Settings button
+        this._btnSetting = document.createElement('button');
+        this._btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right';
+        this._btnSetting.setAttribute ('type', 'button');
+        this._btnSetting.setAttribute ('title', 'Nastavení');
+        this._btnSetting.setAttribute ('data-toggle', 'collapse');
+        this._btnSetting.setAttribute ('data-target', '#lssetup');
+        this._btnSetting.innerHTML = '<i class="glyphicon glyphicon-cog" ></i>';
+
+        // Mode switcher
+        var modeSwitchGroup = document.createElement('div');
+        modeSwitchGroup.className = "btn-group btn-group-xs";
+        modeSwitchGroup.setAttribute('role', 'group');
+        modeSwitchGroup.setAttribute('id', 'modeSwitchGroup');
+        modeSwitchGroup.setAttribute('data-toggle', 'buttons');
+
+        // Basic button
+        var labelBasic = document.createElement('label');
+        labelBasic.className = 'btn btn-default' + (this._mode == 'basic' ? ' active' : '');
+        labelBasic.setAttribute('onclick','controls.layers._switchLayerMode("basic")');
+        labelBasic.setAttribute('title','Základní vrstvy');
+
+        var inputBasic = document.createElement('input');
+        inputBasic.className = 'btn-block';
+        inputBasic.setAttribute('type','radio');
+        inputBasic.setAttribute('name','layerMode');
+        inputBasic.setAttribute('id','layerModeBasic');
+        inputBasic.setAttribute('autocomplete','off');
+
+        var nameBasic = document.createElement('span');
+        nameBasic.className = 'glyphicon glyphicon-list';
+
+        labelBasic.appendChild(inputBasic);
+        labelBasic.appendChild(nameBasic);
+
+        // Group button
+        var labelGroup = document.createElement('label');
+        labelGroup.className = 'btn btn-default' + (this._mode == 'groups' ? ' active' : '');
+        labelGroup.setAttribute('onclick','controls.layers._switchLayerMode("groups")');
+        labelGroup.setAttribute('title','Více vrstev ve skupinách');
+
+        var inputGroup = document.createElement('input');
+        inputGroup.className = 'btn-block ';
+        inputGroup.setAttribute('type','radio');
+        inputGroup.setAttribute('name','layerMode');
+        inputGroup.setAttribute('id','layerModeGroup');
+        inputGroup.setAttribute('autocomplete','off');
+
+        var nameGroup = document.createElement('span');
+        nameGroup.className = 'glyphicon glyphicon-calendar';
+
+        labelGroup.appendChild(inputGroup);
+        labelGroup.appendChild(nameGroup);
+
+        modeSwitchGroup.appendChild(labelBasic);
+        modeSwitchGroup.appendChild(labelGroup);
+
+        toolbar.appendChild(modeSwitchGroup);
+        toolbar.appendChild(collapseGroup);
+        toolbar.appendChild(this._btnSetting);
+        this._form.appendChild(toolbar);
 
         var lssetup = document.createElement('div');
         lssetup.className = "lssetup collapse";
         lssetup.setAttribute('id', 'lssetup');
         lssetup.innerHTML = '<h3>Nastavení</h3><div>Tady bude nějaké nastavení.</div>';
-
         this._form.appendChild(lssetup);
 
-        this._separator = L.DomUtil.create('div', className + '-separator', form);
+        this._separatorBtGroup = L.DomUtil.create('div', className + '-separator', form);
+
+        // Create layout for basic mode
+        var basicModeContainer = document.createElement('div');
+        basicModeContainer.className = "clearfix";
+        basicModeContainer.setAttribute ('id', 'basicModeContainer');
+
+        this._baseLayersList = L.DomUtil.create('div', className + '-base', basicModeContainer);
+        this._baseSeparator = L.DomUtil.create('div', className + '-separator', basicModeContainer);
+        this._overlaysList = L.DomUtil.create('div', className + '-overlays', basicModeContainer);
+
+        this._form.appendChild(basicModeContainer);
+
+        // Create layout for extended (group) mode
+        var groupsModeContainer = document.createElement('div');
+        groupsModeContainer.className = "clearfix";
+        groupsModeContainer.setAttribute ('id', 'groupsModeContainer');
 
         for (var id in this._groups) {
-            this._form.appendChild(this._groupsHeaders[id]);
-            this._form.appendChild(this._groups[id]);
+            groupsModeContainer.appendChild(this._groupsHeaders[id]);
+            groupsModeContainer.appendChild(this._groups[id]);
         }
+
+        this._form.appendChild(groupsModeContainer);
 
         //container.appendChild(form);
         $('#map-layers-content').append(form);
+
+        // Hide group container by mode
+        if (this._mode == 'basic') {
+            $('#groupsModeContainer').hide();
+            $('#layerModeBasic').attr('checked', true);
+        } else {
+            $('#basicModeContainer').hide();
+            $('#layerModeGroup').attr('checked', true);
+        }
+
 
 //         // Expand base overlays by default
 //         this._overlaysListBase.className = 'collapse in';
@@ -306,6 +406,9 @@ osmcz.LayerSwitcher = L.Control.extend({
             this.addGroup(group);
         }
 
+        if (!overlay && layer.options.osmczDefaultLayer)
+            this._defaultLayer = layer;
+
         if (this.options.autoZIndex && layer.setZIndex) {
             this._lastZIndex++;
             layer.setZIndex(this._lastZIndex);
@@ -316,6 +419,9 @@ osmcz.LayerSwitcher = L.Control.extend({
         if (!this._container) {
             return;
         }
+
+        this._baseLayersList.innerHTML = '';
+        this._overlaysList.innerHTML = '';
 
         for (var group in this._groups) {
             this._groups[group].innerHTML = '';
@@ -338,9 +444,23 @@ osmcz.LayerSwitcher = L.Control.extend({
             baseLayersPresent = baseLayersPresent || !obj.overlay;
         }
 
-        this._updateGroupHeaders();
+        if (this._mode == 'groups') {
+            this._baseSeparator.style.display = '';
+            this._updateGroupHeaders();
+            $('#basicModeContainer').hide();
+            $('#groupsModeContainer').show();
+            $('#btnExpandAll').show();
+            $('#btnCollapseAll').show();
+            $('#lsinfo').collapse("hide");
+        } else {
+            this._baseSeparator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
+            $('#groupsModeContainer').hide();
+            $('#basicModeContainer').show();
+            $('#btnExpandAll').hide();
+            $('#btnCollapseAll').hide();
+            $('#lsinfo').collapse("show");
 
-        this._separator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
+        }
     },
 
     _onLayerChange: function (e) {
@@ -407,6 +527,7 @@ osmcz.LayerSwitcher = L.Control.extend({
             input = this._createRadioElement('leaflet-base-layers', checked);
         }
 
+        input.setAttribute('id','lftid-' + L.stamp(obj.layer));
         input.layerId = this._layersIdMap[L.stamp(obj.layer)];
 
         L.DomEvent.on(input, 'click', this._onInputClick, this);
@@ -415,11 +536,23 @@ osmcz.LayerSwitcher = L.Control.extend({
         label.appendChild(input);
         label.appendChild(name);
 
-        var container = this._groups[obj.group];
+        if ( this._mode == 'basic' ) {
+            if (obj.layer.options.basic) {
+                var container = obj.overlay ? this._overlaysList : this._baseLayersList;
 
-        if (container) {
-            container.appendChild(label);
+                if (container) {
+                    container.appendChild(label);
+                }
+            }
+        } else {
+            var container = this._groups[obj.group];
+
+            if (container) {
+                container.appendChild(label);
+            }
         }
+
+
 
         return label;
     },
@@ -434,6 +567,10 @@ osmcz.LayerSwitcher = L.Control.extend({
         for (i = 0; i < inputsLen; i++) {
             input = inputs[i];
             obj = this._layers[input.layerId];
+
+            if (!obj) {
+                continue;
+            }
 
             if (input.checked && !this._map.hasLayer(obj.layer)) {
                 this._map.addLayer(obj.layer);
@@ -500,7 +637,29 @@ osmcz.LayerSwitcher = L.Control.extend({
                     }
                 }
             }
+    },
+
+    _switchLayerMode: function (mode) {
+        if (mode && (mode == 'basic' || mode == 'groups')) {
+            this._mode = mode;
+            Cookies.set("_ls_mode", mode, {expires: 90});
+
+            // Switch back to default layer when current base layer is not in basic layout
+            if (this._mode == 'basic') {
+                for (layerId in this._map._layers) {
+                    var obj = this._layers[this._layersIdMap[layerId]];
+                    if (obj && !obj.overlay && !obj.layer.options.basic && this._defaultLayer) {
+                        var lftid = L.stamp(this._defaultLayer);
+                        $('#lftid-' + lftid).click();
+                        break;
+                    }
+                }
+            }
+
+            this._update();
+        }
     }
+
 });
 
 osmcz.layerSwitcher = function (baseLayers, overlays, options) {
