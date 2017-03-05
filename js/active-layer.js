@@ -9,7 +9,8 @@ osmcz.activeLayer = function (map) {
 
     var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
             maxZoom: 25,
-            code: 'A'  //clipTiles, unique
+            code: 'A' ,  //clipTiles, unique
+            basic: true
         }, {
             style: {
                 clickable: true

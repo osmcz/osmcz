@@ -12,13 +12,15 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         code: 'x',
-        osmczDefaultLayer: true
+        osmczDefaultLayer: true,
+        basic: true
     });
 
     var turisticka = L.tileLayer("https://tile.poloha.net/{z}/{x}/{y}.png", {
         maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>', // @TODO: upravit, až bude funkční HTTPS verze
-        code: 'k'
+        code: 'k',
+        basic: true
     });
 
     var opentopomap = L.tileLayer("https://{s}.tile.opentopomap.org//{z}/{x}/{y}.png", {
@@ -30,13 +32,15 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: osmAttr,
-        code: 'd'
+        code: 'd',
+        basic: true
     });
 
     var ocm = L.tileLayer(osmcz.fakeHttps + "{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://opencyclemap.org">OpenCycleMap</a>', // @TODO: upravit, až bude HTTPS verze
-        code: 'c'
+        code: 'c',
+        basic: true
     });
 
     var hikebike = L.tileLayer(osmcz.fakeHttps + "{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png", {
@@ -60,7 +64,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var dopravni = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
-        code: 't'
+        code: 't',
+        basic: true
     });
 
     var opnv = L.tileLayer("https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png", {
@@ -83,7 +88,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         minZoom: 7,
         maxZoom: 22,
         attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>', // @TODO: upravit, až bude HTTPS verze
-        code: 'o'
+        code: 'o',
+        basic: true
     });
 
     var metropolis = L.tileLayer("https://api.mapbox.com/styles/v1/severak/cinr478gg00aucam0o6lran4v/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2V2ZXJhayIsImEiOiJjaXQxenM2ZTEwMGIyMnRwZGMwZzF6Y2VsIn0.-uZbcCAI3ABqnbg6h1mrhQ", {
@@ -133,7 +139,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>', // @TODO: upravit, až bude HTTPS verze
         opacity: 0.6,
-        code: 'K'
+        code: 'K',
+        basic: true
     });
 
     var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + retinaSuffix + ".png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA", {
@@ -160,7 +167,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var zimniOverlay = L.tileLayer("https://www.opensnowmap.org/tiles-pistes/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>',
-        code: 'Z'
+        code: 'Z',
+        basic: true
     });
 
     var lonviaHikingOverlay = L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
@@ -174,7 +182,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         maxZoom: 17,
         attribution: osmAttr + ', <a href="http://cycling.lonvia.de">Lonvias Cycling</a>',
         opacity: 0.6,
-        code: 'C'
+        code: 'C',
+        basic: true
     });
 
     var katastralniMapaOverlayLayers = 'parcelni_cisla,obrazy_parcel,RST_KMD,hranice_parcel,DEF_BUDOVY,RST_KN,dalsi_p_mapy,prehledka_kat_prac,prehledka_kat_uz,prehledka_kraju-linie'
