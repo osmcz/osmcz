@@ -202,12 +202,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'X'
     });
 
-    var lpisOverlay = L.tileLayer.wms('http://eagri.cz/public/app/wms/plpis.fcgi', {
+    var lpisOverlay = L.tileLayer.wms(osmcz.fakeHttps + 'eagri.cz/public/app/wms/plpis.fcgi', {
         layers: 'LPIS_FB4,LPIS_FB4_KOD',
         format: 'image/png',
         transparent: true,
         crs: L.CRS.EPSG4326,
-        attribution: " <a href='http://www.eagri.cz.cz'>eagri.cz</a>",
+        attribution: " <a href='http://www.eagri.cz.cz'>eagri.cz</a>", // @TODO: upravit, až bude HTTPS verze
         code: 'L'
     });
 
