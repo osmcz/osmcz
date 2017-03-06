@@ -279,9 +279,9 @@ osmcz.LayerSwitcher = L.Control.extend({
         collapseGroup.appendChild(this._btnExpandAll);
         collapseGroup.appendChild(this._btnCollapseAll);
 
-        // Settings button
+        // Settings button - dissabled for now - no content to show
         this._btnSetting = document.createElement('button');
-        this._btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right';
+        this._btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right hidden';
         this._btnSetting.setAttribute ('type', 'button');
         this._btnSetting.setAttribute ('title', 'Nastavení');
         this._btnSetting.setAttribute ('data-toggle', 'collapse');
