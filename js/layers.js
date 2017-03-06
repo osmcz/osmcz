@@ -8,6 +8,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         retinaSuffix = devicePixelRatio >= 2 ? '@2x' : '';
     var osmAttr = '&copy; <a href="https://openstreetmap.org/copyright">OSM</a>'; //abbrevation not recommended on other websites
 
+    var thunderforestAPIkey = '00291b657a5d4c91bbacb0ff096e2c25';
+
 
     var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
@@ -25,7 +27,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     var opentopomap = L.tileLayer("https://{s}.tile.opentopomap.org//{z}/{x}/{y}.png", {
         maxZoom: 15,
-        attribution: osmAttr + ', <a href="http://opentopomap.org/">OpenTopoMap</a>', // @TODO: upravit, až bude HTTPS verze
+        attribution: osmAttr + ', <a href="https://opentopomap.org/">OpenTopoMap</a>',
         code: 'u'
     });
 
@@ -36,9 +38,9 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var ocm = L.tileLayer(osmcz.fakeHttps + "{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png", {
+    var ocm = L.tileLayer("https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://opencyclemap.org">OpenCycleMap</a>', // @TODO: upravit, až bude HTTPS verze
+        attribution: osmAttr + ', <a href="https://opencyclemap.org">OpenCycleMap</a>',
         code: 'c',
         basic: true
     });
@@ -61,16 +63,16 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 's'
     });
 
-    var dopravni = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png", {
+    var dopravni = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.thunderforest.com/maps/transport/">Thunderforest</a>',
+        attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/transport/">Thunderforest</a>',
         code: 't',
         basic: true
     });
 
     var opnv = L.tileLayer("https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.öpnvkarte.de/">öpnvkarte</a>', // @TODO: upravit, až bude HTTPS verze
+        attribution: osmAttr + ', <a href="https://www.öpnvkarte.de/">öpnvkarte</a>',
         code: 'ö'
     });
 
