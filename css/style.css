@@ -119,8 +119,9 @@ a:hover.as-text {
     font-size: 13px;
     display: none;
 }
-#map-layers h2 {
+#map-layers h2, .h2 {
   margin: 10px 0;
+  font-size: 24px;
 }
 #map-layers label {
   display: block;
@@ -128,6 +129,10 @@ a:hover.as-text {
 #map-layers button.close {
   position: fixed;
   right: 20px;
+}
+
+#map-layers div #ls-info {
+  padding-left: 10px;
 }
 
 .flip {

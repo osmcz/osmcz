@@ -129,8 +129,15 @@
         <div class="sidebar-inner">
             <button type="button" class="close"><span
                     aria-hidden="true">&times;</span></button>
-            <h2>Vrstvy</h2>
-            <p>V mapových vrstvách poznáte pravou sílu OpenStreetMap. Jednu mapovou databázi vykreslují různí dobrovolníci pro mnoho různých využití - od turistiky po lyžování.
+            <div class="clearfix">
+                <span class="h2">Vrstvy</span>
+                <div id="ls-info" class="btn-group inline">
+                    <button class="btn btn-default btn-xs center-block" data-toggle="collapse" data-target="#lsinfo"><span class="glyphicon glyphicon-info-sign"></button>
+                </div>
+                </div>
+                <div id="lsinfo" class="text-left img-thumbnail collapse">
+                  Mapové vrstvy vám ukáží pravou sílu <em>OpenStreetMap</em>.<br>Stejná mapová databáze může být vykreslena v různých stylech a pro mnoho různých využití. Od mapy města, přes turistiku až po lyžování.
+                </div>
             <div id="map-layers-content">
             </div>
         </div>
