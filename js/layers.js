@@ -38,6 +38,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
+    var wikimediamap = L.tileLayer(" https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}" + retinaSuffix + ".png", {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="https://www.mediawiki.org/wiki/Maps/">Wikimedia</a>',
+        code: 'w'
+    });
+
     var ocm = L.tileLayer("https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="https://opencyclemap.org">OpenCycleMap</a>',
@@ -238,6 +244,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Základní"]["OpenTopoMap"] = opentopomap;
     baseLayers["Základní"]["Metropolis"] = metropolis;
     baseLayers["Základní"]["Méně popisků"] = menepopisku;
+    baseLayers["Základní"]["Wikimedia Map"] = wikimediamap;
 
     // Ortofoto group
     baseLayers["Letecké"] = {};
