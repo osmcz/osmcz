@@ -69,6 +69,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 's'
     });
 
+    var toner = L.tileLayer(osmcz.fakeHttps + '{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+        attribution: '&copy; CC-BY-SA <a href="https://openstreetmap.org/copyright">OSM</a>, imagery <a href="http://maps.stamen.com">Stamen Design</a>',
+        maxZoom: 18,
+        code: 'n'
+    });
+
     var dopravni = L.tileLayer("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/transport/">Thunderforest</a>',
@@ -106,6 +112,19 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'r'
     });
 
+    var spinal = L.tileLayer("https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/spinal-map/">Thunderforest</a>',
+        code: 'a',
+        basic: true
+    });
+
+    var pioneer = L.tileLayer("https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
+        maxZoom: 18,
+        attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/pioneer/">Thunderforest</a>',
+        code: 'p',
+        basic: true
+    });
 
     map.on('baselayerchange', function (event) {
         if (event.layer == ortofoto || event.layer == vodovky) {
@@ -285,6 +304,9 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     // Efects group
     baseLayers["Efektní"] = {};
     baseLayers["Efektní"]["Vodovky"] = vodovky;
+    baseLayers["Efektní"]["Toner"] = toner;
+    baseLayers["Efektní"]["Spinal"] = spinal;
+    baseLayers["Efektní"]["Pioneer"] = pioneer;
 
     // Special group
     overlays["Speciální"] = {};
