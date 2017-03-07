@@ -11,6 +11,18 @@ osmcz.controls = function (map, baseLayers, overlays, controls) {
         zoomOutTitle: 'Oddálit'
     }).addTo(map)
 
+    // create a fullscreen button and add it to the map
+    controls.fullScreen = new L.control.fullscreen({
+        position: 'topleft', // change the position of the button can be topleft, topright, bottomright or bottomleft, defaut topleft
+        title: 'Na celou obrazovku', // change the title of the button, default Full Screen
+        titleCancel: 'Ukončení režimu celé obrazovky', // change the title of the button when fullscreen is on, default Exit Full Screen
+        content: "<span class='glyphicon glyphicon-fullscreen'></span>", // change the content of the button, can be HTML, default null
+        forceSeparateButton: true, // force seperate button to detach from zoom buttons, default false
+        forcePseudoFullscreen: false // force use of pseudo full screen even if full screen API is available, default false
+//         fullscreenElement: false // Dom element to render in full screen, false by default, fallback to map._container
+    });
+    controls.fullScreen.addTo(map);
+
     // leaflet-search
     controls.search = new L.Control.Search({
         url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
