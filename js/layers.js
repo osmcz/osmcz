@@ -63,13 +63,13 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'm'
     });
 
-    var vodovky = L.tileLayer(osmcz.fakeHttps + '{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+    var vodovky = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg', {
         attribution: '&copy; CC-BY-SA <a href="https://openstreetmap.org/copyright">OSM</a>, imagery <a href="http://maps.stamen.com">Stamen Design</a>',
         maxZoom: 18,
         code: 's'
     });
 
-    var toner = L.tileLayer(osmcz.fakeHttps + '{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+    var toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
         attribution: '&copy; CC-BY-SA <a href="https://openstreetmap.org/copyright">OSM</a>, imagery <a href="http://maps.stamen.com">Stamen Design</a>',
         maxZoom: 18,
         code: 'n'
