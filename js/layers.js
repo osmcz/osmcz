@@ -115,15 +115,13 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var spinal = L.tileLayer("https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/spinal-map/">Thunderforest</a>',
-        code: 'a',
-        basic: true
+        code: 'a'
     });
 
     var pioneer = L.tileLayer("https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/pioneer/">Thunderforest</a>',
-        code: 'p',
-        basic: true
+        code: 'p'
     });
 
     map.on('baselayerchange', function (event) {
