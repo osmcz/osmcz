@@ -458,8 +458,10 @@ osmcz.LayerSwitcher = L.Control.extend({
             $('#basicModeContainer').show();
             $('#btnExpandAll').hide();
             $('#btnCollapseAll').hide();
-            $('#lsinfo').collapse("show");
-
+            var infoCookie = Cookies.get("_ls_info_hide");
+            if (infoCookie && infoCookie != "yes") {
+                $('#lsinfo').collapse("show");
+            }
         }
     },
 
