@@ -603,8 +603,39 @@ div[group-active=false]{
     border: 0px;
   }
 }
-
 /* End of leaflet-condensed-attribution plugin style*/
+
+/* Hide elements for printing */
+@media print {
+    #map-container.searchbar-on #map-searchbar {
+        display: none;
+    }
+    #map-layers-content {
+        display: none;
+    }
+    .sidebar-inner {
+        display: none;
+    }
+    .leaflet-control-container .leaflet-top {
+        display: none;
+    }
+    .leaflet-control-scale {
+        background: #fff !important;
+    }
+    .leaflet-control-coordinates .leaflet-control,
+    .leaflet-control-coordinates-gps,
+    .leaflet-control-coordinates-lat,
+    .leaflet-control-coordinates-lng,
+    .leaflet-control-coordinates-icon {
+        display: none;
+    }
+    .leaflet-container .leaflet-control-attribution {
+        background: #fff !important;
+        margin-left: 150px !important;
+        width: calc(100% - 150px);
+    }
+}
+/* End of print @media print */
 
 
 /* Primárně pro účely splashe */
