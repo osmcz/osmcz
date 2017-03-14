@@ -308,20 +308,23 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
         crossorigin="anonymous">
 </script>
 <script type="text/javascript">
 // fallback when CDN not available
 if (typeof jQuery == 'undefined') {
-    document.write(unescape("%3Cscript src='cdn-fallback/js/jquery-3.1.1.min.js' type='text/javascript' integrity='sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=' crossorigin='anonymous'%3E%3C/script%3E")); }
+    document.write(unescape("%3Cscript src='cdn-fallback/js/jquery-3.1.1.min.js' type='text/javascript' integrity='sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7' crossorigin='anonymous'%3E%3C/script%3E")); }
 </script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"
+        integrity="sha384-hbdPIKvN8VYiuuYBaMb70rDCVFrg4vzTn4XSlM+8ctmf8g5Ci4iU4FQY8PDbyCvj"
+        crossorigin="anonymous"></script>
+<!--TODO - how to identify loading fail? -->
 
 <script type="text/javascript">
 if (typeof($.fn.modal) === 'undefined') {
@@ -329,6 +332,7 @@ if (typeof($.fn.modal) === 'undefined') {
 
     $("head").append('<link rel="stylesheet" href="cdn-fallback/css/bootstrap-3.3.7.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">');
     $("head").append('<link rel="stylesheet" href="cdn-fallback/css/bootstrap-theme-3.3.7.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">');
+    $("head").append('<link rel="stylesheet" href="css/style.css">');
     }
 </script>
 
@@ -337,43 +341,96 @@ if (typeof($.fn.modal) === 'undefined') {
 <!-- leaflet -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css"
-      integrity="sha256-bOWY8F32FGGbNDMPAnwWl/Lv9CKen4IQsNZ4RU9rcs0="
+      integrity="sha384-roIisdke7t73jKsr2CM69N0uJch+a+lQBCuw3Li2ZuLKaWn46fxTAp31h9VA4odd"
       crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"
-        integrity="sha256-GXUdrV9FHGDyzoSGD3O+jR3eYZaZZsjbsMvFhK3C0qg="
+        integrity="sha384-9fzrQY4JobN87hT5sQ0JnL9XZQ5q94Qj46ZFqpcBzz03D3UDKAkN/pKct1IVlP2Y"
         crossorigin="anonymous">
 </script>
 
 <script type="text/javascript">
 if (typeof L == 'undefined') {
-    document.write("<link rel='stylesheet' href='cdn-fallback/css/leaflet-1.0.3.css' integrity='sha256-bOWY8F32FGGbNDMPAnwWl/Lv9CKen4IQsNZ4RU9rcs0=' crossorigin='anonymous'>");
+    document.write("<link rel='stylesheet' href='cdn-fallback/css/leaflet-1.0.3.css' integrity='sha384-roIisdke7t73jKsr2CM69N0uJch+a+lQBCuw3Li2ZuLKaWn46fxTAp31h9VA4odd' crossorigin='anonymous'>");
 
-    document.write(unescape("%3Cscript src='cdn-fallback/js/leaflet-1.0.3.js' type='text/javascript' integrity='sha256-GXUdrV9FHGDyzoSGD3O+jR3eYZaZZsjbsMvFhK3C0qg=' crossorigin='anonymous'%3E%3C/script%3E"));
+    document.write(unescape("%3Cscript src='cdn-fallback/js/leaflet-1.0.3.js' type='text/javascript' integrity='sha384-9fzrQY4JobN87hT5sQ0JnL9XZQ5q94Qj46ZFqpcBzz03D3UDKAkN/pKct1IVlP2Y' crossorigin='anonymous'%3E%3C/script%3E"));
     }
 </script>
 
 
 <!-- leaflet.markercluster -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.1/leaflet.markercluster.js'></script>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.1/MarkerCluster.css' rel='stylesheet'/>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.1/MarkerCluster.Default.css'
-      rel='stylesheet'/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.3/leaflet.markercluster.js"
+        integrity="sha384-4KHz+NHtBK1fsZURFY8fQLNnlnqln26aEu0A2eLAz7EFtEi6Mjni4dmVAC5hw4Ef" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.3/MarkerCluster.css"
+      integrity="sha384-lPzjPsFQL6te2x+VxmV6q1DpRxpRk0tmnl2cpwAO5y04ESyc752tnEWPKDfl1olr"
+      crossorigin="anonymous" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.3/MarkerCluster.Default.css"
+      integrity="sha384-5kMSQJ6S4Qj5i09mtMNrWpSi8iXw230pKU76xTmrpezGnNJQzj0NzXjQLLg+jE7k"
+      crossorigin="anonymous" />
+
+<script type="text/javascript">
+if (typeof L.markerClusterGroup == 'undefined') {
+    document.write("<link rel='stylesheet' href='cdn-fallback/css/MarkerCluster-1.0.3.css' integrity='sha384-lPzjPsFQL6te2x+VxmV6q1DpRxpRk0tmnl2cpwAO5y04ESyc752tnEWPKDfl1olr' crossorigin='anonymous'>");
+    document.write("<link rel='stylesheet' href='cdn-fallback/css/MarkerCluster.Default-1.0.3.css' integrity='sha384-5kMSQJ6S4Qj5i09mtMNrWpSi8iXw230pKU76xTmrpezGnNJQzj0NzXjQLLg+jE7k' crossorigin='anonymous'>");
+
+    document.write(unescape("%3Cscript src='cdn-fallback/js/leaflet.markercluster-1.0.3.js' type='text/javascript' integrity='sha384-4KHz+NHtBK1fsZURFY8fQLNnlnqln26aEu0A2eLAz7EFtEi6Mjni4dmVAC5hw4Ef' crossorigin='anonymous'%3E%3C/script%3E"));
+    }
+</script>
+
 
 <!-- leaflet.locatecontrol -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.min.js'></script>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.mapbox.css'
-      rel='stylesheet'/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.min.js"
+        integrity="sha384-YqrjvAZPaNMX5+Cs0o8Oq4jVog2uf6rUUZ/yNsZdRrJ7/Z/cm8tDKKpIe40J73D4" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.mapbox.min.css"
+      integrity="sha384-0rNLup0KIFK7wgPG3B29/RsKZ7Pmn3uyBHHOIHU4x1kD2Fv47touU2CtlKdtS4nf" crossorigin="anonymous" />
+
+<script type="text/javascript">
+if (typeof L.control.locate == 'undefined') {
+    document.write("<link rel='stylesheet' href='cdn-fallback/css/L.Control.Locate.mapbox.min-0.60.0.css' integrity='sha384-0rNLup0KIFK7wgPG3B29/RsKZ7Pmn3uyBHHOIHU4x1kD2Fv47touU2CtlKdtS4nf' crossorigin='anonymous'>");
+
+    document.write(unescape("%3Cscript src='cdn-fallback/js/L.Control.Locate.min-0.60.0.js' type='text/javascript' integrity='sha384-YqrjvAZPaNMX5+Cs0o8Oq4jVog2uf6rUUZ/yNsZdRrJ7/Z/cm8tDKKpIe40J73D4' crossorigin='anonymous'%3E%3C/script%3E"));
+    }
+</script>
 
 <!-- leaflet.search -->
-<script src='https://cdn.rawgit.com/stefanocudini/leaflet-search/v2.7.0/dist/leaflet-search.min.js'></script>
-<link href='https://cdn.rawgit.com/stefanocudini/leaflet-search/v2.7.0/dist/leaflet-search.min.css' rel='stylesheet'/>
+<script src='https://cdn.rawgit.com/stefanocudini/leaflet-search/v2.7.0/dist/leaflet-search.min.js'
+        integrity="sha384-izOektHQ+a1gwl0zcxA/qMUO6og45+eHKjKIzWnPPLeO11pSqJvC5mbth/LSSVVi" crossorigin="anonymous"></script>
+<link rel='stylesheet' href='https://cdn.rawgit.com/stefanocudini/leaflet-search/v2.7.0/dist/leaflet-search.min.css'
+      integrity="sha384-PLztodUBv+d03eM3m6ebWIUXMQawVnSrr6UdTKNOLOd4kNXXZpaDBZmpl+gNDa08" crossorigin="anonymous"/>
+
+<script type="text/javascript">
+if (typeof L.Control.Search == 'undefined') {
+    document.write("<link rel='stylesheet' href='cdn-fallback/css/leaflet-search.min-2.7.0.css' integrity='sha384-PLztodUBv+d03eM3m6ebWIUXMQawVnSrr6UdTKNOLOd4kNXXZpaDBZmpl+gNDa08' crossorigin='anonymous'>");
+
+    document.write(unescape("%3Cscript src='cdn-fallback/js/leaflet-search.min-2.7.0.js' type='text/javascript' integrity='sha384-izOektHQ+a1gwl0zcxA/qMUO6og45+eHKjKIzWnPPLeO11pSqJvC5mbth/LSSVVi' crossorigin='anonymous'%3E%3C/script%3E"));
+    }
+</script>
+
 
 <!-- leaflet.filelayer -->
-<script src='https://cdn.rawgit.com/makinacorpus/Leaflet.FileLayer/0.6.0/leaflet.filelayer.js'></script>
-<script src='https://cdn.rawgit.com/mapbox/togeojson/v0.8.1/togeojson.js'></script>
+<script src='https://cdn.rawgit.com/makinacorpus/Leaflet.FileLayer/0.6.0/leaflet.filelayer.js'
+        integrity="sha384-EpyH/az5VJmDMUGuTNV/dsdappMdVHa+D0zSsP6YARgXYWN8y7Tx+OREX0bYTsDM" crossorigin="anonymous"></script>
+<script src='https://cdn.rawgit.com/mapbox/togeojson/v0.8.1/togeojson.js'
+        integrity="sha384-efg/TCk9RUCrc5YKugE8GA2MoZpVFQNwfEX1LwiPI7IZn/d7vQsymYTzWgnTqdeY" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+if (typeof L.Control.fileLayerLoad == 'undefined') {
+    document.write(unescape("%3Cscript src='cdn-fallback/js/leaflet.filelayer-0.6.0.js' type='text/javascript' integrity='sha384-EpyH/az5VJmDMUGuTNV/dsdappMdVHa+D0zSsP6YARgXYWN8y7Tx+OREX0bYTsDM' crossorigin='anonymous'%3E%3C/script%3E"));
+    document.write(unescape("%3Cscript src='cdn-fallback/js/togeojson-0.8.1.js' type='text/javascript' integrity='sha384-efg/TCk9RUCrc5YKugE8GA2MoZpVFQNwfEX1LwiPI7IZn/d7vQsymYTzWgnTqdeY' crossorigin='anonymous'%3E%3C/script%3E"));
+    }
+</script>
+
 
 <!-- js-cookie -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.min.js"
+        integrity="sha384-zPPl2lM/NvKIsc8P59w39ivQ55JajkUigOm9RgHrVsDw7SL3cBEtcNZt9phwj2ff" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+if (typeof Cookies == 'undefined') {
+    document.write(unescape("%3Cscript src='cdn-fallback/js/js.cookie.min-2.1.3.js' type='text/javascript' integrity='sha384-zPPl2lM/NvKIsc8P59w39ivQ55JajkUigOm9RgHrVsDw7SL3cBEtcNZt9phwj2ff' crossorigin='anonymous'%3E%3C/script%3E"));
+    }
+</script>
 
 <!-- opening_hours from http://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js at 6 Apr 2016 -->
 <script src='lib/opening_hours+deps.min.js'></script>
