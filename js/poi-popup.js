@@ -409,8 +409,10 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
 
     var gpTpl = '<h5>Foto rozcestníku</h5>'
         + '<a href="_imgUrl">'
-        + '  <img src="_imgUrl" width="250">'
+        + '<div id="thumbnailLoadSpinner" class="text-center"><span class="glyphicon glyphicon-refresh text-info gly-spin"></span></div>'
+        + '  <img id="thumbnailImage" src="" class="center-block poi-gp-thumbnail"/>'
         + '</a>'
+        + '<script>var tb = new Image(); tb.onload = function(){ $("#thumbnailLoadSpinner").hide(); $("#thumbnailImage").attr("src", tb.src);}; tb.src = "_tbUrl"</script>'
         + '<div class="margin-top-05"><b>Fotografii poskytl: </b> _autor'
         + '<span style="margin: 0.5em"/>'
         + ' <a href="https://api.openstreetmap.cz/table/id/_id" target="_blank" class="btn btn-default btn-xs">'
@@ -425,8 +427,9 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
                 return;
             var autor = feature.guidepost.features[0].properties.attribution;
             var imgUrl = 'https://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
+            var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia=th_' + feature.guidepost.features[0].properties.name +'&h=250&src=https://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
             var gpostId = feature.guidepost.features[0].properties.id;
-            gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, imgUrl).replace(/_id/g, gpostId));
+            gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, imgUrl).replace(/_tbUrl/g, tbUrl).replace(/_id/g, gpostId));
         }
     }
 
