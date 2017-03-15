@@ -36,13 +36,31 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     var gp_lon;
 
     var guidepost_icon = L.icon({
-      iconUrl: osmcz.basePath + "img/guidepost.png",
+      iconUrl: osmcz.basePath + "img/gp/guidepost.png",
+      iconSize: [48, 48],
+      iconAnchor: [23, 45]
+    });
+
+    var cycle_icon = L.icon({
+      iconUrl: osmcz.basePath + "img/gp/cycle.png",
+      iconSize: [48, 48],
+      iconAnchor: [23, 45]
+    });
+
+    var cycle_foot_icon = L.icon({
+      iconUrl: osmcz.basePath + "img/gp/cycle_foot.png",
       iconSize: [48, 48],
       iconAnchor: [23, 45]
     });
 
     var infopane_icon = L.icon({
-      iconUrl: osmcz.basePath + "img/infopane.png",
+      iconUrl: osmcz.basePath + "img/gp/infopane.png",
+      iconSize: [48, 48],
+      iconAnchor: [23, 45]
+    });
+
+    var map_icon = L.icon({
+      iconUrl: osmcz.basePath + "img/gp/map.png",
       iconSize: [48, 48],
       iconAnchor: [23, 45]
     });
@@ -83,9 +101,21 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
             var ftype;
 
-            if (b.tags && b.tags.indexOf("infotabule") > -1) {
-              ftype = "infopane";
-            } else {
+            if (b.tags) {
+                if (b.tags.indexOf("infotabule") > -1) {
+                    ftype = "infopane";
+                } else if (b.tags.indexOf("mapa") > -1) {
+                    ftype = "map";
+                } else if (b.tags.indexOf("cyklo") > -1 &&
+                           b.tags.indexOf("pesi") == -1) {
+                    ftype = "cycle";
+                } else if (b.tags.indexOf("cyklo") > -1 &&
+                           b.tags.indexOf("pesi") > -1) {
+                    ftype = "cycle_foot";
+                }
+            }
+
+            if (!ftype) {
               ftype = "guidepost";
             }
 
@@ -123,10 +153,21 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             html_content += "</a>";
             html_content += "</div>";
 
-            if (ftype == "infopane") {
-              layer.setIcon(infopane_icon);
-            } else {
-              layer.setIcon(guidepost_icon);
+            switch (ftype) {
+                case "infopane":
+                    layer.setIcon(infopane_icon);
+                    break;
+                case "map":
+                    layer.setIcon(map_icon);
+                    break;
+                case "cycle":
+                    layer.setIcon(cycle_icon);
+                    break;
+                case "cycle_foot":
+                    layer.setIcon(cycle_foot_icon);
+                    break;
+                default:
+                    layer.setIcon(guidepost_icon);
             }
 
             layer.bindPopup(html_content, {
