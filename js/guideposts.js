@@ -123,6 +123,8 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
                 b.ref = "nevíme";
             }
 
+            var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia=th_' + b.name +'&w=180&src=https://api.openstreetmap.cz/' + b.url;
+
             var html_content = "";
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='https://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
@@ -133,8 +135,10 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
               html_content += "<br>";
             }
             html_content += "<a href='https://api.openstreetmap.cz/" + b.url + "'>";
-            html_content += "<img src='https://api.openstreetmap.cz/" + b.url + "' width='180' alt='" + b.name + "'>";
+            html_content += "<div id='thumbnailLoadSpinner' class='text-center'><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
+            html_content += "<img id='thumbnailImage' src='' class='center-block' width='180' />";
             html_content += "</a>";
+            html_content += "<div id='tbUrl' class='hidden'>"+ tbUrl + "</div>";
 
             html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
 
@@ -188,6 +192,15 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
               autoPan: false,
             });
         }
+    });
+
+    map.on('popupopen', function(e) {
+        var tb = new Image();
+        tb.onload = function(){
+            $('#thumbnailLoadSpinner').hide();
+            $('#thumbnailImage').attr('src', tb.src);
+        };
+        tb.src = $('#tbUrl').text();
     });
 
     map.on('popupclose', function(e) {

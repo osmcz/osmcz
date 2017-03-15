@@ -410,7 +410,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
     var gpTpl = '<h5>Foto rozcestníku</h5>'
         + '<a href="_imgUrl">'
         + '<div id="thumbnailLoadSpinner" class="text-center"><span class="glyphicon glyphicon-refresh text-info gly-spin"></span></div>'
-        + '  <img id="thumbnailImage" src="" class="center-block poi-gp-thumbnail"/>'
+        + '  <img id="thumbnailImage" src="" class="center-block"/>'
         + '</a>'
         + '<script>var tb = new Image(); tb.onload = function(){ $("#thumbnailLoadSpinner").hide(); $("#thumbnailImage").attr("src", tb.src);}; tb.src = "_tbUrl"</script>'
         + '<div class="margin-top-05"><b>Fotografii poskytl: </b> _autor'
