@@ -134,7 +134,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             }
             html_content += "<a href='https://api.openstreetmap.cz/" + b.url + "'>";
             html_content += "<div id='thumbnailLoadSpinner' class='text-center'><br><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
-            html_content += "<img id='thumbnailImage' data-img-name='"+ b.name +"' data-img-url='"+ b.url +"' src='' class='center-block' width='180' />";
+            html_content += "<img id='thumbnailImage' src='' class='center-block' width='180' />";
             html_content += "</a>";
 
             html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
@@ -194,8 +194,8 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     map.on('popupopen', function(e) {
         // get guidepost thumbnail from photodb cache server first
         // if it fails, request it from phpThumb
-        var imgName=$('#thumbnailImage').attr('data-img-name');
-        var imgUrl=$('#thumbnailImage').attr('data-img-url');
+        var imgName=e.popup._source.feature.properties.name;
+        var imgUrl=e.popup._source.feature.properties.url;
         if (imgName) {
             var tb = new Image();
             tb.onload = function(){
