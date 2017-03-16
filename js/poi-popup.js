@@ -409,10 +409,9 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
 
     var gpTpl = '<h5>Foto rozcestníku</h5>'
         + '<a href="_imgUrl">'
-        + '<div id="thumbnailLoadSpinner" class="text-center"><span class="glyphicon glyphicon-refresh text-info gly-spin"></span></div>'
-        + '  <img id="thumbnailImage" src="" class="center-block"/>'
+        + '<div id="thumbnailLoadSpinner" class="text-center"><span class="glyphicon glyphicon-refresh text-info gly-spin"></span><br></div>'
+        + '<img id="thumbnailImage" src="" class="center-block"/ width="250">'
         + '</a>'
-        + '<script>var tb = new Image(); tb.onload = function(){ $("#thumbnailLoadSpinner").hide(); $("#thumbnailImage").attr("src", tb.src);}; tb.src = "_tbUrl"</script>'
         + '<div class="margin-top-05"><b>Fotografii poskytl: </b> _autor'
         + '<span style="margin: 0.5em"/>'
         + ' <a href="https://api.openstreetmap.cz/table/id/_id" target="_blank" class="btn btn-default btn-xs">'
@@ -426,10 +425,31 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
             if (!feature.guidepost.features.length)
                 return;
             var autor = feature.guidepost.features[0].properties.attribution;
-            var imgUrl = 'https://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
-            var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia=th_' + feature.guidepost.features[0].properties.name +'&h=250&src=https://api.openstreetmap.cz/' + feature.guidepost.features[0].properties.url;
+            var imgName = feature.guidepost.features[0].properties.name;
+            var imgUrl = feature.guidepost.features[0].properties.url;
+            var fullImgUrl = 'https://api.openstreetmap.cz/' + imgUrl;
             var gpostId = feature.guidepost.features[0].properties.id;
-            gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, imgUrl).replace(/_tbUrl/g, tbUrl).replace(/_id/g, gpostId));
+            gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, fullImgUrl).replace(/_id/g, gpostId));
+
+            // get guidepost thumbnail from photodb cache server first
+            // if it fails, request it from phpThumb
+            var tb = new Image();
+            tb.onload = function(){
+                $('#thumbnailLoadSpinner').hide();
+                $('#thumbnailImage').attr('src', tb.src);
+            };
+            tb.onerror = function(){
+                var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia='+ imgName +'&w=250&src=https://api.openstreetmap.cz/' + imgUrl;
+                if (tb.src != tbUrl ) {
+                    tb.src = tbUrl;
+                } else {
+                    $('#thumbnailLoadSpinner').html('<br><span class="glyphicon glyphicon-picture bigger semigrey thumbnail crossed" title="Náhled není k dispozici."><span><br>');
+                    $('#thumbnailLoadSpinner').attr('class','text-nowrap text-center');
+
+                }
+            };
+            tb.src = "https://osm.fit.vutbr.cz/photodb/250px/" + imgName;
+
         }
     }
 
