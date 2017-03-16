@@ -123,8 +123,6 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
                 b.ref = "nevíme";
             }
 
-            var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia=th_' + b.name +'&w=180&src=https://api.openstreetmap.cz/' + b.url;
-
             var html_content = "";
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='https://api.openstreetmap.cz/table/name/" + b.attribution + "'>" + b.attribution + "</a>";
@@ -135,10 +133,9 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
               html_content += "<br>";
             }
             html_content += "<a href='https://api.openstreetmap.cz/" + b.url + "'>";
-            html_content += "<div id='thumbnailLoadSpinner' class='text-center'><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
-            html_content += "<img id='thumbnailImage' src='' class='center-block' width='180' />";
+            html_content += "<div id='thumbnailLoadSpinner' class='text-center'><br><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
+            html_content += "<img id='thumbnailImage' data-img-name='"+ b.name +"' data-img-url='"+ b.url +"' src='' class='center-block' width='180' />";
             html_content += "</a>";
-            html_content += "<div id='tbUrl' class='hidden'>"+ tbUrl + "</div>";
 
             html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
 
@@ -195,12 +192,28 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     });
 
     map.on('popupopen', function(e) {
-        var tb = new Image();
-        tb.onload = function(){
-            $('#thumbnailLoadSpinner').hide();
-            $('#thumbnailImage').attr('src', tb.src);
-        };
-        tb.src = $('#tbUrl').text();
+        // get guidepost thumbnail from photodb cache server first
+        // if it fails, request it from phpThumb
+        var imgName=$('#thumbnailImage').attr('data-img-name');
+        var imgUrl=$('#thumbnailImage').attr('data-img-url');
+        if (imgName) {
+            var tb = new Image();
+            tb.onload = function(){
+                $('#thumbnailLoadSpinner').hide();
+                $('#thumbnailImage').attr('src', tb.src);
+            };
+            tb.onerror = function(){
+                var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia='+ imgName +'&w=250&src=https://api.openstreetmap.cz/' + imgUrl;
+                if (tb.src != tbUrl ) {
+                    tb.src = tbUrl;
+                } else {
+                    $('#thumbnailLoadSpinner').html('<br><span class="glyphicon glyphicon-picture bigger semigrey thumbnail crossed" title="Náhled není k dispozici."><span><br>');
+                    $('#thumbnailLoadSpinner').attr('class','text-nowrap text-center');
+
+                }
+            };
+            tb.src = "https://osm.fit.vutbr.cz/photodb/250px/" + imgName;
+        }
     });
 
     map.on('popupclose', function(e) {

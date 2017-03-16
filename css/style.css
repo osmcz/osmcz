@@ -546,6 +546,29 @@ div[group-active=false]{
   margin-left: 2em;
 }
 
+.bigger {
+  font-size:3em;
+}
+
+.crossed {
+    background:
+       linear-gradient(to top left,
+           rgba(255,0,0,0) 0%,
+           rgba(255,0,0,0) calc(50% - 0.8px),
+           rgba(255,0,0,1) 50%,
+           rgba(255,0,0,0) calc(50% + 0.8px),
+           rgba(255,0,0,0) 100%),
+       linear-gradient(to top right,
+           rgba(255,0,0,0) 0%,
+           rgba(255,0,0,0) calc(50% - 0.8px),
+           rgba(255,0,0,1) 50%,
+           rgba(255,0,0,0) calc(50% + 0.8px),
+           rgba(255,0,0,0) 100%);
+}
+
+.semigrey {
+    color: rgba(127,127,127,0.2);
+}
 
 /* leaflet-condensed-attribution plugin*/
 .leaflet-container .leaflet-condensed-attribution {
