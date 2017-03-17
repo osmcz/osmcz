@@ -1,7 +1,7 @@
 var OSMCZ_APP_VERSION = '0.16';
 
 var osmcz = osmcz || {};
-osmcz.production = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost', 'zby.cz'].indexOf(location.hostname) !== -1;
+osmcz.production = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost', 'devosm.zby.cz'].indexOf(location.hostname) !== -1;
 osmcz.basePath = osmcz.production ? '/theme/' : '';
 osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
 
