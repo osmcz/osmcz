@@ -345,7 +345,7 @@ div[aria-expanded=true] .glyphicon-triangle-bottom {
 }
 
 div[group-active=true]{
-   color: blue !important;
+   color: #1b809e !important;
 }
 
 div[group-active=false]{
@@ -353,12 +353,12 @@ div[group-active=false]{
 }
 
 .leaflet-control-layers-list input[type=checkbox]:checked + span {
-  color: blue;
+  color: #1b809e;
   font-style: normal;
 }
 
 .leaflet-control-layers-list input[type=radio]:checked + span {
-  color: blue;
+  color: #1b809e;
   font-style: normal;
 }
 
