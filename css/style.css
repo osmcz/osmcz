@@ -344,12 +344,21 @@ div[aria-expanded=true] .glyphicon-triangle-bottom {
    display: inline !important;
 }
 
-div[group-active=true]{
-   color: #1b809e !important;
+div[group-active=true] {
+   color: #eef !important;
+   background-image: linear-gradient(to bottom,#21a2c5 0,#1b809e 100%);
+   text-shadow: 0 1px 0 #ccc;
+   border-color: #fff;
+   background-repeat: repeat-x;
 }
 
-div[group-active=false]{
-   color: black;
+div[group-active=true]:hover {
+   color: #fff !important;
+   background-image: linear-gradient(to bottom,#fff 0,#17718a 100%);
+   text-shadow: 0 1px 0 #ccc;
+   border-color: #23abd0;
+   background-repeat: repeat-x;
+   background-color: #1b809e;
 }
 
 .leaflet-control-layers-list input[type=checkbox]:checked + span {
