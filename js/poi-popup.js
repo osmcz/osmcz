@@ -62,16 +62,20 @@ osmcz.poiPopup.load = function (object) {
 
             //set icon and show
             var icon = osmcz.iconsService.get(feature.properties.tags);
-            $('#map-container').addClass('searchbar-on');
-            $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon.options.iconUrl));
+//             $('#map-container').addClass('searchbar-on');
+//             $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon.options.iconUrl));
+            sidebar.setContent(osmcz.poiPopup.getHtml(feature, icon.options.iconUrl));
+            sidebar.show();
         }
     });
 
 };
 
 osmcz.poiPopup.open = function (feature, icon) {  //currently from active-layer
-  $('#map-container').addClass('searchbar-on');
-  $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon));
+//   $('#map-container').addClass('searchbar-on');
+//   $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon));
+  sidebar.setContent(osmcz.poiPopup.getHtml(feature, icon));
+  sidebar.show();
   document.title = 'OpenStreetMap.cz';
   if (feature.properties.tags.name) {
     document.title = feature.properties.tags.name + ' ~ OpenStreetMap.cz';
@@ -84,9 +88,10 @@ osmcz.poiPopup.close = function () {
 
     osmcz._map.removeLayer(osmcz._marker);
     osmcz.permanentlyDisplayed = false;
+    osmcz.sidebar.hide();
 
     //if (!$('#map-container').hasClass('js_active-layer-on'))
-    $('#map-container').removeClass('searchbar-on');
+//     $('#map-container').removeClass('searchbar-on');
 
     document.title = 'OpenStreetMap.cz';
 
@@ -139,10 +144,10 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
 
     // Not needed when we are inside popup
     if (!embedded) {
-      tpl.push(osmcz.permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
+//       tpl.push(osmcz.permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
       tpl.push('<h4>');
-      tpl.push('<img src="' + icon + '">&nbsp;');
-      tpl.push(feature.properties.tags.name || 'Bod zájmu');
+      tpl.push('<img class="poi-icon" src="' + icon + '">&nbsp;');
+      tpl.push('<span class="h4-text">' + (feature.properties.tags.name || 'Bod zájmu') + '</span>');
       tpl.push('</h4>');
     }
 

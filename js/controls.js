@@ -1,10 +1,10 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
-osmcz.controls = function (map, baseLayers, overlays, controls) {
+osmcz.controls = function (map, baseLayers, overlays, panel, controls) {
     // -- constructor --
 
-    controls.layers = osmcz.layerSwitcher(baseLayers, overlays, {priorityGroups: ["Základní", 'Letecké', 'Informace']}).addTo(map);
+    controls.layers = osmcz.layerSwitcher(baseLayers, overlays, panel, {priorityGroups: ["Základní", 'Letecké', 'Informace']}).addTo(map);
 
     controls.zoom = L.control.zoom({
         zoomInTitle: 'Přiblížit',

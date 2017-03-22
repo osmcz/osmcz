@@ -11,7 +11,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         autoZIndex: true
     },
 
-    initialize: function (baseLayers, overlays, options) {
+    initialize: function (baseLayers, overlays, panel, options) {
         L.setOptions(this, options);
 
         this._mode = 'basic'; // Layer switcher mode - basic or groups
@@ -26,6 +26,8 @@ osmcz.LayerSwitcher = L.Control.extend({
 
         this._lastLayerId = 0;
         this._layersIdMap = {}; // Mapping between internal layer ID and Leaflet object ID
+
+        this._panelContainer = panel;
 
 
         // Restore mode from cookie - if exists
@@ -190,7 +192,8 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     _initLayout: function () {
         var className = 'leaflet-control-layers',
-            container = this._container = L.DomUtil.create('div', className);
+            container = this._container = L.DomUtil.create('div', className),
+            panelContainer = this._panelContainer;
 
         //Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
         container.setAttribute('aria-haspopup', true);
@@ -203,13 +206,33 @@ osmcz.LayerSwitcher = L.Control.extend({
             L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
         }
 
+
+        // Init panel
+        var inCnt = [];
+        inCnt.push('<div id="map-layers-inner" class="sidebar-inner">');
+//         inCnt.push('  <button type="button" class="close"><span aria-hidden="true">&times;</span></button>');
+        inCnt.push('  <div class="clearfix">');
+        inCnt.push('    <div id="ls-info" class="btn-group inline navbar-default">');
+        inCnt.push('      <a class="btn btn-header" data-toggle="collapse" data-target="#lsinfo" title="O vrstvách">Vrstvy <span class="glyphicon glyphicon-question-sign small"></a>');
+        inCnt.push('    </div>');
+        inCnt.push('  </div>');
+        inCnt.push('  <div id="lsinfo" class="ls-info-body collapse">');
+        inCnt.push('    <p class="text-center"><strong>Mapové vrstvy vám ukáží pravou sílu <em>OpenStreetMap</em>.</strong></p>');
+        inCnt.push('    <p class="text-justify">Stejná mapová databáze může být vykreslena v různých stylech a pro mnoho různých využití. Od mapy města, přes turistiku až po lyžování.</p>');
+        inCnt.push('    <p>Další vrstvy si zpřístupníte kliknutím na tlačítko <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span> níže.');
+        inCnt.push('      <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#lsinfo" onclick=\'Cookies.set("_ls_info_hide", "yes", {expires: 90})\'>Skrýt</a>');
+        inCnt.push('    </p>');
+        inCnt.push('  </div>');
+        inCnt.push('  <div id="map-layers-content">');
+        inCnt.push('  </div>');
+        inCnt.push('</div>');
+
+        this._panelContainer.setContent(inCnt.join(''));
+
+
         var form = this._form = L.DomUtil.create('form', className + '-list');
 
-        $('#map-layers button.close').click(function(){
-            $('#map-layers').hide();
-            $(container).show();
-        });
-
+        L.DomEvent.on(panelContainer, 'hidden', this._collapse2, this);
 
         if (this.options.collapsed) {
             if (!L.Browser.android) {
@@ -595,7 +618,7 @@ osmcz.LayerSwitcher = L.Control.extend({
     },
 
     _expand: function () {
-    $('#map-layers').show();
+    this._panelContainer.show();
     $(this._container).hide();
 
         //L.DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
@@ -603,6 +626,10 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     _collapse: function () {
         //this._container.className = this._container.className.replace(' leaflet-control-layers-expanded', '');
+    },
+
+    _collapse2: function () {
+        $(this._container).show();
     },
 
     // Update Group headers to indicate, which group contains enables layers
@@ -664,6 +691,6 @@ osmcz.LayerSwitcher = L.Control.extend({
 
 });
 
-osmcz.layerSwitcher = function (baseLayers, overlays, options) {
-    return new osmcz.LayerSwitcher(baseLayers, overlays, options);
+osmcz.layerSwitcher = function (baseLayers, overlays, panel, options) {
+    return new osmcz.LayerSwitcher(baseLayers, overlays, panel, options);
 };

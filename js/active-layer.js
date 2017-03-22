@@ -80,13 +80,15 @@ osmcz.activeLayer = function (map) {
         defaultPoiPanel();
     }
 
-    $('#map-searchbar').on('click', '.close', resetPanel);  // TODO delegate closing on poiPopup.close() and fire event
+    $('#sidebar').on('click', '.close', resetPanel);  // TODO delegate closing on poiPopup.close() and fire event
     map.on('click', resetPanel);
 
 
     function defaultPoiPanel() {
-        $('#map-container').removeClass('searchbar-on');
+//         $('#map-container').removeClass('searchbar-on');
         //$('#map-searchbar').html("Najeďte myší na bod nebo klikněte.");
+        osmcz.sidebar.hide();
+        osmcz.sidebar.setContent('');
     }
 
     return geojsonTileLayer;

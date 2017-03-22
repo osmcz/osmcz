@@ -113,39 +113,8 @@
 </nav>
 
 <div id="map-container">
-
-    <div id="map-sidebar">
-        <div class="sidebar-inner">
-            <button type="button" id="sidebar-close-button" class="close" onclick="$(this).parent().parent().hide()"><span aria-hidden="true">&times;</span></button>
-            <div id="sidebar-content">
-                <h2>Ahoj</h2>
-                <p>Zde se normalne nachazi uzitecne informace</p>
-            </div>
-        </div>
-    </div>
-
-
-    <div id="map-layers">
-        <div class="sidebar-inner">
-            <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
-            <div class="clearfix">
-                <div id="ls-info" class="btn-group inline navbar-default">
-                <a class="btn btn-header" data-toggle="collapse" data-target="#lsinfo" title="O vrstvách">Vrstvy <span class="glyphicon glyphicon-question-sign small"></a>
-                </div>
-                </div>
-                <div id="lsinfo" class="ls-info-body collapse">
-                  <p class="text-center"><strong>Mapové vrstvy vám ukáží pravou sílu <em>OpenStreetMap</em>.</strong></p>
-                  <p class="text-justify">Stejná mapová databáze může být vykreslena v různých stylech a pro mnoho různých využití. Od mapy města, přes turistiku až po lyžování.</p>
-                  <p>Další vrstvy si zpřístupníte kliknutím na tlačítko <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span> níže.
-                      <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#lsinfo" onclick='Cookies.set("_ls_info_hide", "yes", {expires: 90})'>Skrýt</a>
-                  </p>
-                </div>
-            <div id="map-layers-content">
-            </div>
-        </div>
-    </div>
-    <div id="map-searchbar">
-    </div>
+    <div id="map-layers"></div>
+    <div id="sidebar"></div>
     <div id="map"></div>
 </div>
 
@@ -342,6 +311,16 @@
 <!-- leaflet.fullscreen -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.css"/>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.js'></script>
+
+
+<!-- https://github.com/Turbo87/sidebar-v2 -->
+<!--<link rel="stylesheet" href="https://cdn.rawgit.com/Turbo87/sidebar-v2/v0.3.1/css/leaflet-sidebar.css"/>
+<script type="text/javascript" src="https://cdn.rawgit.com/Turbo87/sidebar-v2/v0.3.1/js/leaflet-sidebar.js"></script>-->
+
+<!-- https://github.com/Turbo87/leaflet-sidebar -->
+<!--<link rel="stylesheet" href="https://cdn.rawgit.com/Turbo87/leaflet-sidebar/v0.1.9/src/L.Control.Sidebar.css"/>-->
+<script type="text/javascript" src="https://cdn.rawgit.com/Turbo87/leaflet-sidebar/v0.1.9/src/L.Control.Sidebar.js"></script>
+
 
 <!-- js-cookie -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.js'></script>
