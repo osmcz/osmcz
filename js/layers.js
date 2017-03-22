@@ -11,7 +11,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var thunderforestAPIkey = '00291b657a5d4c91bbacb0ff096e2c25';
 
 
-    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA', {
+    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA', {
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         code: 'x',
         osmczDefaultLayer: true,
@@ -168,7 +168,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + retinaSuffix + ".png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiRUdkVEMzMCJ9.7eJ3YhCQtbVUET92En5aGA", {
+    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + retinaSuffix + ".png?access_token=pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA", {
         maxZoom: 22,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         opacity: 1,
