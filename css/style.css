@@ -162,11 +162,12 @@ a:hover.as-text {
 }
 
 @media screen and (min-width: 768px) {
-    #map-sidebar, #map-layers {
+       #sidebar, #poi-sidebar, #map-layers {
         position: relative;
         float: left;
         height: 100%;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: none;
     }
     #map-layers {
         float: right;
@@ -185,30 +186,7 @@ a:hover.as-text {
 #map-container a.leaflet-control-layers-toggle:before { content: "Mapové vrstvy"; }
 #map-container a.leaflet-control-layers-toggle:hover { text-decoration: none; }
 
-/* temporary solution, may be implemented as L.control */
-/*#map-searchbar {
-    position: absolute;
-    background: rgba(255,255,255,0.95);
-    z-index: 1010;
-    min-height: 40px;
-    max-height: 100%;
-    min-width: 250px;
-    max-width: 350px;
-    border-bottom-right-radius: 5px;
-    overflow: hidden;
-    overflow-y: auto;
-    padding: 10px;
-
-    display: none;
-}*/
-/*#map-container.searchbar-on .leaflet-top.leaflet-left {
-    //margin-top: 40px; // when search-input will be displayed - move controls
-}
-#map-container.searchbar-on #map-searchbar {
-    display: block;
-}*/
-
-
+/* --------------------------- */
 /* Customized .leaflet-sidebar */
 .leaflet-sidebar {
     position: absolute;
@@ -219,7 +197,6 @@ a:hover.as-text {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-/*  padding: 10px; */
     z-index: 2000;
     overflow: hidden;
     overflow-y: auto;
@@ -269,7 +246,6 @@ a:hover.as-text {
     z-index: 800;
     color: #000;
     opacity: 0.6;
-/*     float: right; */
     font-size: 21px;
     font-weight: 700;
     line-height: 1;
@@ -731,17 +707,16 @@ div[group-active=true]:hover {
 
 /* Hide elements for printing */
 @media print {
-    #map-container.searchbar-on #map-searchbar {
-        display: none;
-    }
-    #map-layers-content {
-        display: none;
-    }
-    .sidebar-inner {
-        display: none;
+    #poi-sidebar .osmid {
+        white-space: normal;
     }
     .leaflet-control-container .leaflet-top {
         display: none;
+    }
+    div[group-active=true] {
+        color: #fff !important;
+        background-image: linear-gradient(to bottom,#21a2c5 0,#1b809e 100%) !important;
+        border-color: #000 !important;
     }
     .leaflet-control-scale {
         background: #fff !important;
