@@ -221,6 +221,8 @@ a:hover.as-text {
     box-sizing: border-box;
 /*  padding: 10px; */
     z-index: 2000;
+    overflow: hidden;
+    overflow-y: auto;
 }
 .leaflet-sidebar.left {
     left: -500px;
@@ -297,49 +299,53 @@ a:hover.as-text {
     border-bottom: 1px solid #aaa;
 }
 
-#sidebar h4 {
+#poi-sidebar h4, h5 {
+    border-bottom: 1px solid #aaa;
+}
+
+#sidebar h4, #poi-sidebar h4 {
     max-width: 90%;
 }
 
-#sidebar .osmid {
+#poi-sidebar .osmid {
     padding-top: 1em;
     font-size: 90%;
     white-space: nowrap;
 }
 
 /* Opening hours */
-#sidebar .ohopen {
+#poi-sidebar .ohopen {
     padding-top: 1em;
     font-size: 90%;
     color: #00ff00;
 }
 
-#sidebar .ohclosed {
+#poi-sidebar .ohclosed {
     padding-top: 1em;
     font-size: 90%;
     color: #ff0000;
 }
 
-#sidebar .ohlasthour {
+#poi-sidebar .ohlasthour {
     padding-top: 1em;
     font-size: 90%;
     color: #ffcc00;
 }
 
-#sidebar .oh-times {
+#poi-sidebar .oh-times {
     padding-left: 2em;
 }
 
-#sidebar .close {
+#sidebar, #poi-sidebar .close {
     margin-top: -18px;
 }
-#sidebar #mapillary-photo {
+#poi-sidebar #mapillary-photo {
     max-width: 250px;
     margin-top: 1em;
     font-size: 80%;
     position: relative;
 }
-#sidebar #mapillary-photo a:after {
+#poi-sidebar #mapillary-photo a:after {
     content: "Mapillary.com - otevřené street-view";
     color: #ccc;
     position: absolute;
@@ -348,18 +354,18 @@ a:hover.as-text {
     text-shadow: 0 0 4px #000;
 }
 
-#sidebar #wikimedia-commons {
+#poi-sidebar #wikimedia-commons {
     max-width: 250px;
     margin-top: 1em;
     font-size: 80%;
     position: relative;
 }
-#sidebar #wikimedia-commons .commons_logo {
+#poi-sidebar #wikimedia-commons .commons_logo {
     margin-bottom: 5px;
     padding-right: 5px;
 }
 
-#sidebar #guidepost .guidepost_logo {
+#poi-sidebar #guidepost .guidepost_logo {
     margin-bottom: 5px;
     padding-right: 5px;
 }

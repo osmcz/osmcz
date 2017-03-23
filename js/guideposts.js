@@ -219,6 +219,9 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
     map.on('popupclose', function(e) {
       autoload_lock = false;
+      if (osmcz.sidebar.isVisible()) {
+          guideposts.cancel_moving();
+      }
     });
 
     map.on('layeradd', function(event) {
@@ -370,16 +373,14 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
     function hide_sidebar()
     {
-        var sidebar = document.getElementById("map-sidebar");
-        sidebar.style.display = "none";
+        sidebar.hide();
     }
 
     function show_sidebar()
     {
-        sidebar_init();
-
-        var sidebar = document.getElementById("map-sidebar");
-        sidebar.style.display = "block";
+        sidebar.setContent(sidebar_init());
+        sidebar.on('hidden', guideposts.cancel_moving);
+        sidebar.show();
 
         var content = document.getElementById("sidebar-content");
         content.innerHTML = "<h1>Přesun rozcestníku</h1>";
@@ -479,24 +480,15 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
     function sidebar_init()
     {
-        var sidebar = document.getElementById("map-sidebar");
         var hc = "";
 
         hc += "<div class='sidebar-inner'>";
         hc += "<!--sidebar from guideposts--> ";
-        hc += "<button type='button' id='sidebar-close-button' class='close' onclick='$(this).parent().parent().hide(); guideposts.cancel_moving();'><span aria-hidden='true'>&times;</span></button>";
-        hc += "  <script>";
-        hc += "    $('sidebar-close-button').on('click', function(e) {";
-        hc += "      $('document').trigger('sidebar-close')";
-        hc += "    });";
-        hc += "  </script>";
         hc += "  <div id='sidebar-content'>";
-        hc += "    <h2>Ahoj</h2>";
-        hc += "    <p>Zde se normalne nachazi uzitecne informace</p>";
         hc += "  </div>";
         hc += "</div>";
 
-        sidebar.innerHTML = hc;
+        return hc;
     }
 
     function update_progress_bar(processed, total, elapsed, layers_array) {

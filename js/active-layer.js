@@ -24,7 +24,8 @@ osmcz.activeLayer = function (map) {
 
                 if (!(layer instanceof L.Point)) {
                     layer.on('click', function (event) {
-                        if (event.target && event.target.feature) {
+                        if (event.target && event.target.feature &&
+                            !osmcz.sidebar.isVisible()) {
                             console.log('active-layer: click', event.target.feature);
 
                             clearTimeout(timeout);
@@ -37,7 +38,7 @@ osmcz.activeLayer = function (map) {
                     });
 
                     layer.on('mouseover', function (event) {
-                        if (osmcz.permanentlyDisplayed)
+                        if (osmcz.permanentlyDisplayed || osmcz.sidebar.isVisible())
                             return;
 
                         if (event.target && event.target.feature) {
@@ -48,7 +49,8 @@ osmcz.activeLayer = function (map) {
                         }
                     });
                     layer.on('mouseout', function (event) {
-                        if (!osmcz.permanentlyDisplayed) {
+                        if (!osmcz.permanentlyDisplayed &&
+                            !osmcz.sidebar.isVisible()) {
                             clearTimeout(timeout);
                             timeout = setTimeout(function () {
                                 defaultPoiPanel();
@@ -60,35 +62,36 @@ osmcz.activeLayer = function (map) {
         }
     );
 
-    map.on('layeradd', function (event) {
-        if (event.layer == geojsonTileLayer) {
-            //$('#map-container').addClass('searchbar-on js_active-layer-on');
-            //defaultPoiPanel();
-        }
-    });
-    map.on('layerremove', function (event) {
-        if (event.layer == geojsonTileLayer) {
-            //$('#map-container').removeClass('searchbar-on js_active-layer-on');
-        }
-    });
+//     map.on('layeradd', function (event) {
+//         if (event.layer == geojsonTileLayer) {
+//             //$('#map-container').addClass('searchbar-on js_active-layer-on');
+//             //defaultPoiPanel();
+//         }
+//     });
+//     map.on('layerremove', function (event) {
+//         if (event.layer == geojsonTileLayer) {
+//             //$('#map-container').removeClass('searchbar-on js_active-layer-on');
+//         }
+//     });
 
     //reset panel
     function resetPanel() {
         console.log('active-layer: reset-panel');
 
+        if (!osmcz.poiPopupOpen) {
+            return;
+        }
+
         osmcz.poiPopup.close();
         defaultPoiPanel();
     }
 
-    $('#sidebar').on('click', '.close', resetPanel);  // TODO delegate closing on poiPopup.close() and fire event
     map.on('click', resetPanel);
 
 
     function defaultPoiPanel() {
-//         $('#map-container').removeClass('searchbar-on');
-        //$('#map-searchbar').html("Najeďte myší na bod nebo klikněte.");
-        osmcz.sidebar.hide();
-        osmcz.sidebar.setContent('');
+        osmcz.poiSidebar.hide();
+        osmcz.poiSidebar.setContent('');
     }
 
     return geojsonTileLayer;

@@ -12,7 +12,7 @@ osmcz.poiPopup = function (map) {
 osmcz.permanentlyDisplayed = false;
 osmcz._marker = L.circleMarker([0, 0]);
 osmcz._map = false;
-
+osmcz.poiPopupOpen = false;
 
 // static methods
 osmcz.poiPopup.load = function (object) {
@@ -62,20 +62,18 @@ osmcz.poiPopup.load = function (object) {
 
             //set icon and show
             var icon = osmcz.iconsService.get(feature.properties.tags);
-//             $('#map-container').addClass('searchbar-on');
-//             $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon.options.iconUrl));
-            sidebar.setContent(osmcz.poiPopup.getHtml(feature, icon.options.iconUrl));
-            sidebar.show();
+            poiSidebar.setContent(osmcz.poiPopup.getHtml(feature, icon.options.iconUrl));
+            poiSidebar.show();
+            osmcz.poiPopupOpen = true;
         }
     });
 
 };
 
 osmcz.poiPopup.open = function (feature, icon) {  //currently from active-layer
-//   $('#map-container').addClass('searchbar-on');
-//   $('#map-searchbar').html(osmcz.poiPopup.getHtml(feature, icon));
-  sidebar.setContent(osmcz.poiPopup.getHtml(feature, icon));
-  sidebar.show();
+  poiSidebar.setContent(osmcz.poiPopup.getHtml(feature, icon));
+  poiSidebar.show();
+  osmcz.poiPopupOpen = true;
   document.title = 'OpenStreetMap.cz';
   if (feature.properties.tags.name) {
     document.title = feature.properties.tags.name + ' ~ OpenStreetMap.cz';
@@ -86,12 +84,14 @@ osmcz.poiPopup.open = function (feature, icon) {  //currently from active-layer
 osmcz.poiPopup.close = function () {
     console.log('poi-popup: close');
 
+    if (!osmcz.poiPopupOpen) {
+        return;
+    }
+
     osmcz._map.removeLayer(osmcz._marker);
     osmcz.permanentlyDisplayed = false;
-    osmcz.sidebar.hide();
-
-    //if (!$('#map-container').hasClass('js_active-layer-on'))
-//     $('#map-container').removeClass('searchbar-on');
+    osmcz.poiSidebar.hide();
+    osmcz.poiPopupOpen = false;
 
     document.title = 'OpenStreetMap.cz';
 

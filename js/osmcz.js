@@ -4,13 +4,11 @@ var osmcz = osmcz || {};
 osmcz.production = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost', 'devosm.zby.cz'].indexOf(location.hostname) !== -1;
 osmcz.basePath = osmcz.production ? '/theme/' : '';
 osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
-// osmcz.sidebar = null;
-// osmcz.layersSidebar = null;
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
 var guideposts, gpcheck;
-var sidebar, mapLayers;
+var sidebar, poiSidebar, mapLayers;
 
 initmap();
 
@@ -24,6 +22,8 @@ function initmap() {
 
     // -------------------- Sidebars --------------------
     osmcz.sidebar = sidebar = L.control.sidebar('sidebar', { position: 'left', autoPan: false }).addTo(map);
+
+    osmcz.poiSidebar = poiSidebar = L.control.sidebar('poi-sidebar', { position: 'left', autoPan: false }).addTo(map);
 
     osmcz.layersSidebar = layersSidebar = L.control.sidebar('map-layers', { position: 'right', closeButton: true, autoPan: false }).addTo(map);
 
