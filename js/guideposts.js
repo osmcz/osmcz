@@ -357,7 +357,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         .always(function(data) {
         });
 
-        note.note_api(final_lat, final_lon, document.getElementById("gp_usr_message").value);
+        note.note_api(final_lat, final_lon, "id:" + gp_id + ": " + document.getElementById("gp_usr_message").value);
 
         hide_sidebar();
     }
@@ -366,9 +366,10 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     {
         var info = document.getElementById("guidepost_move_info");
 
-        info.innerHTML = "<p>lat, lon:</p>";
-        info.innerHTML += lat.toFixed(6) + "," + lon.toFixed(6) + "<br>";
-        info.innerHTML += "Vzdálenost " + distance.toFixed(1) + "m";
+        info.innerHTML  = "<label for='lln'>lat, lon:</label>";
+        info.innerHTML += "<input type='text' class='form-control' id='lln' disabled value='" + lat.toFixed(6) + ", " + lon.toFixed(6) + "'>";
+        info.innerHTML += "<label for='lld'>Vzdálenost:</label>";
+        info.innerHTML += "<input type='text' class='form-control' id='lld' disabled value='" + distance.toFixed(1) + "m" + "'>";
     }
 
     function hide_sidebar()
@@ -383,17 +384,16 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         sidebar.show();
 
         var content = document.getElementById("sidebar-content");
-        content.innerHTML = "<h1>Přesun rozcestníku</h1>";
-        content.innerHTML += "<p>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]</p>";
-        content.innerHTML += "<h3>Současná pozice</h3>";
-        content.innerHTML += "<p>lat, lon:</p>";
-        content.innerHTML += "<p>" + gp_lat.toFixed(6) + "," + gp_lon.toFixed(6) + "</p>";
-        content.innerHTML += "<h3>Přesunujete na</h3>";
-        content.innerHTML += "<div id='guidepost_move_info'>";
-        content.innerHTML += "Klikněte do mapy";
+        content.innerHTML = "<h4>Přesun rozcestníku</h4>";
+        content.innerHTML += "<p class='mark text-center'>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]";
+        content.innerHTML += "<h5>Současná pozice</h5>";
+        content.innerHTML += "<label for='llc'>lat, lon:</label>";
+        content.innerHTML += "<input type='text' class='form-control' id='llc' disabled value='" + gp_lat.toFixed(6) + ", " + gp_lon.toFixed(6) + "'>";
+        content.innerHTML += "<h5>Přesunujete na</h5>";
+        content.innerHTML += "<div id='guidepost_move_info'><p class='mark text-center'>Klikněte do mapy</p>";
         content.innerHTML += "</div>";
-        content.innerHTML += "<h3>poslat informaci</h3>";
-        content.innerHTML += "<textarea rows='1' cols='15' id='gp_usr_message'>id:" + gp_id + "moje zprava</textarea>";
+        content.innerHTML += "<h5>Připojit zprávu</h5>";
+        content.innerHTML += "<textarea class='form-control' rows='3' id='gp_usr_message' placeholder='moje zpráva…'></textarea>";
         content.innerHTML += "<hr>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>";
