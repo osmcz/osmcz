@@ -232,7 +232,7 @@ osmcz.LayerSwitcher = L.Control.extend({
 
         var form = this._form = L.DomUtil.create('form', className + '-list');
 
-        L.DomEvent.on(panelContainer, 'hidden', this._collapse2, this);
+        L.DomEvent.on(panelContainer, 'hide', this._collapse2, this);
 
         if (this.options.collapsed) {
             if (!L.Browser.android) {

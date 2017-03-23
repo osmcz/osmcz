@@ -145,7 +145,7 @@ a:hover.as-text {
 .btn-header {
     padding: 10px 5px 0px 5px;
     font-size: 150%;
-    color: black;
+    color: black !important;
 }
 
 .btn-header:hover {
@@ -234,7 +234,7 @@ a:hover.as-text {
     right: -500px;
     height: 100%;
     width: 250px;
-    transition: right 0.2s, width 0.2s;
+    transition: right 0.0s, width 0.0s;
 }
 .leaflet-sidebar.right.visible {
     right: 0;
@@ -278,7 +278,7 @@ a:hover.as-text {
 }
 
 .leaflet-right {
-    transition: right 0.2s;
+    transition: right 0.0s;
 }
 
 .leaflet-sidebar {
