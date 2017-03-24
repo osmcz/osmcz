@@ -83,15 +83,22 @@ a:hover.as-text {
 }
 
 
-
-
 #map-container {
     position:fixed;
     top: 50px; bottom: 0;
     right: 0; left: 0;
     z-index: 1;
 }
-.sidebar-inner {padding: 15px;}
+
+.sidebar-inner {
+    padding: 15px;
+}
+@media (max-width: 767px) {
+    .sidebar-inner {
+        padding: 5px;
+    }
+}
+
 #map-container .close {font-size: 300%;}
 #map {
     height: 100%;
@@ -162,7 +169,7 @@ a:hover.as-text {
 }
 
 @media screen and (min-width: 768px) {
-       #sidebar, #poi-sidebar, #map-layers {
+    #sidebar, #poi-sidebar, #map-layers {
         position: relative;
         float: left;
         height: 100%;
@@ -267,6 +274,47 @@ a:hover.as-text {
 }
 .leaflet-sidebar.right.visible ~ .leaflet-right {
     right: 350px;
+}
+
+@media (max-width: 767px) {
+    .leaflet-sidebar {
+        width: 100%;
+        padding: 0;
+        min-width: 180px;
+    }
+    .leaflet-sidebar.left.visible ~ .leaflet-left {
+        left: -50px;
+    }
+    .leaflet-sidebar.right.visible ~ .leaflet-right {
+        right: 0px;
+    }
+    .leaflet-sidebar.left {
+        left: -280px;
+        width: 280px;
+    }
+    .leaflet-sidebar.left.visible {
+          left: 0;
+    }
+    .leaflet-sidebar.right {
+        right: -180px;
+        width: 180px;
+    }
+    .leaflet-sidebar.right.visible {
+          right: 0;
+    }
+    .leaflet-sidebar > .leaflet-control {
+        box-shadow: none;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+    }
+    .leaflet-touch .leaflet-sidebar > .leaflet-control {
+        border: 0;
+    }
+/*     TODO: How to fix 'X' on left panel to top (in overflow)?
+    .left. visible + a.close {
+        position: fixed;
+        right: 240px;
+    } */
 }
 
 /* END of customized .leaflet-sidebar */
