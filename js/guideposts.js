@@ -34,6 +34,14 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     var gp_id;
     var gp_lat;
     var gp_lon;
+    var popupMarker; // Last marker which popup was opened
+    var gp_popupMarker; // Marker that is used in Move guidepost dialog
+    var popupThumbnail;
+
+    // Highlight selected guidepost and connect it to new position
+    var gpCircle = new L.circle([0, 0], {radius: 20});
+    var gpMarkerPolyline = L.polyline([[0, 0], [0, 0]],  {color: 'purple', clickable: false, dashArray: '20,30', opacity: 0.8});
+
 
     var guidepost_icon = L.icon({
       iconUrl: osmcz.basePath + "img/gp/guidepost.png",
@@ -194,12 +202,14 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     map.on('popupopen', function(e) {
         // get guidepost thumbnail from photodb cache server first
         // if it fails, request it from phpThumb
+        popupMarker = e.popup._source;
         var imgName = e.popup._source.feature.properties.name;
         var imgUrl  = e.popup._source.feature.properties.url;
         var id      = e.popup._source.feature.properties.id;
         if (imgName) {
             var tb = new Image();
             tb.onload = function(){
+                popupThumbnail = tb.src;
                 $('#thumbnailLoadSpinner'+id).hide();
                 $('#thumbnailImage'+id).attr('src', tb.src);
             };
@@ -219,9 +229,25 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
     map.on('popupclose', function(e) {
       autoload_lock = false;
-      if (osmcz.sidebar.isVisible()) {
-          guideposts.cancel_moving();
-      }
+    });
+
+    // TODO
+    map.on('zoomend', function(e) {
+        if (map.hasLayer(gpCircle)) {
+            if (map.getZoom() > 17) {
+                gpCircle.setRadius(10);
+            } else if (map.getZoom() > 15) {
+                gpCircle.setRadius(20);
+            } else if (map.getZoom() > 12) {
+                gpCircle.setRadius(40);
+            } else if (map.getZoom() > 10) {
+                gpCircle.setRadius(80);
+            } else if (map.getZoom() > 5) {
+                gpCircle.setRadius(160);
+            } else {
+                gpCircle.setRadius(500);
+            }
+        }
     });
 
     map.on('layeradd', function(event) {
@@ -261,12 +287,14 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             if (!moving_marker) {
                 var position = L.latLng(e.latlng.lat, e.latlng.lng);
                 create_moving_marker(e.latlng.lat, e.latlng.lng);
+                gpMarkerPolyline.setLatLngs([[gp_lat, gp_lon], position]).addTo(map);
                 update_sidebar(get_distance(moving_marker, position), position.lat, position.lng);
             } else {
                 //move marker to clicked position (to prevent losing it)
                 var new_position = L.latLng(e.latlng.lat, e.latlng.lng);
                 update_sidebar(get_distance(moving_marker, new_position), new_position.lat, new_position.lng);
                 moving_marker.setLatLng(new_position)
+                gpMarkerPolyline.setLatLngs([[gp_lat, gp_lon], new_position]);
             }
         }
     });
@@ -300,6 +328,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             var distance = position.distanceTo(origposition);
 
             update_sidebar(distance, position.lat, position.lng);
+            gpMarkerPolyline.setLatLngs([[gp_lat, gp_lon], position]);
         })
         .on('dragend', function(event){
             var marker = event.target;
@@ -308,6 +337,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             var distance = position.distanceTo(origposition);
 
             update_sidebar(distance, position.lat, position.lng);
+            gpMarkerPolyline.setLatLngs([[gp_lat, gp_lon], position]);
         });
 
         moving_marker.bindPopup('Presuň mě na cílové místo');
@@ -375,6 +405,10 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     function hide_sidebar()
     {
         sidebar.hide();
+        popupMarker.setOpacity(1);
+        popupMarker = null;
+        map.removeLayer(gpCircle);
+        map.removeLayer(gpMarkerPolyline);
     }
 
     function show_sidebar()
@@ -397,6 +431,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         content.innerHTML += "<hr>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>";
         content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>";
+        content.innerHTML += "<hr><img class='thumbnail center-block' width = '250px' src='" + popupThumbnail + "'/>";
     }
 
     osmcz.guideposts.prototype.move_point = function(gid, glat, glon)
@@ -407,6 +442,9 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             gp_lat = glat;
             gp_lon = glon;
             show_sidebar();
+            popupMarker.setOpacity(0.5);
+            popupMarker.closePopup();
+            gpCircle.setLatLng([glat, glon]).addTo(map);
         }
     }
 
