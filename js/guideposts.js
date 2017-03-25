@@ -397,9 +397,9 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         var info = document.getElementById("guidepost_move_info");
 
         info.innerHTML  = "<label for='lln'>lat, lon:</label>";
-        info.innerHTML += "<input type='text' class='form-control' id='lln' disabled value='" + lat.toFixed(6) + ", " + lon.toFixed(6) + "'>";
+        info.innerHTML += "<input type='text' class='form-control' id='lln' readonly value='" + lat.toFixed(6) + ", " + lon.toFixed(6) + "'>";
         info.innerHTML += "<label for='lld'>Vzdálenost:</label>";
-        info.innerHTML += "<input type='text' class='form-control' id='lld' disabled value='" + distance.toFixed(1) + "m" + "'>";
+        info.innerHTML += "<input type='text' class='form-control' id='lld' readonly value='" + distance.toFixed(1) + "m" + "'>";
     }
 
     function hide_sidebar()
@@ -420,12 +420,12 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         var inner = [];
         var content = document.getElementById("sidebar-content");
 
-        inner.push("<h4>Přesun rozcestníku</h4>");
+        inner.push("<h4>Přesun fotky</h4>");
         inner.push("<p class='mark text-center'>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]");
         inner.push("<h5>Současná pozice</h5>");
         inner.push("<label for='llc'>lat, lon:</label>");
-        inner.push("<input type='text' class='form-control' id='llc' disabled value='" + gp_lat.toFixed(6) + ", " + gp_lon.toFixed(6) + "'>");
-        inner.push("<h5>Přesunujete na</h5>");
+        inner.push("<input type='text' class='form-control' id='llc' readonly value='" + gp_lat.toFixed(6) + ", " + gp_lon.toFixed(6) + "'>");
+        inner.push("<h5>Přesunout na</h5>");
         inner.push("<div id='guidepost_move_info'><p class='mark text-center'>Klikněte do mapy</p>");
         inner.push("</div>");
         inner.push("<h5>Připojit zprávu</h5>");
