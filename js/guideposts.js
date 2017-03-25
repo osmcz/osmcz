@@ -417,21 +417,26 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         sidebar.on('hidden', guideposts.cancel_moving);
         sidebar.show();
 
+        var inner = [];
         var content = document.getElementById("sidebar-content");
-        content.innerHTML = "<h4>Přesun rozcestníku</h4>";
-        content.innerHTML += "<p class='mark text-center'>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]";
-        content.innerHTML += "<h5>Současná pozice</h5>";
-        content.innerHTML += "<label for='llc'>lat, lon:</label>";
-        content.innerHTML += "<input type='text' class='form-control' id='llc' disabled value='" + gp_lat.toFixed(6) + ", " + gp_lon.toFixed(6) + "'>";
-        content.innerHTML += "<h5>Přesunujete na</h5>";
-        content.innerHTML += "<div id='guidepost_move_info'><p class='mark text-center'>Klikněte do mapy</p>";
-        content.innerHTML += "</div>";
-        content.innerHTML += "<h5>Připojit zprávu</h5>";
-        content.innerHTML += "<textarea class='form-control' rows='3' id='gp_usr_message' placeholder='moje zpráva…'></textarea>";
-        content.innerHTML += "<hr>";
-        content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>";
-        content.innerHTML += "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>";
-        content.innerHTML += "<hr><img class='thumbnail center-block' width = '250px' src='" + popupThumbnail + "'/>";
+
+        inner.push("<h4>Přesun rozcestníku</h4>");
+        inner.push("<p class='mark text-center'>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]");
+        inner.push("<h5>Současná pozice</h5>");
+        inner.push("<label for='llc'>lat, lon:</label>");
+        inner.push("<input type='text' class='form-control' id='llc' disabled value='" + gp_lat.toFixed(6) + ", " + gp_lon.toFixed(6) + "'>");
+        inner.push("<h5>Přesunujete na</h5>");
+        inner.push("<div id='guidepost_move_info'><p class='mark text-center'>Klikněte do mapy</p>");
+        inner.push("</div>");
+        inner.push("<h5>Připojit zprávu</h5>");
+        inner.push("<textarea class='form-control' rows='3' id='gp_usr_message' placeholder='moje zpráva…'></textarea>");
+        inner.push("<hr>");
+        inner.push("<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>");
+        inner.push("<button class='btn btn-default btn-xs pull-right' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>");
+        inner.push("</div>");
+        inner.push("<hr><img class='thumbnail center-block' width = '250px' src='" + popupThumbnail + "'/>");
+
+        content.innerHTML = inner.join('');
     }
 
     osmcz.guideposts.prototype.move_point = function(gid, glat, glon)
