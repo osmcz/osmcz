@@ -62,18 +62,6 @@ osmcz.activeLayer = function (map) {
         }
     );
 
-//     map.on('layeradd', function (event) {
-//         if (event.layer == geojsonTileLayer) {
-//             //$('#map-container').addClass('searchbar-on js_active-layer-on');
-//             //defaultPoiPanel();
-//         }
-//     });
-//     map.on('layerremove', function (event) {
-//         if (event.layer == geojsonTileLayer) {
-//             //$('#map-container').removeClass('searchbar-on js_active-layer-on');
-//         }
-//     });
-
     //reset panel
     function resetPanel() {
         console.log('active-layer: reset-panel');
@@ -86,13 +74,14 @@ osmcz.activeLayer = function (map) {
         defaultPoiPanel();
     }
 
-    map.on('click', resetPanel);
-
-
     function defaultPoiPanel() {
         osmcz.poiSidebar.hide();
         osmcz.poiSidebar.setContent('');
     }
+
+    map.on('click', resetPanel);
+
+    osmcz.poiSidebar.on('hidden', resetPanel);
 
     return geojsonTileLayer;
 };
