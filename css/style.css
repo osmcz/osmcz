@@ -283,7 +283,7 @@ a:hover.as-text {
         min-width: 180px;
     }
     .leaflet-sidebar.left.visible ~ .leaflet-left {
-        left: -50px;
+        left: 0px;
     }
     .leaflet-sidebar.right.visible ~ .leaflet-right {
         right: 0px;
