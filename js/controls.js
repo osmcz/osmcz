@@ -1,10 +1,10 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
-osmcz.controls = function (map, baseLayers, overlays, panel, controls) {
+osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
     // -- constructor --
 
-    controls.layers = osmcz.layerSwitcher(baseLayers, overlays, panel, {priorityGroups: ["Základní", 'Letecké', 'Informace']}).addTo(map);
+    controls.layers = osmcz.layerSwitcher(baseLayers, overlays, layersPanel, {priorityGroups: ["Základní", 'Letecké', 'Informace']}).addTo(map);
 
     controls.zoom = L.control.zoom({
         zoomInTitle: 'Přiblížit',
@@ -52,9 +52,13 @@ osmcz.controls = function (map, baseLayers, overlays, panel, controls) {
     // leaflet-filelayer - upload GPX, KML a GeoJSON
     var style = {color: 'red', opacity: .6, fillOpacity: .5, weight: 4, clickable: false};
     L.Control.FileLayerLoad.LABEL = '<span class="glyphicon glyphicon-folder-open"></span>';
-    L.Control.FileLayerLoad.TITLE = 'Načíst lokální data (GPX, KML, GeoJSON)';
+    L.Control.FileLayerLoad.TITLE = 'Načíst lokální soubory (GPX, KML, GeoJSON)';
 
-    // TODO: handle errors, store list of opened files
+    // TODO //
+    //  * handle errors
+    //  * store list of opened files and allow removing them from map
+    //  * do not allow open the same file twice
+    //  * show more details about file like distance, duration, elevation...
     controls.fileLayerLoad = L.Control.fileLayerLoad({
         fitBounds: true,
         fileSizeLimit: 10240,
@@ -69,6 +73,19 @@ osmcz.controls = function (map, baseLayers, overlays, panel, controls) {
         }
     }).addTo(map);
 
+    controls.fileLayerLoad.loader.on('data:loaded', function (e) {
+        // Add to map layer switcher
+        var group = 'Lokální soubory';
+        e.layer.options.basic=true;
+        controls.layers.addOverlay(e.layer, e.filename, group);
+
+        // Expand layer switcher to show that file was loaded
+        if (controls.layers.getMode() == 'groups') {
+            controls.layers.collapseAllGroups();
+            controls.layers.expandGroup(group);
+        }
+        controls.layers._expand();
+    });
 
     // Leaflet Coordinates Control
     controls.coordinates = new L.Control.Coordinates(); // you can send options to the constructor if you want to, otherwise default values are used

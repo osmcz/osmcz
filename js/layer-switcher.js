@@ -55,7 +55,8 @@ osmcz.LayerSwitcher = L.Control.extend({
     },
 
     onAdd: function (map) {
-        this._initLayout();
+
+        this._prepareLayout();
         this._update();
 
         map
@@ -73,12 +74,14 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     addBaseLayer: function (layer, name) {
         this._addLayer(layer, name);
+        this._prepareLayout();
         this._update();
         return this;
     },
 
     addOverlay: function (layer, name, group) {
         this._addLayer(layer, name, true, group);
+        this._prepareLayout();
         this._update();
         return this;
     },
@@ -86,6 +89,7 @@ osmcz.LayerSwitcher = L.Control.extend({
     removeLayer: function (layer) {
         var id = this._layersIdMap[L.stamp(layer)];
         delete this._layers[id];
+        this._prepareLayout();
         this._update();
         return this;
     },
@@ -166,6 +170,11 @@ osmcz.LayerSwitcher = L.Control.extend({
         this._cntActiveInGroup[id] = 0;
     },
 
+    // Return current mode - basic or groups
+    getMode: function() {
+        return this._mode;
+    },
+
     // Create header button
     _addGroupHeader: function (name, target, expanded) {
         var content, glHideRight, glHideBottom;
@@ -190,21 +199,26 @@ osmcz.LayerSwitcher = L.Control.extend({
         return grpBase;
     },
 
-    _initLayout: function () {
-        var className = 'leaflet-control-layers',
-            container = this._container = L.DomUtil.create('div', className),
-            panelContainer = this._panelContainer;
+    _prepareLayout: function () {
+        var className = 'leaflet-control-layers';
 
-        //Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
-        container.setAttribute('aria-haspopup', true);
+        if (!this._container) {
+            this._container = L.DomUtil.create('div', className);
 
-        if (!L.Browser.touch) {
-            L.DomEvent
-                .disableClickPropagation(container)
-                .disableScrollPropagation(container);
-        } else {
-            L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
+            //Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
+            this._container.setAttribute('aria-haspopup', true);
+
+            if (!L.Browser.touch) {
+                L.DomEvent
+                    .disableClickPropagation(this._container)
+                    .disableScrollPropagation(this._container);
+            } else {
+                L.DomEvent.on(this._container, 'click', L.DomEvent.stopPropagation);
+            }
         }
+
+        var container = this._container,
+            panelContainer = this._panelContainer;
 
 
         // Init panel
@@ -240,18 +254,23 @@ osmcz.LayerSwitcher = L.Control.extend({
                     .on(container, 'click', this._expand, this)  //osmcz
                     .on(container, 'mouseout', this._collapse, this);
             }
-            var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
-            link.href = '#';
-            link.title = 'Layers';
 
-            if (L.Browser.touch) {
-                L.DomEvent
-                    .on(link, 'click', L.DomEvent.stop)
-                    .on(link, 'click', this._expand, this);
+            if (!this._layersLink) {
+                this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
+                this._layersLink.href = '#';
+                this._layersLink.title = 'Layers';
+
+                if (L.Browser.touch) {
+                    L.DomEvent
+                        .on(this._layersLink, 'click', L.DomEvent.stop)
+                        .on(this._layersLink, 'click', this._expand, this);
+                }
+                else {
+                    L.DomEvent.on(this._layersLink, 'focus', this._expand, this);
+                }
             }
-            else {
-                L.DomEvent.on(link, 'focus', this._expand, this);
-            }
+            var link = this._layersLink;
+
             //Work around for Firefox android issue https://github.com/Leaflet/Leaflet/issues/2033
             L.DomEvent.on(form, 'click', function () {
                 setTimeout(L.bind(this._onInputClick, this), 0);
