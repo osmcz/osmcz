@@ -54,12 +54,17 @@ osmcz.controls = function (map, baseLayers, overlays, panel, controls) {
     L.Control.FileLayerLoad.LABEL = '<span class="glyphicon glyphicon-folder-open"></span>';
     L.Control.FileLayerLoad.TITLE = 'Načíst lokální data (GPX, KML, GeoJSON)';
 
+    // TODO: handle errors, store list of opened files
     controls.fileLayerLoad = L.Control.fileLayerLoad({
         fitBounds: true,
+        fileSizeLimit: 10240,
         layerOptions: {
             style: style,
             pointToLayer: function (data, latlng) {
-                return L.circleMarker(latlng, {style: style});
+                return L.marker(latlng,
+                        { icon : L.divIcon({ className : 'glyphicon glyphicon-asterisk gpx-marker',
+                                            iconSize : [ 10, 10 ]}),
+                        title: data.properties.name});
             }
         }
     }).addTo(map);

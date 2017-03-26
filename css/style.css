@@ -753,6 +753,14 @@ div[group-active=true]:hover {
 }
 /* End of leaflet-condensed-attribution plugin style*/
 
+/* fileLayerPlugin */
+.gpx-marker {
+  font-size:1.5em;
+  color: rgba(255, 255, 0, 1);
+  text-shadow: 5px 5px 5px #000000;;
+}
+
+
 /* Hide elements for printing */
 @media print {
     #poi-sidebar .osmid {
