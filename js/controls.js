@@ -77,12 +77,16 @@ osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
         // Add to map layer switcher
         var group = 'Lokální soubory';
         e.layer.options.basic=true;
+        e.layer.options.removeBtn=true;
         controls.layers.addOverlay(e.layer, e.filename, group);
 
         // Expand layer switcher to show that file was loaded
         if (controls.layers.getMode() == 'groups') {
             controls.layers.collapseAllGroups();
-            controls.layers.expandGroup(group);
+            setTimeout(function () {
+                controls.layers.expandGroup(group);
+            }, 700);
+
         }
         controls.layers._expand();
     });

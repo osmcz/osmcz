@@ -276,6 +276,14 @@ a:hover.as-text {
     right: 250px;
 }
 
+.sidebar-inner img {
+        width: 250px;
+    }
+
+#poi-sidebar img {
+        max-width: 250px;
+    }
+
 @media (max-width: 767px) {
     .leaflet-sidebar {
         width: 100%;
@@ -289,8 +297,8 @@ a:hover.as-text {
         right: 0px;
     }
     .leaflet-sidebar.left {
-        left: -280px;
-        width: 280px;
+        left: -200px;
+        width: 200px;
     }
     .leaflet-sidebar.left.visible {
           left: 0;
@@ -315,7 +323,15 @@ a:hover.as-text {
         position: fixed;
         right: 240px;
     } */
+
+    .sidebar-inner img {
+        max-width: 170px;
+    }
+    #poi-sidebar img {
+        max-width: 170px;
+    }
 }
+
 
 /* END of customized .leaflet-sidebar */
 
@@ -493,6 +509,28 @@ div[group-active=true]:hover {
   font-style: italic;
   font-weight: normal;
 }
+
+.ellipsis {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: text-bottom;
+}
+
+.sidebar-inner .ellipsis {
+      width: 180px;
+}
+
+.sidebar-inner .removable {
+      width: 160px;
+}
+
+@media screen and (max-width: 767px) {
+    .sidebar-inner .ellipsis {width: 150px;}
+    .sidebar-inner .removable {width: 110px;}
+}
+
 
 /* Leaflet-Coordinates-Control plugin */
 .leaflet-control-coordinates {

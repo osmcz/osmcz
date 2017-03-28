@@ -434,7 +434,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         inner.push("<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>");
         inner.push("<button class='btn btn-default btn-xs pull-right' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>");
         inner.push("</div>");
-        inner.push("<hr><img class='thumbnail center-block' width = '250px' src='" + popupThumbnail + "'/>");
+        inner.push("<hr><img class='thumbnail center-block' src='" + popupThumbnail + "'/>");
 
         content.innerHTML = inner.join('');
     }

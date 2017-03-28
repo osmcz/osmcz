@@ -362,7 +362,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
             + '<img class="commons_logo" src="' + osmcz.basePath + 'img/commons_logo.png" height="24"></a>'
             + 'Foto z Wikipedie</h5>'
             + '<a href="_descriptionshorturl">'
-            + '<img src="_thumburl" width="250">'
+            + '<img src="_thumburl" >'
             + '</a>';
 
         var wcm = $('#wikimedia-commons');
@@ -415,7 +415,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
     var gpTpl = '<h5>Foto rozcestníku</h5>'
         + '<a href="_imgUrl">'
         + '<div id="thumbnailLoadSpinner" class="text-center"><span class="glyphicon glyphicon-refresh text-info gly-spin"></span><br></div>'
-        + '<img id="thumbnailImage" src="" class="center-block"/ width="250">'
+        + '<img id="thumbnailImage" src="" class="center-block"/>'
         + '</a>'
         + '<div class="margin-top-05"><b>Fotografii poskytl: </b> _autor'
         + '<span style="margin: 0.5em"/>'
@@ -489,7 +489,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
     // "_key" se nahrazuje mapillary IDčkem
     var mpTpl = '<h5>Nejbližší street-view</h5>'
         + '<a href="https://www.mapillary.com/map/im/_key/photo">'
-        + '<img src="' + osmcz.fakeHttps + 'images.mapillary.com/_key/thumb-320.jpg" width="250" height="187">'  //@todo https viz https://github.com/mapillary/mapillary_issues/issues/2419
+        + '<img src="' + osmcz.fakeHttps + 'images.mapillary.com/_key/thumb-320.jpg" height="187">'  //@todo https viz https://github.com/mapillary/mapillary_issues/issues/2419
         + '</a>';
 
     function showMapillary() {

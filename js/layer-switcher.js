@@ -19,6 +19,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         this._layers = {}; // List of layers
         this._groups = {}; // List of groups
         this._groupsHeaders = {}; // List of groups headers
+        this._cntInGroup = {}; // Store number of layers per group
         this._cntActiveInGroup = {}; // Store number of active layers per group
         this._lastZIndex = 0;
         this._handlingClick = false;
@@ -88,11 +89,28 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     removeLayer: function (layer) {
         var id = this._layersIdMap[L.stamp(layer)];
+        var group = this._layers[id].group;
+        if (this._map.hasLayer(layer)) {
+            this._map.removeLayer(layer);
+            if (this._cntActiveInGroup[group] > 0) {
+                this._cntActiveInGroup[group]--;
+            }
+        }
         delete this._layers[id];
         this._prepareLayout();
         this._update();
         return this;
     },
+
+    removeLayerByName: function (layerName) {
+        for (var layerId in this._layers) {
+            if (this._layers[layerId].name == layerName) {
+                this.removeLayer(this._layers[layerId].layer);
+            }
+        }
+        return this;
+    },
+
 
     expandGroup: function (group) {
         // If no parameter set, use stored cookie
@@ -473,6 +491,7 @@ osmcz.LayerSwitcher = L.Control.extend({
                     this._cntActiveInGroup[group]++;
                 }
             }
+            this._cntInGroup[group] = this._cntActiveInGroup[group];
         }
 
         var baseLayersPresent = false,
@@ -557,9 +576,20 @@ osmcz.LayerSwitcher = L.Control.extend({
             }
         }
 
-
         var name = document.createElement('span');
-        name.innerHTML = ' ' + obj.name;
+        var innerContent = [];
+        if (obj.layer.options.removeBtn) {
+            innerContent.push('<span class="ellipsis removable" title="' + obj.name  + '">&nbsp;' + obj.name + '</span>');
+            innerContent.push('<a href="#" class="btn pull-right" title="Odebrat vrstvu"');
+            innerContent.push('onclick="controls.layers.removeLayerByName(\'' + obj.name + '\');"');
+            innerContent.push('>');
+            innerContent.push('<span class="glyphicon glyphicon-trash text-danger" alt="X"></span></a>');
+            innerContent.push('<div class="clearfix"></div>');
+        } else {
+            innerContent.push('<span class="ellipsis" title="' + obj.name  + '">&nbsp;' + obj.name + '</span>');
+        }
+
+        name.innerHTML = innerContent.join('');
 
         if (obj.overlay) {
             input = document.createElement('input');
@@ -651,13 +681,20 @@ osmcz.LayerSwitcher = L.Control.extend({
         $(this._container).show();
     },
 
-    // Update Group headers to indicate, which group contains enables layers
+    // Update Group headers to indicate, which group contains enabled layers
+    // Also hide empty groups
     _updateGroupHeaders: function () {
         for (group in this._cntActiveInGroup) {
             if (this._cntActiveInGroup[group] == 0) {
                 this._groupsHeaders[group].setAttribute('group-active', 'false');
             } else {
                 this._groupsHeaders[group].setAttribute('group-active', 'true');
+            }
+
+            if (this._cntInGroup[group] == 0) {
+                L.DomUtil.addClass(this._groupsHeaders[group], 'hidden');
+            } else {
+                L.DomUtil.removeClass(this._groupsHeaders[group], 'hidden');
             }
         }
     },
