@@ -193,6 +193,17 @@ osmcz.LayerSwitcher = L.Control.extend({
         return this._mode;
     },
 
+    // Check layers and return whether layer already exists or not.
+    layerExists: function(layerName) {
+        for (var layerId in this._layers) {
+            if (this._layers[layerId].name == layerName) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    // -------------------------------------------------
     // Create header button
     _addGroupHeader: function (name, target, expanded) {
         var content, glHideRight, glHideBottom;

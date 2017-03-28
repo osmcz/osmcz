@@ -54,10 +54,7 @@ osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
     L.Control.FileLayerLoad.LABEL = '<span class="glyphicon glyphicon-folder-open"></span>';
     L.Control.FileLayerLoad.TITLE = 'Načíst lokální soubory (GPX, KML, GeoJSON)';
 
-    // TODO //
-    //  * handle errors
-    //  * store list of opened files and allow removing them from map
-    //  * do not allow open the same file twice
+    // TODO:
     //  * show more details about file like distance, duration, elevation...
     controls.fileLayerLoad = L.Control.fileLayerLoad({
         fitBounds: true,
@@ -76,19 +73,25 @@ osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
     controls.fileLayerLoad.loader.on('data:loaded', function (e) {
         // Add to map layer switcher
         var group = 'Lokální soubory';
-        e.layer.options.basic=true;
-        e.layer.options.removeBtn=true;
-        controls.layers.addOverlay(e.layer, e.filename, group);
+        if (!controls.layers.layerExists(e.filename)) {
+            e.layer.options.basic=true;
+            e.layer.options.removeBtn=true;
+            controls.layers.addOverlay(e.layer, e.filename, group);
+            toastr.success('Soubor ' + e.filename + ' byl úspěšně načten.', '', {closeButton: true, positionClass: "toast-bottom-center"});
 
-        // Expand layer switcher to show that file was loaded
-        if (controls.layers.getMode() == 'groups') {
-            controls.layers.collapseAllGroups();
-            setTimeout(function () {
+            // Expand layer switcher to show that file was loaded
+            if (controls.layers.getMode() == 'groups') {
                 controls.layers.expandGroup(group);
-            }, 700);
-
+            }
+            controls.layers._expand();
+        } else {
+            toastr.error('Soubor nelze načíst podruhé.', 'Chyba', {closeButton: true, positionClass: "toast-bottom-center"});
+            map.removeLayer(e.layer);
         }
-        controls.layers._expand();
+    });
+
+    controls.fileLayerLoad.loader.on('data:error', function (e) {
+        toastr.error('Soubor se nepodařilo načíst.<br>(<i>' + e.error.message + '</i>)', 'Chyba', {closeButton: true, positionClass: "toast-bottom-center"});
     });
 
     // Leaflet Coordinates Control
