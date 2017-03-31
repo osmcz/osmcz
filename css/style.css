@@ -1,5 +1,5 @@
 html {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 body {
@@ -219,6 +219,22 @@ a:hover.as-text {
 #map-container a.leaflet-control-layers-toggle:before { content: "Mapové vrstvy"; }
 #map-container a.leaflet-control-layers-toggle:hover { text-decoration: none; }
 
+#map-container a.leaflet-control-photoDBbtn-text {
+    width: 46px;
+    height: 80px;
+    background-position: center 0px;
+    padding-top: 45px;
+    font-size: 10px;
+    color: #000 !important;
+    text-align: center;
+    display: block;
+    background-image: url(../img/gp/photoDB-add.png);
+    background-repeat: no-repeat;
+    text-decoration: none;
+}
+#map-container a.leaflet-control-photoDBbtn-text:before { content: "Přidat obrázek"; }
+#map-container a.leaflet-control-photoDBbtn-text:hover { text-decoration: none; }
+
 /* --------------------------- */
 /* Customized .leaflet-sidebar */
 .leaflet-sidebar {
@@ -305,7 +321,7 @@ a:hover.as-text {
 }
 
 .sidebar-inner img {
-        width: 250px;
+        max-width: 250px;
     }
 
 #poi-sidebar img {
@@ -737,7 +753,11 @@ div[group-active=true]:hover {
 }
 
 .bigger {
-  font-size:3em;
+  font-size: 3em;
+}
+
+.smaller {
+  font-size: 0.8em;
 }
 
 .crossed {
@@ -759,6 +779,86 @@ div[group-active=true]:hover {
 .semigrey {
     color: rgba(127,127,127,0.2);
 }
+
+
+/* PhotoDB-gui.js */
+
+#photoDB-preview {
+    margin-bottom: 10px;
+}
+
+a #photoDB-preview:hover {
+    -moz-box-shadow: 0 0 3px #337ab7;
+    -webkit-box-shadow: 0 0 3px #337ab7;
+    box-shadow: 0 0 3px #337ab7;
+}
+
+.photoDB-message {
+    margin-top: 5px;
+}
+
+#photoDB-upload-form #photo .photoDB-message {
+    margin-top: 15px;
+}
+
+#photoDB-upload-form .label-margin {
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+
+.photoDB-btn-grp {
+    margin-top: 1em;
+    border-top: rgba(0,0,0,0.2) solid 1px;
+    padding-top: 1em;
+}
+
+#photoDB-upload-form input[type=text]:focus, #photoDB-upload-form select:focus {
+    border:2px solid #337ab7 !important;
+}
+
+#photoDB-upload-form input[type=text].inputError {
+    border:2px solid #d9534f;
+}
+
+#modal-container button.close {
+    font-size: 300%;
+    margin-top: -25px;
+    margin-right: -10px;
+    color: #000;
+    opacity: 0.6;
+    font-weight: 700;
+    line-height: 1;
+}
+
+#myModal .modal {
+    text-align:center;
+    max-height: 100vh;
+}
+
+#myModal .modal-dialog {
+    display: inline-block;
+    width: auto;
+    margin: 15px auto;
+}
+
+#myModal .modal-body {
+    position:relative;
+    overflow:hidden;
+    max-height: calc(100vh - 50px);
+}
+
+/*#myModal {
+    max-height: 100vh;
+}*/
+
+#myModal #modalImg {
+    max-height: calc(100vh - 100px);
+    height: 100%;
+    width:auto;
+    min-height: 120px;
+}
+
+/* END of PhotoDB-gui.js */
 
 /* leaflet-condensed-attribution plugin*/
 .leaflet-container .leaflet-condensed-attribution {

@@ -26,6 +26,7 @@ var osmcz = osmcz || {};
 osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
     var layersControl = controls.layers;
+    var photoDBbtn = null;
     var xhr;
     var markers = L.markerClusterGroup({code: 'G', chunkedLoading: true, chunkProgress: update_progress_bar});
     var moving_marker;
@@ -266,6 +267,20 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     map.on('layeradd', function(event) {
         if(event.layer == markers && !autoload_lock) {
 //        load_data();
+            // PhotoDB button (add an image)
+            if (!photoDBbtn) {
+                photoDBbtn = L.control.photoDbGui().addTo(map);
+            }
+        }
+    });
+
+    map.on('layerremove', function(event) {
+        if(event.layer == markers) {
+            // PhotoDB button (add an image)
+            if (photoDBbtn) {
+                photoDBbtn.remove(map);
+                photoDBbtn = null;
+            }
         }
     });
 

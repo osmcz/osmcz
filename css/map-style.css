@@ -88,3 +88,17 @@
 .leaflet-popup .comment-text p {
     margin:0;
 }
+
+#map .leaflet-control-photoDBbtn {
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    background: #fff;
+    border-radius: 5px;
+}
+
+#map .leaflet-control-photoDBbtn:hover {
+    background: #f4f4f4;;
+}
+
+#map .leaflet-control-layers:hover {
+    background: #f4f4f4;;
+}
