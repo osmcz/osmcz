@@ -27,6 +27,8 @@ Možno doplnit štítek o jakou část projektu se jedná:
 * **Commit message formát:** `<část aplikace>: <co se děje> #id`  -- nebo vizte [vzor](https://github.com/osmcz/osmcz/commits/master)
 * Commit message i komentáře v kódu prosíme **anglicky**
 
+* Publikace na web vychází z větve `production`. Zkontrolujte, že případné změny `index.html` jsou přeneseny do patřičného `\*.latte`.
+
 ### Zaslání úpravy ke schválení
 Nejsnazší cesta je nechat si to forknout githubem a rovnou vytvořit pull request.
 
