@@ -27,11 +27,11 @@
     font-size: 70%;
     margin-left: -3px;
 }
-
+/*
 .leaflet-popup-content {
     width:auto !important;
 }
-
+*/
 @media (max-width: 285px) {
     .leaflet-bottom .leaflet-control-scale {
         margin-bottom: 2em;
@@ -69,4 +69,22 @@
     float: none;
     margin-bottom: 5px;
     margin-right: 5px;
+}
+
+
+/* osm notes in popup */
+.leaflet-popup h1 {
+    font-size: 14px;
+}
+.leaflet-popup .comment-text {
+    padding:4px;
+    border-top:1px solid #ddd;
+}
+.leaflet-popup .comment-meta {
+    padding:4px;
+    font-size:11px;
+    color:#666;
+}
+.leaflet-popup .comment-text p {
+    margin:0;
 }

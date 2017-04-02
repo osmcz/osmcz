@@ -253,8 +253,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         ruianLanduseOverlay = L.tileLayer(landuseUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '5'}),
         ruianAdresyOverlay = L.tileLayer(adresyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '6'});
 
-    var aktivniVrstvaOverlay = new osmcz.activeLayer(map);
-
     var powerOverlay = L.tileLayer('https://tiles-{s}.openinframap.org/power/{z}/{x}/{y}.png', {
         attribution: osmAttr + ', <a href="https://OpenInfraMap.org/about.html">OpenInfraMap.org</a>',
         code: 'W'
@@ -284,7 +282,10 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     // Information group
     baseLayers["Informace"] = {};
     overlays["Informace"] = {};
-    overlays["Informace"]["Aktivní vrstva"] = aktivniVrstvaOverlay;
+    overlays["Informace"]["Aktivní vrstva"] = new osmcz.activeLayer(map);
+    overlays["Informace"]["OSM poznámky"] = new osmcz.osmNotesLayer();
+
+
 
     // Hiking group
     baseLayers["Turistické"] = {};
