@@ -73,6 +73,12 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
       iconAnchor: [23, 45]
     });
 
+    var blurred_icon = L.icon({
+      iconUrl: osmcz.basePath + "img/gp/blurred.png",
+      iconSize: [48, 48],
+      iconAnchor: [23, 45]
+    });
+
     var commons_icon = L.icon({
       iconUrl: osmcz.basePath + "img/commons_logo.png",
       iconSize: [35, 48],
@@ -110,7 +116,9 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             var ftype;
 
             if (b.tags) {
-                if (b.tags.indexOf("infotabule") > -1) {
+                if (b.tags.indexOf("necitelne") > -1) {
+                    ftype = "necitelne";
+                } else if (b.tags.indexOf("infotabule") > -1) {
                     ftype = "infopane";
                 } else if (b.tags.indexOf("mapa") > -1) {
                     ftype = "map";
@@ -174,6 +182,9 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
                     break;
                 case "cycle_foot":
                     layer.setIcon(cycle_foot_icon);
+                    break;
+                case "necitelne":
+                    layer.setIcon(blurred_icon);
                     break;
                 default:
                     layer.setIcon(guidepost_icon);
