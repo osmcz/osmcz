@@ -27,11 +27,11 @@
     font-size: 70%;
     margin-left: -3px;
 }
-/*
-.leaflet-popup-content {
+
+.guideposts-popup .leaflet-popup-content {
     width:auto !important;
 }
-*/
+
 @media (max-width: 285px) {
     .leaflet-bottom .leaflet-control-scale {
         margin-bottom: 2em;

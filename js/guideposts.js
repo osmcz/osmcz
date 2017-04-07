@@ -195,6 +195,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
               minWidth: 500,
               closeOnClick: false,
               autoPan: false,
+              className: 'guideposts-popup'
             });
         }
     });
@@ -206,6 +207,7 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
             layer.bindPopup(feature.properties.desc, {
               closeOnClick: false,
               autoPan: false,
+              className: 'guideposts-popup'
             });
         }
     });
