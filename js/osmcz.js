@@ -111,12 +111,12 @@ function initmap() {
 
     // -------------------- home-splash-screen or text-content splash --------------------
 
-    var addHandlersRestorePage = function () {
+    var addHandlersToRestorePage = function () {
         var activeMenu = $('nav .active').removeClass('active');
         var restorePage = function (event) {
             event.preventDefault();
             map.scrollWheelZoom.disable();
-            container.fadeIn('slow');
+            container.slideDown();
             $('#page-restore-button').fadeOut('slow');
             activeMenu.addClass('active').off('click.fader');
         };
@@ -127,12 +127,9 @@ function initmap() {
 
     var closeSplash = function () {
         map.scrollWheelZoom.enable();
-        container.fadeOut('slow');
-        addHandlersRestorePage();
-
-        if (location.pathname == '/splash') {
-            history.pushState({}, "", "/");
-        }
+        container.slideUp();
+        addHandlersToRestorePage();
+        history.pushState({}, "", "/"); //if (location.pathname == '/splash')
     };
 
     // hide splash on map-click or map-move or layers-shown
@@ -158,7 +155,7 @@ function initmap() {
         }
         else {
             map.scrollWheelZoom.enable();
-            addHandlersRestorePage();
+            addHandlersToRestorePage();
             $('nav .active').removeClass('active');
         }
     }
