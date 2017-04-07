@@ -110,6 +110,7 @@ function initmap() {
     });
 
     // -------------------- home-splash-screen or text-content splash --------------------
+    var container = $('#main .container');
 
     var addHandlersToRestorePage = function () {
         var activeMenu = $('nav .active').removeClass('active');
@@ -129,11 +130,10 @@ function initmap() {
         map.scrollWheelZoom.enable();
         container.slideUp();
         addHandlersToRestorePage();
-        history.pushState({}, "", "/"); //if (location.pathname == '/splash')
+        if (location.pathname == '/splash') history.pushState({}, "", "/");
     };
 
     // hide splash on map-click or map-move or layers-shown
-    var container = $('#main .container');
     map.on('click movestart', closeSplash);
     osmcz.layersSidebar.on('show', function(){ container.toggleClass("layersSidebar-shown", true); closeSplash(); });
     osmcz.layersSidebar.on('hide', function(){ container.toggleClass("layersSidebar-shown", false); });
@@ -150,13 +150,13 @@ function initmap() {
         // skrytí overlay
         if (!Cookies.get('overlayShown') || location.pathname == '/splash') {
             container.show();
-            $('#page-restore-button').hide();
             Cookies.set('overlayShown', 'yes', {expires: 7}); // expires in 7 days
         }
         else {
             map.scrollWheelZoom.enable();
             addHandlersToRestorePage();
             $('nav .active').removeClass('active');
+            $('#page-restore-button').show();
         }
     }
 

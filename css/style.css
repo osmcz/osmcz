@@ -89,6 +89,7 @@ a:hover.as-text {
     height: 13px;
     cursor: pointer;
     color: #888;
+    display: none;
 }
 .navbar #page-restore-button:before {
     content: "\e114";
