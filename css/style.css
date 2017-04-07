@@ -82,6 +82,31 @@ a:hover.as-text {
     width: 78px; /*allow overflow*/
 }
 
+.navbar #page-restore-button {
+    position: absolute;
+    left: 49%;    bottom: 0;
+    height: 0;
+    width: 68px;
+    border-bottom: 16px solid rgba(200,200,200,0.3);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    color: #777;
+}
+.navbar #page-restore-button:before {
+    content: "↓";
+    position: relative;
+    top: -4px;
+    left: 19px;
+    font-size: 13px;
+}
+.navbar #page-restore-button:hover {
+    border-bottom: 18px solid rgba(255,255,255,0.95);
+    border-radius: 4px;
+    cursor: pointer;
+    color: #000;
+    margin-bottom: -5px;
+}
+
 
 #map-container {
     position:fixed;
@@ -120,7 +145,9 @@ a:hover.as-text {
 /*     width: 250px; */
     text-align: left;
     font-size: 13px;
-    padding: 0px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
 }
 
 @media (max-width: 992px) {
@@ -411,8 +438,7 @@ a:hover.as-text {
 }
 
 #main .container {
-    position:relative;
-    z-index: 5;
+    position:relative; z-index: 5;  /*potreba pro skryvani fadeOut/fadeIn */
     padding: 1em;
     background: rgba(255,255,255,0.9);
     padding-top: 50px;
@@ -425,7 +451,7 @@ a:hover.as-text {
     padding-top: 100px;
     display: none;
 }
-#main .container.splash:before {
+#main .container.splash:not(.layersSidebar-shown):before {
     content: url(../img/info-layer-switch.mini.svg);
     position: fixed;
     right: 10px;
@@ -451,10 +477,10 @@ a:hover.as-text {
 
     }
 
-    #main .container.splash:before {
+    #main .container.splash:not(.layersSidebar-shown):before {
         content: url(../img/info-layer-switch.svg);
-        right: 30px;
-        top: 70px;
+        right: 60px;
+        top: 80px;
     }
 }
 @media screen and (max-width: 767px) {

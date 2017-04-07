@@ -111,37 +111,39 @@ function initmap() {
 
     // -------------------- home-splash-screen or text-content splash --------------------
 
-    var showSplashOnClick = function () {
-        $('nav .active').on('click.fader', function (event) {
+    var addHandlersRestorePage = function () {
+        var activeMenu = $('nav .active').removeClass('active');
+        var restorePage = function (event) {
             event.preventDefault();
             map.scrollWheelZoom.disable();
             container.fadeIn('slow');
-            $(this).addClass('active').off('click.fader');
-        });
+            $('#page-restore-button').fadeOut('slow');
+            activeMenu.addClass('active').off('click.fader');
+        };
+
+        activeMenu.on('click.fader', restorePage);
+        $('#page-restore-button').on('click', restorePage).fadeIn('slow');
     };
 
     var closeSplash = function () {
         map.scrollWheelZoom.enable();
-        container.fadeOut('slow', function () {
-            setTimeout(function () {
-                $('nav .active').removeClass('active');
-            }, 700);
-        });
-
-        showSplashOnClick();
+        container.fadeOut('slow');
+        addHandlersRestorePage();
 
         if (location.pathname == '/splash') {
             history.pushState({}, "", "/");
         }
     };
 
-    // hide splash on map-click or map-move
+    // hide splash on map-click or map-move or layers-shown
     var container = $('#main .container');
     map.on('click movestart', closeSplash);
+    osmcz.layersSidebar.on('show', function(){ container.toggleClass("layersSidebar-shown", true); closeSplash(); });
+    osmcz.layersSidebar.on('hide', function(){ container.toggleClass("layersSidebar-shown", false); });
 
     map.scrollWheelZoom.disable(); // text-content splash is opened by default = disable scroll-zoom
 
-    if (container.hasClass('splash')) { //home-splash-screen is hidden with CSS
+    if (container.hasClass('splash')) { //home-splash-screen is loaded with display:none
         $('.close-overlay').click(closeSplash);
         container.click(function (event) {
             if (event.target.parentNode == this) //<div.row> children in <.container>
@@ -151,11 +153,12 @@ function initmap() {
         // skrytí overlay
         if (!Cookies.get('overlayShown') || location.pathname == '/splash') {
             container.show();
+            $('#page-restore-button').hide();
             Cookies.set('overlayShown', 'yes', {expires: 7}); // expires in 7 days
         }
         else {
             map.scrollWheelZoom.enable();
-            showSplashOnClick();
+            addHandlersRestorePage();
             $('nav .active').removeClass('active');
         }
     }
