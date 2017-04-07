@@ -84,29 +84,27 @@ a:hover.as-text {
 
 .navbar #page-restore-button {
     position: absolute;
-    left: 49%;    bottom: 0;
-    height: 0;
+    left: 49%;    bottom: 0;  z-index: 5;
     width: 68px;
-    border-bottom: 16px solid rgba(200,200,200,0.3);
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    color: #777;
+    height: 13px;
+    cursor: pointer;
+    color: #888;
 }
 .navbar #page-restore-button:before {
-    content: "↓";
+    content: "\e114";
     position: relative;
-    top: -4px;
-    left: 19px;
-    font-size: 13px;
+    top: -2px;
+    left: 24px;
+    font-size: 12px;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
 }
 .navbar #page-restore-button:hover {
-    border-bottom: 18px solid rgba(255,255,255,0.95);
-    border-radius: 4px;
-    cursor: pointer;
-    color: #000;
-    margin-bottom: -5px;
+    border-bottom: 30px solid transparent; /* biggerbutton for finishing the click*/
+    margin-bottom: -17px;
+    color: #333;
 }
-
 
 #map-container {
     position:fixed;
