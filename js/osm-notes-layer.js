@@ -46,6 +46,14 @@ osmcz.osmNotesLayer = L.LayerGroup.extend({
         }
     },
 
+    onRemove: function (map) {
+        L.LayerGroup.prototype.onRemove.call(this, map); //parent
+
+        map
+            .off('viewreset', this._load, this)
+            .off('moveend', this._load, this);
+    },
+
     _icon: function(fp) {
         fp = fp || {};
 
