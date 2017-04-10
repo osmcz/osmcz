@@ -629,7 +629,7 @@ div[group-active=true]:hover {
     width:350px;
 }
 
-#gpc-img-upload-form input[type=file], input[type=text], select {
+#gpc-img-upload-form input[type=file], #gpc-img-upload-form input[type=text], #gpc-img-upload-form select {
     background:#eee !important;
     color:#000 !important;
     padding:5px !important;
