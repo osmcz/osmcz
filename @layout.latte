@@ -248,6 +248,10 @@
     			txtOf: '/'
     		});
     	});
+
+        osmcz = osmcz || {};
+        osmcz.user = {$user->isLoggedIn() ? array('username' => $user->identity->data['username']) : false};
+
     </script>
 
     {* for /komunita *}

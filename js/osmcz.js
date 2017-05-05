@@ -4,6 +4,7 @@ var osmcz = osmcz || {};
 osmcz.production = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost', 'devosm.zby.cz'].indexOf(location.hostname) !== -1;
 osmcz.basePath = osmcz.production ? '/theme/' : '';
 osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
+osmcz.user = false; //defined later in @layout.latte
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
