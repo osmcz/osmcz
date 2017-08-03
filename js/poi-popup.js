@@ -361,7 +361,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         var wcmTpl = '<h5><a href="https://commons.wikimedia.org/">'
             + '<img class="commons_logo" src="' + osmcz.basePath + 'img/commons_logo.png" height="24"></a>'
             + 'Foto z Wikipedie</h5>'
-            + '<a href="_descriptionshorturl">'
+            + '<a href="_descriptionshorturl" target="_blank">'
             + '<img src="_thumburl" >'
             + '</a>';
 
