@@ -7,7 +7,7 @@ osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
 osmcz.user = false; //defined later in @layout.latte
 
 var map, baseLayers = {}, overlays = {}, controls = {};
-var marker = L.marker([0, 0]); // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
+var marker; // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
 var guideposts, gpcheck;
 var sidebar, poiSidebar, mapLayers;
 
@@ -73,7 +73,26 @@ function initmap() {
         map.setView([params.lat, params.lon], params.zoom);
     }
     if (params.marker) {
-        marker.setLatLng([params.mlat, params.mlon]).addTo(map);
+        var popup = [];
+        popup.push("<div class='locationMarkerPopup'>");
+        popup.push("<h1>Odkaz na místo</h1>");
+        if (params.mmsg) {popup.push("<p>" + params.mmsg + "</p>");}
+        popup.push("</div>");
+
+
+        marker = L.marker([params.mlat, params.mlon], {title: "Odkaz na místo"});
+        marker.bindPopup(popup.join('')).openPopup();
+
+        // Open popup on marker add
+        marker.on("add", function (event) {
+            event.target.openPopup();
+        });
+
+        // Open popup on marker add
+        marker.on("popupclose", function (event) {
+            event.target.removeFrom(map)
+        });
+        marker.addTo(map);
     }
     if (params.object)
         osmcz.poiPopup.load(params.object);

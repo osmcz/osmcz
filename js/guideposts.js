@@ -214,6 +214,12 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
     });
 
     map.on('popupopen', function(e) {
+
+        // return if incorrect popup
+        if (! (e.popup && e.popup._source && e.popup._source.feature)) {
+            return;
+        }
+
         // get guidepost thumbnail from photodb cache server first
         // if it fails, request it from phpThumb
         popupMarker = e.popup._source;

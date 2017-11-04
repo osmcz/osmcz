@@ -70,6 +70,7 @@ OSM = {
             mapParams.marker = true;
             mapParams.mlon = parseFloat(params.mlon);
             mapParams.mlat = parseFloat(params.mlat);
+            mapParams.mmsg  = params.mmsg;
         }
 
         // Old-style object parameters; still in use for edit links e.g. /edit?way=1234

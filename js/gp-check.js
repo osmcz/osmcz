@@ -247,6 +247,11 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls, group) {
     });
 
     map.on('popupopen', function(e) {
+      // return if incorrect popup
+      if (! (e.popup && e.popup._source && e.popup._source.feature)) {
+          return;
+      }
+
       var osmid = e.popup._source.feature.id;
 
       // exit when osmid is null
