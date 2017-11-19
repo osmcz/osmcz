@@ -18,8 +18,8 @@ osmcz.poiPopupOpen = false;
 osmcz.poiPopup.load = function (object) {
 
     // exit when osm object does not exists or osmid is null
-    if ((! object) || (! "id" in object) ) {
-      return;
+    if ((!object) || (!"id" in object)) {
+        return;
     }
 
     $.ajax({
@@ -71,13 +71,13 @@ osmcz.poiPopup.load = function (object) {
 };
 
 osmcz.poiPopup.open = function (feature, icon) {  //currently from active-layer
-  poiSidebar.setContent(osmcz.poiPopup.getHtml(feature, icon));
-  poiSidebar.show();
-  osmcz.poiPopupOpen = true;
-  document.title = 'OpenStreetMap.cz';
-  if (feature.properties.tags.name) {
-    document.title = feature.properties.tags.name + ' ~ OpenStreetMap.cz';
-  }
+    poiSidebar.setContent(osmcz.poiPopup.getHtml(feature, icon));
+    poiSidebar.show();
+    osmcz.poiPopupOpen = true;
+    document.title = 'OpenStreetMap.cz';
+    if (feature.properties.tags.name) {
+        document.title = feature.properties.tags.name + ' ~ OpenStreetMap.cz';
+    }
 };
 
 
@@ -145,10 +145,10 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
     // Not needed when we are inside popup
     if (!embedded) {
 //       tpl.push(osmcz.permanentlyDisplayed ? '<a class="close">&times;</a>' : '');
-      tpl.push('<h4>');
-      tpl.push('<img class="poi-icon" src="' + icon + '">&nbsp;');
-      tpl.push('<span class="h4-text">' + (feature.properties.tags.name || 'Bod zájmu') + '</span>');
-      tpl.push('</h4>');
+        tpl.push('<h4>');
+        tpl.push('<img class="poi-icon" src="' + icon + '">&nbsp;');
+        tpl.push('<span class="h4-text">' + (feature.properties.tags.name || 'Bod zájmu') + '</span>');
+        tpl.push('</h4>');
     }
 
     $.each(feature.properties.tags, function (k, v) {
@@ -202,9 +202,9 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
             // wikipedia=* or xxx:wikipedia=*
             if (k.match(/^wikipedia$/) || k.match(/:wikipedia$/)) {
                 if (v.match(/:/)) {
-                  tpl.push('<a href="https://' + v.split(":")[0] + '.wikipedia.org/wiki/' + v.split(":")[1] + wikiLang + '">' + v + '</a>');
+                    tpl.push('<a href="https://' + v.split(":")[0] + '.wikipedia.org/wiki/' + v.split(":")[1] + wikiLang + '">' + v + '</a>');
                 } else {
-                  tpl.push('<a href="https://wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
+                    tpl.push('<a href="https://wikipedia.org/wiki/' + v + wikiLang + '">' + v + '</a>');
                 }
             }
             // wikipedia:<country>=* or xxx:wikipedia:<country>=*
@@ -252,7 +252,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
     try {
         tpl = tpl.concat(osmcz.openingHoursService.getHtml(openingHours));
     } catch (err) {
-        tpl.push("<b>opening_hours</b> = " + openingHours + "<br> <em>(Nepodařilo se naparsovat: "+err+")</em>");
+        tpl.push("<b>opening_hours</b> = " + openingHours + "<br> <em>(Nepodařilo se naparsovat: " + err + ")</em>");
     }
     section(payment, 'Možnosti platby:');
     section(contact, 'Kontakty:');
@@ -439,17 +439,17 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
             // get guidepost thumbnail from photodb cache server first
             // if it fails, request it from phpThumb
             var tb = new Image();
-            tb.onload = function(){
+            tb.onload = function () {
                 $('#thumbnailLoadSpinner').hide();
                 $('#thumbnailImage').attr('src', tb.src);
             };
-            tb.onerror = function(){
-                var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia='+ imgName +'&w=250&src=https://api.openstreetmap.cz/' + imgUrl;
-                if (tb.src != tbUrl ) {
+            tb.onerror = function () {
+                var tbUrl = 'https://api.openstreetmap.cz/p/phpThumb.php?sia=' + imgName + '&w=250&src=https://api.openstreetmap.cz/' + imgUrl;
+                if (tb.src != tbUrl) {
                     tb.src = tbUrl;
                 } else {
                     $('#thumbnailLoadSpinner').html('<br><span class="glyphicon glyphicon-picture bigger semigrey thumbnail crossed" title="Náhled není k dispozici."><span><br>');
-                    $('#thumbnailLoadSpinner').attr('class','text-nowrap text-center');
+                    $('#thumbnailLoadSpinner').attr('class', 'text-nowrap text-center');
 
                 }
             };

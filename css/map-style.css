@@ -6,19 +6,23 @@
 .leaflet-container .leaflet-control-search {
     background-color: #fff;
 }
+
 .leaflet-control-search input.search-input {
     border: 0;
-    outline:0;
+    outline: 0;
     background: transparent;
     color: #000;
 }
+
 .leaflet-control-search .search-tooltip {
     background: #fff;
     max-height: 300px;
 }
+
 .leaflet-control-search li.search-tip {
     background: transparent;
 }
+
 .leaflet-control-search li.search-tip:hover {
     background: #ccc;
 }
@@ -29,7 +33,7 @@
 }
 
 .guideposts-popup .leaflet-popup-content {
-    width:auto !important;
+    width: auto !important;
 }
 
 @media (max-width: 285px) {
@@ -42,6 +46,7 @@
     .leaflet-top.leaflet-right {
         height: 50%;
     }
+
     .leaflet-control.leaflet-control-layers-expanded {
         height: 100%;
         overflow-y: auto;
@@ -71,26 +76,28 @@
     margin-right: 5px;
 }
 
-
 /* osm notes in popup */
 .leaflet-popup h1 {
     font-size: 14px;
 }
+
 .leaflet-popup .comment-text {
-    padding:4px;
-    border-top:1px solid #ddd;
+    padding: 4px;
+    border-top: 1px solid #ddd;
 }
+
 .leaflet-popup .comment-meta {
-    padding:4px;
-    font-size:11px;
-    color:#666;
+    padding: 4px;
+    font-size: 11px;
+    color: #666;
 }
+
 .leaflet-popup .comment-text p {
-    margin:0;
+    margin: 0;
 }
 
 #map .leaflet-control-photoDBbtn {
-    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
     background: #fff;
     border-radius: 5px;
 }

@@ -9,14 +9,14 @@ osmcz.osmNotesLayer = L.LayerGroup.extend({
 
     _loadedIds: {},
 
-    onAdd: function(map) {
+    onAdd: function (map) {
         this._map = map;
         this._loadSuccess = L.bind(loadSuccess, this);
         this._pointToLayer = L.bind(pointToLayer, this);
         this.notesLayer = L.geoJson({
             type: 'FeatureCollection',
             features: []
-        }, { pointToLayer: this._pointToLayer }).addTo(this);
+        }, {pointToLayer: this._pointToLayer}).addTo(this);
 
         map
             .on('viewreset', this._load, this)
@@ -54,7 +54,7 @@ osmcz.osmNotesLayer = L.LayerGroup.extend({
             .off('moveend', this._load, this);
     },
 
-    _icon: function(fp) {
+    _icon: function (fp) {
         fp = fp || {};
 
         var sizes = {
@@ -77,9 +77,9 @@ osmcz.osmNotesLayer = L.LayerGroup.extend({
         });
     },
 
-    _template: function(p) {
-        p['marker-color'] = { closed: '95c055', open: 'ca3029' }[p.status];
-        p['marker-symbol'] = { closed: 'circle-stroked', open: 'cross' }[p.status];
+    _template: function (p) {
+        p['marker-color'] = {closed: '95c055', open: 'ca3029'}[p.status];
+        p['marker-symbol'] = {closed: 'circle-stroked', open: 'cross'}[p.status];
 
         p.title = (p.status == 'closed' ? 'Vyřešená poznámka' : 'Poznámka') + ' <a href="http://www.openstreetmap.org/browse/note/' + p.id + '">#' + p.id + '</a>';
         p.description = '';
@@ -93,18 +93,19 @@ osmcz.osmNotesLayer = L.LayerGroup.extend({
         return p;
     },
 
-    _load: function(map) {
+    _load: function (map) {
         function boundsString(map) {
             var sw = map.getBounds().getSouthWest(),
                 ne = map.getBounds().getNorthEast();
             return [sw.lng, sw.lat, ne.lng, ne.lat];
         }
+
         $.ajax({
             url: this.API + boundsString(this._map),
             dataType: 'json',
             success: this._loadSuccess,
-            error: function() { }
+            error: function () {
+            }
         });
     }
 });
-

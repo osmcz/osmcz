@@ -19,7 +19,7 @@ osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
         content: "<span class='glyphicon glyphicon-fullscreen'></span>", // change the content of the button, can be HTML, default null
         forceSeparateButton: true, // force seperate button to detach from zoom buttons, default false
         forcePseudoFullscreen: false // force use of pseudo full screen even if full screen API is available, default false
-//         fullscreenElement: false // Dom element to render in full screen, false by default, fallback to map._container
+        // fullscreenElement: false // Dom element to render in full screen, false by default, fallback to map._container
     });
     controls.fullScreen.addTo(map);
 
@@ -63,9 +63,13 @@ osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
             style: style,
             pointToLayer: function (data, latlng) {
                 return L.marker(latlng,
-                        { icon : L.divIcon({ className : 'glyphicon glyphicon-asterisk gpx-marker',
-                                            iconSize : [ 10, 10 ]}),
-                        title: data.properties.name});
+                    {
+                        icon: L.divIcon({
+                            className: 'glyphicon glyphicon-asterisk gpx-marker',
+                            iconSize: [10, 10]
+                        }),
+                        title: data.properties.name
+                    });
             }
         }
     }).addTo(map);
@@ -74,10 +78,13 @@ osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
         // Add to map layer switcher
         var group = 'Lokální soubory';
         if (!controls.layers.layerExists(e.filename)) {
-            e.layer.options.basic=true;
-            e.layer.options.removeBtn=true;
+            e.layer.options.basic = true;
+            e.layer.options.removeBtn = true;
             controls.layers.addOverlay(e.layer, e.filename, group);
-            toastr.success('Soubor ' + e.filename + ' byl úspěšně načten.', '', {closeButton: true, positionClass: "toast-bottom-center"});
+            toastr.success('Soubor ' + e.filename + ' byl úspěšně načten.', '', {
+                closeButton: true,
+                positionClass: "toast-bottom-center"
+            });
 
             // Expand layer switcher to show that file was loaded
             if (controls.layers.getMode() == 'groups') {
@@ -85,13 +92,19 @@ osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {
             }
             controls.layers._expand();
         } else {
-            toastr.error('Soubor nelze načíst podruhé.', 'Chyba', {closeButton: true, positionClass: "toast-bottom-center"});
+            toastr.error('Soubor nelze načíst podruhé.', 'Chyba', {
+                closeButton: true,
+                positionClass: "toast-bottom-center"
+            });
             map.removeLayer(e.layer);
         }
     });
 
     controls.fileLayerLoad.loader.on('data:error', function (e) {
-        toastr.error('Soubor se nepodařilo načíst.<br>(<i>' + e.error.message + '</i>)', 'Chyba', {closeButton: true, positionClass: "toast-bottom-center"});
+        toastr.error('Soubor se nepodařilo načíst.<br>(<i>' + e.error.message + '</i>)', 'Chyba', {
+            closeButton: true,
+            positionClass: "toast-bottom-center"
+        });
     });
 
     // Leaflet Coordinates Control

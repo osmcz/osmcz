@@ -4,19 +4,24 @@ var querystring = {};
  * Module dependencies.
  */
 
-var trim = function (str){
+var trim = function (str) {
     if (str.trim) return str.trim();
     return str.replace(/^\s*|\s*$/g, '');
-}
+};
 
 var toString = Object.prototype.toString;
-var type = function(val){
+var type = function (val) {
     switch (toString.call(val)) {
-        case '[object Date]': return 'date';
-        case '[object RegExp]': return 'regexp';
-        case '[object Arguments]': return 'arguments';
-        case '[object Array]': return 'array';
-        case '[object Error]': return 'error';
+        case '[object Date]':
+            return 'date';
+        case '[object RegExp]':
+            return 'regexp';
+        case '[object Arguments]':
+            return 'arguments';
+        case '[object Array]':
+            return 'array';
+        case '[object Error]':
+            return 'error';
     }
 
     if (val === null) return 'null';
@@ -42,7 +47,7 @@ var pattern = /(\w+)\[(\d+)\]/
  * @api private
  */
 
-var encode = function(str) {
+var encode = function (str) {
     try {
         return encodeURIComponent(str);
     } catch (e) {
@@ -58,13 +63,13 @@ var encode = function(str) {
  * @api private
  */
 
-var decode = function(str) {
+var decode = function (str) {
     try {
         return decodeURIComponent(str.replace(/\+/g, ' '));
     } catch (e) {
         return str;
     }
-}
+};
 
 /**
  * Parse the given query `str`.
@@ -74,7 +79,7 @@ var decode = function(str) {
  * @api public
  */
 
-querystring.parse = function(str){
+querystring.parse = function (str) {
     if ('string' != typeof str) return {};
 
     str = trim(str);
@@ -110,7 +115,7 @@ querystring.parse = function(str){
  * @api public
  */
 
-querystring.stringify = function(obj){
+querystring.stringify = function (obj) {
     if (!obj) return '';
     var pairs = [];
 

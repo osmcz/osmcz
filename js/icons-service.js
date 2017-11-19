@@ -95,7 +95,7 @@ osmcz.iconsService.table = {
         police: 'police',
         cinema: 'cinema',
         parking: 'parking',
-        prison: 'prison',
+        prison: 'prison'
     },
     highway: {
         bus_stop: 'bus'
@@ -129,9 +129,9 @@ osmcz.iconsService.table = {
         wayside_cross: 'religious-christian'
     },
     religion: {
-      christian: 'religious-christian',
-      jewish: 'religious-jewish',
-      muslim: 'religious-muslim',
+        christian: 'religious-christian',
+        jewish: 'religious-jewish',
+        muslim: 'religious-muslim'
     },
     man_made: {
         surveillance: 'camera'
@@ -142,7 +142,7 @@ osmcz.iconsService.table = {
         village: 'circle-8'
     },
     information: {
-        guidepost: 'guidepost',
+        guidepost: 'guidepost'
 //         board: 'board'
     },
     sport: {
@@ -152,12 +152,12 @@ osmcz.iconsService.table = {
         soccer: 'soccer',
         tennis: 'tennis',
         basketball: 'basketball',
-        golf: 'golf',
+        golf: 'golf'
     },
     leisure: {
         playground: 'playground',
         miniature_golf: 'golf',
-        swimming_pool: 'swimming',
+        swimming_pool: 'swimming'
     },
     landuse: {
         cemetery: 'cemetery'
@@ -166,6 +166,3 @@ osmcz.iconsService.table = {
         peak: 'triangle'
     }
 };
-
-
-

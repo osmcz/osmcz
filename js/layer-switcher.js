@@ -32,25 +32,25 @@ osmcz.LayerSwitcher = L.Control.extend({
 
 
         // Restore mode from cookie - if exists
-        if ( Cookies.get("_ls_mode") ) {
+        if (Cookies.get("_ls_mode")) {
             this._mode = Cookies.get("_ls_mode");
         }
 
         // Create priority groups first to preserve given groups order
-        if (options["priorityGroups"]){
+        if (options["priorityGroups"]) {
             for (i in options["priorityGroups"]) {
                 this.addGroup(options["priorityGroups"][i]);
             }
         }
 
         for (grp in baseLayers) {
-          for (layer in baseLayers[grp])
-            this._addLayer(baseLayers[grp][layer], layer, false, grp);
+            for (layer in baseLayers[grp])
+                this._addLayer(baseLayers[grp][layer], layer, false, grp);
         }
 
         for (grp in overlays) {
-          for (layer in overlays[grp])
-            this._addLayer(overlays[grp][layer], layer, true, grp);
+            for (layer in overlays[grp])
+                this._addLayer(overlays[grp][layer], layer, true, grp);
         }
 
     },
@@ -156,21 +156,21 @@ osmcz.LayerSwitcher = L.Control.extend({
     addGroup: function (id) {
 
         if (this._groups[id]) {
-          // Group already exists, nothing to do
-          return;
+            // Group already exists, nothing to do
+            return;
         }
 
         // Create a new group
 
-        function hashCode (str){
-          var hash = 0;
-          if (str.length == 0) return hash;
-          for (i = 0; i < str.length; i++) {
-              char = str.charCodeAt(i);
-              hash = ((hash<<5)-hash)+char;
-              hash = hash & hash; // Convert to 32bit integer
-          }
-          return hash;
+        function hashCode(str) {
+            var hash = 0;
+            if (str.length == 0) return hash;
+            for (i = 0; i < str.length; i++) {
+                char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
         }
 
         var className = 'leaflet-control-layers',
@@ -189,12 +189,12 @@ osmcz.LayerSwitcher = L.Control.extend({
     },
 
     // Return current mode - basic or groups
-    getMode: function() {
+    getMode: function () {
         return this._mode;
     },
 
     // Check layers and return whether layer already exists or not.
-    layerExists: function(layerName) {
+    layerExists: function (layerName) {
         for (var layerId in this._layers) {
             if (this._layers[layerId].name == layerName) {
                 return true;
@@ -209,9 +209,9 @@ osmcz.LayerSwitcher = L.Control.extend({
         var content, glHideRight, glHideBottom;
 
         if (expanded) {
-          glHideRight = 'style="display:none"';
+            glHideRight = 'style="display:none"';
         } else {
-          glHideBottom = 'style="display:none"';
+            glHideBottom = 'style="display:none"';
         }
 
         var grpBase = document.createElement('div');
@@ -220,7 +220,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         grpBase.setAttribute("data-target", '#' + target);
         grpBase.setAttribute("onclick", "controls.layers._updateGroupCookie('" + name + "');");
 
-        content  = '<i class="glyphicon glyphicon-triangle-right  pull-left" ' + glHideRight + '></i>';
+        content = '<i class="glyphicon glyphicon-triangle-right  pull-left" ' + glHideRight + '></i>';
         content += '<i class="glyphicon glyphicon-triangle-bottom pull-left" ' + glHideBottom + '></i>';
         content += name;
         grpBase.innerHTML = content;
@@ -320,7 +320,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         // Main toolbar
         var toolbar = document.createElement('div');
         toolbar.className = "btn-toolbar inline";
-        toolbar.setAttribute ('role', 'toolbar');
+        toolbar.setAttribute('role', 'toolbar');
 
         // Collapse group
         var collapseGroup = document.createElement('div');
@@ -331,18 +331,18 @@ osmcz.LayerSwitcher = L.Control.extend({
         // Expand all button
         this._btnExpandAll = document.createElement('button');
         this._btnExpandAll.className = 'btn btn-secondary btn-default btn-xs';
-        this._btnExpandAll.setAttribute ('type', 'button');
-        this._btnExpandAll.setAttribute ('title', 'Rozbalit vše');
-        this._btnExpandAll.setAttribute ('id', 'btnExpandAll');
+        this._btnExpandAll.setAttribute('type', 'button');
+        this._btnExpandAll.setAttribute('title', 'Rozbalit vše');
+        this._btnExpandAll.setAttribute('id', 'btnExpandAll');
         this._btnExpandAll.setAttribute("onclick", "controls.layers.expandAllGroups();");
         this._btnExpandAll.innerHTML = '<i class="glyphicon glyphicon-eject flip"></i>';
 
         // Collapse all button
         this._btnCollapseAll = document.createElement('button');
         this._btnCollapseAll.className = 'btn btn-secondary  btn-default btn-xs';
-        this._btnCollapseAll.setAttribute ('type', 'button');
-        this._btnCollapseAll.setAttribute ('title', 'Sbalit vše');
-        this._btnCollapseAll.setAttribute ('id', 'btnCollapseAll');
+        this._btnCollapseAll.setAttribute('type', 'button');
+        this._btnCollapseAll.setAttribute('title', 'Sbalit vše');
+        this._btnCollapseAll.setAttribute('id', 'btnCollapseAll');
         this._btnCollapseAll.setAttribute("onclick", "controls.layers.collapseAllGroups();");
         this._btnCollapseAll.innerHTML = '<i class="glyphicon glyphicon-eject" ></i>';
 
@@ -353,10 +353,10 @@ osmcz.LayerSwitcher = L.Control.extend({
         // Settings button - dissabled for now - no content to show
         this._btnSetting = document.createElement('button');
         this._btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right hidden';
-        this._btnSetting.setAttribute ('type', 'button');
-        this._btnSetting.setAttribute ('title', 'Nastavení');
-        this._btnSetting.setAttribute ('data-toggle', 'collapse');
-        this._btnSetting.setAttribute ('data-target', '#lssetup');
+        this._btnSetting.setAttribute('type', 'button');
+        this._btnSetting.setAttribute('title', 'Nastavení');
+        this._btnSetting.setAttribute('data-toggle', 'collapse');
+        this._btnSetting.setAttribute('data-target', '#lssetup');
         this._btnSetting.innerHTML = '<i class="glyphicon glyphicon-cog" ></i>';
 
         // Mode switcher
@@ -369,15 +369,15 @@ osmcz.LayerSwitcher = L.Control.extend({
         // Basic button
         var labelBasic = document.createElement('label');
         labelBasic.className = 'btn btn-default' + (this._mode == 'basic' ? ' active' : '');
-        labelBasic.setAttribute('onclick','controls.layers._switchLayerMode("basic")');
-        labelBasic.setAttribute('title','Základní vrstvy');
+        labelBasic.setAttribute('onclick', 'controls.layers._switchLayerMode("basic")');
+        labelBasic.setAttribute('title', 'Základní vrstvy');
 
         var inputBasic = document.createElement('input');
         inputBasic.className = 'btn-block';
-        inputBasic.setAttribute('type','radio');
-        inputBasic.setAttribute('name','layerMode');
-        inputBasic.setAttribute('id','layerModeBasic');
-        inputBasic.setAttribute('autocomplete','off');
+        inputBasic.setAttribute('type', 'radio');
+        inputBasic.setAttribute('name', 'layerMode');
+        inputBasic.setAttribute('id', 'layerModeBasic');
+        inputBasic.setAttribute('autocomplete', 'off');
 
         var nameBasic = document.createElement('span');
         nameBasic.className = 'glyphicon glyphicon-list';
@@ -388,15 +388,15 @@ osmcz.LayerSwitcher = L.Control.extend({
         // Group button
         var labelGroup = document.createElement('label');
         labelGroup.className = 'btn btn-default' + (this._mode == 'groups' ? ' active' : '');
-        labelGroup.setAttribute('onclick','controls.layers._switchLayerMode("groups")');
-        labelGroup.setAttribute('title','Více vrstev ve skupinách');
+        labelGroup.setAttribute('onclick', 'controls.layers._switchLayerMode("groups")');
+        labelGroup.setAttribute('title', 'Více vrstev ve skupinách');
 
         var inputGroup = document.createElement('input');
         inputGroup.className = 'btn-block ';
-        inputGroup.setAttribute('type','radio');
-        inputGroup.setAttribute('name','layerMode');
-        inputGroup.setAttribute('id','layerModeGroup');
-        inputGroup.setAttribute('autocomplete','off');
+        inputGroup.setAttribute('type', 'radio');
+        inputGroup.setAttribute('name', 'layerMode');
+        inputGroup.setAttribute('id', 'layerModeGroup');
+        inputGroup.setAttribute('autocomplete', 'off');
 
         var nameGroup = document.createElement('span');
         nameGroup.className = 'glyphicon glyphicon-calendar';
@@ -423,7 +423,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         // Create layout for basic mode
         var basicModeContainer = document.createElement('div');
         basicModeContainer.className = "clearfix";
-        basicModeContainer.setAttribute ('id', 'basicModeContainer');
+        basicModeContainer.setAttribute('id', 'basicModeContainer');
 
         this._baseLayersList = L.DomUtil.create('div', className + '-base', basicModeContainer);
         this._baseSeparator = L.DomUtil.create('div', className + '-separator', basicModeContainer);
@@ -434,7 +434,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         // Create layout for extended (group) mode
         var groupsModeContainer = document.createElement('div');
         groupsModeContainer.className = "clearfix";
-        groupsModeContainer.setAttribute ('id', 'groupsModeContainer');
+        groupsModeContainer.setAttribute('id', 'groupsModeContainer');
 
         for (var id in this._groups) {
             groupsModeContainer.appendChild(this._groupsHeaders[id]);
@@ -540,7 +540,9 @@ osmcz.LayerSwitcher = L.Control.extend({
     _onLayerChange: function (e) {
         var obj = this._layers[this._layersIdMap[L.stamp(e.layer)]];
 
-        if (!obj) { return; }
+        if (!obj) {
+            return;
+        }
 
         if (!this._handlingClick) {
             this._update();
@@ -572,7 +574,7 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     _addItem: function (obj) {
 
-        if (!obj.group ) {
+        if (!obj.group) {
             // requested group does not exists
             return;
         }
@@ -590,14 +592,14 @@ osmcz.LayerSwitcher = L.Control.extend({
         var name = document.createElement('span');
         var innerContent = [];
         if (obj.layer.options.removeBtn) {
-            innerContent.push('<span class="ellipsis removable" title="' + obj.name  + '">&nbsp;' + obj.name + '</span>');
+            innerContent.push('<span class="ellipsis removable" title="' + obj.name + '">&nbsp;' + obj.name + '</span>');
             innerContent.push('<a href="#" class="btn pull-right" title="Odebrat vrstvu"');
             innerContent.push('onclick="controls.layers.removeLayerByName(\'' + obj.name + '\');"');
             innerContent.push('>');
             innerContent.push('<span class="glyphicon glyphicon-trash text-danger" alt="X"></span></a>');
             innerContent.push('<div class="clearfix"></div>');
         } else {
-            innerContent.push('<span class="ellipsis" title="' + obj.name  + '">&nbsp;' + obj.name + '</span>');
+            innerContent.push('<span class="ellipsis" title="' + obj.name + '">&nbsp;' + obj.name + '</span>');
         }
 
         name.innerHTML = innerContent.join('');
@@ -612,7 +614,7 @@ osmcz.LayerSwitcher = L.Control.extend({
             input = this._createRadioElement('leaflet-base-layers', checked);
         }
 
-        input.setAttribute('id','lftid-' + L.stamp(obj.layer));
+        input.setAttribute('id', 'lftid-' + L.stamp(obj.layer));
         input.layerId = this._layersIdMap[L.stamp(obj.layer)];
 
         L.DomEvent.on(input, 'click', this._onInputClick, this);
@@ -621,7 +623,7 @@ osmcz.LayerSwitcher = L.Control.extend({
         label.appendChild(input);
         label.appendChild(name);
 
-        if ( this._mode == 'basic' ) {
+        if (this._mode == 'basic') {
             if (obj.layer.options.basic) {
                 var container = obj.overlay ? this._overlaysList : this._baseLayersList;
 
@@ -636,7 +638,6 @@ osmcz.LayerSwitcher = L.Control.extend({
                 container.appendChild(label);
             }
         }
-
 
 
         return label;
@@ -678,8 +679,8 @@ osmcz.LayerSwitcher = L.Control.extend({
     },
 
     _expand: function () {
-    this._panelContainer.show();
-    $(this._container).hide();
+        this._panelContainer.show();
+        $(this._container).hide();
 
         //L.DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
     },
@@ -713,26 +714,26 @@ osmcz.LayerSwitcher = L.Control.extend({
     // Update cookie containig list of expanded groups so they can be restored next time
     _updateGroupCookie: function (group) {
 
-            if (this._groups[group]) {
-                if (this._groupsHeaders[group].getAttribute('aria-expanded') == null ||
-                    this._groupsHeaders[group].getAttribute('aria-expanded') == "false") {
-                    var expandCookie = Cookies.get("_ls_expanded_groups") == null ? group : Cookies.get("_ls_expanded_groups") + '|' + group;
-                    Cookies.set("_ls_expanded_groups", expandCookie, {expires: 90});
+        if (this._groups[group]) {
+            if (this._groupsHeaders[group].getAttribute('aria-expanded') == null ||
+                this._groupsHeaders[group].getAttribute('aria-expanded') == "false") {
+                var expandCookie = Cookies.get("_ls_expanded_groups") == null ? group : Cookies.get("_ls_expanded_groups") + '|' + group;
+                Cookies.set("_ls_expanded_groups", expandCookie, {expires: 90});
+            } else {
+                if (Cookies.get("_ls_expanded_groups") == null) {
+                    return;
                 } else {
-                    if (Cookies.get("_ls_expanded_groups") == null) {
-                        return;
-                    } else {
-                        var cc = Cookies.get("_ls_expanded_groups").split("|");
-                        var expandCookie = [];
-                        for (i in cc) {
-                            if (cc[i] != group) {
-                                expandCookie.push(cc[i]);
-                            }
+                    var cc = Cookies.get("_ls_expanded_groups").split("|");
+                    var expandCookie = [];
+                    for (i in cc) {
+                        if (cc[i] != group) {
+                            expandCookie.push(cc[i]);
                         }
-                        Cookies.set("_ls_expanded_groups", expandCookie.join("|"), {expires: 90});
                     }
+                    Cookies.set("_ls_expanded_groups", expandCookie.join("|"), {expires: 90});
                 }
             }
+        }
     },
 
     _switchLayerMode: function (mode) {

@@ -20,7 +20,10 @@ L.TileLayer.Ajax = L.TileLayer.extend({
             }
             var s = req.status;
             if ((s >= 200 && s < 300) || s === 304) {
-                tile.datum = req.responseText && JSON.parse(req.responseText) || {type: "FeatureCollection", features: []};
+                tile.datum = req.responseText && JSON.parse(req.responseText) || {
+                    type: "FeatureCollection",
+                    features: []
+                };
                 layer._tileReady(tilePoint, null, tile);
             } else {
                 layer._tileReady(tilePoint, s, tile);
@@ -45,8 +48,12 @@ L.TileLayer.Ajax = L.TileLayer.extend({
         this._requests = [];
     },
     _update: function () {
-        if (this._map && this._map._panTransition && this._map._panTransition._inProgress) { return; }
-        if (this._tilesToLoad < 0) { this._tilesToLoad = 0; }
+        if (this._map && this._map._panTransition && this._map._panTransition._inProgress) {
+            return;
+        }
+        if (this._tilesToLoad < 0) {
+            this._tilesToLoad = 0;
+        }
         L.TileLayer.prototype._update.apply(this, arguments);
     }
 });
@@ -81,7 +88,7 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
     },
 
     // Remove clip path elements from other earlier zoom levels
-    _removeOldClipPaths: function  () {
+    _removeOldClipPaths: function () {
         for (var clipPathId in this._clipPathRectangles) {
             var clipPathZXY = clipPathId.split('_').slice(1);
             var zoom = parseInt(clipPathZXY[0], 10);
@@ -110,8 +117,12 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
 
     _clipLayerToTileBoundary: function (layer, tilePoint) {
         // Only perform SVG clipping if the browser is using SVG
-        if (!L.Path.SVG) { return; }
-        if (!this._map) { return; }
+        if (!L.Path.SVG) {
+            return;
+        }
+        if (!this._map) {
+            return;
+        }
 
         if (!this._map._pathRoot) {
             this._map._pathRoot = L.Path.prototype._createElement('svg');
@@ -138,10 +149,10 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
 
             // Create a hidden L.Rectangle to represent the tile's area
             var tileSize = this.options.tileSize,
-            nwPoint = tilePoint.multiplyBy(tileSize),
-            sePoint = nwPoint.add([tileSize, tileSize]),
-            nw = this._map.unproject(nwPoint),
-            se = this._map.unproject(sePoint);
+                nwPoint = tilePoint.multiplyBy(tileSize),
+                sePoint = nwPoint.add([tileSize, tileSize]),
+                nw = this._map.unproject(nwPoint),
+                se = this._map.unproject(sePoint);
             this._clipPathRectangles[clipPathId] = new L.Rectangle(new L.LatLngBounds([nw, se]), {
                 opacity: 0,
                 fillOpacity: 0,
@@ -187,7 +198,9 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
 
         var options = this.geojsonLayer.options;
 
-        if (options.filter && !options.filter(geojson)) { return; }
+        if (options.filter && !options.filter(geojson)) {
+            return;
+        }
 
         var parentLayer = this.geojsonLayer;
         var incomingLayer = null;
@@ -254,7 +267,9 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
 
     _tileReady: function (tilePoint, err, tile) {
         L.TileLayer.Ajax.prototype._tileReady.apply(this, arguments);
-        if (tile.datum === null) { return null; }
+        if (tile.datum === null) {
+            return null;
+        }
         this.addTileData(tile.datum, tilePoint);
     }
 });
