@@ -8,7 +8,7 @@ OSM = {
 //<% end %>
 //MAX_REQUEST_AREA:      <%= MAX_REQUEST_AREA.to_json %>,
 //SERVER_URL:            <%= SERVER_URL.to_json %>,
-    API_VERSION:           0.6,
+    API_VERSION: 0.6,
 //STATUS:                <%= STATUS.to_json %>,
 //MAX_NOTE_REQUEST_AREA: <%= MAX_NOTE_REQUEST_AREA.to_json %>,
 //OVERPASS_URL:          <%= OVERPASS_URL.to_json %>,
@@ -70,7 +70,7 @@ OSM = {
             mapParams.marker = true;
             mapParams.mlon = parseFloat(params.mlon);
             mapParams.mlat = parseFloat(params.mlat);
-            mapParams.mmsg  = params.mmsg;
+            mapParams.mmsg = params.mmsg;
         }
 
         // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
@@ -217,9 +217,9 @@ OSM = {
             lngdiff = lng2 - lng1;
 
         return 6372795 * 2 * Math.asin(
-                Math.sqrt(
-                    Math.pow(Math.sin(latdiff / 2), 2) +
-                    Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
-                ));
+            Math.sqrt(
+                Math.pow(Math.sin(latdiff / 2), 2) +
+                Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
+            ));
     }
 };

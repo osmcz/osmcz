@@ -29,30 +29,29 @@ and
 
 var osmcz = osmcz || {};
 
-osmcz.note = function() {
+osmcz.note = function () {
 
-    osmcz.note.prototype.note_api = function(lat, lon, text)
-    {
+    osmcz.note.prototype.note_api = function (lat, lon, text) {
         var jqxhr = $.ajax({
-                url: "https://api.openstreetmap.cz/table/notify",
-                type: "post",
-                data: {
-                    lat: lat,
-                    lon: lon,
-                    text: text
-                },
+            url: "https://api.openstreetmap.cz/table/notify",
+            type: "post",
+            data: {
+                lat: lat,
+                lon: lon,
+                text: text
+            },
+        })
+            .done(function (data) {
             })
-            .done(function(data) {
-            })
-            .fail(function() {
+            .fail(function () {
                 alert("error");
             })
-            .always(function() {});
+            .always(function () {
+            });
+    };
+
+    osmcz.note.prototype.note_osm = function (lat, lon, text) {
+        //osm notes nothing here yet
     }
 
-    osmcz.note.prototype.note_osm = function(lat, lon, text)
-    {
-      //osm notes nothing here yet
-    }
-
-}
+};

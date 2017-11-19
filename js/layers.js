@@ -136,7 +136,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     // automatically add/remove orotofotoOverlay
     map.on('baselayerchange', function (event) {
         if (event.layer == ortofoto || event.layer == vodovky) {
-            setTimeout(function(){  // needs timeout or doesnt work
+            setTimeout(function () {  // needs timeout or doesn't work
                 if (!map.hasLayer(ortofotoOverlay)) {
                     map.addLayer(ortofotoOverlay);
                 }
@@ -152,17 +152,17 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
                 katastralniMapaOverlay.redraw();
             }, 300);
         } else {
-              setTimeout(function(){  // needs timeout or doesnt work
-                    if (map.hasLayer(ortofotoOverlay)) {
-                      map.removeLayer(ortofotoOverlay);
-                    }
-                    vrstevniceOverlay.setUrl(vrstevniceOverlayUrl);
-                    vrstevniceOverlay.redraw();
+            setTimeout(function () {  // needs timeout or doesn't work
+                if (map.hasLayer(ortofotoOverlay)) {
+                    map.removeLayer(ortofotoOverlay);
+                }
+                vrstevniceOverlay.setUrl(vrstevniceOverlayUrl);
+                vrstevniceOverlay.redraw();
 
-                    katastralniMapaOverlay.setParams({layers: katastralniMapaOverlayLayers}, true);
-                    katastralniMapaOverlay.redraw();
-                }, 300);
-            }
+                katastralniMapaOverlay.setParams({layers: katastralniMapaOverlayLayers}, true);
+                katastralniMapaOverlay.redraw();
+            }, 300);
+        }
     });
 
 
@@ -246,12 +246,42 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     var ruianAttr = '&copy; <a href="http://www.cuzk.cz">ČÚZK</a> (<a href="https://www.poloha.net">poloha.net</a>)';
 
-    var ruianParcelyOverlay = L.tileLayer(parcelyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '1'}),
-        ruianUliceOverlay = L.tileLayer(uliceUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '2'}),
-        ruianBudovyOverlay = L.tileLayer(budovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '3'}),
-        ruianBudovyTodoOverlay = L.tileLayer(todobudovyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '4'}),
-        ruianLanduseOverlay = L.tileLayer(landuseUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '5'}),
-        ruianAdresyOverlay = L.tileLayer(adresyUrl, {minZoom: 12, maxZoom: 20, attribution: ruianAttr, code: '6'});
+    var ruianParcelyOverlay = L.tileLayer(parcelyUrl, {
+            minZoom: 12,
+            maxZoom: 20,
+            attribution: ruianAttr,
+            code: '1'
+        }),
+        ruianUliceOverlay = L.tileLayer(uliceUrl, {
+            minZoom: 12,
+            maxZoom: 20,
+            attribution: ruianAttr,
+            code: '2'
+        }),
+        ruianBudovyOverlay = L.tileLayer(budovyUrl, {
+            minZoom: 12,
+            maxZoom: 20,
+            attribution: ruianAttr,
+            code: '3'
+        }),
+        ruianBudovyTodoOverlay = L.tileLayer(todobudovyUrl, {
+            minZoom: 12,
+            maxZoom: 20,
+            attribution: ruianAttr,
+            code: '4'
+        }),
+        ruianLanduseOverlay = L.tileLayer(landuseUrl, {
+            minZoom: 12,
+            maxZoom: 20,
+            attribution: ruianAttr,
+            code: '5'
+        }),
+        ruianAdresyOverlay = L.tileLayer(adresyUrl, {
+            minZoom: 12,
+            maxZoom: 20,
+            attribution: ruianAttr,
+            code: '6'
+        });
 
     var powerOverlay = L.tileLayer('https://tiles-{s}.openinframap.org/power/{z}/{x}/{y}.png', {
         attribution: osmAttr + ', <a href="https://OpenInfraMap.org/about.html">OpenInfraMap.org</a>',
@@ -284,7 +314,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     overlays["Informace"] = {};
     overlays["Informace"]["Aktivní vrstva"] = new osmcz.activeLayer(map);
     overlays["Informace"]["OSM poznámky"] = new osmcz.osmNotesLayer();
-
 
 
     // Hiking group

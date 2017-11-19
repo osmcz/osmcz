@@ -17,16 +17,26 @@ function initmap() {
     map = new L.Map('map', {zoomControl: false, condensedAttributionControl: false});
 
     L.control.condensedAttribution({
-                emblem: '<div class="emblem-wrap glyphicon glyphicon-info-sign"></div>',
-                prefix: "<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION
-              }).addTo(map);
+        emblem: '<div class="emblem-wrap glyphicon glyphicon-info-sign"></div>',
+        prefix: "<a href='https://github.com/osmcz/osmcz' title='Projekt na Githubu'><img src='https://github.com/favicon.ico' width='10' style='margin-right:1ex'>osmcz-app</a> " + OSMCZ_APP_VERSION
+    }).addTo(map);
 
     // -------------------- Sidebars --------------------
-    osmcz.sidebar = sidebar = L.control.sidebar('sidebar', { position: 'left', autoPan: false }).addTo(map);
+    osmcz.sidebar = sidebar = L.control.sidebar('sidebar', {
+        position: 'left',
+        autoPan: false
+    }).addTo(map);
 
-    osmcz.poiSidebar = poiSidebar = L.control.sidebar('poi-sidebar', { position: 'left', autoPan: false }).addTo(map);
+    osmcz.poiSidebar = poiSidebar = L.control.sidebar('poi-sidebar', {
+        position: 'left',
+        autoPan: false
+    }).addTo(map);
 
-    osmcz.layersSidebar = layersSidebar = L.control.sidebar('map-layers', { position: 'right', closeButton: true, autoPan: false }).addTo(map);
+    osmcz.layersSidebar = layersSidebar = L.control.sidebar('map-layers', {
+        position: 'right',
+        closeButton: true,
+        autoPan: false
+    }).addTo(map);
 
 
     // -------------------- map layers --------------------
@@ -76,7 +86,9 @@ function initmap() {
         var popup = [];
         popup.push("<div class='locationMarkerPopup'>");
         popup.push("<h1>Odkaz na místo</h1>");
-        if (params.mmsg) {popup.push("<p>" + params.mmsg + "</p>");}
+        if (params.mmsg) {
+            popup.push("<p>" + params.mmsg + "</p>");
+        }
         popup.push("</div>");
 
 
@@ -155,8 +167,13 @@ function initmap() {
 
     // hide splash on map-click or map-move or layers-shown
     map.on('click movestart', closeSplash);
-    osmcz.layersSidebar.on('show', function(){ container.toggleClass("layersSidebar-shown", true); closeSplash(); });
-    osmcz.layersSidebar.on('hide', function(){ container.toggleClass("layersSidebar-shown", false); });
+    osmcz.layersSidebar.on('show', function () {
+        container.toggleClass("layersSidebar-shown", true);
+        closeSplash();
+    });
+    osmcz.layersSidebar.on('hide', function () {
+        container.toggleClass("layersSidebar-shown", false);
+    });
 
     map.scrollWheelZoom.disable(); // text-content splash is opened by default = disable scroll-zoom
 
@@ -200,14 +217,14 @@ function updateLayersFromCode(codedString) {
 
     var group, layer;
 
-    for (group in baseLayers){
-        for(layer in baseLayers[group]) {
+    for (group in baseLayers) {
+        for (layer in baseLayers[group]) {
             setLayer(layer, baseLayers[group][layer]);
         }
     }
 
-    for (group in overlays){
-        for(layer in overlays[group]) {
+    for (group in overlays) {
+        for (layer in overlays[group]) {
             setLayer(layer, overlays[group][layer]);
         }
     }

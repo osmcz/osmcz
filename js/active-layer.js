@@ -9,7 +9,7 @@ osmcz.activeLayer = function (map) {
 
     var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
             maxZoom: 25,
-            code: 'A' ,  //clipTiles, unique
+            code: 'A',  // clipTiles, unique
             basic: true
         }, {
             style: {
@@ -62,7 +62,7 @@ osmcz.activeLayer = function (map) {
         }
     );
 
-    //reset panel
+    // reset panel
     function resetPanel() {
         console.log('active-layer: reset-panel');
 

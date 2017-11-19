@@ -4,54 +4,54 @@
 
 L.Control.PhotoDBGui = L.Control.extend({
 
-  options: {
-    anchor: [ 250, 250 ],
-    position: 'topright',
-  },
+    options: {
+        anchor: [250, 250],
+        position: 'topright',
+    },
 
-  initialize: function (options) {
-      L.setOptions(this, options);
-  },
+    initialize: function (options) {
+        L.setOptions(this, options);
+    },
 
-  onAdd: function (map) {
-    this._createButton();
-    this._map = map;
-    this._precision = 5;
-    this.positionMarkerVisible = false;
+    onAdd: function (map) {
+        this._createButton();
+        this._map = map;
+        this._precision = 5;
+        this.positionMarkerVisible = false;
 
 
-    return this._container;
-  },
+        return this._container;
+    },
 
-  destroy: function(){
-    if(!this._map) {
+    destroy: function () {
+        if (!this._map) {
+            return this;
+        }
+
+        this.removeFrom(this._map);
+
+        if (this.onRemove) {
+            this.onRemove(this._map);
+        }
         return this;
-    }
+    },
 
-    this.removeFrom(this._map);
+    getElement: function () {
+        return this._container;
+    },
 
-    if (this.onRemove) {
-        this.onRemove(this._map);
-    }
-    return this;
-  },
+    _createButton: function () {
+        var className = 'leaflet-control-photoDBbtn',
+            container = this._container = L.DomUtil.create('div', className);
 
-  getElement: function(){
-    return this._container;
-  },
+        var content = [];
+        content.push('<a href="#" class="leaflet-control-photoDBbtn-text"></a>');
+        container.innerHTML = content.join(" ");
 
-  _createButton: function(){
-    var className = 'leaflet-control-photoDBbtn',
-      container = this._container = L.DomUtil.create('div', className);
+        L.DomEvent.on(container, 'click', this._openSidebar, this);
+    },
 
-    var content = [];
-    content.push('<a href="#" class="leaflet-control-photoDBbtn-text"></a>');
-    container.innerHTML=content.join(" ");
-
-    L.DomEvent.on(container, 'click', this._openSidebar, this);
-  },
-
-    _openSidebar: function(e) {
+    _openSidebar: function (e) {
 
         e.stopPropagation();
 
@@ -65,7 +65,7 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         // from http://stackoverflow.com/a/39065147
         // Image upload html template
-        const formTemplate = ({ maxSize }) => `
+        const formTemplate = ({maxSize}) => `
         <h4>Nahrání fotografie</h4>
         <p class='mark text-center'>Vyberte fotografii, doplňte údaje a stiskněte tlačítko [Nahrát fotografii]
 
@@ -158,7 +158,7 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         // Add template to sidebar
         $('#sidebar-content').html([
-            { maxSize: '10000000' }
+            {maxSize: '10000000'}
         ].map(formTemplate));
 
         // Get elements containers
@@ -169,7 +169,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         var author = document.getElementById("author");
         var phototype = document.getElementById("phototype");
         var resetBtn = document.getElementById("resetBtn");
-        var submitBtn =document.getElementById("submitBtn");
+        var submitBtn = document.getElementById("submitBtn");
 
         // Bind events to elements
         L.DomEvent.on(imgSelBtn, 'click', this._selectImageClicked, this);
@@ -195,7 +195,7 @@ L.Control.PhotoDBGui = L.Control.extend({
                 </div>
             </div>
         </div>
-        `
+        `;
         // Add template to modal element
         $('#modal-container').html([{}].map(modalTemplate));
 
@@ -205,7 +205,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             $('#modalImg').on('load', function () {
                 setTimeout(function () {
                     // TODO: tune for small screens
-                    $('#myModal').css('margin-left', ($(window).width() - $('#myModal .modal-content').width())/2);
+                    $('#myModal').css('margin-left', ($(window).width() - $('#myModal .modal-content').width()) / 2);
                 }, 10);
             });
 
@@ -215,25 +215,29 @@ L.Control.PhotoDBGui = L.Control.extend({
         this._getLicenses();
 
         // Create position marker
-        this.positionMarker = L.marker([0, 0], {clickable: false, draggable: true, title: 'Vybrané souřadnice'});
+        this.positionMarker = L.marker([0, 0], {
+            clickable: false,
+            draggable: true,
+            title: 'Vybrané souřadnice'
+        });
 
         // Bind events to marker
         this.positionMarker
-        .on('dragstart', function(event){
-            $('#photoDB-upload-form #sourceManual').click();
-        }, this)
-        .on('drag', function(event){
-            var marker = event.target;
-            var position = marker.getLatLng();
+            .on('dragstart', function (event) {
+                $('#photoDB-upload-form #sourceManual').click();
+            }, this)
+            .on('drag', function (event) {
+                var marker = event.target;
+                var position = marker.getLatLng();
 
-            this._updateLatLonLabel(position.lat, position.lng);
-        }, this)
-        .on('dragend', function(event){
-            var marker = event.target;
-            var position = marker.getLatLng();
+                this._updateLatLonLabel(position.lat, position.lng);
+            }, this)
+            .on('dragend', function (event) {
+                var marker = event.target;
+                var position = marker.getLatLng();
 
-            this._updateLatLonLabel(position.lat, position.lng);
-        }, this);
+                this._updateLatLonLabel(position.lat, position.lng);
+            }, this);
 
         // Reset form to default state
         this._resetForm();
@@ -242,12 +246,12 @@ L.Control.PhotoDBGui = L.Control.extend({
         osmcz.sidebar.show();
     },
 
-    _closeSidebar: function(e) {
+    _closeSidebar: function (e) {
         this._hideMarker();
         sidebar.off('hidden', this._closeSidebar);
     },
 
-    _sidebarInit: function() {
+    _sidebarInit: function () {
         var hc = "";
 
         hc += "<div class='sidebar-inner'>";
@@ -260,12 +264,12 @@ L.Control.PhotoDBGui = L.Control.extend({
     },
 
     // Form - select image clicked
-    _selectImageClicked: function(e) {
+    _selectImageClicked: function (e) {
         $('#photoDB-upload-form #photoDB-file').click();
     },
 
     // Form - Exif button clicked
-    _sourceExifClicked: function(e) {
+    _sourceExifClicked: function (e) {
         if ($('#photoDB-upload-form #sourceExif').hasClass('disabled')) {
             return;
         }
@@ -275,7 +279,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         this._moveMarker(lat, lon, true);
     },
 
-    _phototypeChanged: function(e) {
+    _phototypeChanged: function (e) {
         if (e.target.value == "gp") {
             $('#photoDB-upload-form #guidepostOptions').show('1');
         } else {
@@ -284,16 +288,16 @@ L.Control.PhotoDBGui = L.Control.extend({
     },
 
     // Check author field, show alert when missing
-    _authorChanged: function(e) {
+    _authorChanged: function (e) {
         var author = $('#photoDB-upload-form #author');
-        author.prop("title","");
+        author.prop("title", "");
         author.removeClass("inputError");
         this._authorError = false;
 
         if (!author.val()) {
-          author.prop("title","Povinné pole!");
-          author.addClass("inputError");
-          this._authorError = true;
+            author.prop("title", "Povinné pole!");
+            author.addClass("inputError");
+            this._authorError = true;
         } else {
             if (author.val() != Cookies.get("_photoDB_author")) {
                 Cookies.set("_photoDB_author", author.val(), {expires: 90});
@@ -303,11 +307,11 @@ L.Control.PhotoDBGui = L.Control.extend({
         this._updateSubmitBtnStatus();
     },
 
-    _previewFile: function(e) {
+    _previewFile: function (e) {
         var preview = $('#photoDB-upload-form #photoDB-preview'); //selects the query named img
-        var file    = $('#photoDB-upload-form #photoDB-file').prop("files")[0]; //sames as here
+        var file = $('#photoDB-upload-form #photoDB-file').prop("files")[0]; //sames as here
         var message = $('#photoDB-upload-form #photoDB-img-message');
-        var reader  = new FileReader();
+        var reader = new FileReader();
         var imageType = /image.*/;
 
         // Reset upload button icon
@@ -337,35 +341,35 @@ L.Control.PhotoDBGui = L.Control.extend({
                     message.show();
                 }
             } else {
-                preview.attr("src","");
+                preview.attr("src", "");
                 preview.attr("style", "display:none");
                 message.html('<span class="glyphicon glyphicon-alert text-danger"></span> Povinné pole!');
                 message.show();
             }
         } else {
-                this._hideMarker();
-                this._updateLatLonLabel(0, 0);
-                $('#photoDB-upload-form #latlonFs').hide();
-                $('#photoDB-upload-form #otherData').hide();
-                preview.attr("src","");
-                preview.attr("style", "display:none");
-                message.html('<span class="glyphicon glyphicon-alert text-danger"></span> Nepodporovaný typ souboru!');
-                message.show();
+            this._hideMarker();
+            this._updateLatLonLabel(0, 0);
+            $('#photoDB-upload-form #latlonFs').hide();
+            $('#photoDB-upload-form #otherData').hide();
+            preview.attr("src", "");
+            preview.attr("style", "display:none");
+            message.html('<span class="glyphicon glyphicon-alert text-danger"></span> Nepodporovaný typ souboru!');
+            message.show();
         }
 
         this._updateSubmitBtnStatus()
 
     },
 
-    _updateSubmitBtnStatus: function() {
-        var file =  $('#photoDB-upload-form #photoDB-file').prop("files")[0];
+    _updateSubmitBtnStatus: function () {
+        var file = $('#photoDB-upload-form #photoDB-file').prop("files")[0];
         var imgMsg = $('#photoDB-upload-form #photoDB-img-message');
         var submitBtn = $('#photoDB-upload-form #submitBtn');
 
         if (file && imgMsg.contents().length == 0 &&
             !this._authorError &&
             !this._latlonError
-           ) {
+        ) {
             submitBtn.prop('disabled', false);
         } else {
             submitBtn.prop('disabled', true);
@@ -373,14 +377,14 @@ L.Control.PhotoDBGui = L.Control.extend({
     },
 
     // Read exif data of image
-    _readExif: function(e){
+    _readExif: function (e) {
         var preview = $('#photoDB-upload-form #photoDB-preview'); //selects the query named img
         var btnSourceExif = $('#photoDB-upload-form #sourceExif');
         var btnSourceManual = $('#photoDB-upload-form #sourceManual');
         var message = $('#photoDB-latlon-message');
 
-        var pLat =  $('#photoDB-upload-form #lat');
-        var pLon =  $('#photoDB-upload-form #lon');
+        var pLat = $('#photoDB-upload-form #lat');
+        var pLon = $('#photoDB-upload-form #lon');
 
         $('#photoDB-upload-form #sourceManual').button('toggle')
 
@@ -400,8 +404,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         btnSourceManual.button('toggle');
 
 
-
-        function base64ToArrayBuffer (base64) {
+        function base64ToArrayBuffer(base64) {
             base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
             var binaryString = window.atob(base64);
             var len = binaryString.length;
@@ -435,9 +438,9 @@ L.Control.PhotoDBGui = L.Control.extend({
         var eLonRef = exif.GPSLongitudeRef;
         var eLon = exif.GPSLongitude;
 
-        if (eLatRef != null && eLat!= null && eLonRef != null && eLon!= null) {
-            var lat=DMSToDD(eLat[0], eLat[1], eLat[2], eLatRef, this._precision); // how to get value of options.precision?
-            var lon=DMSToDD(eLon[0], eLon[1], eLon[2], eLonRef, this._precision);
+        if (eLatRef != null && eLat != null && eLonRef != null && eLon != null) {
+            var lat = DMSToDD(eLat[0], eLat[1], eLat[2], eLatRef, this._precision); // how to get value of options.precision?
+            var lon = DMSToDD(eLon[0], eLon[1], eLon[2], eLonRef, this._precision);
             this._updateLatLonLabel(lat, lon);
             this._showMarker(lat, lon, true);
 
@@ -458,8 +461,8 @@ L.Control.PhotoDBGui = L.Control.extend({
     },
 
 
-    _mapClicked: function(e){
-        if (! this.positionMarkerVisible) {
+    _mapClicked: function (e) {
+        if (!this.positionMarkerVisible) {
             this._showMarker(e.latlng.lat, e.latlng.lng, false);
             this._updateLatLonLabel(e.latlng.lat, e.latlng.lng);
 
@@ -467,7 +470,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             message.html("Pozici upravíte posunutím značky nebo kliknutím do mapy.");
             message.show();
         } else {
-            if ( $('#photoDB-upload-form #sourceExif').hasClass('active')) {
+            if ($('#photoDB-upload-form #sourceExif').hasClass('active')) {
                 $('#photoDB-upload-form #sourceManual').click();
             }
             this._moveMarker(e.latlng.lat, e.latlng.lng, false);
@@ -511,18 +514,18 @@ L.Control.PhotoDBGui = L.Control.extend({
         this.positionMarkerVisible = false;
     },
 
-    _updateLatLonLabel: function(lat, lon) {
+    _updateLatLonLabel: function (lat, lon) {
         var elatlon = $('#photoDB-upload-form #latlon');
 
         this._latlonError = true;
 
-        if (!lat || lat == 0 || !lon ||lon == 0 ) {
+        if (!lat || lat == 0 || !lon || lon == 0) {
             elatlon.val('');
-            elatlon.prop("title","Lat, Lon (Povinné pole!)");
+            elatlon.prop("title", "Lat, Lon (Povinné pole!)");
             elatlon.addClass("inputError");
         } else {
-            elatlon.val((lat*1).toFixed(this._precision) + ', ' + (lon*1).toFixed(this._precision));
-            elatlon.prop("title","Lat, Lon");
+            elatlon.val((lat * 1).toFixed(this._precision) + ', ' + (lon * 1).toFixed(this._precision));
+            elatlon.prop("title", "Lat, Lon");
             elatlon.removeClass("inputError");
             this._latlonError = false;
         }
@@ -531,9 +534,9 @@ L.Control.PhotoDBGui = L.Control.extend({
     },
 
     // Get licenses list from api
-    _getLicenses: function() {
+    _getLicenses: function () {
         var license = $('#photoDB-upload-form #license option:selected').text();
-        if (license == "" ) {
+        if (license == "") {
             // Get list of licenses
             $.ajax({
                 url: 'https://api.openstreetmap.cz/table/licenseinfo?output=json',
@@ -543,13 +546,13 @@ L.Control.PhotoDBGui = L.Control.extend({
                         // TODO: sort licences, add more info
                         var lcSel = $('#photoDB-upload-form #license');
                         var jsonObj = JSON.parse(data);
-                        Object.keys(jsonObj.licenses).forEach(function(k) {
+                        Object.keys(jsonObj.licenses).forEach(function (k) {
                             lcSel.append($('<option>', {
-                                    value: k,
-                                    text : jsonObj.licenses[k],
-                                    title: jsonObj.licenses[k]
-                                }));
-                            });
+                                value: k,
+                                text: jsonObj.licenses[k],
+                                title: jsonObj.licenses[k]
+                            }));
+                        });
 
                         if (Cookies.get("_photoDB_license") != null)
                             lcSel.val(Cookies.get("_photoDB_license")).change();
@@ -560,7 +563,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         }
     },
 
-    _resetForm: function(e) {
+    _resetForm: function (e) {
         this._hideMarker();
 
         // Image
@@ -573,7 +576,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         preview.attr("src", "");
 
         // Reset LatLonLabel
-        this._updateLatLonLabel(0,0);
+        this._updateLatLonLabel(0, 0);
         var message = $('#photoDB-upload-form #photoDB-img-message');
         message.html("");
         message.hide();
@@ -583,20 +586,20 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         // read author and license from cookies
         if (Cookies.get("_photoDB_author") != null)
-          $("#photoDB-upload-form #author").val(Cookies.get("_photoDB_author"));
+            $("#photoDB-upload-form #author").val(Cookies.get("_photoDB_author"));
 
         this._authorChanged();
 
         // Restore license from cookies
         if (Cookies.get("_photoDB_license") != null)
-          $("#photoDB-upload-form #license").val(Cookies.get("_photoDB_license")).change();
+            $("#photoDB-upload-form #license").val(Cookies.get("_photoDB_license")).change();
 
         // Switch back to type guidepost
         $("#photoDB-upload-form #phototype").val('gp').change();
 
         // Reset guidepostContent buttons
-        $.each($("input[name='gp_content[]']:checked"), function(){
-                $(this).click();
+        $.each($("input[name='gp_content[]']:checked"), function () {
+            $(this).click();
         });
 
         // Show guidepost options block
@@ -618,7 +621,7 @@ L.Control.PhotoDBGui = L.Control.extend({
 
     },
 
-    _submitForm: function(e) {
+    _submitForm: function (e) {
 
         // Do not call original submit action
         e.stopPropagation();
@@ -641,10 +644,10 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         //Check selected license and update cookie if needed
         if (Cookies.get("_photoDB_license") == null ||
-             (Cookies.get("_photoDB_license") != null &&
-              license != Cookies.get("_photoDB_license")
-             )) {
-                Cookies.set("_photoDB_license", license, {expires: 90});
+            (Cookies.get("_photoDB_license") != null &&
+                license != Cookies.get("_photoDB_license")
+            )) {
+            Cookies.set("_photoDB_license", license, {expires: 90});
         }
 
 
@@ -657,7 +660,7 @@ L.Control.PhotoDBGui = L.Control.extend({
 
 
         $.ajax({
-//            url: 'http://localhost/api/upload/guidepost.php',
+            // url: 'http://localhost/api/upload/guidepost.php',
             url: 'https://api.openstreetmap.cz/guidepost.php',
             type: 'POST',
             data: formData,
@@ -665,8 +668,8 @@ L.Control.PhotoDBGui = L.Control.extend({
             success: function (data) {
 
                 function translateErrorMessage(msg) {
-                    if (msg.indexOf('file already exists') >=0 ){
-                        return msg.replace('file already exists', 'Soubor již existuje').replace('please rename your copy','použijte prosím jiné jméno');
+                    if (msg.indexOf('file already exists') >= 0) {
+                        return msg.replace('file already exists', 'Soubor již existuje').replace('please rename your copy', 'použijte prosím jiné jméno');
                     }
 
                     return msg;
@@ -674,17 +677,24 @@ L.Control.PhotoDBGui = L.Control.extend({
 
                 if (data.indexOf('parent.stop_upload') >= 0) {
                     // Find row with "parent.stop_upload" function and extract it's parameters
-                    var result = data.match(/parent.stop_upload(.*);/gm).toString().replace("parent.stop_upload", "").replace(/^\(/,"").replace(");","").split(/,(?![^']*'(?:(?:[^']*'){2})*[^']*$)/);
+                    var result = data.match(/parent.stop_upload(.*);/gm).toString().replace("parent.stop_upload", "").replace(/^\(/, "").replace(");", "").split(/,(?![^']*'(?:(?:[^']*'){2})*[^']*$)/);
 
                     if (result) {
                         if (result[0] == 1) { //OK
                             // Change button icon
                             submitBtnIcon.attr('class', 'glyphicon glyphicon-ok text-success');
-                            toastr.success('Fotografie byla uložena na server.', 'Děkujeme', {closeButton: true, positionClass: "toast-bottom-center"});
+                            toastr.success('Fotografie byla uložena na server.', 'Děkujeme', {
+                                closeButton: true,
+                                positionClass: "toast-bottom-center"
+                            });
                         } else { // Error during upload
                             toastr.error('Fotografii se nepodařilo uložit na server.<br><em>Detail: </em>' + translateErrorMessage(result[1]),
-                                        'Chyba!',
-                                        {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
+                                'Chyba!',
+                                {
+                                    closeButton: true,
+                                    positionClass: "toast-bottom-center",
+                                    timeOut: 0
+                                });
                             // Re-enable submit button
                             $('#photoDB-upload-form #submitBtn').prop('disabled', false);
 
@@ -692,19 +702,19 @@ L.Control.PhotoDBGui = L.Control.extend({
                             submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
                         }
                     } else { // Unknown state of upload
-                            toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + translateErrorMessage(data),
-                                        'Chyba!',
-                                        {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
-                            // Re-enable submit button
-                            $('#photoDB-upload-form #submitBtn').prop('disabled', false);
+                        toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + translateErrorMessage(data),
+                            'Chyba!',
+                            {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
+                        // Re-enable submit button
+                        $('#photoDB-upload-form #submitBtn').prop('disabled', false);
 
-                            // Change button icon
-                            submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
+                        // Change button icon
+                        submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
                     }
                 } else {
                     toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + data,
-                                'Chyba serveru!',
-                                {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
+                        'Chyba serveru!',
+                        {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
                     // Re-enable submit button
                     $('#photoDB-upload-form #submitBtn').prop('disabled', false);
 
@@ -712,10 +722,10 @@ L.Control.PhotoDBGui = L.Control.extend({
                     submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
                 }
             },
-            fail: function(data) {
+            fail: function (data) {
                 toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + data,
-                                'Chyba!',
-                                {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
+                    'Chyba!',
+                    {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
                 // Re-enable submit button
                 $('#photoDB-upload-form #submitBtn').prop('disabled', false);
 
@@ -732,11 +742,8 @@ L.Control.PhotoDBGui = L.Control.extend({
 
     }
 
-
-
 });
 
 L.control.photoDbGui = function (options) {
-  return new L.Control.PhotoDBGui(options);
+    return new L.Control.PhotoDBGui(options);
 };
-
