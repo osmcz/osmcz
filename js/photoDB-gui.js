@@ -94,6 +94,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             <input type="hidden" name="MAX_FILE_SIZE" value="${maxSize}" />
             <input type="hidden" id="lat" name="lat" value="0" exif-value="" />
             <input type="hidden" id="lon" name="lon" value="0" exif-value="" />
+            <input type="hidden" id="alreadySent" name="alreadySent" value="no" />
 
             <fieldset id="photo">
                 <h5>Fotografie</h5>
@@ -337,6 +338,7 @@ L.Control.PhotoDBGui = L.Control.extend({
     _previewFile: function (e) {
         var preview = $('#photoDB-upload-form #photoDB-preview'); //selects the query named img
         var file = $('#photoDB-upload-form #photoDB-file').prop("files")[0]; //sames as here
+        var alreadySent = $('#photoDB-upload-form #alreadySent');
         var message = $('#photoDB-upload-form #photoDB-img-message');
         var reader = new FileReader();
         var imageType = /image.*/;
@@ -354,6 +356,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             reader.onloadend = function () {
                 preview.attr("src", reader.result);
                 preview.attr("alt", "Náhled fotografie...");
+                alreadySent.val("no");
             }
 
             message.html('');
@@ -390,10 +393,12 @@ L.Control.PhotoDBGui = L.Control.extend({
 
     _updateSubmitBtnStatus: function () {
         var file = $('#photoDB-upload-form #photoDB-file').prop("files")[0];
+        var alreadySent = $('#photoDB-upload-form #alreadySent');
         var imgMsg = $('#photoDB-upload-form #photoDB-img-message');
         var submitBtn = $('#photoDB-upload-form #submitBtn');
 
         if (file && imgMsg.contents().length == 0 &&
+            alreadySent.val() == "no" &&
             !this._authorError &&
             !this._latlonError
         ) {
@@ -596,6 +601,8 @@ L.Control.PhotoDBGui = L.Control.extend({
         // Image
         var file = $('#photoDB-upload-form #photoDB-file');
         file.val(null);
+        $('#photoDB-upload-form #alreadySent').val("no");
+
 
         // Hide image thumbnail
         var preview = $('#photoDB-upload-form #photoDB-preview');
@@ -685,7 +692,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         var submitBtnIcon = $('#photoDB-upload-form #submitBtnIcon');
         submitBtnIcon.attr('class', 'glyphicon glyphicon-refresh text-info gly-spin');
 
-
         $.ajax({
             // url: 'http://localhost/api/upload/guidepost.php',
             url: 'https://api.openstreetmap.cz/guidepost.php',
@@ -710,6 +716,7 @@ L.Control.PhotoDBGui = L.Control.extend({
                         if (result[0] == 1) { //OK
                             // Change button icon
                             submitBtnIcon.attr('class', 'glyphicon glyphicon-ok text-success');
+                            $('#photoDB-upload-form #alreadySent').val("yes");
                             toastr.success('Fotografie byla uložena na server.', 'Děkujeme', {
                                 closeButton: true,
                                 positionClass: "toast-bottom-center"
