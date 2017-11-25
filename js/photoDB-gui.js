@@ -11,14 +11,13 @@ L.Control.PhotoDBGui = L.Control.extend({
 
     initialize: function (options) {
         L.setOptions(this, options);
+        this._precision = 5;
     },
 
     onAdd: function (map) {
         this._createButton();
         this._map = map;
-        this._precision = 5;
         this.positionMarkerVisible = false;
-
 
         return this._container;
     },
@@ -40,6 +39,16 @@ L.Control.PhotoDBGui = L.Control.extend({
         return this._container;
     },
 
+    openSidebar: function (ref, name) {
+
+        if (osmcz.sidebar.isVisible()) {
+            return false;
+        }
+
+        this._showForm(ref, name);
+
+    },
+
     _createButton: function () {
         var className = 'leaflet-control-photoDBbtn',
             container = this._container = L.DomUtil.create('div', className);
@@ -59,14 +68,25 @@ L.Control.PhotoDBGui = L.Control.extend({
             return false;
         }
 
+        this._showForm('', '');
+
+    },
+
+    _showForm: function (ref, name) {
         osmcz.sidebar.setContent(this._sidebarInit());
 
         var cnt = document.getElementById("sidebar-content");
+        var heading = '';
+
+        if (name) {
+            heading = name;
+        }
 
         // from http://stackoverflow.com/a/39065147
         // Image upload html template
-        const formTemplate = ({maxSize}) => `
+        const formTemplate = ({maxSize, heading}) => `
         <h4>Nahrání fotografie</h4>
+        <div class="photoDB-name text-info">${heading}</div>
         <p class='mark text-center'>Vyberte fotografii, doplňte údaje a stiskněte tlačítko [Nahrát fotografii]
 
         <form id="photoDB-upload-form" name="photoDB-upload-form" method="post" enctype="multipart/form-data" target="upload_target">
@@ -158,7 +178,9 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         // Add template to sidebar
         $('#sidebar-content').html([
-            {maxSize: '10000000'}
+            {maxSize: '10000000',
+             heading: heading
+            }
         ].map(formTemplate));
 
         // Get elements containers
@@ -241,6 +263,11 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         // Reset form to default state
         this._resetForm();
+
+        // Set ref (if defined)
+        if (ref) {
+            $('#photoDB-upload-form #ref').val(ref);
+        }
 
         sidebar.on('hidden', this._closeSidebar, this);
         osmcz.sidebar.show();
