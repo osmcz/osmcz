@@ -182,7 +182,7 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
             jsonp: false,
             global: false,
             success: function (data) {
-                console.log("loaded xml", data);
+//                 console.log("loaded xml", data);
 
                 osmcz.permanentlyDisplayed = true;
 
@@ -288,7 +288,6 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
     }
 
     osmcz.gpcheck.openForm = function (osmid) {
-        console.log("osmid: " + osmid);
         photoGuiForm = L.control.photoDbGui();
         photoGuiForm._map = map;
         photoGuiForm.positionMarkerVisible = false;
