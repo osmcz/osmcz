@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/theme/img/favicon.png">
 
-    <title>{block title}{/block}{block layout_aftertitle} | {$config[webTitle]}{/block}</title>
+    <title n:snippet="title">{block title}{/block}{block layout_aftertitle} | {$config[webTitle]}{/block}</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -250,7 +250,7 @@
     	});
 
         osmcz = osmcz || {};
-        osmcz.user = {$user->isLoggedIn() ? array('username' => $user->identity->data['username']) : false};
+        osmcz.user = {$user->isLoggedIn() ? array('username' => @$user->identity->data['username']) : false};
 
     </script>
 

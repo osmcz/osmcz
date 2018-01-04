@@ -65,21 +65,20 @@
                     <table class="konference">
                         {var $limit = isset($_GET[konf]) ? $_GET[konf] : 3}
                         {foreach dibi::query('SELECT * FROM mailarchive ORDER BY date DESC LIMIT %i', $limit) as $r}
-                        <tr title="{$r[date]|date:'j.n. H:i'} {$r[name]} ({!$r[from]|replace:'@':'&#64;'})
-{$r[subject]}
--------
-{$r[text]|truncate:200}">
-                            <td class="img"><img
+                        <tr>
+                            <td class="img">
+                                <a n:href="talkcz:conversation $r->conversationid"><img
                                         src="https://www.gravatar.com/avatar/{md5(strtolower($r[from]))}?s=32&d=mm"
-                                        alt="gravatar" width="32" height="32">
-                            <td class="subject">{$r[subject]|truncate:50}
+                                        alt="gravatar" width="32" height="32"></a>
+                            <td class="subject">
+                                <a n:href="talkcz:conversation $r->conversationid">{$r[subject]|truncate:50}</a>
                             <td class="date">{$r[date]|timeago}
                                 {/foreach}
                     </table>
 
                     <p class="text-right">
                         <a class="ajax btn btn-link" n:href="this konf=>$limit+5">načíst více</a>
-                        <a class="btn btn-sm btn-default" href="https://lists.openstreetmap.org/pipermail/talk-cz/"
+                        <a class="btn btn-sm btn-default" n:href="talkcz:"
                            role="button">Archiv konference</a>
                         <a class="btn btn-sm btn-success" href="/komunita" role="button">Napište nám</a>
                     </p>

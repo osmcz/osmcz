@@ -1,22 +1,27 @@
-{if $is_project_page}
-    {var $query = dibi::query("SELECT users.*, count(mailarchive.from) talk_cz_mails
-                        FROM users LEFT JOIN mailarchive ON `from` = email
-                        WHERE email != '' AND public = 1 AND projects LIKE '%($page->id)%'
-                        GROUP BY email
-                        ORDER BY fullname")}
+{if isset($author_list)}
+    {var $query = $author_list}
+    {var $is_project_page = true}
 {else}
-    {var $query = dibi::query("SELECT users.*, count(mailarchive.from) talk_cz_mails
-                        FROM users LEFT JOIN mailarchive ON `from` = email
-                        WHERE email != '' AND public = 1
-                        GROUP BY email
-                        ORDER BY fullname")}
+    {if $is_project_page}
+        {var $query = dibi::query("SELECT users.*, count(mailarchive.from) talk_cz_mails
+                            FROM users LEFT JOIN mailarchive ON `from` = email
+                            WHERE email != '' AND public = 1 AND projects LIKE '%($page->id)%'
+                            GROUP BY email
+                            ORDER BY fullname")}
+    {else}
+        {var $query = dibi::query("SELECT users.*, count(mailarchive.from) talk_cz_mails
+                            FROM users LEFT JOIN mailarchive ON `from` = email
+                            WHERE email != '' AND public = 1
+                            GROUP BY email
+                            ORDER BY fullname")}
+    {/if}
 {/if}
 
 <div class="row komunita">
     {foreach $query as $r}
-        <div n:class="$is_wide ? 'col-sm-6 col-lg-4' : col-lg-6">
+        <div id="u{$r->id}" n:class="$is_wide ? 'col-sm-6 col-lg-4' : col-lg-6">
             <div class="thumbnail">
-                <img src="{$r->img}" alt="avatar" class="pull-right" width="80">
+                <img src="{$r->img}" alt="avatar" class="pull-right" width="80" n:if="$r->img">
 
                 <div class="caption">
                     <h3>
@@ -35,16 +40,14 @@
                     <div>
                         <img src="/theme/img/logo-osm.svg" width="16" alt="">
                         <a href="http://www.openstreetmap.org/user/{$r->username}">{$r->username}</a>
-                        <span class="stat"
+                        <a href="http://yosmhm.neis-one.org/?{$r->username}" class="stat"
                               title="Počet changesetů na osm.org (účet vytvořen {$r->account_created|date:'j.n.Y'})">
-                            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                            {$r->changesets}
-                        </span>
+                            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>{$r->changesets}
+                        </a>
 
-                        <span class="stat" title="Počet příspěvků v konferenci talk-cz">
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                            {$r->talk_cz_mails}
-                        </span>
+                        <a n:href="talkcz:author $template->talkstub($r->email)" class="stat" title="Počet příspěvků v konferenci talk-cz">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>{$r->talk_cz_mails}
+                        </a>
                     </div>
                     <div n:if="false && $r->about_me">{$r->about_me}</div>
                     <div class="tags">

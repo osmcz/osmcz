@@ -1277,3 +1277,42 @@ a #photoDB-preview:hover {
         overflow-y: auto;
     }
 }
+
+.mailarchive .header .date {float:right;}
+.mailarchive .header .avatar {float:left; margin-right: .4em;}
+.mailarchive .header h3 {font-size: 16px; display: inline; padding: 0 .3em 0 3px;}
+.mailarchive .stat {
+    color: #aaa;
+    font-size: 80%;
+    padding-left: .4em;
+}
+.mailarchive .stat .glyphicon {
+    color: #bbb;
+    margin-right: 5px;
+}
+.mailarchive .body {
+    clear: left;
+    white-space: pre-wrap;
+    font-family:monospace
+}
+.mailarchive .quoted {
+    background: #eee;
+    display: none;
+}
+.mailarchive.search h2 {margin: 2em 0 1em 0; font-size: 22px;}
+.mailarchive.search .body {white-space: normal;}
+.mailarchive.search .body a {color: #000;}
+.mailarchive.search .body a:hover {text-decoration: none; background: #ffff66}
+.highlight {
+    background: #ffff66;
+    color: #000;
+}
+
+.jumptarget::before {
+    content:"";
+    display:block;
+    height:60px; /* fixed header height*/
+    margin:-60px 0 0; /* negative fixed header height */
+}
+
+#nette-debug {z-index: 111;}
