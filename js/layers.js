@@ -27,7 +27,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     });
 
     var opentopomap = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
-        maxZoom: 15,
+        maxZoom: 17,
         attribution: osmAttr + ', <a href="https://opentopomap.org/">OpenTopoMap</a>',
         code: 'u'
     });
