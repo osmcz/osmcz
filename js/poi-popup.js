@@ -42,10 +42,12 @@ osmcz.poiPopup.load = function (object) {
             };
 
 
-            if (feature.geometry.type !== 'Point') { //take first coord of Polygon - TODO centroid or draw geometry
+            if (feature.geometry.type !== 'Point') { // take centroid of a Polygon
+                var centroid = L.polygon(feature.geometry.coordinates[0]).getBounds().getCenter();
+
                 feature.geometry = {
                     type: 'Point',
-                    coordinates: feature.geometry.coordinates[0][0]
+                    coordinates: [centroid.lat, centroid.lng]
                 };
             }
 
