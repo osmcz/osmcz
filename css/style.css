@@ -4,6 +4,7 @@ html {
 
 body {
     padding: 0;
+    background: #fafafa;
 }
 
 a.as-text {
@@ -510,19 +511,22 @@ a:hover.as-text {
     padding-right: 5px;
 }
 
+#main {
+    padding-top: 50px;
+}
+
 #main .container {
     position: relative;
     z-index: 5; /*potreba pro skryvani fadeOut/fadeIn */
     padding: 1em;
     background: rgba(255, 255, 255, 0.9);
-    padding-top: 50px;
     margin-bottom: 260px;
 }
 
 #main .container.splash {
     background: transparent;
     padding: .5em;
-    padding-top: 100px;
+    padding-top: 50px;
     display: none;
 }
 
@@ -1084,6 +1088,10 @@ a #photoDB-preview:hover {
 @media screen and (min-width: 768px) {
     #main .jumbotron {
         margin-top: 30px;
+    }
+
+    #main .jumbotron h1 {
+        font-size: 60px;
     }
 
     #main .jumbotron .close-overlay {
