@@ -13,8 +13,8 @@
 L.Control.Coordinates = L.Control.extend({
     options: {
         position: 'bottomleft',
-        latitudeText: 'lat.',
-        longitudeText: 'lon.',
+        latitudeText: 'lat',
+        longitudeText: 'lon',
         precision: 4
     },
 
@@ -34,7 +34,7 @@ L.Control.Coordinates = L.Control.extend({
 
         this._addText(container, map);
 
-        L.DomEvent.addListener(container, 'click', function () {
+        L.DomEvent.addListener(container, 'click', function () { // zobrazeni GPS popupu
             var lat = L.DomUtil.get(that._lat),
                 lng = L.DomUtil.get(that._lng),
                 gps = L.DomUtil.get(that._gps),
@@ -42,30 +42,43 @@ L.Control.Coordinates = L.Control.extend({
                 lngTextLen = this.options.longitudeText.length + 1,
                 latTextIndex = lat.textContent.indexOf(this.options.latitudeText) + latTextLen,
                 lngTextIndex = lng.textContent.indexOf(this.options.longitudeText) + lngTextLen,
-                latCoordinate = lat.textContent.substr(latTextIndex),
-                lngCoordinate = lng.textContent.substr(lngTextIndex),
-                latCoordinateDM = DDToDM(latCoordinate, this.options.precision, "lat", true),
-                lngCoordinateDM = DDToDM(lngCoordinate, this.options.precision, "lon", true),
-                latCoordinateDMS = DDToDMS(latCoordinate, this.options.precision, "lat", true),
-                lngCoordinateDMS = DDToDMS(lngCoordinate, this.options.precision, "lon", true)
+                latCoordinate = lat.textContent.substr(latTextIndex).trim(),
+                lngCoordinate = lng.textContent.substr(lngTextIndex).trim(),
+                link = '/?mlat=' + latCoordinate + '&amp;mlon=' + lngCoordinate +"&amp;zoom="+map.getZoom(),
+                latCoordinateDM = DDToDM(latCoordinate, 3, "lat", true),
+                lngCoordinateDM = DDToDM(lngCoordinate, 3, "lon", true),
+                latCoordinateDMS = DDToDMS(latCoordinate, 0, "lat", true),
+                lngCoordinateDMS = DDToDMS(lngCoordinate, 0, "lon", true)
             ;
 
             var coorsText = "<h4>GPS souřadnice</h4>";
             coorsText += '<div class="gpsCoor">' + latCoordinate + " " + lngCoordinate + "</div>";
             coorsText += '<div class="gpsCoor">' + latCoordinateDM + " " + lngCoordinateDM + "</div>";
             coorsText += '<div class="gpsCoor">' + latCoordinateDMS + " " + lngCoordinateDMS + "</div>";
+            coorsText += '<div class="gpsCoor text-right"><a href="'+link+'" class="btn btn-default btn-sm"">vytvořit značku</a></div>';
 
             L.DomUtil.get(this._gps).innerHTML = coorsText;
             L.DomUtil.get(this._icon).innerHTML = "";
+
+            $(L.DomUtil.get(this._gps)).find('a.btn').on('click', function() {
+                setMarkerFromParams({
+                    marker: true,
+                    mlat: latCoordinate,
+                    mlon: lngCoordinate,
+                    mmsg: 'Odkaz na místo<br><a href="https://osmap.cz'+link+'" class="small">osmap.cz'+link+'</a>'
+                });
+                history.pushState({}, "", link.replace(/&amp;/g, '&'));
+                return false;
+            });
         }, this);
 
         return container;
     },
 
     _addText: function (container, context) {
-        this._gps = L.DomUtil.create('div', 'leaflet-control-coordinates-gps', container),
-            this._lat = L.DomUtil.create('span', 'leaflet-control-coordinates-lat', container),
-            this._lng = L.DomUtil.create('span', 'leaflet-control-coordinates-lng', container);
+        this._gps = L.DomUtil.create('div', 'leaflet-control-coordinates-gps', container);
+        this._lat = L.DomUtil.create('span', 'leaflet-control-coordinates-lat', container);
+        this._lng = L.DomUtil.create('span', 'leaflet-control-coordinates-lng', container);
         this._icon = L.DomUtil.create('span', 'leaflet-control-coordinates-icon', container);
 
         return container;
