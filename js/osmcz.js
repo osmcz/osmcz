@@ -63,6 +63,7 @@ function initmap() {
     // set location from hash OR remembered cookie OR default home
     OSM.home = {lat: 49.8, lon: 15.44, zoom: 8};
     var params = OSM.mapParams();
+    if (window.__npress_page_osm_params__) Object.assign(params, window.__npress_page_osm_params__);
 
     // When no layer parameter set,
     // use stored layers from location Hash cookie (if available)

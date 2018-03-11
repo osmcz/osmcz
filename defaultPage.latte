@@ -57,6 +57,9 @@
         {include inc_komunita.latte, is_project_page => false, is_wide => true}
     {/if}
 
+    {if $page->getMeta('html_below_twitter')}
+        {!$page->getMeta('html_below_twitter')}
+    {/if}
 
     <hr>
 
@@ -73,3 +76,7 @@
 
 </div>
 <!-- /container -->
+
+<script n:if="$page->getMeta('osm_params')">
+    var __npress_page_osm_params__ = JSON.parse({$page->getMeta('osm_params')});
+</script>
