@@ -27,35 +27,26 @@ Možno doplnit štítek o jakou část projektu se jedná:
 * **Commit message formát:** `<část aplikace>: <co se děje> #id`  -- nebo vizte [vzor](https://github.com/osmcz/osmcz/commits/master)
 * Commit message i komentáře v kódu prosíme **anglicky**
 
-* Publikace na web vychází z větve `production`. Zkontrolujte, že případné změny `index.html` jsou přeneseny do patřičného `\*.latte`.
+* Backend + redakční systém spravujeme v repozitáři [osmcz-app](https://github.com/osmcz/osmcz-app). Zkontrolujte, že případné změny `index.html` jsou přeneseny do patřičného `*.latte`.
 
-### Zaslání úpravy ke schválení
+### Zaslání úpravy (pull-request)
 Nejsnazší cesta je nechat si to forknout githubem a rovnou vytvořit pull request.
 
-1. vybrat nějaký soubor a kliknout na tlačítko :pencil2: (Fork this project and edit this file)
-2. commitnout úpravu
-3. github vytvořil fork repozitáře - do větve patch-1 je možné commitovat další úpravy
-4. Dokončit vytvořením pull-requestu a popsat co,proč,jak
+1. Vybrat nějaký soubor a kliknout na tlačítko :pencil2: (Fork this project and edit this file).
+2. Commitnout úpravu.
+3. Github vytvořil fork repozitáře. Do větve patch-1 je možné commitovat další úpravy
+4. Dokončit vytvořením pull-requestu a popsat co/proč/jak.
 
-Ideálně prosím dělat feature commity a psát srozumitelné commit message. Pokud nebude něco vyhovovat, tak nevadí - commity před aplikování pročistíme.
+Ideálně prosím dělat feature commity a psát srozumitelné commit message. Pokud nebude něco vyhovovat, tak nevadí - commity před aplikováním pročistíme.
 
-*(Interní poznámka pro lidi s write-access: neklikat na tlačítko merge, nýbrž použít rebase)*
+* (Interní poznámka pro lidi s write-access: neklikat na tlačítko merge, nýbrž použít rebase)*
 
 ### Technologie
 * Leaflet 1.0.3 http://leafletjs.com/
 * Bootstrap 3.3.7 http://getbootstrap.com/ - používat zejména css komponenty odsud
 * jQuery 3.1.1 http://jquery.com/
-* kvůli snazší editovatelnosti komunitou nepoužíváme tyto:
- * LESS css compiler
- * ES6 compiler
+* kvůli snazší editovatelnosti komunitou nepoužíváme transpilery (ES6, LESS, ...)
 
 ### Organizace repozitáře
 Hlavní vývojová větev je [master](https://github.com/osmcz/osmcz/tree/master), která zároveň slouží k otestování provedených změn.
-Po otestování je aktualizována větev [production](https://github.com/osmcz/osmcz/tree/production), která je následně nasazena na openstreetmap.cz.
-
-#### Interní poznámka pro správce
-Překlopení master větve do production větve se dělá pomocí:
-```shell
-git checkout production
-git reset --hard master
-```
+Po otestování je vytvořen release a tag, který je následně bez dalších úprav embedován do složky `/theme` v repozitáři osmcz-web.

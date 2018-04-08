@@ -1,26 +1,51 @@
-# Mapová aplikace openstreetmap.cz
+# osmcz-app
 
-Jádro celého webu openstreetmap.cz stojí na unikátní mapové aplikaci, která má za cíl sdružovat a zastřešovat různé užitečné projekty z OSM světa a též pohodlně nabídnout běžné mapové funkce.
+JS mapová appka pro OpenStreetMap.cz postavená nad LeafletJS a VanillaJS.
+PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web). 
 
-Diskusi o nápadech, přáních či chybách naleznete v záložce **ISSUES**.
+* **LIVE verze:** [openstreetmap.cz](https://openstreetmap.cz/) 
+* **ISSUES:** [na githubu](https://github.com/osmcz/osmcz/issues)
+* **DEMO:** [pro vývojovou větev](http://rawgit.com/osmcz/osmcz/master/index.html) - živě zrcadlí větev `master`
 
-* **[ISSUES](https://github.com/osmcz/osmcz/issues)** - zapojte se do diskuse
-* **[DEMO](http://rawgit.com/osmcz/osmcz/master/index.html)** - vývojová větev
 
 ## Jak přispět do projektu
-
 * hlásit chyby a podněty do ISSUES ([jak správně?](CONTRIBUTING.md))
 * vylepšit webovou aplikaci - viz [CONTRIBUTING.md](CONTRIBUTING.md#přispívání-kódem)
-* backend + redakční systém: [osmcz/website](https://github.com/osmcz/website)
 
 
 ### Další poznámky
 * Kdo má zájem přidat se k organizaci [github.com/osmcz](https://github.com/osmcz), nechť napíše na dev(z)openstreetmap.cz
-* [Developer notes na wiki](https://github.com/osmcz/osmcz/wiki)
 * Číslo release je na prvním řádku v `js/osmcz.js`, jednotlivé verze pak pomocí git-tagů
-* Zdrojové kódy jsou pod licencí MIT.
-* Autoři [zde](https://github.com/osmcz/osmcz/graphs/contributors). 
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
+
+## Changelog
+2018-03-12 **osmcz v0.21** (
+    [talk](https://openstreetmap.cz/talkcz/c2419),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.20...v0.21), 
+    [osmcz-web](https://github.com/osmcz/osmcz-web/compare/deploy_20180108...osmcz:deploy_20180315))
+- linkování cest a ploch zobrazuje těžiště
+- GUI pro vlastní marker - po kliku na souřadnice vlevo dole se ukáže tlačítko "vytvořit značku"
+
+2018-01-08 **osmcz v0.20** (
+    [talk](https://openstreetmap.cz/talkcz/c2355), 
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.19...v0.20), 
+    [osmcz-web](https://github.com/osmcz/osmcz-web/compare/deploy_20170123...osmcz:deploy_20180108))
+- archiv talk-cz na https://openstreetmap.cz/talkcz/
+
+2017-05-07  **osmcz v0.19** (
+    [talk](https://openstreetmap.cz/talkcz/c2105), 
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.18...v0.19) ) 
+- nový interface pro PhotoDB [#10](https://github.com/osmcz/osmcz/issues/10)
+
+
+2017-04-12  **osmcz v0.18** (
+    [talk](https://openstreetmap.cz/talkcz/c2071), 
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.17...v0.18) ) 
+- vrstva notes [#67](https://github.com/osmcz/osmcz/issues/67) a openinframap
+
+
+![nahled](https://openstreetmap.cz/data/thumbs/60.700x476.png)
+
 
 ## Poděkování
 * autoři leafletu + pluginů
@@ -31,4 +56,8 @@ Diskusi o nápadech, přáních či chybách naleznete v záložce **ISSUES**.
 * mapbox.com JS + vrstvy
 
 
-![nahled](https://openstreetmap.cz/data/thumbs/60.700x476.png)
+## Autoři, licence 
+(c) 2016-2018 zbycz, mkyral, walley a [další](https://github.com/osmcz/osmcz/graphs/contributors)
+
+Pod licencí MIT - volně šiřte, prodávejte, zachovejte uvedení autora.
+
