@@ -11,13 +11,40 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var thunderforestAPIkey = '00291b657a5d4c91bbacb0ff096e2c25';
     var mapboxAPIkey = "pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA";
 
+    var DoubleTileLayer = L.TileLayer.extend({
+        getTileUrl: function (coords) {
+            var data = {
+                s: this._getSubdomain(coords),
+                x: coords.x,
+                y: coords.y,
+                z: this._getZoomForUrl()
+            };
+            var url = data.z > this.options.secondUrlFromZoom ? this.options.secondUrl : this.options.firstUrl;
+            return L.Util.template(url, data);
+        }
+    });
+
+    var mapboxAndMapnik = new DoubleTileLayer(null, {
+        firstUrl: 'https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=' + mapboxAPIkey,
+        secondUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        secondUrlFromZoom: 15,
+        maxZoom: 19,
+        attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
+        code: 'z',
+        osmczDefaultLayer: true,
+        basic: true
+    });
 
     var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=' + mapboxAPIkey, {
         maxZoom: 24,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
-        code: 'x',
-        osmczDefaultLayer: true,
-        basic: true
+        code: 'x'
+    });
+
+    var mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: osmAttr,
+        code: 'd'
     });
 
     var turisticka = L.tileLayer("https://tile.poloha.net/{z}/{x}/{y}.png", {
@@ -30,13 +57,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         maxZoom: 17,
         attribution: osmAttr + ', <a href="https://opentopomap.org/">OpenTopoMap</a>',
         code: 'u'
-    });
-
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: osmAttr,
-        code: 'd',
-        basic: true
     });
 
     var wikimediamap = L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}" + retinaSuffix + ".png", {
@@ -295,8 +315,9 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     // Base group
     baseLayers["Základní"] = {};
+    baseLayers["Základní"]["OSMCZ základní"] = mapboxAndMapnik;
     baseLayers["Základní"]["Mapbox streets"] = mapbox;
-    baseLayers["Základní"]["OpenStreetMap Mapnik"] = osm;
+    baseLayers["Základní"]["OpenStreetMap Mapnik"] = mapnik;
     baseLayers["Základní"]["OpenTopoMap"] = opentopomap;
     baseLayers["Základní"]["Metropolis"] = metropolis;
     baseLayers["Základní"]["Méně popisků"] = menepopisku;
