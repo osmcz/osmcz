@@ -53,6 +53,11 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
+    var gp_check_tourism_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp_check_tourism.png",
+        iconSize: [48, 48],
+        iconAnchor: [23, 45]
+    });
 
     var layer_gpcheck = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
@@ -62,6 +67,8 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
                 layer.setIcon(gp_check_noref_icon);
             } else if (feature.properties.class == "noimg") {
                 layer.setIcon(gp_check_noimg_icon);
+            } else if(feature.properties.class == "tourism"){
+                layer.setIcon(gp_check_tourism_icon);
             } else {
                 layer.setIcon(gp_check_icon);
             }
@@ -91,6 +98,9 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
             }
             if (feature.properties.class == 'noimg') {
                 html_content += ('<span class="glyphicon glyphicon-remove text-danger"></span> chybí foto<br/>');
+            }
+            if (feature.properties.class == 'tourism') {
+		html_content += ('<span class="glyphicon glyphicon-remove text-danger"></span> jen tourism=info<br/>');
             }
             html_content += '</div>';
 
