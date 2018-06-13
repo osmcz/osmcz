@@ -413,11 +413,14 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         } else {
             alert("Vyberte novou pozici");
         }
-
+        var dataStr = 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon;
+        if (osmcz.user && osmcz.user.username) {
+            dataStr = dataStr + '&lname=' + osmcz.user.username;
+        }
         $.ajax({
             type: 'POST',
             url: 'https://api.openstreetmap.cz/table/move',
-            data: 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon,
+            data: dataStr,
             timeout: 3000
         })
             .done(function (data) {
