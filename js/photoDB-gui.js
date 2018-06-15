@@ -72,21 +72,16 @@ L.Control.PhotoDBGui = L.Control.extend({
 
     },
 
-    _showForm: function (ref, name) {
+    _showForm: function (ref, gpName) {
         osmcz.sidebar.setContent(this._sidebarInit());
 
         var cnt = document.getElementById("sidebar-content");
-        var heading = '';
-
-        if (name) {
-            heading = name;
-        }
 
         // from http://stackoverflow.com/a/39065147
         // Image upload html template
-        const formTemplate = ({maxSize, heading}) => `
+        const formTemplate = ({maxSize}) => `
         <h4>Nahrání fotografie</h4>
-        <div class="photoDB-name text-info">${heading}</div>
+        <div id="photoDB-gp-name" class="photoDB-name text-info"></div>
         <p class='mark text-center'>Vyberte fotografii, doplňte údaje a stiskněte tlačítko [Nahrát fotografii]
 
         <form id="photoDB-upload-form" name="photoDB-upload-form" method="post" enctype="multipart/form-data" target="upload_target">
@@ -178,11 +173,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         `;
 
         // Add template to sidebar
-        $('#sidebar-content').html([
-            {maxSize: '10000000',
-             heading: heading
-            }
-        ].map(formTemplate));
+        $('#sidebar-content').html([{maxSize: '10000000'}].map(formTemplate));
 
         // Get elements containers
         var previewContainer = document.getElementById("photoDB-preview");
@@ -268,6 +259,11 @@ L.Control.PhotoDBGui = L.Control.extend({
         // Set ref (if defined)
         if (ref) {
             $('#photoDB-upload-form #ref').val(ref);
+        }
+
+        // Set guidepost name (if defined)
+        if (gpName) {
+            $('#photoDB-gp-name').text(gpName);
         }
 
         sidebar.on('hidden', this._closeSidebar, this);
@@ -614,6 +610,9 @@ L.Control.PhotoDBGui = L.Control.extend({
         var message = $('#photoDB-upload-form #photoDB-img-message');
         message.html("");
         message.hide();
+
+        // Gp name
+        $('#photoDB-gp-name').text("");
 
         // Author
         $('#photoDB-upload-form #author').val(null);
