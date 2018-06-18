@@ -405,7 +405,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
     }
 
     osmcz.guideposts.prototype.finish_moving = function () {
+
         moving_flag = false;
+
         if (moving_marker) {
             final_lat = moving_marker.getLatLng().lat;
             final_lon = moving_marker.getLatLng().lng;
@@ -413,10 +415,12 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         } else {
             alert("Vyberte novou pozici");
         }
+
         var dataStr = 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon;
         if (osmcz.user && osmcz.user.username) {
             dataStr = dataStr + '&lname=' + osmcz.user.username;
         }
+
         $.ajax({
             type: 'POST',
             url: 'https://api.openstreetmap.cz/table/move',
@@ -432,7 +436,10 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             .always(function (data) {
             });
 
-        note.note_api(final_lat, final_lon, "id:" + gp_id + ": " + document.getElementById("gp_usr_message").value);
+        var note_to_send = document.getElementById("gp_usr_message").value;
+        if (note_to_send.length > 0) {
+          note.note_api(final_lat, final_lon, "id:" + gp_id + ": " + note_to_send);
+        }
 
         hide_sidebar();
     }
