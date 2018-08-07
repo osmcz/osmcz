@@ -26,6 +26,7 @@ var osmcz = osmcz || {};
 osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
     var layersControl = controls.layers;
+    var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/photodb2/' : 'https://osm.fit.vutbr.cz/photodb2-dev/';
     var photoDBbtn = null;
     var xhr;
     var markers = L.markerClusterGroup({
@@ -112,7 +113,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
                         var i, tags_content = "";
                         for (i = 0; i < tags.length; i++) {
-                            tags_content += '<a href="https://osm.fit.vutbr.cz/photodb2-dev/?tag=' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
+                            tags_content += '<a href="' + photoDbUrl + '?tag=' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
                         }
                         return (tags_content);
                     } else {
@@ -154,14 +155,14 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
             var html_content = "";
             html_content += "Fotografii poskytl: ";
-            html_content += "<a href='https://osm.fit.vutbr.cz/photodb2-dev/?author=" + b.author + "'>" + b.author + "</a>";
+            html_content += "<a href='" + photoDbUrl + "?author=" + b.author + "'>" + b.author + "</a>";
             html_content += "<br>";
             if (ftype == "guidepost") {
                 html_content += "Číslo rozcestníku: ";
-                html_content += "<a href='https://osm.fit.vutbr.cz/photodb2-dev/?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
+                html_content += "<a href='" + photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
                 html_content += "<br>";
             }
-            html_content += "<a href='https://osm.fit.vutbr.cz/photodb2/files/" + b.id + ".jpg'>";
+            html_content += "<a href='" + photoDbUrl + "files/" + b.id + ".jpg'>";
             html_content += "<div id='thumbnailLoadSpinner" + b.id + "' class='text-center'><br><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
             html_content += "<img id='thumbnailImage" + b.id + "' src='' class='center-block' width='180' />";
             html_content += "</a>";
@@ -169,7 +170,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
 
             html_content += "<div class='buttons-bar'>";
-            html_content += "<a href='https://osm.fit.vutbr.cz/photodb2/?id=" + b.id + "'><button type='button' class='btn btn-default btn-xs'>";
+            html_content += "<a href='" + photoDbUrl + "?id=" + b.id + "'><button type='button' class='btn btn-default btn-xs'>";
             html_content += '   <div class="glyphicon glyphicon-pencil"></div> Upravit';
             html_content += '</button></a>';
 
@@ -239,7 +240,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         var id = e.popup._source.feature.properties.id;
         if (id) {
             var tb = new Image();
-            tb.src = "https://osm.fit.vutbr.cz/photodb2/files/250px/" + id + ".jpg";
+            tb.src = photoDbUrl + "files/250px/" + id + ".jpg";
             tb.onload = function () {
                 popupThumbnail = tb.src;
                 $('#thumbnailLoadSpinner' + id).hide();
@@ -423,7 +424,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
         $.ajax({
             type: 'POST',
-            url: 'https://osm.fit.vutbr.cz/photodb2-dev/api/move',
+            url: photoDbUrl + 'api/move',
             data: dataStr,
             async: false,
             timeout: 3000
@@ -443,7 +444,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             });
 
         if(need_api_auth) {
-          //FIXME sample - show better error dialog 
+          //FIXME sample - show better error dialog
           msg = document.getElementById("gp_usr_message");
           msg.value = 'prihlaste se!';
         } else {
@@ -475,7 +476,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
         var auth = false;
         xhr = $.ajax({
-            url: 'https://osm.fit.vutbr.cz/photodb2-dev/api/logged',
+            url: photoDbUrl + 'api/logged',
             async: false,
         })
           .done(function() {
@@ -485,7 +486,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             var inner = [];
             var content = document.getElementById("sidebar-content");
             inner.push("<h4>Nejste přihlášeni!</h4>");
-            inner.push("<p class='text-center'><a href='https://osm.fit.vutbr.cz/photodb2-dev/' target='_blank'>Přihlaste</a> se prosím do PhotoDB API");
+            inner.push("<p class='text-center'><a href='" + photoDbUrl + "' target='_blank'>Přihlaste</a> se prosím do PhotoDB API");
             content.innerHTML = inner.join('');
 
             return false;
@@ -564,7 +565,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
             markers.clearLayers();
 
-            var geo_json_url = 'https://osm.fit.vutbr.cz/photodb2-dev/api/show';
+            var geo_json_url = photoDbUrl + 'api/show';
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
 
             geo_json_url = 'https://api.openstreetmap.cz/commons';
