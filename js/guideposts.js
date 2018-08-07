@@ -399,16 +399,16 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
     osmcz.guideposts.prototype.finish_moving = function () {
 
-        moving_flag = false;
-
         if (moving_marker) {
             final_lat = moving_marker.getLatLng().lat;
             final_lon = moving_marker.getLatLng().lng;
             destroy_moving_marker();
         } else {
             alert("Vyberte novou pozici");
-            return; //tom.k - FIXME - does not send false mode request but not able to continue!
+            return; // Do not sent false move request
         }
+
+        moving_flag = false;
 
         var dataStr = 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon;
 
