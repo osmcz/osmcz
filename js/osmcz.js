@@ -54,7 +54,6 @@ function initmap() {
     }
 
     // -------------------- modules --------------------
-    note = new osmcz.note();
     guideposts = new osmcz.guideposts(map, baseLayers, overlays, controls, "Turistické");
     gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls, "Speciální");
     popup = new osmcz.poiPopup(map);
