@@ -74,6 +74,27 @@ L.Control.PhotoDBGui = L.Control.extend({
 
     _showForm: function (ref, gpName) {
         osmcz.sidebar.setContent(this._sidebarInit());
+        var auth = false;
+
+        xhr = $.ajax({
+            url: 'https://osm.fit.vutbr.cz/photodb2-dev/api/logged',
+            async: false,
+        })
+          .done(function() { auth = true; return true; })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            var inner = [];
+            var content = document.getElementById("sidebar-content");
+            inner.push("<h4>Nejste přihlášeni!</h4>");
+            inner.push("<p class='text-center'><a href='https://osm.fit.vutbr.cz/photodb2-dev/' target='_blank'>Přihlaste</a> se prosím do PhotoDB API");
+            content.innerHTML = inner.join('');
+
+            sidebar.on('hidden', this._closeSidebar, this);
+            osmcz.sidebar.show();
+
+            return false;
+          });
+
+        if(!auth) return;
 
         var cnt = document.getElementById("sidebar-content");
 
