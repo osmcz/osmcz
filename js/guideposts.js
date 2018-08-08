@@ -427,6 +427,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             url: photoDbUrl + 'api/move',
             data: dataStr,
             async: false,
+            xhrFields: {
+              withCredentials: true
+            },
             timeout: 3000
         })
             .done(function (data) {
@@ -478,6 +481,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         xhr = $.ajax({
             url: photoDbUrl + 'api/logged',
             async: false,
+            xhrFields: {
+              withCredentials: true
+            },
         })
           .done(function() {
             auth = true; return true;
@@ -546,6 +552,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
         xhr = $.ajax({
             url: url + L.Util.getParamString(parameters),
+            xhrFields: {
+              withCredentials: true
+            },
             success: success_callback,
             error: error_callback
         });
