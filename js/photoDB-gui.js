@@ -2,6 +2,8 @@
 
 // var osmcz = osmcz || {};
 
+var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/photodb2/' : 'https://osm.fit.vutbr.cz/photodb2-dev/';
+
 L.Control.PhotoDBGui = L.Control.extend({
 
     options: {
@@ -77,7 +79,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         var auth = false;
 
         xhr = $.ajax({
-            url: 'https://osm.fit.vutbr.cz/photodb2-dev/api/logged',
+            url: photoDbUrl + 'api/logged',
             async: false,
         })
           .done(function() { auth = true; return true; })
@@ -85,7 +87,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             var inner = [];
             var content = document.getElementById("sidebar-content");
             inner.push("<h4>Nejste přihlášeni!</h4>");
-            inner.push("<p class='text-center'><a href='https://osm.fit.vutbr.cz/photodb2-dev/' target='_blank'>Přihlaste</a> se prosím do PhotoDB API");
+            inner.push("<p class='text-center'><a href='"+photoDbUrl+"' target='_blank'>Přihlaste</a> se prosím do PhotoDB API");
             content.innerHTML = inner.join('');
 
             sidebar.on('hidden', this._closeSidebar, this);
