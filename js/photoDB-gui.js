@@ -81,6 +81,9 @@ L.Control.PhotoDBGui = L.Control.extend({
         xhr = $.ajax({
             url: photoDbUrl + 'api/logged',
             async: false,
+            xhrFields: {
+              withCredentials: true
+            },
         })
           .done(function() { auth = true; return true; })
           .fail(function(jqXHR, textStatus, errorThrown) {
@@ -591,6 +594,9 @@ L.Control.PhotoDBGui = L.Control.extend({
             // Get list of licenses
             $.ajax({
                 url: 'https://api.openstreetmap.cz/table/licenseinfo?output=json',
+                xhrFields: {
+                  withCredentials: true
+                },
                 success: function (data) {
                     if (data != "") {
                         // show result
@@ -720,6 +726,9 @@ L.Control.PhotoDBGui = L.Control.extend({
             type: 'POST',
             data: formData,
             async: false,
+            xhrFields: {
+              withCredentials: true
+            },
             success: function (data) {
 
                 function translateErrorMessage(msg) {
