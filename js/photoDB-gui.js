@@ -148,9 +148,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             <fieldset id="otherData">
                 <h5>Doplňující údaje</h5>
                 <div class="form">
-                    <label for="author" class="label-margin">Autor:</label>
-                    <input type="text" id="author" name="author" placeholder="Vaše jméno/přezdívka" class="form-control input-sm">
-                    <label for="author" class="label-margin">Licence:</label>
+                    <label for="license" class="label-margin">Licence:</label>
                     <select id="license" class="form-control"></select>
                     <label for="phototype" class="label-margin">Objekt na fotografii:</label>
                     <select id="phototype" class="form-control">
@@ -206,7 +204,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         var uploadedFile = document.getElementById("photoDB-file");
         var imgSelBtn = document.getElementById("imgSelBtn");
         var sourceExif = document.getElementById("sourceExif");
-        var author = document.getElementById("author");
         var phototype = document.getElementById("phototype");
         var resetBtn = document.getElementById("resetBtn");
         var submitBtn = document.getElementById("submitBtn");
@@ -216,7 +213,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         L.DomEvent.on(uploadedFile, 'change', this._previewFile, this);
         L.DomEvent.on(previewContainer, 'load', this._readExif, this);
         L.DomEvent.on(sourceExif, 'click', this._sourceExifClicked, this);
-        L.DomEvent.on(author, 'change', this._authorChanged, this);
         L.DomEvent.on(phototype, 'change', this._phototypeChanged, this);
         L.DomEvent.on(resetBtn, 'click', this._resetForm, this);
         L.DomEvent.on(submitBtn, 'click', this._submitForm, this);
@@ -337,26 +333,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         }
     },
 
-    // Check author field, show alert when missing
-    _authorChanged: function (e) {
-        var author = $('#photoDB-upload-form #author');
-        author.prop("title", "");
-        author.removeClass("inputError");
-        this._authorError = false;
-
-        if (!author.val()) {
-            author.prop("title", "Povinné pole!");
-            author.addClass("inputError");
-            this._authorError = true;
-        } else {
-            if (author.val() != Cookies.get("_photoDB_author")) {
-                Cookies.set("_photoDB_author", author.val(), {expires: 90});
-            }
-        }
-
-        this._updateSubmitBtnStatus();
-    },
-
     _previewFile: function (e) {
         var preview = $('#photoDB-upload-form #photoDB-preview'); //selects the query named img
         var file = $('#photoDB-upload-form #photoDB-file').prop("files")[0]; //sames as here
@@ -421,7 +397,6 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         if (file && imgMsg.contents().length == 0 &&
             alreadySent.val() == "no" &&
-            !this._authorError &&
             !this._latlonError
         ) {
             submitBtn.prop('disabled', false);
@@ -469,7 +444,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             return bytes.buffer;
         }
 
-        function noExif() {
+        function noExifCoords() {
             message.html("Pozici vyberete kliknutím do mapy.");
             message.show();
 
@@ -479,12 +454,26 @@ L.Control.PhotoDBGui = L.Control.extend({
             pLon.attr('exif-value', '');
         }
 
+        function badExif() {
+            var message = $('#photoDB-upload-form #photoDB-img-message');
+            message.html('<span class="glyphicon glyphicon-alert text-danger"></span> Neobsahuje datum a čas v EXIF!');
+            message.show();
+
+            this._updateSubmitBtnStatus()
+        }
+
         var exif = EXIF.readFromBinaryFile(base64ToArrayBuffer(e.currentTarget.currentSrc));
 
         if (!exif) {
-            // No exif in image
-            noExif();
-            return;
+          // No exif in image
+          badExif();
+          return;
+        }
+
+        if (!exif.DateTime && !exif.DateTimeOriginal) {
+          //no date/time in exif - avoid this photo!
+          badExif();
+          return;
         }
 
         var eLatRef = exif.GPSLatitudeRef;
@@ -510,7 +499,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             message.show();
         } else {
             // Exif present, but without GPSLatLon data
-            noExif();
+            noExifCoords();
         }
     },
 
@@ -642,15 +631,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         // Gp name
         $('#photoDB-gp-name').text("");
 
-        // Author
-        $('#photoDB-upload-form #author').val(null);
-
-        // read author and license from cookies
-        if (Cookies.get("_photoDB_author") != null)
-            $("#photoDB-upload-form #author").val(Cookies.get("_photoDB_author"));
-
-        this._authorChanged();
-
         // Restore license from cookies
         if (Cookies.get("_photoDB_license") != null)
             $("#photoDB-upload-form #license").val(Cookies.get("_photoDB_license")).change();
@@ -720,8 +700,8 @@ L.Control.PhotoDBGui = L.Control.extend({
         submitBtnIcon.attr('class', 'glyphicon glyphicon-refresh text-info gly-spin');
 
         $.ajax({
-            // url: 'http://localhost/api/upload/guidepost.php',
-            url: 'https://api.openstreetmap.cz/guidepost.php',
+            //url: 'https://api.openstreetmap.cz/guidepost.php',
+            url: photoDbUrl + 'api/add',
             type: 'POST',
             data: formData,
             async: false,
