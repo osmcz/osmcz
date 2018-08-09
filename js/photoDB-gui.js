@@ -145,6 +145,15 @@ L.Control.PhotoDBGui = L.Control.extend({
                 <div id="photoDB-latlon-message" class="photoDB-message mark text-center"></span>
             </fieldset>
 
+            <fieldset id="dateFs">
+                <h5>Datum pořízení</h5>
+                <div class="input-group input-group-sm date">
+                    <input type="text" id="photoCreated" name="photoCreated" value="" placeholder="DD.MM.YYYY" title="Datum pořízení" class="form-control"/>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                </div>
+                <div id="photoDB-latlon-message" class="photoDB-message mark text-center"></span>
+            </fieldset>
+
             <fieldset id="otherData">
                 <h5>Doplňující údaje</h5>
                 <div class="form">
@@ -216,6 +225,15 @@ L.Control.PhotoDBGui = L.Control.extend({
         L.DomEvent.on(phototype, 'change', this._phototypeChanged, this);
         L.DomEvent.on(resetBtn, 'click', this._resetForm, this);
         L.DomEvent.on(submitBtn, 'click', this._submitForm, this);
+
+        // Inicialize datepicker
+        $(".input-group.input-group-sm.date").datepicker({
+            format: "dd.mm.yyyy",
+            language: "cs",
+            autoclose: true,
+            todayHighlight: true
+            });
+
 
         var modal = document.getElementById("modal-container");
 
@@ -378,6 +396,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             this._hideMarker();
             this._updateLatLonLabel(0, 0);
             $('#photoDB-upload-form #latlonFs').hide();
+            $('#photoDB-upload-form #dateFs').hide();
             $('#photoDB-upload-form #otherData').hide();
             preview.attr("src", "");
             preview.attr("style", "display:none");
@@ -421,6 +440,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         message.hide();
 
         $('#photoDB-upload-form #latlonFs').show();
+        $('#photoDB-upload-form #dateFs').show();
         $('#photoDB-upload-form #otherData').show();
 
 
@@ -647,6 +667,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         $('#photoDB-upload-form #guidepostOptions').show();
 
         $('#photoDB-upload-form #latlonFs').hide();
+        $('#photoDB-upload-form #dateFs').hide();
         $('#photoDB-upload-form #otherData').hide();
 
         // Reset ref and note fields
