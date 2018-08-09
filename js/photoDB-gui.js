@@ -593,7 +593,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         if (license == "") {
             // Get list of licenses
             $.ajax({
-                url: 'https://api.openstreetmap.cz/table/licenseinfo?output=json',
+                url: photoDbUrl + 'api/licenses',
                 xhrFields: {
                   withCredentials: true
                 },
@@ -602,12 +602,11 @@ L.Control.PhotoDBGui = L.Control.extend({
                         // show result
                         // TODO: sort licences, add more info
                         var lcSel = $('#photoDB-upload-form #license');
-                        var jsonObj = JSON.parse(data);
-                        Object.keys(jsonObj.licenses).forEach(function (k) {
+                        data.licenses.forEach(function (o) {
                             lcSel.append($('<option>', {
-                                value: k,
-                                text: jsonObj.licenses[k],
-                                title: jsonObj.licenses[k]
+                                value: Object.keys(o),
+                                text: Object.values(o),
+                                title: Object.values(o)
                             }));
                         });
 
