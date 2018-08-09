@@ -402,13 +402,16 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         if (moving_marker) {
             final_lat = moving_marker.getLatLng().lat;
             final_lon = moving_marker.getLatLng().lng;
-            destroy_moving_marker();
         } else {
-            alert("Vyberte novou pozici");
+            toastr.error('Nejprve prosím vyberte novou pozici.',
+                         'Chyba!',
+                        {
+                            closeButton: true,
+                            positionClass: "toast-bottom-center",
+                            timeOut: 0
+            });
             return; // Do not sent false move request
         }
-
-        moving_flag = false;
 
         var dataStr = 'id=' + gp_id + '&lat=' + final_lat + '&lon=' + final_lon;
 
@@ -433,13 +436,38 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             timeout: 3000
         })
             .done(function (data) {
+                toastr.success('Nová pozice byla uložena na server.', 'Děkujeme', {
+                       closeButton: true,
+                       positionClass: "toast-bottom-center"
+                });
+                if (moving_marker) {
+                    destroy_moving_marker();
+                }
+                moving_flag = false;
+                hide_sidebar();
                 return true;
             })
             .fail(function(jqXHR, textStatus, errorThrown ) {
               var status = jqXHR.status;
+              var statusText = jqXHR.statusText;
               console.log('move failed ' + status);
               if (status == 401) {
                 need_api_auth = true;
+                toastr.error('Nejste přihlášen(a).',
+                            'Chyba!',
+                            {
+                                closeButton: true,
+                                positionClass: "toast-bottom-center",
+                                timeOut: 0
+                });
+              } else {
+                toastr.error('Uložení nové pozice se nepovedlo. ' + status + ': ' + statusText,
+                            'Chyba!',
+                            {
+                                closeButton: true,
+                                positionClass: "toast-bottom-center",
+                                timeOut: 0
+                });
               }
               return false;
             })
@@ -447,11 +475,13 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             });
 
         if(need_api_auth) {
-          //FIXME sample - show better error dialog
-          msg = document.getElementById("gp_usr_message");
-          msg.value = 'prihlaste se!';
-        } else {
-          hide_sidebar();
+            toastr.error('Nejste přihlášen(a).',
+                        'Chyba!',
+                        {
+                            closeButton: true,
+                            positionClass: "toast-bottom-center",
+                            timeOut: 0
+            });
         }
     }
 
@@ -466,8 +496,10 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
     function hide_sidebar() {
         sidebar.hide();
-        popupMarker.setOpacity(1);
-        popupMarker = null;
+        if (popupMarker) {
+            popupMarker.setOpacity(1);
+            popupMarker = null;
+        }
         map.removeLayer(gpCircle);
         map.removeLayer(gpMarkerPolyline);
     }
