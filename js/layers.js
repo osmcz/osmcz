@@ -168,6 +168,14 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     // --- overlays
 
+    var stravaOverlay = L.tileLayer("https://osm.fit.vutbr.cz/strava/{z}/{x}/{y}.png", {
+        maxZoom: 16,
+        attribution: osmAttr + ', <a href="http://www.strava.com">strava.com</a>',
+        code: 'S',
+        opacity: 0.6,
+        basic: true
+    });
+
     var turistikaOverlay = L.tileLayer("https://tile.poloha.net/kct/{z}/{x}/{y}.png", {
         maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
@@ -353,6 +361,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     overlays["Speciální"]["Vedení vysokého napětí"] = powerOverlay;
     overlays["Speciální"]["Telekomunikační vysílače"] = commsOverlay;
     overlays["Speciální"]["Pole a louky (pLPIS)"] = lpisOverlay;
+    overlays["Speciální"]["Strava Heatmap ČR"] = stravaOverlay;
 
     // RUIAN group
     overlays["RÚIAN"] = {};
