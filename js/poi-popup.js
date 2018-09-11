@@ -8,7 +8,7 @@ osmcz.poiPopup = function (map) {
     osmcz._map = map;
 };
 
-var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/photodb2/' : 'https://osm.fit.vutbr.cz/photodb2-dev/';
+var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/fody/' : 'https://osm.fit.vutbr.cz/fody-dev/';
 
 // static fields
 osmcz.permanentlyDisplayed = false;

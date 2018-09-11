@@ -2,7 +2,7 @@
 
 // var osmcz = osmcz || {};
 
-var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/photodb2/' : 'https://osm.fit.vutbr.cz/photodb2-dev/';
+var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/fody/' : 'https://osm.fit.vutbr.cz/fody-dev/';
 
 L.Control.PhotoDBGui = L.Control.extend({
 

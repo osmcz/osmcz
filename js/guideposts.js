@@ -26,7 +26,7 @@ var osmcz = osmcz || {};
 osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
     var layersControl = controls.layers;
-    var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/photodb2/' : 'https://osm.fit.vutbr.cz/photodb2-dev/';
+    var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/fody/' : 'https://osm.fit.vutbr.cz/fody-dev/';
     var photoDBbtn = null;
     var xhr;
     var markers = L.markerClusterGroup({
@@ -235,7 +235,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             return;
         }
 
-        // get guidepost thumbnail from photodb2
+        // get guidepost thumbnail from Fody
         popupMarker = e.popup._source;
         var id = e.popup._source.feature.properties.id;
         if (id) {
