@@ -19,6 +19,13 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
 
 ## Changelog
+2018-09-11 **osmcz v0.22** (
+    [talk](https://openstreetmap.cz/talkcz/c2573),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.21...v0.22), 
+- podpora a ikona pro rozcestníky jen s tourism=info
+- vrstva Strava heatmap hot/all pro ČR
+- přepnuto na databázi fotek Fody (aktivní vrstva, fotky rozcestníků, chybné rozcestníky)
+
 2018-03-12 **osmcz v0.21** (
     [talk](https://openstreetmap.cz/talkcz/c2419),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.20...v0.21), 
