@@ -148,8 +148,6 @@ L.Control.PhotoDBGui = L.Control.extend({
             <fieldset id="otherData">
                 <h5>Doplňující údaje</h5>
                 <div class="form">
-                    <label for="license" class="label-margin">Licence:</label>
-                    <select id="license" class="form-control"></select>
                     <label for="phototype" class="label-margin">Objekt na fotografii:</label>
                     <select id="phototype" class="form-control">
                         <option value="gp">Rozcestník</option>
@@ -247,8 +245,6 @@ L.Control.PhotoDBGui = L.Control.extend({
 
             $('#modalImg').attr('src', $('#photoDB-preview').attr('src'));
         });
-
-        this._getLicenses();
 
         // Create position marker
         this.positionMarker = L.marker([0, 0], {
@@ -576,38 +572,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         this._updateSubmitBtnStatus();
     },
 
-    // Get licenses list from api
-    _getLicenses: function () {
-        var license = $('#photoDB-upload-form #license option:selected').text();
-        if (license == "") {
-            // Get list of licenses
-            $.ajax({
-                url: photoDbUrl + 'api/licenses',
-                xhrFields: {
-                  withCredentials: true
-                },
-                success: function (data) {
-                    if (data != "") {
-                        // show result
-                        // TODO: sort licences, add more info
-                        var lcSel = $('#photoDB-upload-form #license');
-                        data.licenses.forEach(function (o) {
-                            lcSel.append($('<option>', {
-                                value: Object.keys(o),
-                                text: Object.values(o),
-                                title: Object.values(o)
-                            }));
-                        });
-
-                        if (Cookies.get("_photoDB_license") != null)
-                            lcSel.val(Cookies.get("_photoDB_license")).change();
-                    }
-                },
-                cache: true
-            });
-        }
-    },
-
     _resetForm: function (e) {
         this._hideMarker();
 
@@ -630,10 +594,6 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         // Gp name
         $('#photoDB-gp-name').text("");
-
-        // Restore license from cookies
-        if (Cookies.get("_photoDB_license") != null)
-            $("#photoDB-upload-form #license").val(Cookies.get("_photoDB_license")).change();
 
         // Switch back to type guidepost
         $("#photoDB-upload-form #phototype").val('gp').change();
@@ -672,7 +632,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         $('#photoDB-upload-form #lon').val(this.positionMarker.getLatLng().lng);
 
         var phototype = $('#photoDB-upload-form #phototype option:selected').val();
-        var license = $('#photoDB-upload-form #license option:selected').val();
 
         // Sent ref only for guideposts
         if (phototype != 'gp') {
@@ -680,17 +639,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         }
 
         var formData = new FormData($('#photoDB-upload-form')[0]);
-        formData.append('license', license);
         formData.append('gp_type', phototype);
-
-        //Check selected license and update cookie if needed
-        if (Cookies.get("_photoDB_license") == null ||
-            (Cookies.get("_photoDB_license") != null &&
-                license != Cookies.get("_photoDB_license")
-            )) {
-            Cookies.set("_photoDB_license", license, {expires: 90});
-        }
-
 
         // Disable upload button
         $('#photoDB-upload-form #submitBtn').prop('disabled', true);
