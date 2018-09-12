@@ -450,25 +450,36 @@ L.Control.PhotoDBGui = L.Control.extend({
             pLon.attr('exif-value', '');
         }
 
-        function badExif() {
+        function noExif() {
             var message = $('#photoDB-upload-form #photoDB-img-message');
             message.html('<span class="glyphicon glyphicon-alert text-danger"></span> Neobsahuje datum a čas v EXIF!');
             message.show();
+        }
 
-            this._updateSubmitBtnStatus()
+        function badExifDateTime(val) {
+            var message = $('#photoDB-upload-form #photoDB-img-message');
+            message.html('<span class="glyphicon glyphicon-alert text-danger"></span> Chybné datum a čas v EXIF!<br/>'+val);
+            message.show();
         }
 
         var exif = EXIF.readFromBinaryFile(base64ToArrayBuffer(e.currentTarget.currentSrc));
 
         if (!exif) {
           // No exif in image
-          badExif();
+          noExif();
           return;
         }
 
         if (!exif.DateTime && !exif.DateTimeOriginal) {
           //no date/time in exif - avoid this photo!
-          badExif();
+          noExif();
+          return;
+        
+        }
+        //check for DateTime of 1980.1.1 - e.g. badly set up date in camera
+        if (exif.DateTime.search(/^1980:/) == 0 || exif.DateTimeOriginal.search(/^1980:/) == 0) {
+          //bad date/time in exif - avoid this photo!
+          badExifDateTime(exif.DateTime);
           return;
         }
 
