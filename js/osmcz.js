@@ -1,13 +1,5 @@
 var OSMCZ_APP_VERSION = '0.22';
 
-var osmcz = osmcz || {};
-osmcz.production = ['openstreetmap.cz', 'osmap.cz', 'osm.localhost', 'devosm.zby.cz'].indexOf(location.hostname) !== -1;
-osmcz.basePath = osmcz.production ? '/theme/' : '';
-osmcz.fakeHttps = osmcz.production ? '/proxy.php/' : 'http://';
-osmcz.user = false; //user object of currently logged in user. Defined later in @layout.latte
-osmcz.setMarkerFromParams = setMarkerFromParams;
-osmcz.userMarker = false; // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
-
 var map, baseLayers = {}, overlays = {}, controls = {};
 var guideposts, gpcheck;
 var sidebar, poiSidebar, mapLayers;
