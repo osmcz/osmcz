@@ -8,8 +8,6 @@ osmcz.poiPopup = function (map) {
     osmcz._map = map;
 };
 
-var photoDbUrl = osmcz.production ? 'https://osm.fit.vutbr.cz/fody/' : 'https://osm.fit.vutbr.cz/fody-dev/';
-
 // static fields
 osmcz.permanentlyDisplayed = false;
 osmcz._marker = L.circleMarker([0, 0]);
@@ -401,7 +399,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         else {
             var ref = feature.properties.tags.ref;
             $.ajax({
-                url: photoDbUrl + 'api/close',
+                url: osmcz.photoDbUrl + 'api/close',
                 data: {
                     lat: lat,
                     lon, lon,
@@ -424,7 +422,7 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
         + '</a>'
         + '<div class="margin-top-05"><b>Fotografii poskytl: </b> _autor'
         + '<span style="margin: 0.5em"/>'
-        + ' <a href="'+photoDbUrl+'?id=_id" target="_blank" class="btn btn-default btn-xs">'
+        + ' <a href="'+osmcz.photoDbUrl+'?id=_id" target="_blank" class="btn btn-default btn-xs">'
         + '   <span class="glyphicon glyphicon-pencil" title="upravit"></span> upravit</a>'
         + '</div>'
 
@@ -436,13 +434,13 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
                 return;
             var autor = feature.guidepost.features[0].properties.author;
             var gpostId = feature.guidepost.features[0].properties.id;
-            var fullImgUrl = photoDbUrl + 'files/' + gpostId + '.jpg';
+            var fullImgUrl = osmcz.photoDbUrl + 'files/' + gpostId + '.jpg';
             gp.html(gpTpl.replace(/_autor/g, autor).replace(/_imgUrl/g, fullImgUrl).replace(/_id/g, gpostId));
 
             // get guidepost thumbnail from photodb cache server first
             // if it fails, request it from phpThumb
             var tb = new Image();
-            tb.src = photoDbUrl + "files/250px/" + gpostId + '.jpg';
+            tb.src = osmcz.photoDbUrl + "files/250px/" + gpostId + '.jpg';
             tb.onload = function () {
                 $('#thumbnailLoadSpinner').hide();
                 $('#thumbnailImage').attr('src', tb.src);
