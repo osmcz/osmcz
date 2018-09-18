@@ -1,5 +1,9 @@
 var OSMCZ_APP_VERSION = '0.22';
 
+var osmcz = osmcz || {};
+osmcz.setMarkerFromParams = setMarkerFromParams;
+osmcz.userMarker = false; // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
+
 var map, baseLayers = {}, overlays = {}, controls = {};
 var guideposts, gpcheck;
 var sidebar, poiSidebar, mapLayers;
