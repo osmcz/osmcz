@@ -16,8 +16,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         maxZoom: 24,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         code: 'x',
-        osmczDefaultLayer: true,
-        basic: true
     });
 
     var turisticka = L.tileLayer("https://tile.poloha.net/{z}/{x}/{y}.png", {
@@ -42,7 +40,9 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var wikimediamap = L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}" + retinaSuffix + ".png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="https://www.mediawiki.org/wiki/Maps">Wikimedia</a>',
-        code: 'w'
+        code: 'w',
+        basic: true,
+        osmczDefaultLayer: true,
     });
 
     var ocm = L.tileLayer("https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
