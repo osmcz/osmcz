@@ -3,10 +3,12 @@ var OSMCZ_APP_VERSION = '0.22';
 var osmcz = osmcz || {};
 osmcz.setMarkerFromParams = setMarkerFromParams;
 osmcz.userMarker = false; // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
+osmcz.defaultLayer = null; // Store default layer there
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var guideposts, gpcheck;
 var sidebar, poiSidebar, mapLayers;
+
 
 initmap();
 
@@ -49,6 +51,17 @@ function initmap() {
         controls.layers.expandGroup("Základní");
     }
 
+    // Look for default layer
+    L1:
+    for (group in baseLayers) {
+        for (layer in baseLayers[group]) {
+            if (baseLayers[group][layer].options && baseLayers[group][layer].options.osmczDefaultLayer) {
+                osmcz.defaultLayer = baseLayers[group][layer];
+                break L1;
+            }
+        }
+    }
+
     // -------------------- modules --------------------
     guideposts = new osmcz.guideposts(map, baseLayers, overlays, controls, "Turistické");
     gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls, "Speciální");
@@ -69,7 +82,7 @@ function initmap() {
     // update on hash change
     var lastHash;
     $(window).bind('hashchange', function (e) {
-        if (location.hash != lastHash) {
+        if (location.hash && (location.hash != lastHash)) {
             var hash = OSM.parseHash(location.hash);
             if (hash.center)
                 map.setView([hash.lat, hash.lon], hash.zoom);
@@ -213,26 +226,36 @@ function loadPoiFromParams(params) {
 }
 
 function updateLayersFromCode(codedString) {
-    var setLayer = function (key, layer) {
+
+     function setLayer (key, layer) {
         if (layer == null) {
-            return;
-        }
-        for (var pos in codedString) {
-            if (layer.options && layer.options.code == codedString[pos])
-                map.addLayer(layer);
+            return false;
         }
 
-        // blank code or having only UPPERCASE = overlays --> display default layer
-        if ((!codedString || !codedString.match(/[a-z]/)) && layer.options && layer.options.osmczDefaultLayer)
-            map.addLayer(layer);
+        for (var pos in codedString) {
+            if (layer.options && layer.options.code == codedString[pos]) {
+                map.addLayer(layer);
+                return true;
+            }
+        }
+
+        return false;
     };
 
-    var group, layer;
+    var group, layer, baseLayerSelected = false;
 
-    for (group in baseLayers) {
-        for (layer in baseLayers[group]) {
-            setLayer(layer, baseLayers[group][layer]);
+    // blank code or having only UPPERCASE = overlays --> display default layer
+    if (!codedString || !codedString.match(/[a-z]/)) {
+        map.addLayer(osmcz.defaultLayer);
+    } else {
+        for (group in baseLayers) {
+            for (layer in baseLayers[group]) {
+                if (setLayer(layer, baseLayers[group][layer]))
+                    baseLayerSelected = true;
+            }
         }
+        if (!baseLayerSelected)
+            map.addLayer(osmcz.defaultLayer);
     }
 
     for (group in overlays) {
