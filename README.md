@@ -19,6 +19,13 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
 
 ## Changelog
+2018-09-23 **osmcz v0.23** (
+    [talk](https://openstreetmap.cz/talkcz/c2573),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.22...v0.23), 
+- opraveno přepínání vrstev map
+- default mapa je nyní místo Mapbox (neaktuální) Wikipedia
+- konfigurační volby přesunuty do samostatného souboru
+
 2018-09-11 **osmcz v0.22** (
     [talk](https://openstreetmap.cz/talkcz/c2573),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.21...v0.22), 
@@ -43,7 +50,6 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
     [talk](https://openstreetmap.cz/talkcz/c2105), 
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.18...v0.19) ) 
 - nový interface pro PhotoDB [#10](https://github.com/osmcz/osmcz/issues/10)
-
 
 2017-04-12  **osmcz v0.18** (
     [talk](https://openstreetmap.cz/talkcz/c2071), 
