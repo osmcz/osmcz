@@ -32,8 +32,6 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <meta property="fb:admins" content="665467457">
-    <meta property="fb:page_id" content="143935822443940">
     <meta property="og:image" content="{block fb_image}https://openstreetmap.cz/theme/img/mail-template.v2.png{/block}">
 </head>
 
@@ -121,11 +119,6 @@
                     {/if}
                 </li>
             </ul>
-
-            <div class="facebook-like">
-                <div class="fb-like" data-href="https://www.facebook.com/osmcz" data-layout="button_count"
-                     data-action="like" data-show-faces="false" data-share="false"></div>
-            </div>
 
         </div>
         <!-- /.navbar-collapse -->
@@ -280,19 +273,6 @@
             $('#frmCommunityFormPlugin-projects').selectize();
         </script>
     {/if}
-
-
-    <div id="fb-root"></div>
-    <script n:syntax="off">
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=515622781853695";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
 
     <script n:syntax="off">
         //utm_source=Newsletter+OSM+CZ&utm_campaign=613dacf067-OSMCZ_Jaro_2016&utm_medium=email&utm_term=0_81b42f6aac-613dacf067-45266529
