@@ -175,7 +175,8 @@ L.Control.PhotoDBGui = L.Control.extend({
                                 <input type="checkbox" name="gp_content[]" value="wheelchair" autocomplete="off">Vozíčkářský
                             </label>
                         </div>
-                        <br>
+                    </div>
+                    <div id="guidepostRef">
                         <label for="ref" class="label-margin">Ref:</label>
                         <input type="text" id="ref" name="ref" value="" placeholder="Například: XX114 nebo 0123/45" title="Číslo rozcestníku bez posledního písmene." class="form-control input-sm"/>
                     </div>
@@ -324,8 +325,13 @@ L.Control.PhotoDBGui = L.Control.extend({
     _phototypeChanged: function (e) {
         if (e.target.value == "gp") {
             $('#photoDB-upload-form #guidepostOptions').show('1');
+            $('#photoDB-upload-form #guidepostRef').show('1');
+        } else if (e.target.value == "emergency") {
+            $('#photoDB-upload-form #guidepostOptions').hide('1');
+            $('#photoDB-upload-form #guidepostRef').show('1');
         } else {
             $('#photoDB-upload-form #guidepostOptions').hide('1');
+            $('#photoDB-upload-form #guidepostRef').hide('1');
         }
     },
 
@@ -616,6 +622,7 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         // Show guidepost options block
         $('#photoDB-upload-form #guidepostOptions').show();
+        $('#photoDB-upload-form #guidepostRef').show();
 
         $('#photoDB-upload-form #latlonFs').hide();
         $('#photoDB-upload-form #otherData').hide();
@@ -645,7 +652,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         var phototype = $('#photoDB-upload-form #phototype option:selected').val();
 
         // Sent ref only for guideposts
-        if (phototype != 'gp') {
+        if (phototype != 'gp' || phototype != 'emergency') {
             $('#photoDB-upload-form #ref').val('');
         }
 
