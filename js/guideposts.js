@@ -144,10 +144,10 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                 } else if (b.tags.indexOf("emergency") > -1 && 
                     b.tags.indexOf("rozcestnik") == -1) {
                     ftype = "emergency";
-                } else if (b.tags.indexOf("cyklo") > -1 &&
+                } else if ((b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) &&
                     b.tags.indexOf("pesi") == -1) {
                     ftype = "cycle";
-                } else if (b.tags.indexOf("cyklo") > -1 &&
+                } else if ((b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) &&
                     b.tags.indexOf("pesi") > -1) {
                     ftype = "cycle_foot";
                 }
