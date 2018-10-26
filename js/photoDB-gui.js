@@ -149,7 +149,8 @@ L.Control.PhotoDBGui = L.Control.extend({
                         <option value="gp">Rozcestník</option>
                         <option value="info">Informační tabule</option>
                         <option value="map">Mapa</option>
-                        <option value="pano">Panorama</option>
+                        <option value="prehledova">Přehledová fotka</option>
+                        <option value="emergency">Bod záchrany</option>
                         <option value="other">Jiný</option>
                     </select>
                     <div id="guidepostOptions">
@@ -160,6 +161,9 @@ L.Control.PhotoDBGui = L.Control.extend({
                             </label>
                             <label class="btn  btn-default">
                                 <input type="checkbox" name="gp_content[]" value="cycle" autocomplete="off">Cyklo
+                            </label>
+                            <label class="btn  btn-default">
+                                <input type="checkbox" name="gp_content[]" value="silnicni" autocomplete="off">Silniční
                             </label>
                             <label class="btn  btn-default">
                                 <input type="checkbox" name="gp_content[]" value="ski" autocomplete="off">Lyžařský
