@@ -89,6 +89,12 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
+    
+    var emergency_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/emergency_point.png",
+        iconSize: [48, 48],
+        iconAnchor: [23, 45]
+    });
 
     var commons_icon = L.icon({
         iconUrl: osmcz.basePath + "img/commons_logo.png",
@@ -135,6 +141,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     ftype = "infopane";
                 } else if (b.tags.indexOf("mapa") > -1) {
                     ftype = "map";
+                } else if (b.tags.indexOf("emergency") > -1 && 
+                    b.tags.indexOf("rozcestnik") == -1) {
+                    ftype = "emergency";
                 } else if (b.tags.indexOf("cyklo") > -1 &&
                     b.tags.indexOf("pesi") == -1) {
                     ftype = "cycle";
@@ -156,7 +165,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='" + osmcz.photoDbUrl + "?author=" + b.author + "'>" + b.author + "</a>";
             html_content += "<br>";
-            if (ftype == "guidepost") {
+            if (ftype == "guidepost" || ftype == "emergency" || ftype == "cycle_foot" ) {
                 html_content += "Číslo rozcestníku: ";
                 html_content += "<a href='" + osmcz.photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
                 html_content += "<br>";
@@ -198,6 +207,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     break;
                 case "necitelne":
                     layer.setIcon(blurred_icon);
+                    break;
+                case "emergency":
+                    layer.setIcon(emergency_icon);
                     break;
                 default:
                     layer.setIcon(guidepost_icon);
