@@ -652,7 +652,7 @@ L.Control.PhotoDBGui = L.Control.extend({
         var phototype = $('#photoDB-upload-form #phototype option:selected').val();
 
         // Sent ref only for guideposts
-        if (phototype != 'gp' || phototype != 'emergency') {
+        if (phototype != 'gp' && phototype != 'emergency') {
             $('#photoDB-upload-form #ref').val('');
         }
 
