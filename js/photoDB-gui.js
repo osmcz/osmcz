@@ -674,7 +674,8 @@ L.Control.PhotoDBGui = L.Control.extend({
             xhrFields: {
               withCredentials: true
             },
-            done: function (data) {
+            statusCode: {
+              200: function (data) {
                 var result = data.split(':');
 
                 if (result) {
@@ -710,8 +711,7 @@ L.Control.PhotoDBGui = L.Control.extend({
                     // Change button icon
                     submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
                 }
-            },
-            statusCode: {
+              },
               400: function () {
                 toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + "Chybný požadavek",
                     'Chyba!', {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
