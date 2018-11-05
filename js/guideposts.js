@@ -165,6 +165,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             html_content += "Fotografii poskytl: ";
             html_content += "<a href='" + osmcz.photoDbUrl + "?author=" + b.author + "'>" + b.author + "</a>";
             html_content += "<br>";
+            html_content += "Pořízeno: " + b.created;
+            html_content += "<br>";
+
             if (ftype == "guidepost" || ftype == "emergency" || ftype == "cycle_foot" ) {
                 html_content += "Číslo rozcestníku: ";
                 html_content += "<a href='" + osmcz.photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
