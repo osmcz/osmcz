@@ -667,7 +667,6 @@ L.Control.PhotoDBGui = L.Control.extend({
         submitBtnIcon.attr('class', 'glyphicon glyphicon-refresh text-info gly-spin');
 
         $.ajax({
-            //url: 'https://api.openstreetmap.cz/guidepost.php',
             url: osmcz.photoDbUrl + 'api/add',
             type: 'POST',
             data: formData,
@@ -675,7 +674,7 @@ L.Control.PhotoDBGui = L.Control.extend({
             xhrFields: {
               withCredentials: true
             },
-            success: function (data) {
+            done: function (data) {
                 var result = data.split(':');
 
                 if (result) {
@@ -712,16 +711,27 @@ L.Control.PhotoDBGui = L.Control.extend({
                     submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
                 }
             },
-            fail: function (data) {
-                toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + data,
-                    'Chyba!',
-                    {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
+            statusCode: {
+              400: function () {
+                toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + "Chybný požadavek",
+                    'Chyba!', {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
                 // Re-enable submit button
                 $('#photoDB-upload-form #submitBtn').prop('disabled', false);
 
                 // Change button icon
                 submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
                 return false;
+              },
+              401: function () {
+                toastr.error('Fotografii se nepodařilo  uložit na server.<br><em>Detail: </em>' + "Nejste přihlášeni k Fody",
+                    'Chyba!', {closeButton: true, positionClass: "toast-bottom-center", timeOut: 0});
+                // Re-enable submit button
+                $('#photoDB-upload-form #submitBtn').prop('disabled', false);
+
+                // Change button icon
+                submitBtnIcon.attr('class', 'glyphicon glyphicon-warning-sign text-danger');
+                return false;
+              },
             },
             cache: false,
             contentType: false,
