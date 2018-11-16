@@ -704,6 +704,10 @@ div[group-active=true]:hover {
     font-size: 2em;
 }
 
+.gp-thumbnail {
+    min-width: 180px;
+}
+
 .vcenter {
     display: inline-block;
     vertical-align: middle;

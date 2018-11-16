@@ -89,7 +89,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
-    
+
     var emergency_icon = L.icon({
         iconUrl: osmcz.basePath + "img/gp/emergency_point.png",
         iconSize: [48, 48],
@@ -141,7 +141,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     ftype = "infopane";
                 } else if (b.tags.indexOf("mapa") > -1) {
                     ftype = "map";
-                } else if (b.tags.indexOf("emergency") > -1 && 
+                } else if (b.tags.indexOf("emergency") > -1 &&
                     b.tags.indexOf("rozcestnik") == -1) {
                     ftype = "emergency";
                 } else if ((b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) &&
@@ -173,10 +173,12 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                 html_content += "<a href='" + osmcz.photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
                 html_content += "<br>";
             }
+            html_content += "<div class='gp-thumbnail'>";
             html_content += "<a href='" + osmcz.photoDbUrl + "files/" + b.id + ".jpg'>";
             html_content += "<div id='thumbnailLoadSpinner" + b.id + "' class='text-center'><br><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
-            html_content += "<img id='thumbnailImage" + b.id + "' src='' class='center-block' width='180' />";
+            html_content += "<img id='thumbnailImage" + b.id + "' src='' class='center-block' />";
             html_content += "</a>";
+            html_content += "</div>";
 
             html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
 
