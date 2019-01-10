@@ -115,6 +115,22 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
+    var ipr_last = L.tileLayer("https://osm-{s}.zby.cz/tiles_ipr_last.php/{z}/{x}/{y}.png", {
+        minZoom: 12,
+        maxZoom: 22,
+        bounds: [[50.255, 14.113], [49.88, 14.8144]],
+        attribution: '&copy; <a href="http://www.iprpraha.cz/clanek/1305/ortofotomapy">IPR Praha</a>',
+        code: 'i'
+    });
+
+    var ipr_vege = L.tileLayer("https://osm-{s}.zby.cz/tiles_ipr_vege.php/{z}/{x}/{y}.png", {
+        minZoom: 12,
+        maxZoom: 22,
+        bounds: [[50.255, 14.113], [49.88, 14.8144]],
+        attribution: '&copy; <a href="http://www.iprpraha.cz/clanek/1305/ortofotomapy">IPR Praha</a>',
+        code: 'j'
+    });
+
     var metropolis = L.tileLayer("https://api.mapbox.com/styles/v1/severak/cinr478gg00aucam0o6lran4v/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2V2ZXJhayIsImEiOiJjaXQxenM2ZTEwMGIyMnRwZGMwZzF6Y2VsIn0.-uZbcCAI3ABqnbg6h1mrhQ", {
         maxZoom: 24,
         attribution: osmAttr + ', <a href=\'https://www.mapbox.com/about/maps/\'>Mapbox</a>, <a href=\'http://severak.svita.cz\'>Severák</a>',
@@ -313,6 +329,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     // Ortofoto group
     baseLayers["Letecké"] = {};
     baseLayers["Letecké"]["Ortofoto ČÚZK"] = ortofoto;
+    baseLayers["Letecké"]["Praha - IPR last"] = ipr_last;
+    baseLayers["Letecké"]["Praha - IPR vegetační půst"] = ipr_vege;
 
     overlays["Letecké"] = {};
     overlays["Letecké"]["Ortofoto popisky"] = ortofotoOverlay;
