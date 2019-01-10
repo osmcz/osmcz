@@ -43,7 +43,12 @@ osmcz.poiPopup.load = function (object) {
 
 
             if (feature.geometry.type !== 'Point') { // take centroid of a Polygon
-                var centroid = L.polygon(feature.geometry.coordinates[0]).getBounds().getCenter();
+                var centroid;
+                try {
+                    centroid = L.polygon(feature.geometry.coordinates[0]).getBounds().getCenter();
+                } catch(e) {
+                    centroid = L.polygon(feature.geometry.coordinates).getBounds().getCenter();
+                }
 
                 feature.geometry = {
                     type: 'Point',
