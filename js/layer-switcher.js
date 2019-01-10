@@ -123,10 +123,9 @@ osmcz.LayerSwitcher = L.Control.extend({
             }
         } else {
             if (this._groups[group]) {
-                if (this._groupsHeaders[group].getAttribute('aria-expanded') == null ||
-                    this._groupsHeaders[group].getAttribute('aria-expanded') == 'false') {
+                if ($(this._groupsHeaders[group].getAttribute('data-target')).css('display') === "none") {
                     this._updateGroupCookie(group);
-                    $("#" + this._groups[group].id).collapse("show");
+                    $("#" + this._groups[group].id).show();
                 }
             }
         }
@@ -134,9 +133,9 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     collapseGroup: function (group) {
         if (this._groups[group]) {
-            if (this._groupsHeaders[group].getAttribute('aria-expanded') == "true") {
+            if ($(this._groupsHeaders[group].getAttribute('data-target')).css('display') === "block") {
                 this._updateGroupCookie(group);
-                $("#" + this._groups[group].id).collapse("hide");
+                $("#" + this._groups[group].id).hide();
             }
         }
     },
@@ -216,9 +215,8 @@ osmcz.LayerSwitcher = L.Control.extend({
 
         var grpBase = document.createElement('div');
         grpBase.className = 'btn btn-default btn-block btn-xs';
-        grpBase.setAttribute("data-toggle", "collapse");
-        grpBase.setAttribute("data-target", '#' + target);
-        grpBase.setAttribute("onclick", "controls.layers._updateGroupCookie('" + name + "');");
+        grpBase.setAttribute("onclick", "$('#"+target+"').toggle();controls.layers._updateGroupCookie('" + name + "');");
+        grpBase.setAttribute("data-target", '#'+target);
 
         content = '<i class="glyphicon glyphicon-triangle-right  pull-left" ' + glHideRight + '></i>';
         content += '<i class="glyphicon glyphicon-triangle-bottom pull-left" ' + glHideBottom + '></i>';
@@ -256,14 +254,14 @@ osmcz.LayerSwitcher = L.Control.extend({
 //         inCnt.push('  <button type="button" class="close"><span aria-hidden="true">&times;</span></button>');
         inCnt.push('  <div class="clearfix">');
         inCnt.push('    <div id="ls-info" class="btn-group inline navbar-default">');
-        inCnt.push('      <a class="btn btn-header" data-toggle="collapse" data-target="#lsinfo" title="O vrstvách">Vrstvy <span class="glyphicon glyphicon-question-sign small"></a>');
+        inCnt.push('      <a class="btn btn-header" onclick=\'$("#lsinfo").show();Cookies.remove("_ls_info_hide")\' title="O vrstvách">Vrstvy <span class="glyphicon glyphicon-question-sign small"></a>');
         inCnt.push('    </div>');
         inCnt.push('  </div>');
-        inCnt.push('  <div id="lsinfo" class="ls-info-body collapse">');
-        inCnt.push('    <p class="text-center"><strong>Mapové vrstvy vám ukáží pravou sílu <em>OpenStreetMap</em>.</strong></p>');
-        inCnt.push('    <p class="text-justify">Stejná mapová databáze může být vykreslena v různých stylech a pro mnoho různých využití. Od mapy města, přes turistiku až po lyžování.</p>');
-        inCnt.push('    <p>Další vrstvy si zpřístupníte kliknutím na tlačítko <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span> níže.');
-        inCnt.push('      <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#lsinfo" onclick=\'Cookies.set("_ls_info_hide", "yes", {expires: 90})\'>Skrýt</a>');
+        inCnt.push('  <div id="lsinfo" class="ls-info-body">');
+        inCnt.push('    <p class="text-center"><strong>Mapové vrstvy je to co odlišuje <em>OpenStreetMap</em>.</strong></p>');
+        inCnt.push('    <p class="text-justify">Jedna mapová databáze totiž může být vykreslena v různých stylech a pro různé užití. Od mapy města, přes turistiku či lyžování.</p>');
+        inCnt.push('    <p>Další vrstvy pod tlačítkem <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span>.');
+        inCnt.push('      <a href="#" class=" pull-right" onclick=\'$("#lsinfo").hide();Cookies.set("_ls_info_hide", "yes", {expires: 90})\'>Skrýt</a>');
         inCnt.push('    </p>');
         inCnt.push('  </div>');
         inCnt.push('  <div id="map-layers-content">');
@@ -355,8 +353,6 @@ osmcz.LayerSwitcher = L.Control.extend({
         this._btnSetting.className = 'btn btn-secondary  btn-default btn-xs pull-right hidden';
         this._btnSetting.setAttribute('type', 'button');
         this._btnSetting.setAttribute('title', 'Nastavení');
-        this._btnSetting.setAttribute('data-toggle', 'collapse');
-        this._btnSetting.setAttribute('data-target', '#lssetup');
         this._btnSetting.innerHTML = '<i class="glyphicon glyphicon-cog" ></i>';
 
         // Mode switcher
@@ -523,16 +519,15 @@ osmcz.LayerSwitcher = L.Control.extend({
             $('#groupsModeContainer').show();
             $('#btnExpandAll').show();
             $('#btnCollapseAll').show();
-            $('#lsinfo').collapse("hide");
+            $('#lsinfo').hide();
         } else {
             this._baseSeparator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
             $('#groupsModeContainer').hide();
             $('#basicModeContainer').show();
             $('#btnExpandAll').hide();
             $('#btnCollapseAll').hide();
-            var infoCookie = Cookies.get("_ls_info_hide");
-            if (infoCookie && infoCookie != "yes") {
-                $('#lsinfo').collapse("show");
+            if (Cookies.get("_ls_info_hide") === "yes") {
+                $('#lsinfo').hide();
             }
         }
     },
@@ -715,8 +710,7 @@ osmcz.LayerSwitcher = L.Control.extend({
     _updateGroupCookie: function (group) {
 
         if (this._groups[group]) {
-            if (this._groupsHeaders[group].getAttribute('aria-expanded') == null ||
-                this._groupsHeaders[group].getAttribute('aria-expanded') == "false") {
+            if ($(this._groupsHeaders[group].getAttribute('data-target')).css('display') === "none") {
                 var expandCookie = Cookies.get("_ls_expanded_groups") == null ? group : Cookies.get("_ls_expanded_groups") + '|' + group;
                 Cookies.set("_ls_expanded_groups", expandCookie, {expires: 90});
             } else {
