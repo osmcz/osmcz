@@ -70,7 +70,7 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 
 
 ## Autoři, licence 
-(c) 2016-2018 zbycz, mkyral, walley a [další](https://github.com/osmcz/osmcz/graphs/contributors)
+(c) 2016-2018 zbycz, mkyral, walley, tkas a [další](https://github.com/osmcz/osmcz/graphs/contributors)
 
 Pod licencí MIT - volně šiřte, prodávejte, zachovejte uvedení autora.
 

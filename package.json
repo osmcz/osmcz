@@ -1,0 +1,16 @@
+{
+  "name": "osmcz-app",
+  "version": "0.23.0",
+  "main": "index.js",
+  "repository": "git@github.com:osmcz/osmcz.git",
+  "author": "zbycz, mkyral, walley, tkas + see github",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "prettier": "prettier --write --ignore-path .prettierignore --single-quote '**/*.php' '**/*.js' '**/*.css' '**/*.md'"
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.10.1",
+    "prettier": "^1.16.4"
+  }
+}
