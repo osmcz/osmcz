@@ -84,28 +84,25 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls, group) {
       var osmid = feature.id;
       var lat = feature.geometry.coordinates[1];
       var lon = feature.geometry.coordinates[0];
-      html_content += '<div id="gpc-upload-img">';
       html_content +=
+        '<div id="gpc-upload-img">' +
         '  <button id="gpc-upload-btn" type="button" class="btn btn-info fa-4x center-block" onclick="osmcz.gpcheck.openForm(' +
         osmid +
-        ');return false;" title="Máte fotografii? Vložte ji prosím.">';
-      html_content +=
-        '     <div class="glyphicon glyphicon-plus-sign no-foto vcenter"></div><span style="margin-left: 10px"><strong>Vložit fotografii</strong></span>';
-      html_content += '  </button>';
-      html_content += '</div>';
+        ');return false;" title="Máte fotografii? Vložte ji prosím.">' +
+        '     <div class="glyphicon glyphicon-plus-sign no-foto vcenter"></div><span style="margin-left: 10px"><strong>Vložit fotografii</strong></span>' +
+        '  </button>' +
+        '</div>';
 
       // List of missing thinks
       html_content += '<div id="gpc-missing"><br/>';
       if (feature.properties.class == 'missing') {
         html_content +=
-          '<span class="glyphicon glyphicon-remove text-danger"></span> chybí tag ref<br/>';
-        html_content +=
+          '<span class="glyphicon glyphicon-remove text-danger"></span> chybí tag ref<br/>' +
           '<span class="glyphicon glyphicon-remove text-danger"></span> chybí foto<br/>';
       }
       if (feature.properties.class == 'noref') {
         html_content +=
-          '<span class="glyphicon glyphicon-remove text-danger"></span> chybí tag ref<br/>';
-        html_content +=
+          '<span class="glyphicon glyphicon-remove text-danger"></span> chybí tag ref<br/>' +
           '<span class="glyphicon glyphicon-remove text-danger"></span> nepoužité/vadné foto<br/>';
       }
       if (feature.properties.class == 'noimg') {
@@ -119,8 +116,10 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls, group) {
       html_content += '</div>';
 
       // Data in OSM - element is filled during popup open event
-      html_content += '<div id="gp-check" gp-check-id=' + feature.id + '>';
       html_content +=
+        '<div id="gp-check" gp-check-id=' +
+        feature.id +
+        '>' +
         '<br/><span class="glyphicon glyphicon-refresh text-info gly-spin"></span> Načítám podrobnosti z OSM.org</div>';
 
       // Links to node on osmap.cz and osm.org
@@ -129,33 +128,30 @@ osmcz.gpcheck = function(map, baseLayers, overlays, controls, group) {
         feature.id +
         '">osmap.cz/node/' +
         feature.id +
-        '</a>';
-      html_content +=
+        '</a>' +
         ' | <a href="https://openstreetmap.org/node/' +
         feature.id +
         '">OSM.org</a><br/>';
 
       // Edit in iD button
-      html_content += '<div id="gp-check-edit-btns">';
       html_content +=
+        '<div id="gp-check-edit-btns">' +
         '  <a href="https://www.openstreetmap.org/edit?editor=id&node=' +
         feature.id +
-        '"><button type="button" class="btn btn-default btn-xs">';
-      html_content += '     <div class="glyphicon glyphicon-pencil"></div> iD';
-      html_content += '  </button></a> ';
+        '"><button type="button" class="btn btn-default btn-xs">' +
+        '     <div class="glyphicon glyphicon-pencil"></div> iD' +
+        '  </button></a> ';
 
       // Edit in JOSM/Merkaartor button
       html_content +=
-        '  <a href="#"><button type="button" class="btn btn-default btn-xs"';
-      html_content +=
+        '  <a href="#"><button type="button" class="btn btn-default btn-xs"' +
         '   onclick="osmcz.gpcheck.callRemoteEditor(' +
         feature.geometry.coordinates +
-        ')">';
-      html_content +=
-        '  <div class="glyphicon glyphicon-pencil"></div> JOSM / Merkaartor';
-      html_content += '  </button></a>';
-      html_content += '  </div>';
-      html_content += '</div>';
+        ')">' +
+        '  <div class="glyphicon glyphicon-pencil"></div> JOSM / Merkaartor' +
+        '  </button></a>' +
+        '  </div>' +
+        '</div>';
 
       layer.bindPopup(html_content, {
         offset: new L.Point(1, -32),

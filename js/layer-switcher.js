@@ -215,20 +215,17 @@ osmcz.LayerSwitcher = L.Control.extend({
     grpBase.className = 'btn btn-default btn-block btn-xs';
     grpBase.setAttribute('data-toggle', 'collapse');
     grpBase.setAttribute('data-target', '#' + target);
-    grpBase.setAttribute(
-      'onclick',
-      "controls.layers._updateGroupCookie('" + name + "');"
-    );
+    var onclickStr = "controls.layers._updateGroupCookie('" + name + "');";
+    grpBase.setAttribute('onclick', onclickStr);
 
     content =
       '<i class="glyphicon glyphicon-triangle-right  pull-left" ' +
       glHideRight +
-      '></i>';
-    content +=
+      '></i>' +
       '<i class="glyphicon glyphicon-triangle-bottom pull-left" ' +
       glHideBottom +
-      '></i>';
-    content += name;
+      '></i>' +
+      name;
     grpBase.innerHTML = content;
 
     return grpBase;
@@ -256,38 +253,25 @@ osmcz.LayerSwitcher = L.Control.extend({
       panelContainer = this._panelContainer;
 
     // Init panel
-    var inCnt = [];
-    inCnt.push('<div id="map-layers-inner" class="sidebar-inner">');
-    //         inCnt.push('  <button type="button" class="close"><span aria-hidden="true">&times;</span></button>');
-    inCnt.push('  <div class="clearfix">');
-    inCnt.push(
-      '    <div id="ls-info" class="btn-group inline navbar-default">'
+    this._panelContainer.setContent(
+      '<div id="map-layers-inner" class="sidebar-inner">' +
+        //         +'  <button type="button" class="close"><span aria-hidden="true">&times;</span></button>'
+        '  <div class="clearfix">' +
+        '    <div id="ls-info" class="btn-group inline navbar-default">' +
+        '      <a class="btn btn-header" data-toggle="collapse" data-target="#lsinfo" title="O vrstvách">Vrstvy <span class="glyphicon glyphicon-question-sign small"></a>' +
+        '    </div>' +
+        '  </div>' +
+        '  <div id="lsinfo" class="ls-info-body collapse">' +
+        '    <p class="text-center"><strong>Mapové vrstvy vám ukáží pravou sílu <em>OpenStreetMap</em>.</strong></p>' +
+        '    <p class="text-justify">Stejná mapová databáze může být vykreslena v různých stylech a pro mnoho různých využití. Od mapy města, přes turistiku až po lyžování.</p>' +
+        '    <p>Další vrstvy si zpřístupníte kliknutím na tlačítko <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span> níže.' +
+        '      <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#lsinfo" onclick=\'Cookies.set("_ls_info_hide", "yes", {expires: 90})\'>Skrýt</a>' +
+        '    </p>' +
+        '  </div>' +
+        '  <div id="map-layers-content">' +
+        '  </div>' +
+        '</div>'
     );
-    inCnt.push(
-      '      <a class="btn btn-header" data-toggle="collapse" data-target="#lsinfo" title="O vrstvách">Vrstvy <span class="glyphicon glyphicon-question-sign small"></a>'
-    );
-    inCnt.push('    </div>');
-    inCnt.push('  </div>');
-    inCnt.push('  <div id="lsinfo" class="ls-info-body collapse">');
-    inCnt.push(
-      '    <p class="text-center"><strong>Mapové vrstvy vám ukáží pravou sílu <em>OpenStreetMap</em>.</strong></p>'
-    );
-    inCnt.push(
-      '    <p class="text-justify">Stejná mapová databáze může být vykreslena v různých stylech a pro mnoho různých využití. Od mapy města, přes turistiku až po lyžování.</p>'
-    );
-    inCnt.push(
-      '    <p>Další vrstvy si zpřístupníte kliknutím na tlačítko <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span> níže.'
-    );
-    inCnt.push(
-      '      <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#lsinfo" onclick=\'Cookies.set("_ls_info_hide", "yes", {expires: 90})\'>Skrýt</a>'
-    );
-    inCnt.push('    </p>');
-    inCnt.push('  </div>');
-    inCnt.push('  <div id="map-layers-content">');
-    inCnt.push('  </div>');
-    inCnt.push('</div>');
-
-    this._panelContainer.setContent(inCnt.join(''));
 
     var form = (this._form = L.DomUtil.create('form', className + '-list'));
 
@@ -430,12 +414,11 @@ osmcz.LayerSwitcher = L.Control.extend({
 
     // Group button
     var labelGroup = document.createElement('label');
-    labelGroup.className =
-      'btn btn-default' + (this._mode == 'groups' ? ' active' : '');
-    labelGroup.setAttribute(
-      'onclick',
-      'controls.layers._switchLayerMode("groups")'
-    );
+    var activeFlag = this._mode == 'groups' ? ' active' : '';
+    labelGroup.className = 'btn btn-default' + activeFlag;
+
+    var onclickStr = 'controls.layers._switchLayerMode("groups")';
+    labelGroup.setAttribute('onclick', onclickStr);
     labelGroup.setAttribute('title', 'Více vrstev ve skupinách');
 
     var inputGroup = document.createElement('input');
@@ -658,37 +641,28 @@ osmcz.LayerSwitcher = L.Control.extend({
     }
 
     var name = document.createElement('span');
-    var innerContent = [];
     if (obj.layer.options.removeBtn) {
-      innerContent.push(
+      name.innerHTML =
         '<span class="ellipsis removable" title="' +
-          obj.name +
-          '">&nbsp;' +
-          obj.name +
-          '</span>'
-      );
-      innerContent.push(
-        '<a href="#" class="btn pull-right" title="Odebrat vrstvu"'
-      );
-      innerContent.push(
-        'onclick="controls.layers.removeLayerByName(\'' + obj.name + '\');"'
-      );
-      innerContent.push('>');
-      innerContent.push(
-        '<span class="glyphicon glyphicon-trash text-danger" alt="X"></span></a>'
-      );
-      innerContent.push('<div class="clearfix"></div>');
+        obj.name +
+        '">&nbsp;' +
+        obj.name +
+        '</span>' +
+        '<a href="#" class="btn pull-right" title="Odebrat vrstvu"' +
+        'onclick="controls.layers.removeLayerByName(\'' +
+        obj.name +
+        '\'"' +
+        '>' +
+        '<span class="glyphicon glyphicon-trash text-danger" alt="X"></span></a>' +
+        '<div class="clearfix"></div>';
     } else {
-      innerContent.push(
+      name.innerHTML =
         '<span class="ellipsis" title="' +
-          obj.name +
-          '">&nbsp;' +
-          obj.name +
-          '</span>'
-      );
+        obj.name +
+        '">&nbsp;' +
+        obj.name +
+        '</span>';
     }
-
-    name.innerHTML = innerContent.join('');
 
     if (obj.overlay) {
       input = document.createElement('input');
@@ -756,9 +730,7 @@ osmcz.LayerSwitcher = L.Control.extend({
     }
 
     this._handlingClick = false;
-
     this._updateGroupHeaders();
-
     this._refocusOnMap();
   },
 
@@ -798,20 +770,19 @@ osmcz.LayerSwitcher = L.Control.extend({
   // Update cookie containig list of expanded groups so they can be restored next time
   _updateGroupCookie: function(group) {
     if (this._groups[group]) {
+      var expandedGroups = Cookies.get('_ls_expanded_groups');
       if (
         this._groupsHeaders[group].getAttribute('aria-expanded') == null ||
         this._groupsHeaders[group].getAttribute('aria-expanded') == 'false'
       ) {
         var expandCookie =
-          Cookies.get('_ls_expanded_groups') == null
-            ? group
-            : Cookies.get('_ls_expanded_groups') + '|' + group;
+          expandedGroups == null ? group : expandedGroups + '|' + group;
         Cookies.set('_ls_expanded_groups', expandCookie, { expires: 90 });
       } else {
-        if (Cookies.get('_ls_expanded_groups') == null) {
+        if (expandedGroups == null) {
           return;
         } else {
-          var cc = Cookies.get('_ls_expanded_groups').split('|');
+          var cc = expandedGroups.split('|');
           var expandCookie = [];
           for (i in cc) {
             if (cc[i] != group) {

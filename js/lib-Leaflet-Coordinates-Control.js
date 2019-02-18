@@ -61,26 +61,24 @@ L.Control.Coordinates = L.Control.extend({
           lngCoordinateDM = DDToDM(lngCoordinate, 3, 'lon', true),
           latCoordinateDMS = DDToDMS(latCoordinate, 0, 'lat', true),
           lngCoordinateDMS = DDToDMS(lngCoordinate, 0, 'lon', true);
-        var coorsText = '<h4>GPS souřadnice</h4>';
-        coorsText +=
+
+        var coorsText =
+          '<h4>GPS souřadnice</h4>' +
           '<div class="gpsCoor">' +
           latCoordinate +
           ' ' +
           lngCoordinate +
-          '</div>';
-        coorsText +=
+          '</div>' +
           '<div class="gpsCoor">' +
           latCoordinateDM +
           ' ' +
           lngCoordinateDM +
-          '</div>';
-        coorsText +=
+          '</div>' +
           '<div class="gpsCoor">' +
           latCoordinateDMS +
           ' ' +
           lngCoordinateDMS +
-          '</div>';
-        coorsText +=
+          '</div>' +
           '<div class="gpsCoor text-right"><a href="' +
           link +
           '" class="btn btn-default btn-sm"">vytvořit značku</a></div>';
@@ -149,16 +147,13 @@ L.Control.Coordinates = L.Control.extend({
     L.DomUtil.get(this._gps).innerHTML = '';
 
     if (obj.latlng) {
+      var lat = obj.latlng.lat.toFixed(this.options.precision).toString();
+      var lon = obj.latlng.lng.toFixed(this.options.precision).toString();
+
       L.DomUtil.get(this._lat).innerHTML =
-        '<strong>' +
-        this.options.latitudeText +
-        ':</strong> ' +
-        obj.latlng.lat.toFixed(this.options.precision).toString();
+        '<strong>' + this.options.latitudeText + ':</strong> ' + lat;
       L.DomUtil.get(this._lng).innerHTML =
-        '<strong>' +
-        this.options.longitudeText +
-        ':</strong> ' +
-        obj.latlng.lng.toFixed(this.options.precision).toString();
+        '<strong>' + this.options.longitudeText + ':</strong> ' + lon;
       L.DomUtil.get(this._icon).innerHTML =
         '<span class="glyphicon glyphicon-triangle-top"></span>';
     }

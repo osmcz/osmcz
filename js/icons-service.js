@@ -16,9 +16,8 @@ osmcz.iconsService.get = function(tags) {
     var v = tags[k];
     var row = osmcz.iconsService.table[k]; //indexed by tag key
 
-    if (row && row[v])
-      //column by tag value
-      name = row[v];
+    //column by tag value
+    if (row && row[v]) name = row[v];
     else if (row && row['*']) name = row['*'];
   }
 

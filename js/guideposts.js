@@ -171,76 +171,76 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
       }
 
       var html_content = '';
-      html_content += 'Fotografii poskytl: ';
       html_content +=
+        'Fotografii poskytl: ' +
         "<a href='" +
         osmcz.photoDbUrl +
         '?author=' +
         b.author +
         "'>" +
         b.author +
-        '</a>';
-      html_content += '<br>';
-      html_content += 'Pořízeno: ' + b.created;
-      html_content += '<br>';
+        '</a>' +
+        '<br>' +
+        'Pořízeno: ' +
+        b.created +
+        '<br>';
 
       if (
         ftype == 'guidepost' ||
         ftype == 'emergency' ||
         ftype == 'cycle_foot'
       ) {
-        html_content += 'Číslo rozcestníku: ';
         html_content +=
+          'Číslo rozcestníku: ' +
           "<a href='" +
           osmcz.photoDbUrl +
           '?ref=' +
           (b.ref == 'nevíme' ? 'none' : b.ref) +
           "'>" +
           b.ref +
-          '</a>';
-        html_content += '<br>';
+          '</a>' +
+          '<br>';
       }
-      html_content += "<div class='gp-thumbnail'>";
       html_content +=
-        "<a href='" + osmcz.photoDbUrl + 'files/' + b.id + ".jpg'>";
-      html_content +=
+        "<div class='gp-thumbnail'>" +
+        "<a href='" +
+        osmcz.photoDbUrl +
+        'files/' +
+        b.id +
+        ".jpg'>" +
         "<div id='thumbnailLoadSpinner" +
         b.id +
-        "' class='text-center'><br><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
-      html_content +=
-        "<img id='thumbnailImage" + b.id + "' src='' class='center-block' />";
-      html_content += '</a>';
-      html_content += '</div>';
-
-      html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + '</div>';
-
-      html_content += "<div class='buttons-bar'>";
-      html_content +=
+        "' class='text-center'><br><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>" +
+        "<img id='thumbnailImage" +
+        b.id +
+        "' src='' class='center-block' />" +
+        '</a>' +
+        '</div>' +
+        "<div id='hashtags'>" +
+        parse_hashtags(b.tags) +
+        '</div>' +
+        "<div class='buttons-bar'>" +
         "<a href='" +
         osmcz.photoDbUrl +
         '?id=' +
         b.id +
-        "'><button type='button' class='btn btn-default btn-xs'>";
-      html_content +=
-        '   <div class="glyphicon glyphicon-pencil"></div> Upravit';
-      html_content += '</button></a>';
-
-      html_content += "<span class='space-2em'/>";
-
-      html_content += "<a href='#'>";
-      html_content += '<button type="button" class="btn btn-default btn-xs"';
-      html_content +=
+        "'><button type='button' class='btn btn-default btn-xs'>" +
+        '   <div class="glyphicon glyphicon-pencil"></div> Upravit' +
+        '</button></a>' +
+        "<span class='space-2em'/>" +
+        "<a href='#'>" +
+        '<button type="button" class="btn btn-default btn-xs"' +
         "onclick='javascript:guideposts.move_point(" +
         b.id +
         ',' +
         geometry[1] +
         ',' +
         geometry[0] +
-        ")'>";
-      html_content += '<div class="glyphicon glyphicon-move"></div> Přesunout';
-      html_content += '</button>';
-      html_content += '</a>';
-      html_content += '</div>';
+        ")'>" +
+        '<div class="glyphicon glyphicon-move"></div> Přesunout' +
+        '</button>' +
+        '</a>' +
+        '</div>';
 
       switch (ftype) {
         case 'infopane':
@@ -553,15 +553,14 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
   function update_sidebar(distance, lat, lon) {
     var info = document.getElementById('guidepost_move_info');
 
-    info.innerHTML = "<label for='lln'>lat, lon:</label>";
-    info.innerHTML +=
+    info.innerHTML =
+      "<label for='lln'>lat, lon:</label>" +
       "<input type='text' class='form-control' id='lln' readonly value='" +
       lat.toFixed(6) +
       ', ' +
       lon.toFixed(6) +
-      "'>";
-    info.innerHTML += "<label for='lld'>Vzdálenost:</label>";
-    info.innerHTML +=
+      "'>" +
+      "<label for='lld'>Vzdálenost:</label>" +
       "<input type='text' class='form-control' id='lld' readonly value='" +
       distance.toFixed(1) +
       'm' +
@@ -596,59 +595,42 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
         return true;
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
-        var inner = [];
         var content = document.getElementById('sidebar-content');
-        inner.push('<h4>Nejste přihlášeni!</h4>');
-        inner.push(
+        content.innerHTML =
+          '<h4>Nejste přihlášeni!</h4>' +
           "<p class='text-center'><a href='" +
-            osmcz.photoDbUrl +
-            "' target='_blank'>Přihlaste</a> se prosím do PhotoDB API"
-        );
-        content.innerHTML = inner.join('');
+          osmcz.photoDbUrl +
+          "' target='_blank'>Přihlaste</a> se prosím do PhotoDB API";
 
         return false;
       });
 
     if (!auth) return;
 
-    var inner = [];
     var content = document.getElementById('sidebar-content');
 
-    inner.push('<h4>Přesun fotky</h4>');
-    inner.push(
-      "<p class='mark text-center'>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]"
-    );
-    inner.push('<h5>Současná pozice</h5>');
-    inner.push("<label for='llc'>lat, lon:</label>");
-    inner.push(
+    content.innerHTML =
+      '<h4>Přesun fotky</h4>' +
+      "<p class='mark text-center'>Vyberte novou pozici a stiskněte tlačítko [Přesunout sem]" +
+      '<h5>Současná pozice</h5>' +
+      "<label for='llc'>lat, lon:</label>" +
       "<input type='text' class='form-control' id='llc' readonly value='" +
-        gp_lat.toFixed(6) +
-        ', ' +
-        gp_lon.toFixed(6) +
-        "'>"
-    );
-    inner.push('<h5>Přesunout na</h5>');
-    inner.push(
-      "<div id='guidepost_move_info'><p class='mark text-center'>Klikněte do mapy</p>"
-    );
-    inner.push('</div>');
-    inner.push('<h5>Připojit zprávu</h5>');
-    inner.push(
-      "<textarea class='form-control' rows='3' id='gp_usr_message' placeholder='moje zpráva…'></textarea>"
-    );
-    inner.push('<hr>');
-    inner.push(
-      "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>"
-    );
-    inner.push(
-      "<button class='btn btn-default btn-xs pull-right' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>"
-    );
-    inner.push('</div>');
-    inner.push(
-      "<hr><img class='thumbnail center-block' src='" + popupThumbnail + "'/>"
-    );
-
-    content.innerHTML = inner.join('');
+      gp_lat.toFixed(6) +
+      ', ' +
+      gp_lon.toFixed(6) +
+      "'>" +
+      '<h5>Přesunout na</h5>' +
+      "<div id='guidepost_move_info'><p class='mark text-center'>Klikněte do mapy</p>" +
+      '</div>' +
+      '<h5>Připojit zprávu</h5>' +
+      "<textarea class='form-control' rows='3' id='gp_usr_message' placeholder='moje zpráva…'></textarea>" +
+      '<hr>' +
+      "<button class='btn btn-default btn-xs' onclick='javascript:guideposts.cancel_moving()'>Zrušit</button>" +
+      "<button class='btn btn-default btn-xs pull-right' onclick='javascript:guideposts.finish_moving()'>Přesunout sem</button>" +
+      '</div>' +
+      "<hr><img class='thumbnail center-block' src='" +
+      popupThumbnail +
+      "'/>";
   }
 
   osmcz.guideposts.prototype.move_point = function(gid, glat, glon) {
@@ -731,7 +713,6 @@ osmcz.guideposts = function(map, baseLayers, overlays, controls, group) {
 
   function sidebar_init() {
     var hc = '';
-
     hc += "<div class='sidebar-inner'>";
     hc += '<!--sidebar from guideposts--> ';
     hc += "  <div id='sidebar-content'>";

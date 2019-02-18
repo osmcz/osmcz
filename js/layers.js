@@ -1,33 +1,34 @@
 // (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
+function osmAttr(other) {
+  //abbrevation not recommended on other websites
+  var osmcopy = '<a href="https://openstreetmap.org/copyright">OSM</a>';
+  return '&copy; ' + osmcopy + (other && ', ' + other);
+}
+
+var thunderforestAPIkey = '00291b657a5d4c91bbacb0ff096e2c25';
+var mapboxAPIkey =
+  'pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA';
+
 var osmcz = osmcz || {};
 osmcz.layers = function(map, baseLayers, overlays, controls) {
   // -- constructor --
 
-  var devicePixelRatio = window.devicePixelRatio || 1,
-    retinaSuffix = devicePixelRatio >= 2 ? '@2x' : '';
-  var osmAttr = '&copy; <a href="https://openstreetmap.org/copyright">OSM</a>'; //abbrevation not recommended on other websites
-
-  var thunderforestAPIkey = '00291b657a5d4c91bbacb0ff096e2c25';
-  var mapboxAPIkey =
-    'pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA';
-
   var mapbox = L.tileLayer(
-    'https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png?access_token=' +
-      mapboxAPIkey,
+    'https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}{r}.png?access_token={token}',
     {
+      token: mapboxAPIkey,
       maxZoom: 24,
-      attribution:
-        osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
+      attribution: osmAttr(
+        '<a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
+      ),
       code: 'x'
     }
   );
 
   var turisticka = L.tileLayer('https://tile.poloha.net/{z}/{x}/{y}.png', {
     maxZoom: 20,
-    attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+    attribution: osmAttr('<a href="http://www.poloha.net">poloha.net</a>'),
     code: 'k'
   });
 
@@ -35,26 +36,27 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
     {
       maxZoom: 17,
-      attribution:
-        osmAttr + ', <a href="https://opentopomap.org/">OpenTopoMap</a>',
+      attribution: osmAttr(
+        '<a href="https://opentopomap.org/">OpenTopoMap</a>'
+      ),
       code: 'u'
     }
   );
 
   var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: osmAttr,
+    attribution: osmAttr(),
     code: 'd',
     basic: true
   });
 
   var wikimediamap = L.tileLayer(
-    'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}' + retinaSuffix + '.png',
+    'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
     {
       maxZoom: 18,
-      attribution:
-        osmAttr +
-        ', <a href="https://www.mediawiki.org/wiki/Maps">Wikimedia</a>',
+      attribution: osmAttr(
+        '<a href="https://www.mediawiki.org/wiki/Maps">Wikimedia</a>'
+      ),
       code: 'w',
       basic: true,
       osmczDefaultLayer: true
@@ -62,29 +64,26 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
   );
 
   var ocm = L.tileLayer(
-    'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png?apikey=' +
-      thunderforestAPIkey,
+    'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={token}',
     {
+      token: thunderforestAPIkey,
       maxZoom: 22,
-      attribution:
-        osmAttr + ', <a href="https://opencyclemap.org">OpenCycleMap</a>',
+      attribution: osmAttr(
+        '<a href="https://opencyclemap.org">OpenCycleMap</a>'
+      ),
       code: 'c',
       basic: true
     }
   );
 
   var thunderoutdoor = L.tileLayer(
-    'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png?apikey=' +
-      thunderforestAPIkey,
+    'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}{r}.png?apikey={token}',
     {
+      token: thunderforestAPIkey,
       maxZoom: 22,
-      attribution:
-        osmAttr +
-        ', <a href="https://www.thunderforest.com/maps/outdoors/">Thunderforest</a>',
+      attribution: osmAttr(
+        '<a href="https://www.thunderforest.com/maps/outdoors/">Thunderforest</a>'
+      ),
       code: 'f'
     }
   );
@@ -93,9 +92,9 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     osmcz.fakeHttps + '{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
     {
       maxZoom: 18,
-      attribution:
-        osmAttr +
-        ', <a href="http://www.hikebikemap.org">Hike &amp; Bike Map</a>',
+      attribution: osmAttr(
+        '<a href="http://www.hikebikemap.org">Hike &amp; Bike Map</a>'
+      ),
       code: 'h'
     }
   );
@@ -104,7 +103,7 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     osmcz.fakeHttps + 'tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png',
     {
       maxZoom: 18,
-      attribution: osmAttr + ', <a href="http://www.mtbmap.cz">mtbmap.cz</a>',
+      attribution: osmAttr('<a href="http://www.mtbmap.cz">mtbmap.cz</a>'),
       code: 'm',
       basic: true
     }
@@ -131,15 +130,13 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
   );
 
   var dopravni = L.tileLayer(
-    'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png?apikey=' +
-      thunderforestAPIkey,
+    'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={token}',
     {
+      token: thunderforestAPIkey,
       maxZoom: 22,
-      attribution:
-        osmAttr +
-        ', <a href="https://www.thunderforest.com/maps/transport/">Thunderforest</a>',
+      attribution: osmAttr(
+        '<a href="https://www.thunderforest.com/maps/transport/">Thunderforest</a>'
+      ),
       code: 't',
       basic: true
     }
@@ -149,20 +146,18 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
     {
       maxZoom: 18,
-      attribution:
-        osmAttr + ', <a href="https://www.öpnvkarte.de/">öpnvkarte</a>',
+      attribution: osmAttr('<a href="https://www.öpnvkarte.de/">öpnvkarte</a>'),
       code: 'ö'
     }
   );
 
   var menepopisku = L.tileLayer(
-    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png',
+    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png',
     {
       maxZoom: 24, //umi az 30 a mozna i vic
-      attribution:
-        osmAttr + ', <a href="https://carto.com/attributions">CARTO</a>',
+      attribution: osmAttr(
+        '<a href="https://carto.com/attributions">CARTO</a>'
+      ),
       code: 'b'
     }
   );
@@ -210,42 +205,38 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://api.mapbox.com/styles/v1/severak/cinr478gg00aucam0o6lran4v/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2V2ZXJhayIsImEiOiJjaXQxenM2ZTEwMGIyMnRwZGMwZzF6Y2VsIn0.-uZbcCAI3ABqnbg6h1mrhQ',
     {
       maxZoom: 24,
-      attribution:
-        osmAttr +
-        ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>, <a href='http://severak.svita.cz'>Severák</a>",
+      attribution: osmAttr(
+        '<a href="https://www.mapbox.com/about/maps/">Mapbox</a>, <a href="http://severak.svita.cz">Severák</a>'
+      ),
       code: 'r'
     }
   );
 
   var spinal = L.tileLayer(
-    'https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png?apikey=' +
-      thunderforestAPIkey,
+    'https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}{r}.png?apikey={token}',
     {
+      token: thunderforestAPIkey,
       maxZoom: 22,
-      attribution:
-        osmAttr +
-        ', <a href="https://www.thunderforest.com/maps/spinal-map/">Thunderforest</a>',
+      attribution: osmAttr(
+        '<a href="https://www.thunderforest.com/maps/spinal-map/">Thunderforest</a>'
+      ),
       code: 'a'
     }
   );
 
   var pioneer = L.tileLayer(
-    'https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png?apikey=' +
-      thunderforestAPIkey,
+    'https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}{r}.png?apikey={token}',
     {
+      token: thunderforestAPIkey,
       maxZoom: 22,
-      attribution:
-        osmAttr +
-        ', <a href="https://www.thunderforest.com/maps/pioneer/">Thunderforest</a>',
+      attribution: osmAttr(
+        '<a href="https://www.thunderforest.com/maps/pioneer/">Thunderforest</a>'
+      ),
       code: 'p'
     }
   );
 
-  // automatically add/remove orotofotoOverlay
+  // automatically add/remove overlays (ortofoto, etc)
   map.on('baselayerchange', function(event) {
     if (event.layer == ortofoto || event.layer == vodovky) {
       setTimeout(function() {
@@ -294,7 +285,7 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://osm.fit.vutbr.cz/strava/all/{z}/{x}/{y}.png',
     {
       maxZoom: 16,
-      attribution: osmAttr + ', <a href="http://www.strava.com">strava.com</a>',
+      attribution: osmAttr('<a href="http://www.strava.com">strava.com</a>'),
       code: 'S',
       opacity: 0.6,
       basic: true
@@ -305,7 +296,7 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://tile.poloha.net/kct/{z}/{x}/{y}.png',
     {
       maxZoom: 20,
-      attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+      attribution: osmAttr('<a href="http://www.poloha.net">poloha.net</a>'),
       opacity: 0.6,
       code: 'K',
       basic: true
@@ -313,14 +304,13 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
   );
 
   var ortofotoOverlay = L.tileLayer(
-    'https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}' +
-      retinaSuffix +
-      '.png?access_token=' +
-      mapboxAPIkey,
+    'https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}{r}.png?access_token={token}',
     {
+      token: mapboxAPIkey,
       maxZoom: 24,
-      attribution:
-        osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
+      attribution: osmAttr(
+        '<a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
+      ),
       opacity: 1,
       code: 'O'
     }
@@ -331,7 +321,7 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://tile.poloha.net/contours_ortofoto/{z}/{x}/{y}.png';
   var vrstevniceOverlay = L.tileLayer(vrstevniceOverlayUrl, {
     maxZoom: 20,
-    attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+    attribution: osmAttr('<a href="http://www.poloha.net">poloha.net</a>'),
     opacity: 0.6,
     code: 'V'
   });
@@ -340,8 +330,9 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://www.opensnowmap.org/tiles-pistes/{z}/{x}/{y}.png',
     {
       maxZoom: 18,
-      attribution:
-        osmAttr + ', <a href="http://www.opensnowmap.org">opensnowmap.org</a>',
+      attribution: osmAttr(
+        '<a href="http://www.opensnowmap.org">opensnowmap.org</a>'
+      ),
       code: 'Z',
       basic: true
     }
@@ -351,8 +342,9 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png',
     {
       maxZoom: 17,
-      attribution:
-        osmAttr + ', <a href="http://hiking.lonvia.de">Lonvias Hiking</a>',
+      attribution: osmAttr(
+        '<a href="http://hiking.lonvia.de">Lonvias Hiking</a>'
+      ),
       opacity: 0.6,
       code: 'H'
     }
@@ -362,8 +354,9 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
     'https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png',
     {
       maxZoom: 17,
-      attribution:
-        osmAttr + ', <a href="http://cycling.lonvia.de">Lonvias Cycling</a>',
+      attribution: osmAttr(
+        '<a href="http://cycling.lonvia.de">Lonvias Cycling</a>'
+      ),
       opacity: 0.6,
       code: 'C',
       basic: true
@@ -395,7 +388,7 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
       format: 'image/png',
       transparent: true,
       crs: L.CRS.EPSG4326,
-      attribution: " <a href='http://www.eagri.cz.cz'>eagri.cz</a>",
+      attribution: '&copy; <a href="http://www.eagri.cz.cz">eagri.cz</a>',
       code: 'L'
     }
   );
@@ -451,18 +444,18 @@ osmcz.layers = function(map, baseLayers, overlays, controls) {
   var powerOverlay = L.tileLayer(
     'https://tiles-{s}.openinframap.org/power/{z}/{x}/{y}.png',
     {
-      attribution:
-        osmAttr +
-        ', <a href="https://OpenInfraMap.org/about.html">OpenInfraMap.org</a>',
+      attribution: osmAttr(
+        '<a href="https://OpenInfraMap.org/about.html">OpenInfraMap.org</a>'
+      ),
       code: 'W'
     }
   );
   var commsOverlay = L.tileLayer(
     'https://tiles-{s}.openinframap.org/telecoms/{z}/{x}/{y}.png',
     {
-      attribution:
-        osmAttr +
-        ', <a href="https://OpenInfraMap.org/about.html">OpenInfraMap.org</a>',
+      attribution: osmAttr(
+        '<a href="https://OpenInfraMap.org/about.html">OpenInfraMap.org</a>'
+      ),
       code: 'M'
     }
   );

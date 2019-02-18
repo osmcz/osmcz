@@ -22,7 +22,7 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 
 2018-09-23 **osmcz v0.23** (
 [talk](https://openstreetmap.cz/talkcz/c2573),
-[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.22...v0.23),
+[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.22...v0.23))
 
 - opraveno přepínání vrstev map
 - default mapa je nyní místo Mapbox (neaktuální) Wikipedia
@@ -30,7 +30,7 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 
 2018-09-11 **osmcz v0.22** (
 [talk](https://openstreetmap.cz/talkcz/c2573),
-[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.21...v0.22),
+[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.21...v0.22))
 
 - podpora a ikona pro rozcestníky jen s tourism=info
 - vrstva Strava heatmap hot/all pro ČR
@@ -53,13 +53,13 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 
 2017-05-07 **osmcz v0.19** (
 [talk](https://openstreetmap.cz/talkcz/c2105),
-[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.18...v0.19) )
+[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.18...v0.19))
 
 - nový interface pro PhotoDB [#10](https://github.com/osmcz/osmcz/issues/10)
 
 2017-04-12 **osmcz v0.18** (
 [talk](https://openstreetmap.cz/talkcz/c2071),
-[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.17...v0.18) )
+[osmcz-app](https://github.com/osmcz/osmcz/compare/v0.17...v0.18))
 
 - vrstva notes [#67](https://github.com/osmcz/osmcz/issues/67) a openinframap
 
