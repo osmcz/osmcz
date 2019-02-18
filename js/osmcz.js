@@ -1,4 +1,4 @@
-var OSMCZ_APP_VERSION = "0.23.0";
+var OSMCZ_APP_VERSION = '0.23.0';
 // also edit in /package.json
 // - or even better 1) edit here 2) run `git add js/osmcz.js` 3) run `yarn version`
 
@@ -17,7 +17,7 @@ var sidebar, poiSidebar, mapLayers;
 initmap();
 
 function initmap() {
-  map = new L.Map("map", {
+  map = new L.Map('map', {
     zoomControl: false,
     condensedAttributionControl: false
   });
@@ -33,22 +33,22 @@ function initmap() {
 
   // -------------------- Sidebars --------------------
   osmcz.sidebar = sidebar = L.control
-    .sidebar("sidebar", {
-      position: "left",
+    .sidebar('sidebar', {
+      position: 'left',
       autoPan: false
     })
     .addTo(map);
 
   osmcz.poiSidebar = poiSidebar = L.control
-    .sidebar("poi-sidebar", {
-      position: "left",
+    .sidebar('poi-sidebar', {
+      position: 'left',
       autoPan: false
     })
     .addTo(map);
 
   osmcz.layersSidebar = layersSidebar = L.control
-    .sidebar("map-layers", {
-      position: "right",
+    .sidebar('map-layers', {
+      position: 'right',
       closeButton: true,
       autoPan: false
     })
@@ -61,10 +61,10 @@ function initmap() {
   new osmcz.controls(map, baseLayers, overlays, layersSidebar, controls);
 
   // Restore previous state or expand base group by default
-  if (Cookies.get("_ls_expanded_groups")) {
+  if (Cookies.get('_ls_expanded_groups')) {
     controls.layers.expandGroup();
   } else {
-    controls.layers.expandGroup("Základní");
+    controls.layers.expandGroup('Základní');
   }
 
   // Look for default layer
@@ -86,9 +86,9 @@ function initmap() {
     baseLayers,
     overlays,
     controls,
-    "Turistické"
+    'Turistické'
   );
-  gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls, "Speciální");
+  gpcheck = new osmcz.gpcheck(map, baseLayers, overlays, controls, 'Speciální');
   popup = new osmcz.poiPopup(map);
 
   // -------------------- map state --------------------
@@ -106,7 +106,7 @@ function initmap() {
 
   // update on hash change
   var lastHash;
-  $(window).bind("hashchange", function(e) {
+  $(window).bind('hashchange', function(e) {
     if (location.hash && location.hash != lastHash) {
       var hash = OSM.parseHash(location.hash);
       if (hash.center) map.setView([hash.lat, hash.lon], hash.zoom);
@@ -116,60 +116,60 @@ function initmap() {
   });
 
   // remember last location in hash AND cookie
-  map.on("moveend zoomend layeradd layerremove", function() {
+  map.on('moveend zoomend layeradd layerremove', function() {
     lastHash = OSM.formatHash(map);
     location.hash = lastHash;
-    Cookies.set("_osm_location", OSM.locationCookie(map), { expires: 31 });
+    Cookies.set('_osm_location', OSM.locationCookie(map), { expires: 31 });
   });
 
   // when baselayer out of max zoom - zoom it correctly
-  map.on("baselayerchange", function(e) {
+  map.on('baselayerchange', function(e) {
     if (map.getZoom() > e.layer.options.maxZoom) {
       map.setView(map.getCenter(), e.layer.options.maxZoom, { reset: true });
     }
   });
 
   // -------------------- home-splash-screen or text-content splash --------------------
-  var container = $("#main .container");
+  var container = $('#main .container');
 
   var addHandlersToRestorePage = function() {
-    var activeMenu = $("nav .active").removeClass("active");
+    var activeMenu = $('nav .active').removeClass('active');
     var restorePage = function(event) {
       event.preventDefault();
       map.scrollWheelZoom.disable();
       container.slideDown();
-      $("#page-restore-button").fadeOut("slow");
-      activeMenu.addClass("active").off("click.fader");
+      $('#page-restore-button').fadeOut('slow');
+      activeMenu.addClass('active').off('click.fader');
     };
 
-    activeMenu.on("click.fader", restorePage);
-    $("#page-restore-button")
-      .fadeIn("slow")
-      .on("click", restorePage);
+    activeMenu.on('click.fader', restorePage);
+    $('#page-restore-button')
+      .fadeIn('slow')
+      .on('click', restorePage);
   };
 
   var closeSplash = function() {
     map.scrollWheelZoom.enable();
     container.slideUp();
     addHandlersToRestorePage();
-    if (location.pathname === "/splash") history.pushState({}, "", "/");
+    if (location.pathname === '/splash') history.pushState({}, '', '/');
   };
 
   // hide splash on map-click or map-move or layers-shown
-  map.on("click movestart", closeSplash);
-  osmcz.layersSidebar.on("show", function() {
-    container.toggleClass("layersSidebar-shown", true);
+  map.on('click movestart', closeSplash);
+  osmcz.layersSidebar.on('show', function() {
+    container.toggleClass('layersSidebar-shown', true);
     closeSplash();
   });
-  osmcz.layersSidebar.on("hide", function() {
-    container.toggleClass("layersSidebar-shown", false);
+  osmcz.layersSidebar.on('hide', function() {
+    container.toggleClass('layersSidebar-shown', false);
   });
 
   map.scrollWheelZoom.disable(); // text-content splash is opened by default = disable scroll-zoom
 
-  if (container.hasClass("splash")) {
+  if (container.hasClass('splash')) {
     //home-splash-screen is loaded with display:none
-    $(".close-overlay").click(closeSplash);
+    $('.close-overlay').click(closeSplash);
     container.click(function(event) {
       if (event.target.parentNode === this)
         //<div.row> children in <.container>
@@ -177,29 +177,29 @@ function initmap() {
     });
 
     // skrytí overlay
-    if (!Cookies.get("overlayShown") || location.pathname === "/splash") {
+    if (!Cookies.get('overlayShown') || location.pathname === '/splash') {
       container.show();
-      Cookies.set("overlayShown", "yes", { expires: 7 }); // expires in 7 days
+      Cookies.set('overlayShown', 'yes', { expires: 7 }); // expires in 7 days
     } else {
       map.scrollWheelZoom.enable();
       addHandlersToRestorePage();
-      $("nav .active").removeClass("active");
-      $("#page-restore-button").show();
+      $('nav .active').removeClass('active');
+      $('#page-restore-button').show();
     }
   }
 }
 
 function setLayersFromParams(params) {
-  var locationCookie = Cookies.get("_osm_location");
+  var locationCookie = Cookies.get('_osm_location');
 
   // If layer parameter not set, use info from cookie
   if (!params.layers && locationCookie) {
-    params.layers = locationCookie.split("|")[3];
+    params.layers = locationCookie.split('|')[3];
   }
 
   // If still no base layer used, try extract it from the cookie
   if (params.layers && !params.layers.match(/[a-z]/) && locationCookie) {
-    params.layers += locationCookie.split("|")[3].match(/[a-z]/);
+    params.layers += locationCookie.split('|')[3].match(/[a-z]/);
   }
 
   updateLayersFromCode(params.layers); //note: the default layer is without code
@@ -217,24 +217,24 @@ function setMarkerFromParams(params) {
   if (params.marker) {
     var popup = [];
     popup.push("<div class='locationMarkerPopup'>");
-    if (params.mmsg) popup.push("<h1>" + params.mmsg + "</h1>");
-    else popup.push("<h1>Odkaz na místo</h1>");
+    if (params.mmsg) popup.push('<h1>' + params.mmsg + '</h1>');
+    else popup.push('<h1>Odkaz na místo</h1>');
     // popup.push("<div class='text-right small'>upravit | odebrat</div>");
-    popup.push("</div>");
+    popup.push('</div>');
 
     if (osmcz.userMarker) {
       osmcz.userMarker.removeFrom(map);
     }
 
     osmcz.userMarker = L.marker([params.mlat, params.mlon], {
-      title: "Odkaz na místo"
+      title: 'Odkaz na místo'
     });
-    osmcz.userMarker.bindPopup(popup.join("")).openPopup();
+    osmcz.userMarker.bindPopup(popup.join('')).openPopup();
 
-    osmcz.userMarker.on("add", function(event) {
+    osmcz.userMarker.on('add', function(event) {
       event.target.openPopup();
     });
-    osmcz.userMarker.on("popupclose", function(event) {
+    osmcz.userMarker.on('popupclose', function(event) {
       // event.target.removeFrom(map) .. tohle ne, zavíralo by se při každém kliku do mapy
     });
     osmcz.userMarker.addTo(map);
