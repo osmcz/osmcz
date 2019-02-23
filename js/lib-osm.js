@@ -125,6 +125,15 @@ OSM = {
 
         mapParams.layers = hash.layers || (loc && loc[3]) || '';
 
+        // If addOverlays parameter is set, add them to layers list
+        if (hash.addOverlays) {
+            for (var i = 0; i < hash.addOverlays.length; i++) {
+                if (!mapParams.layers.includes(hash.addOverlays[i])){
+                    mapParams.layers += hash.addOverlays[i];
+                }
+            }
+        }
+
         var scale = parseFloat(params.scale);
         if (scale > 0) {
             mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
@@ -155,6 +164,10 @@ OSM = {
 
         if (hash.layers) {
             args.layers = hash.layers;
+        }
+
+        if (hash.addOverlays) {
+            args.addOverlays = hash.addOverlays;
         }
 
         return args;
