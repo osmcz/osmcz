@@ -257,7 +257,10 @@ osmcz.poiPopup.getHtml = function (feature, icon, embedded) {
 
     section(name, 'Další jména:', true);
     try {
-        tpl = tpl.concat(osmcz.openingHoursService.getHtml(openingHours));
+        if (openingHours != '') {
+            console.log(openingHours);
+            tpl = tpl.concat(osmcz.openingHoursService.getHtml(openingHours));
+        }
     } catch (err) {
         tpl.push("<b>opening_hours</b> = " + openingHours + "<br> <em>(Nepodařilo se naparsovat: " + err + ")</em>");
     }
