@@ -20,11 +20,6 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>
@@ -276,31 +271,25 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-<!--Cookies for jQuery-->
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-
 <!-- ============ vendor ============ -->
 <!-- leaflet -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
 
 <!-- leaflet.markercluster -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.1/leaflet.markercluster.js'></script>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.1/MarkerCluster.css' rel='stylesheet'/>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.1/MarkerCluster.Default.css'
+<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js'></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css' rel='stylesheet'/>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css'
       rel='stylesheet'/>
 
 <!-- leaflet.locatecontrol -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.min.js'></script>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.mapbox.css'
+<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.1/L.Control.Locate.min.js'></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.1/L.Control.Locate.mapbox.css'
       rel='stylesheet'/>
 
 <!-- leaflet.search -->
-<!-- <script src='https://cdn.rawgit.com/stefanocudini/leaflet-search/v2.9.7/dist/leaflet-search.min.js'></script> -->
-<!-- <link href='https://cdn.rawgit.com/stefanocudini/leaflet-search/v2.9.7/dist/leaflet-search.min.css' rel='stylesheet'/> -->
-
-<link href='https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.css' rel='stylesheet'/>
-<script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.src.min.js"></script>
+<link href='https://cdn.jsdelivr.net/npm/leaflet-search@2.9.8/dist/leaflet-search.min.css' rel='stylesheet'/>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.8/dist/leaflet-search.src.min.js"></script>
 
 <!-- leaflet.filelayer -->
 <script src='https://cdn.jsdelivr.net/npm/togeojson@0.16.0/togeojson.min.js'></script>
@@ -311,10 +300,8 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.5/Control.FullScreen.js'></script>
 
 <!-- https://github.com/Turbo87/leaflet-sidebar -->
-<!-- css is fully customized -->
-<!--<link rel="stylesheet" href="https://cdn.rawgit.com/Turbo87/leaflet-sidebar/v0.1.9/src/L.Control.Sidebar.css"/>-->
-<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leaflet-sidebar@0.2.0/src/L.Control.Sidebar.min.js"></script> -->
-<script type="text/javascript" src="lib/leaflet-sidebar/L.Control.Sidebar.js">
+<!-- Use own copy with fix for leaflet above v1.1 -->
+<script type="text/javascript" src="lib/leaflet-sidebar/L.Control.Sidebar.js"></script>
 
 <!-- js-cookie -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.js'></script>
@@ -323,7 +310,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js'></script>
 
-<!-- opening_hours from http://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js at 6 Apr 2016 -->
+<!-- opening_hours from http://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js at 23 Feb 2019 -->
 <script src='lib/opening_hours+deps.min.js'></script>
 
 <!-- https://github.com/aaronlidman/osm-and-geojson/blob/1633d1ab42dee97cbdc0ce5611b71c1e5d336f90/osm_geojson.js -->
