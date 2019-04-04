@@ -1,11 +1,8 @@
 <div>
     {?
-    $options = $presenter->context->parameters['database'];
-    $options['database'] = 'zbycz_liveosm';
-    $connection = new DibiConnection($options);
-    $q = $connection->query("
+    $q = dibi::query("
                         SELECT registred, osm, osmedit
-                        FROM users
+                        FROM live_users
                         WHERE osmedit>0 AND osm != 'zby-cz' AND osm != 'pschonmann'
                         ORDER BY ". (isset($_GET['o']) ? 'registred DESC' : 'osmedit DESC')
     );
@@ -15,33 +12,30 @@
     <div style="display:inline-block; max-width: 40%; vertical-align:top;">
         <table class="table table-hover">
             <tr>
-                <th>OSM id
-                <th>počet editací
-                <th><a href='{$_SERVER['REQUEST_URI']}?o=e'>datum eventu</a>
-                    {foreach $q as $r}
-                    {? $reg = date('j.n.Y', strtotime($r->registred));
+            <th>OSM id
+            <th>počet editací
+            <th><a href='/skoleni/stats?o=e'>datum eventu</a>
+            {foreach $q as $r}
+                {? $reg = date('j.n.Y', strtotime($r->registred));
                     if ($reg == '16.9.2015') $reg = '17.9.2015 I.';
                     if ($reg == '17.9.2015') $reg = '17.9.2015 II.';
-                    }
-            <tr>
+                }
+                <tr>
                 <td><a href="http://www.openstreetmap.org/user/{$r->osm}">{$r->osm}</a>
                 <td>{$r->osmedit}×
-                <td>
-                    <small>{$reg}</small>
+                <td><small>{$reg}</small>
 
-                    {if $iterations == round($cnt/2-1)}
-                            </table>
-                        </div>
-
-                        <div style="display:inline-block; max-width: 40%; vertical-align:top; padding-left:2em">
-                            <table class="table table-hover">
-                                <tr>
-                                    <th>OSM id
-                                    <th>počet editací
-                                    <th>datum eventu
-                    {/if}
-
-                    {/foreach}
+                {if $iterations == round($cnt/2-1)}
+                    </table>
+                    </div>
+                    <div style="display:inline-block; max-width: 40%; vertical-align:top; padding-left:2em">
+                    <table class="table table-hover">
+                    <tr>
+                    <th>OSM id
+                    <th>počet editací
+                    <th>datum eventu
+                {/if}
+            {/foreach}
         </table>
     </div>
 

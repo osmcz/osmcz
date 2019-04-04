@@ -35,8 +35,10 @@
 
 <div n:if="$_SERVER['HTTP_HOST'] != 'openstreetmap.cz'" class="alert alert-warning" style="position:fixed;bottom:10px;z-index:9999;right:10px;padding:3px;">
     <strong>POZOR!</strong>
-    Toto je <a href="https://github.com/osmcz/osmcz-web">testovací web OSMCZ</a><br>
-    na doméně {$_SERVER['HTTP_HOST']}.<br>
+    Toto je <a href="https://github.com/osmcz/osmcz-web">testovací web OSMCZ</a>
+    {!str_replace('HEAD is now at ', '<br>', @file_get_contents(WWW_DIR . '/commit.txt'))}
+    <br>
+    <br>
     Pro ostrou verzi, prosím, přejděte <br>
     na <a href="https://openstreetmap.cz">openstreetmap.cz</a>.
     <button class="close close-overlay" onclick="$(this).parent().hide()">&times;</button>
@@ -56,7 +58,7 @@
             </button>
             <a class="navbar-brand" href="/" title="Přejít na úvodní stránku OpenStreetMap.cz">
                 <img src="/theme/img/osmcz.60x60.png" width="30" height="30" alt="Logo OSMCZ">
-                <span>OpenStreetMap.cz</span>
+                <span>{($_SERVER['HTTP_HOST'] == 'openstreetmap.cz' ? 'OpenStreetMap.cz' : $_SERVER['HTTP_HOST'])}</span>
             </a>
 
             <div id="page-restore-button" title="Ukázat stránku"></div>
@@ -219,6 +221,7 @@
     <script src="{!'/theme/js/layer-switcher.js'|modified}"></script>
     <script src="{!'/theme/js/controls.js'|modified}"></script>
     <script src="{!'/theme/js/gp-check.js'|modified}"></script>
+    <script src="{!'/theme/js/note.js'|modified}"></script>
     <script src="{!'/theme/js/photoDB-gui.js'|modified}"></script>
     <script src="{!'/theme/js/guideposts.js'|modified}"></script>
     <script src="{!'/theme/js/icons-service.js'|modified}"></script>
