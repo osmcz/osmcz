@@ -19,6 +19,16 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
 
 ## Changelog
+2019-04-04 **osmcz v0.24** (
+    [talk](https://openstreetmap.cz/talkcz/c2573),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.23...v0.24))
+- přidání dalších variant fotek pro nahrání nové fotky (panorama, bod záchrany, přehledová)
+- ikona pro fotku bodu záchrany, ikona pro cyklo i silnicni rozcestniky
+- v detailu fotky přidán odatum vytvoření
+- lepší ošetření chyb při nahrávání do Fody
+- přidány vrstvy s ortofoto IPR Praha
+- lepší zobrazování archivu WeeklyOSM
+
 2018-09-23 **osmcz v0.23** (
     [talk](https://openstreetmap.cz/talkcz/c2573),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.22...v0.23))
