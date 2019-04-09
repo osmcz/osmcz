@@ -19,8 +19,16 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
 
 ## Changelog
+2019-04-09 **osmcz v0.25** (
+    [talk](https://openstreetmap.cz/talkcz/c2810),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.24...v0.25))
+- výrazná aktualizace verzí knihoven leaflet a bootstrap
+- nový parametr URL addOverlays
+- dokumentace parametrů URL pro web zde v README.md
+- vyřešení některých problémů pro vyhledávání
+
 2019-04-04 **osmcz v0.24** (
-    [talk](https://openstreetmap.cz/talkcz/c2573),
+    [talk](https://openstreetmap.cz/talkcz/c2809),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.23...v0.24))
 - přidání dalších variant fotek pro nahrání nové fotky (panorama, bod záchrany, přehledová)
 - ikona pro fotku bodu záchrany, ikona pro cyklo i silnicni rozcestniky
@@ -30,7 +38,7 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 - lepší zobrazování archivu WeeklyOSM
 
 2018-09-23 **osmcz v0.23** (
-    [talk](https://openstreetmap.cz/talkcz/c2573),
+    [talk](https://openstreetmap.cz/talkcz/c2809),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.22...v0.23))
 - opraveno přepínání vrstev map
 - default mapa je nyní místo Mapbox (neaktuální) Wikipedia
@@ -55,17 +63,6 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.19...v0.20),
     [osmcz-web](https://github.com/osmcz/osmcz-web/compare/deploy_20170123...osmcz:deploy_20180108))
 - archiv talk-cz na https://openstreetmap.cz/talkcz/
-
-2017-05-07  **osmcz v0.19** (
-    [talk](https://openstreetmap.cz/talkcz/c2105),
-    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.18...v0.19))
-- nový interface pro PhotoDB [#10](https://github.com/osmcz/osmcz/issues/10)
-
-2017-04-12  **osmcz v0.18** (
-    [talk](https://openstreetmap.cz/talkcz/c2071),
-    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.17...v0.18))
-- vrstva notes [#67](https://github.com/osmcz/osmcz/issues/67) a openinframap
-
 
 ![nahled](https://openstreetmap.cz/data/thumbs/60.700x476.png)
 
