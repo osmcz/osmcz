@@ -1,6 +1,6 @@
 # osmcz-app
 
-JS mapová appka pro OpenStreetMap.cz postavená nad LeafletJS a VanillaJS.
+JS mapová appka pro OpenStreetMap.cz postavená nad LeafletJS.
 PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 
 * **LIVE verze:** [openstreetmap.cz](https://openstreetmap.cz/)
