@@ -260,11 +260,10 @@ osmcz.LayerSwitcher = L.Control.extend({
         inCnt.push('    </div>');
         inCnt.push('  </div>');
         inCnt.push('  <div id="lsinfo" class="ls-info-body collapse">');
-        inCnt.push('    <p class="text-center"><strong>Mapové vrstvy vám ukáží pravou sílu <em>OpenStreetMap</em>.</strong></p>');
-        inCnt.push('    <p class="text-justify">Stejná mapová databáze může být vykreslena v různých stylech a pro mnoho různých využití. Od mapy města, přes turistiku až po lyžování.</p>');
-        inCnt.push('    <p>Další vrstvy si zpřístupníte kliknutím na tlačítko <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span> níže.');
-        inCnt.push('      <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#lsinfo" onclick=\'Cookies.set("_ls_info_hide", "yes", {expires: 90})\'>Skrýt</a>');
-        inCnt.push('    </p>');
+        inCnt.push('    <p class="text-center"><strong>Mapové vrstvy jsou to, co <em>OpenStreetMap</em> odlišuje.</strong></p>');
+        inCnt.push('    <p class="text-justify">Jedna mapová databáze může být vykreslena v různých stylech a pro různé užití. Jako mapa města, pro turistiku či lyžování.<br>Navštivte naši <a href="galerie">galerii.</a></p>');
+        inCnt.push('    <p>Pod tlačítkem <span class="btn btn-default btn-xs glyphicon glyphicon-calendar disabled"></span> najdete další vrstvy.</p>');
+        inCnt.push('    <p class="text-center"><button class="btn btn-sm btn-info" data-toggle="collapse" data-target="#lsinfo" onclick=\'Cookies.set("_ls_info_hide", "yes", {expires: 90})\'>Skrýt</button></p>');
         inCnt.push('  </div>');
         inCnt.push('  <div id="map-layers-content">');
         inCnt.push('  </div>');
@@ -531,7 +530,7 @@ osmcz.LayerSwitcher = L.Control.extend({
             $('#btnExpandAll').hide();
             $('#btnCollapseAll').hide();
             var infoCookie = Cookies.get("_ls_info_hide");
-            if (infoCookie && infoCookie != "yes") {
+            if (!infoCookie || (infoCookie && infoCookie != "yes")) {
                 $('#lsinfo').collapse("show");
             }
         }
