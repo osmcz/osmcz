@@ -4,7 +4,7 @@
 var osmcz = osmcz || {};
 osmcz.openingHoursService = {};
 osmcz.openingHoursService.getHtml = function (v) {
-    var opening_hours = require('opening_hours');
+//     var opening_hours = require('opening_hours');
 
     if (!v)
         return [];
