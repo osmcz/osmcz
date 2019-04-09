@@ -35,14 +35,14 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 
 2018-03-12 **osmcz v0.21** (
     [talk](https://openstreetmap.cz/talkcz/c2419),
-    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.20...v0.21))
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.20...v0.21),
     [osmcz-web](https://github.com/osmcz/osmcz-web/compare/deploy_20180108...osmcz:deploy_20180315))
 - linkování cest a ploch zobrazuje těžiště
 - GUI pro vlastní marker - po kliku na souřadnice vlevo dole se ukáže tlačítko "vytvořit značku"
 
 2018-01-08 **osmcz v0.20** (
     [talk](https://openstreetmap.cz/talkcz/c2355),
-    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.19...v0.20))
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.19...v0.20),
     [osmcz-web](https://github.com/osmcz/osmcz-web/compare/deploy_20170123...osmcz:deploy_20180108))
 - archiv talk-cz na https://openstreetmap.cz/talkcz/
 
