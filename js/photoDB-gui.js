@@ -99,6 +99,27 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         var cnt = document.getElementById("sidebar-content");
 
+        xhr = $.ajax({
+            url: osmcz.photoDbUrl + 'api/tags',
+            async: false,
+        })
+          .done(function(data) {
+             console.log(data);
+             return true;
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            var inner = [];
+            var content = document.getElementById("sidebar-content");
+            inner.push("<h4>Chyba získání typu fotek z Fody!</h4>");
+            content.innerHTML = inner.join('');
+
+            sidebar.on('hidden', this._closeSidebar, this);
+            osmcz.sidebar.show();
+
+            return false;
+          });
+
+
         // from http://stackoverflow.com/a/39065147
         // Image upload html template
         const formTemplate = ({maxSize}) => `
