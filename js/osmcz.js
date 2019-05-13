@@ -4,6 +4,7 @@ var osmcz = osmcz || {};
 osmcz.setMarkerFromParams = setMarkerFromParams;
 osmcz.userMarker = false; // for linking: osmap.cz/?mlat=50.79&mlon=15.16&zoom=17
 osmcz.defaultLayer = null; // Store default layer there
+osmcz.apiTagsMap = new Map(); // List of API supported tags
 
 var map, baseLayers = {}, overlays = {}, controls = {};
 var guideposts, gpcheck;

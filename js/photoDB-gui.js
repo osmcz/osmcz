@@ -10,6 +10,20 @@ L.Control.PhotoDBGui = L.Control.extend({
     initialize: function (options) {
         L.setOptions(this, options);
         this._precision = 5;
+
+        // Get list of supported tags from API
+        xhr = $.ajax({
+            url: osmcz.photoDbUrl + 'api/tags',
+            context: this
+        })
+          .done(function(data) {
+             for (let idx in data) {
+                 osmcz.apiTagsMap.set(data[idx].name, data[idx]);
+            }
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+              console.log("Can't get list of supported tags from API. " +textStatus);
+          });
     },
 
     onAdd: function (map) {
@@ -74,6 +88,18 @@ L.Control.PhotoDBGui = L.Control.extend({
         osmcz.sidebar.setContent(this._sidebarInit());
         var auth = false;
 
+        if (osmcz.apiTagsMap.size == 0) {
+            var inner = [];
+            var content = document.getElementById("sidebar-content");
+            inner.push("<h4>Chyba získání typu fotek z Fody!</h4>");
+            content.innerHTML = inner.join('');
+
+            sidebar.on('hidden', this._closeSidebar, this);
+            osmcz.sidebar.show();
+            return false;
+        }
+
+
         xhr = $.ajax({
             url: osmcz.photoDbUrl + 'api/logged',
             async: false,
@@ -97,28 +123,9 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         if(!auth) return;
 
+//         console.log(osmcz.apiTagsMap);
+
         var cnt = document.getElementById("sidebar-content");
-
-        xhr = $.ajax({
-            url: osmcz.photoDbUrl + 'api/tags',
-            async: false,
-        })
-          .done(function(data) {
-             console.log(data);
-             return true;
-          })
-          .fail(function(jqXHR, textStatus, errorThrown) {
-            var inner = [];
-            var content = document.getElementById("sidebar-content");
-            inner.push("<h4>Chyba získání typu fotek z Fody!</h4>");
-            content.innerHTML = inner.join('');
-
-            sidebar.on('hidden', this._closeSidebar, this);
-            osmcz.sidebar.show();
-
-            return false;
-          });
-
 
         // from http://stackoverflow.com/a/39065147
         // Image upload html template
@@ -167,34 +174,10 @@ L.Control.PhotoDBGui = L.Control.extend({
                 <div class="form">
                     <label for="phototype" class="label-margin">Objekt na fotografii:</label>
                     <select id="phototype" class="form-control">
-                        <option value="gp">Rozcestník</option>
-                        <option value="info">Informační tabule</option>
-                        <option value="map">Mapa</option>
-                        <option value="prehledova">Přehledová fotka</option>
-                        <option value="emergency">Bod záchrany</option>
-                        <option value="other">Jiný</option>
                     </select>
                     <div id="guidepostOptions">
                         <label for="guidepostContent" class="label-margin">Typ rozcestníku:</label>
                         <div id="guidepostContent" class="btn-group btn-group-xs" data-toggle="buttons">
-                            <label class="btn btn-default">
-                                <input type="checkbox" name="gp_content[]" value="hiking" autocomplete="off">Pěší
-                            </label>
-                            <label class="btn  btn-default">
-                                <input type="checkbox" name="gp_content[]" value="cycle" autocomplete="off">Cyklo
-                            </label>
-                            <label class="btn  btn-default">
-                                <input type="checkbox" name="gp_content[]" value="silnicni" autocomplete="off">Silniční
-                            </label>
-                            <label class="btn  btn-default">
-                                <input type="checkbox" name="gp_content[]" value="ski" autocomplete="off">Lyžařský
-                            </label>
-                            <label class="btn  btn-default">
-                                <input type="checkbox" name="gp_content[]" value="horse" autocomplete="off">Koňský
-                            </label>
-                            <label class="btn  btn-default">
-                                <input type="checkbox" name="gp_content[]" value="wheelchair" autocomplete="off">Vozíčkářský
-                            </label>
                         </div>
                     </div>
                     <div id="guidepostRef">
@@ -227,6 +210,13 @@ L.Control.PhotoDBGui = L.Control.extend({
         var phototype = document.getElementById("phototype");
         var resetBtn = document.getElementById("resetBtn");
         var submitBtn = document.getElementById("submitBtn");
+
+        let sOptions = [];
+        for (let [gpKey,gpType] of osmcz.apiTagsMap) {
+            sOptions.push('<option value="'+gpType.name+'">'+gpType.describe+'</option>');
+        }
+
+        phototype.innerHTML = sOptions.join('\n');
 
         // Bind events to elements
         L.DomEvent.on(imgSelBtn, 'click', this._selectImageClicked, this);
@@ -344,15 +334,32 @@ L.Control.PhotoDBGui = L.Control.extend({
     },
 
     _phototypeChanged: function (e) {
-        if (e.target.value == "gp") {
-            $('#photoDB-upload-form #guidepostOptions').show('1');
-            $('#photoDB-upload-form #guidepostRef').show('1');
-        } else if (e.target.value == "emergency") {
-            $('#photoDB-upload-form #guidepostOptions').hide('1');
-            $('#photoDB-upload-form #guidepostRef').show('1');
+        let pType = osmcz.apiTagsMap.get($('#phototype option:selected')[0].value);
+
+        if (pType == null) {
+            return;
+        }
+
+        if (pType.ref == "t" ) {
+            $('#photoDB-upload-form #guidepostRef').show();
         } else {
-            $('#photoDB-upload-form #guidepostOptions').hide('1');
-            $('#photoDB-upload-form #guidepostRef').hide('1');
+            $('#photoDB-upload-form #guidepostRef').hide();
+        }
+
+        let gpContent = document.getElementById("guidepostContent");
+        if (pType.secondary.length > 0) {
+
+            let sButtons = [];
+            for (let idx in pType.secondary) {
+                sButtons.push('<label class="btn btn-default">');
+                sButtons.push('   <input type="checkbox" name="gp_content[]" value="'+pType.secondary[idx].name+'" autocomplete="off">'+pType.secondary[idx].name+'</input>');
+                sButtons.push('</label>');
+            }
+            gpContent.innerHTML = sButtons.join('\n');
+            $('#photoDB-upload-form #guidepostOptions').show();
+        } else {
+            gpContent.innerHTML = '';
+            $('#photoDB-upload-form #guidepostOptions').hide();
         }
     },
 
@@ -501,7 +508,7 @@ L.Control.PhotoDBGui = L.Control.extend({
           //no date/time in exif - avoid this photo!
           noExif();
           return;
-        
+
         }
         //check for DateTime of 1980.1.1 - e.g. badly set up date in camera
         if (exif.DateTime.search(/^1980:/) == 0 || exif.DateTimeOriginal.search(/^1980:/) == 0) {
@@ -634,7 +641,9 @@ L.Control.PhotoDBGui = L.Control.extend({
         $('#photoDB-gp-name').text("");
 
         // Switch back to type guidepost
-        $("#photoDB-upload-form #phototype").val('gp').change();
+        $("#photoDB-upload-form #phototype").val('rozcestnik');
+        this._phototypeChanged();
+
 
         // Reset guidepostContent buttons
         $.each($("input[name='gp_content[]']:checked"), function () {
@@ -670,10 +679,12 @@ L.Control.PhotoDBGui = L.Control.extend({
         $('#photoDB-upload-form #lat').val(this.positionMarker.getLatLng().lat);
         $('#photoDB-upload-form #lon').val(this.positionMarker.getLatLng().lng);
 
-        var phototype = $('#photoDB-upload-form #phototype option:selected').val();
+        var phototype = $('#photoDB-upload-form #phototype option:selected').val(),
+            tagData = osmcz.apiTagsMap.get(phototype);
+
 
         // Sent ref only for guideposts
-        if (phototype != 'gp' && phototype != 'emergency') {
+        if (tagData.ref == "t") {
             $('#photoDB-upload-form #ref').val('');
         }
 
