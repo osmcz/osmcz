@@ -684,7 +684,7 @@ L.Control.PhotoDBGui = L.Control.extend({
 
 
         // Sent ref only for guideposts
-        if (tagData.ref == "t") {
+        if (tagData.ref != "t") {
             $('#photoDB-upload-form #ref').val('');
         }
 
