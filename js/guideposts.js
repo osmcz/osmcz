@@ -540,7 +540,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             var inner = [];
             var content = document.getElementById("sidebar-content");
             inner.push("<h4>Nejste přihlášeni!</h4>");
-            inner.push("<p class='text-center'><a href='" + osmcz.photoDbUrl + "' target='_blank'>Přihlaste</a> se prosím do PhotoDB API");
+            inner.push("<p class='text-center'><a href='" + osmcz.photoDbUrl + "' target='_blank'>Přihlaste</a> se prosím do Fody");
             content.innerHTML = inner.join('');
 
             return false;
