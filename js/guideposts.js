@@ -54,20 +54,32 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
     });
 
 
-    var guidepost_icon = L.icon({
+    var gp_foot_icon = L.icon({
         iconUrl: osmcz.basePath + "img/gp/guidepost.png",
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
 
-    var cycle_icon = L.icon({
+    var gp_cycle_icon = L.icon({
         iconUrl: osmcz.basePath + "img/gp/cycle.png",
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
 
-    var cycle_foot_icon = L.icon({
+    var gp_cycle_foot_icon = L.icon({
         iconUrl: osmcz.basePath + "img/gp/cycle_foot.png",
+        iconSize: [48, 48],
+        iconAnchor: [23, 45]
+    });
+
+    var gp_ski_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/guidepost.png", //FIXME
+        iconSize: [48, 48],
+        iconAnchor: [23, 45]
+    });
+
+    var gp_ski_foot_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/guidepost.png", //FIXME
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
@@ -102,6 +114,47 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         iconAnchor: [17, 0]
     });
 
+    //for Fody - prehledova
+    var overview_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/overview_photo.png",
+        iconSize: [48, 48],
+        iconAnchor: [23, 45]
+    });
+
+    //for Fody - znaceni
+    //-----------------------------------------------------------
+    var mark_foot_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/marking_foot.png",
+        iconSize: [35, 48],
+        iconAnchor: [23, 45]
+    });
+
+    var mark_cycle_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/marking_cycle.png",
+        iconSize: [35, 48],
+        iconAnchor: [23, 45]
+    });
+
+    var mark_cycle_road_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/marking_cycle_road.png",
+        iconSize: [35, 48],
+        iconAnchor: [23, 45]
+    });
+
+    var mark_ski_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/marking_ski.png",
+        iconSize: [35, 48],
+        iconAnchor: [23, 45]
+    });
+
+    var mark_wheelchair_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/marking_wheelchair.png",
+        iconSize: [35, 48],
+        iconAnchor: [23, 45]
+    });
+
+
+    //-----------------------------------------------------------
 
     var layer_guidepost = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
@@ -137,24 +190,38 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             if (b.tags) {
                 if (b.tags.indexOf("necitelne") > -1) {
                     ftype = "necitelne";
-                } else if (b.tags.indexOf("infotabule") > -1) {
+                } else if (b.tags.indexOf("infotabule") > -1 && b.tags.indexOf("rozcestnik") == -1) {
                     ftype = "infopane";
-                } else if (b.tags.indexOf("mapa") > -1) {
+                } else if (b.tags.indexOf("mapa") > -1 && b.tags.indexOf("rozcestnik") == -1) {
                     ftype = "map";
-                } else if (b.tags.indexOf("emergency") > -1 &&
-                    b.tags.indexOf("rozcestnik") == -1) {
+                } else if (b.tags.indexOf("emergency") > -1 && b.tags.indexOf("rozcestnik") == -1) {
                     ftype = "emergency";
-                } else if ((b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) &&
-                    b.tags.indexOf("pesi") == -1) {
-                    ftype = "cycle";
-                } else if ((b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) &&
-                    b.tags.indexOf("pesi") > -1) {
-                    ftype = "cycle_foot";
-                }
+                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("pesi") > -1) {
+                    ftype = "gp_foot";
+		    //foot gp with other - cycle or ski together
+		    if(b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) ftype = "gp_cycle_foot";
+		    if(b.tags.indexOf("lyzarska") > -1) ftype = "gp_ski_foot";
+                } else if (b.tags.indexOf("rozcestnik")  > -1 && (b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1))  {
+                    ftype = "gp_cycle";
+                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("lyzarska") > -1 ) {
+                    ftype = "gp_ski";
+                } else if (b.tags.indexOf("prehledova") > -1 ) {
+                    ftype = "overview";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("pesi") > -1) {
+                    ftype = "mark_foot";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("cyklo") > -1) {
+                    ftype = "mark_cycle";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("silnicni") > -1) {
+                    ftype = "mark_cycle_road";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("lyzarska") > -1) {
+                    ftype = "mark_ski";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("vozickar") > -1) {
+                    ftype = "mark_wheelchair";
+		}
             }
 
             if (!ftype) {
-                ftype = "guidepost";
+                ftype = "gp_unknown";
             }
 
             if (!b.ref) {
@@ -168,7 +235,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             html_content += "Pořízeno: " + b.created;
             html_content += "<br>";
 
-            if (ftype == "guidepost" || ftype == "emergency" || ftype == "cycle_foot" ) {
+            if (ftype == "gp_foot" || ftype == "gp_cycle" || ftype == "gp_ski" || ftype == "gp_wheelchair"|| ftype == "gp_cycle_foot" || ftype == "gp_ski_foot" || ftype == "emergency" ) {
                 html_content += "Číslo rozcestníku: ";
                 html_content += "<a href='" + osmcz.photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
                 html_content += "<br>";
@@ -198,17 +265,26 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             html_content += "</div>";
 
             switch (ftype) {
+                case "gp_foot":
+                    layer.setIcon(gp_foot_icon);
+                    break;
+                case "gp_cycle":
+                    layer.setIcon(gp_cycle_icon);
+                    break;
+                case "gp_cycle_foot":
+                    layer.setIcon(gp_cycle_foot_icon);
+                    break;
+                case "gp_ski":
+                    layer.setIcon(gp_ski_icon);
+                    break;
+                case "gp_ski_foot":
+                    layer.setIcon(gp_ski_foot_icon);
+                    break;
                 case "infopane":
                     layer.setIcon(infopane_icon);
                     break;
                 case "map":
                     layer.setIcon(map_icon);
-                    break;
-                case "cycle":
-                    layer.setIcon(cycle_icon);
-                    break;
-                case "cycle_foot":
-                    layer.setIcon(cycle_foot_icon);
                     break;
                 case "necitelne":
                     layer.setIcon(blurred_icon);
@@ -216,8 +292,26 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                 case "emergency":
                     layer.setIcon(emergency_icon);
                     break;
+                case "overview":
+                    layer.setIcon(overview_icon);
+                    break;
+                case "mark_foot":
+                    layer.setIcon(mark_foot_icon);
+                    break;
+                case "mark_cycle":
+                    layer.setIcon(mark_cycle_icon);
+                    break;
+                case "mark_cycle_road":
+                    layer.setIcon(mark_cycle_road_icon);
+                    break;
+                case "mark_ski":
+                    layer.setIcon(mark_ski_icon);
+                    break;
+                case "mark_wheelchair":
+                    layer.setIcon(mark_wheelchair_icon);
+                    break;
                 default:
-                    layer.setIcon(guidepost_icon);
+                    layer.setIcon(gp_foot_icon);
             }
 
             layer.bindPopup(html_content, {
