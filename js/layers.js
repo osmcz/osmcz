@@ -376,8 +376,10 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     // Special group
     overlays["Speciální"] = {};
     overlays["Speciální"]["Katastrální mapa ČÚZK"] = katastralniMapaOverlay;
-    overlays["Speciální"]["Vedení vysokého napětí"] = powerOverlay;
-    overlays["Speciální"]["Telekomunikační vysílače"] = commsOverlay;
+
+// OpenInfraMap neposkytuje bitmapove dlazdice, presli na vektorove
+//    overlays["Speciální"]["Vedení vysokého napětí"] = powerOverlay;
+//    overlays["Speciální"]["Telekomunikační vysílače"] = commsOverlay;
     overlays["Speciální"]["Pole a louky (pLPIS)"] = lpisOverlay;
     overlays["Speciální"]["Strava - všechny sporty ČR"] = stravaAllOverlay;
 
