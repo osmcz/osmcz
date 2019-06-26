@@ -226,11 +226,11 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
     });
 
     /* Add overlay to the map */
-    layersControl.addOverlay(check_markers, "Chybné rozcestníky", group);
+    layersControl.addOverlay(check_markers, "Kontroly OsmHiCheck", group);
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
-    overlays[group]["Chybné rozcestníky"] = check_markers;
+    overlays[group]["Kontroly OsmHiCheck"] = check_markers;
 
     // -- methods --
 
