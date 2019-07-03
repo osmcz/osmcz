@@ -73,13 +73,13 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
     });
 
     var gp_ski_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/guidepost.png", //FIXME
+        iconUrl: osmcz.basePath + "img/gp/ski.png",
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
 
     var gp_ski_foot_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/guidepost.png", //FIXME
+        iconUrl: osmcz.basePath + "img/gp/ski_foot.png",
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
@@ -104,6 +104,12 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
     var emergency_icon = L.icon({
         iconUrl: osmcz.basePath + "img/gp/emergency_point.png",
+        iconSize: [48, 48],
+        iconAnchor: [23, 45]
+    });
+
+    var unknown_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/unknown.png",
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
@@ -311,7 +317,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     layer.setIcon(mark_wheelchair_icon);
                     break;
                 default:
-                    layer.setIcon(gp_foot_icon);
+                    layer.setIcon(unknown_icon);
             }
 
             layer.bindPopup(html_content, {
