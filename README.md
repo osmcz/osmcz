@@ -19,6 +19,16 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
 
 ## Changelog
+2019-07-03 **osmcz v0.26** (
+    [talk](https://openstreetmap.cz/talkcz/c2810),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.25...v0.26))
+- dynamické načítání informací o typech fotek z Fody přes API
+- úklid dokumentace, zrušení zastaralých položek a informací
+- aktualizace textu PhotoDB -> Fody
+- doplnění ikon pro další typy rozcestníků, značení a přehledovou fotku
+- přejmenování vrstev fotek Fody a kontrol OsmHiCheck
+- zakázány vrstvy z OpenInfraMap - pouze vektorové dlaždice
+
 2019-04-09 **osmcz v0.25** (
     [talk](https://openstreetmap.cz/talkcz/c2810),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.24...v0.25))
