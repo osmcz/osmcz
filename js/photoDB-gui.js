@@ -594,8 +594,10 @@ L.Control.PhotoDBGui = L.Control.extend({
 
     _hideMarker: function () {
         this._map.off('click', this._mapClicked, this);
-        this._map.removeLayer(this.positionMarker);
-        this.positionMarkerVisible = false;
+        if (this.positionMarkerVisible) {
+            this._map.removeLayer(this.positionMarker);
+            this.positionMarkerVisible = false;
+        }
     },
 
     _updateLatLonLabel: function (lat, lon) {
