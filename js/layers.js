@@ -204,7 +204,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         opacity: 0.6,
         basic: true
     });
-    
+
     var turistikaOverlay = L.tileLayer("https://tile.poloha.net/kct/{z}/{x}/{y}.png", {
         maxZoom: 20,
         attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
@@ -264,12 +264,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'X'
     });
 
-    var lpisOverlay = L.tileLayer.wms(osmcz.fakeHttps + 'eagri.cz/public/app/wms/plpis.fcgi', {
-        layers: 'LPIS_FB4,LPIS_FB4_KOD',
+    var lpisOverlay = L.tileLayer.wms('https://eagri.cz/public/app/wms/public_DPB_PB_OPV.fcgi', {
+        layers: 'DPB_UCINNE,DPB_UCINNE_KOD',
         format: 'image/png',
         transparent: true,
         crs: L.CRS.EPSG4326,
-        attribution: " <a href='http://www.eagri.cz.cz'>eagri.cz</a>",
+        attribution: " <a href='https://www.eagri.cz'>eagri.cz</a>",
         code: 'L'
     });
 
