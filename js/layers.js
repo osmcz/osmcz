@@ -10,7 +10,21 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     var thunderforestAPIkey = '00291b657a5d4c91bbacb0ff096e2c25';
     var mapboxAPIkey = "pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA";
+    var maptilerAPIkey = "aiziPqQPPZidvRMvcFaj";
 
+    var ocm = L.tileLayer("https://api.maptiler.com/maps/streets/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+        maxZoom: 22,
+        attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
+        code: 'g',
+        basic: true
+    });
+
+    var ocm = L.tileLayer("https://api.maptiler.com/maps/topo/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+        maxZoom: 22,
+        attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
+        code: 'y',
+        basic: true
+    });
 
     var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=' + mapboxAPIkey, {
         maxZoom: 24,
