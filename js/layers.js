@@ -12,18 +12,17 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var mapboxAPIkey = "pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA";
     var maptilerAPIkey = "aiziPqQPPZidvRMvcFaj";
 
-    var ocm = L.tileLayer("https://api.maptiler.com/maps/streets/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+    var mt_streets = L.tileLayer("https://api.maptiler.com/maps/streets/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
         code: 'g',
         basic: true
     });
 
-    var ocm = L.tileLayer("https://api.maptiler.com/maps/topo/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+    var mt_topo= L.tileLayer("https://api.maptiler.com/maps/topo/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
         code: 'y',
-        basic: true
     });
 
     var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=' + mapboxAPIkey, {
@@ -339,6 +338,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Základní"]["Metropolis"] = metropolis;
     baseLayers["Základní"]["Méně popisků"] = menepopisku;
     baseLayers["Základní"]["Wikimedia Map"] = wikimediamap;
+    baseLayers["Základní"]["MapTiler streets"] = mt_streets;
 
     // Ortofoto group
     baseLayers["Letecké"] = {};
@@ -361,6 +361,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Turistické"]["Turistická mapa (ČR)"] = turisticka;
     baseLayers["Turistické"]["Cyklo+turistická (EU)"] = mtb;
     baseLayers["Turistické"]["Hikebikemap.org"] = hikebike;
+    baseLayers["Turistické"]["MapTiler topo"] = mt_topo;
 
     overlays["Turistické"] = {};
     overlays["Turistické"]["Turistické trasy ČR"] = turistikaOverlay;
