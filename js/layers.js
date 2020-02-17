@@ -12,14 +12,14 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var mapboxAPIkey = "pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA";
     var maptilerAPIkey = "aiziPqQPPZidvRMvcFaj";
 
-    var mt_streets = L.tileLayer("https://api.maptiler.com/maps/streets/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+    var mt_streets = L.tileLayer("https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
         code: 'g',
         basic: true
     });
 
-    var mt_topo= L.tileLayer("https://api.maptiler.com/maps/topo/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+    var mt_topo= L.tileLayer("https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
         code: 'y',
