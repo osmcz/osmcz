@@ -32,6 +32,11 @@ function initmap() {
         autoPan: false
     }).addTo(map);
 
+    osmcz.poiFilterSidebar = poiFilterSidebar = L.control.sidebar('poi-filter-sidebar', {
+        position: 'right',
+        autoPan: false
+    }).addTo(map);
+
     osmcz.layersSidebar = layersSidebar = L.control.sidebar('map-layers', {
         position: 'right',
         closeButton: true,

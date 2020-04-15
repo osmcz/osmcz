@@ -27,6 +27,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
     var layersControl = controls.layers;
     var photoDBbtn = null;
+    var poiFilterbtn = null;
     var xhr;
     var markers = L.markerClusterGroup({
         code: 'G',
@@ -399,6 +400,10 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             if (!photoDBbtn) {
                 photoDBbtn = L.control.photoDbGui().addTo(map);
             }
+            if (!poiFilterbtn) {
+                poiFilterbtn =  L.control.poiFilter().addTo(map);
+            }
+
         }
     });
 
@@ -408,6 +413,10 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             if (photoDBbtn) {
                 photoDBbtn.remove(map);
                 photoDBbtn = null;
+            }
+            if (poiFilterbtn) {
+                poiFilterbtn.remove(map);
+                poiFilterbtn = null;
             }
         }
     });

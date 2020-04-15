@@ -220,7 +220,7 @@ a:hover.as-text {
 }
 
 @media screen and (min-width: 768px) {
-    #sidebar, #poi-sidebar, #map-layers {
+    #sidebar, #poi-sidebar, #map-layers, #poi-filter-sidebar {
         position: relative;
         float: left;
         height: 100%;
@@ -270,6 +270,40 @@ a:hover.as-text {
 }
 
 #map-container a.leaflet-control-photoDBbtn-text:hover {
+    text-decoration: none;
+}
+
+#map-container a.leaflet-control-poiFilterbtn-text {
+    width: 46px;
+    height: 80px;
+    background-position: center 0px;
+    padding-top: 45px;
+    font-size: 10px;
+    color: #000 !important;
+    text-align: center;
+    display: block;
+    background-repeat: no-repeat;
+    text-decoration: none;
+}
+
+#map-container a.leaflet-control-poiFilterbtn-text:before {
+    content: "Filtrování prvků";
+}
+
+#map-container a.leaflet-control-poiFilterbtn-text:after {
+    content: "\e138";
+    font-family: "Glyphicons Halflings";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 3em;
+    text-decoration: inherit;
+    left: 8px;
+    position: absolute;
+    top: 0;
+    color: orangered;
+}
+
+#map-container a.leaflet-control-poiFilterbtn-text:hover {
     text-decoration: none;
 }
 
@@ -433,11 +467,15 @@ a:hover.as-text {
 
 /* END of customized .leaflet-sidebar */
 
-#sidebar h4, h5 {
+#sidebar h4, #sidebar h5 {
     border-bottom: 1px solid #aaa;
 }
 
-#poi-sidebar h4, h5 {
+#poi-sidebar h4, #poi-sidebar h5 {
+    border-bottom: 1px solid #aaa;
+}
+
+#poi-filter-sidebar h4, #poi-filter-sidebar h5 {
     border-bottom: 1px solid #aaa;
 }
 
@@ -510,6 +548,8 @@ a:hover.as-text {
     margin-bottom: 5px;
     padding-right: 5px;
 }
+
+/* poi-filter-sidebar */
 
 #main {
     padding-top: 50px;
