@@ -25,7 +25,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'y',
     });
 
-    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=' + mapboxAPIkey, {
+    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=' + mapboxAPIkey, {
         maxZoom: 24,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         code: 'x',
