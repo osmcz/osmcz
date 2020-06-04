@@ -25,7 +25,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'y',
     });
 
-    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}' + retinaSuffix + '.png?access_token=' + mapboxAPIkey, {
+    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=' + mapboxAPIkey, {
         maxZoom: 24,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         code: 'x',
@@ -213,6 +213,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
+    // TODO this URL will be deprecated soon, update to new styles https://{s}.tiles.mapbox.com/styles/v1/mapbox/streets-v10/tiles/
+    // but currently we dont care if this overlay doesnt show
     var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + retinaSuffix + ".png?access_token=" + mapboxAPIkey, {
         maxZoom: 24,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
