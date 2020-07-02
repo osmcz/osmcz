@@ -9,7 +9,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var osmAttr = '&copy; <a href="https://openstreetmap.org/copyright">Přispěvatelé OpenStreetMap</a>'; //abbrevation not recommended on other websites
 
     var thunderforestAPIkey = '00291b657a5d4c91bbacb0ff096e2c25';
-    var mapboxAPIkey = "pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA";
+    var mapboxAPIkey = "pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA"; // constrained to referer openstreetmap.cz + devosm.zby.cz
     var maptilerAPIkey = "aiziPqQPPZidvRMvcFaj";
 
     var mt_streets = L.tileLayer("https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
@@ -25,10 +25,12 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'y',
     });
 
-    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=' + mapboxAPIkey, {
+    var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=' + mapboxAPIkey, {
         maxZoom: 24,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         code: 'x',
+        tileSize: 512,
+        zoomOffset: -1,
     });
 
     var turisticka = L.tileLayer("https://tile.poloha.net/{z}/{x}/{y}.png", {
@@ -213,14 +215,15 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    // TODO this URL will be deprecated soon, update to new styles https://{s}.tiles.mapbox.com/styles/v1/mapbox/streets-v10/tiles/
-    // but currently we dont care if this overlay doesnt show
-    var ortofotoOverlay = L.tileLayer("https://{s}.tiles.mapbox.com/v4/zbycz.e9b65202/{z}/{x}/{y}" + retinaSuffix + ".png?access_token=" + mapboxAPIkey, {
+    var ortofotoOverlay = L.tileLayer('https://{s}.tiles.mapbox.com/styles/v1/zbycz/ckc50f05a17ww1iqgpsf15tqs/tiles/{z}/{x}/{y}?access_token=' + mapboxAPIkey, {
         maxZoom: 24,
         attribution: osmAttr + ", <a href='https://www.mapbox.com/about/maps/'>Mapbox</a>",
         opacity: 1,
-        code: 'O'
+        code: 'O',
+        tileSize: 512,
+        zoomOffset: -1,
     });
+    
 
     var vrstevniceOverlayUrl = "https://tile.poloha.net/contours/{z}/{x}/{y}.png";
     var vrstevniceOverlayOrtoUrl = "https://tile.poloha.net/contours_ortofoto/{z}/{x}/{y}.png";
