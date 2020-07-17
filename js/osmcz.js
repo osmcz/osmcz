@@ -1,4 +1,4 @@
-var OSMCZ_APP_VERSION = '0.26';
+var OSMCZ_APP_VERSION = '0.27';
 
 var osmcz = osmcz || {};
 osmcz.setMarkerFromParams = setMarkerFromParams;

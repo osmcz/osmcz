@@ -19,8 +19,18 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
 
 ## Changelog
+2020-07-17 **osmcz v0.27** (
+    [talk](https://openstreetmap.cz/talkcz/c2919),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.26...v0.27))
+- opravy pro formuláře fotek, zobrazení markeru
+- oprava deklarace práv a majitele
+- přidání map z MapTiler.com (streets, topo)
+- oprava URL pro LPIS overlay, přechod na https
+- oprava URL pro Mapbox streets, ortofoto overlay -> mapbox GL style API
+- oprava kontroly EXIF datumu při nahrávání fotky 
+
 2019-07-03 **osmcz v0.26** (
-    [talk](https://openstreetmap.cz/talkcz/c2810),
+    [talk](https://openstreetmap.cz/talkcz/c2919),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.25...v0.26))
 - dynamické načítání informací o typech fotek z Fody přes API
 - úklid dokumentace, zrušení zastaralých položek a informací
