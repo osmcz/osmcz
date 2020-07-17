@@ -511,7 +511,7 @@ L.Control.PhotoDBGui = L.Control.extend({
 
         }
         //check for DateTime of 1980.1.1 - e.g. badly set up date in camera
-        if (exif.DateTime.search(/^1980:/) == 0 || exif.DateTimeOriginal.search(/^1980:/) == 0) {
+        if ((exif.DateTime && exif.DateTime.search(/^1980:/) == 0) || (exif.DateTimeOriginal && exif.DateTimeOriginal.search(/^1980:/) == 0)) {
           //bad date/time in exif - avoid this photo!
           badExifDateTime(exif.DateTime);
           return;
