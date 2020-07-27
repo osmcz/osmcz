@@ -146,12 +146,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'j'
     });
 
-    var metropolis = L.tileLayer("https://api.mapbox.com/styles/v1/severak/cinr478gg00aucam0o6lran4v/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2V2ZXJhayIsImEiOiJjaXQxenM2ZTEwMGIyMnRwZGMwZzF6Y2VsIn0.-uZbcCAI3ABqnbg6h1mrhQ", {
-        maxZoom: 24,
-        attribution: osmAttr + ', <a href=\'https://www.mapbox.com/about/maps/\'>Mapbox</a>, <a href=\'http://severak.svita.cz\'>Severák</a>',
-        code: 'r'
-    });
-
     var spinal = L.tileLayer("https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/spinal-map/">Thunderforest</a>',
@@ -340,7 +334,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Základní"]["Mapbox streets"] = mapbox;
     baseLayers["Základní"]["OpenStreetMap Mapnik"] = osm;
     baseLayers["Základní"]["OpenTopoMap"] = opentopomap;
-    baseLayers["Základní"]["Metropolis"] = metropolis;
     baseLayers["Základní"]["Méně popisků"] = menepopisku;
     baseLayers["Základní"]["Wikimedia Map"] = wikimediamap;
     baseLayers["Základní"]["MapTiler streets"] = mt_streets;
