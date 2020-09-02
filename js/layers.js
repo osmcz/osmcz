@@ -50,13 +50,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         attribution: osmAttr + ', CC-BY-SA 2.0',
         code: 'd',
         basic: true
-    });
-
-    var wikimediamap = L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}" + retinaSuffix + ".png", {
-        maxZoom: 18,
-        attribution: osmAttr + ', <a href="https://www.mediawiki.org/wiki/Maps">Wikimedia</a>',
-        code: 'w',
-        basic: true,
         osmczDefaultLayer: true,
     });
 
@@ -335,7 +328,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Základní"]["OpenStreetMap Mapnik"] = osm;
     baseLayers["Základní"]["OpenTopoMap"] = opentopomap;
     baseLayers["Základní"]["Méně popisků"] = menepopisku;
-    baseLayers["Základní"]["Wikimedia Map"] = wikimediamap;
     baseLayers["Základní"]["MapTiler streets"] = mt_streets;
 
     // Ortofoto group
