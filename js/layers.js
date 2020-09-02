@@ -49,7 +49,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         maxZoom: 19,
         attribution: osmAttr + ', CC-BY-SA 2.0',
         code: 'd',
-        basic: true
+        basic: true,
         osmczDefaultLayer: true,
     });
 
