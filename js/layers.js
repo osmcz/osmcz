@@ -19,7 +19,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var mt_topo= L.tileLayer("https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+    var mt_topo= L.tileLayer("https://api.maptiler.com/maps/outdoor/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
         code: 'y',
@@ -351,7 +351,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Turistické"]["Turistická mapa (ČR)"] = turisticka;
     baseLayers["Turistické"]["Cyklo+turistická (EU)"] = mtb;
     baseLayers["Turistické"]["Hikebikemap.org"] = hikebike;
-    baseLayers["Turistické"]["MapTiler topo"] = mt_topo;
+    baseLayers["Turistické"]["MapTiler Outdoor"] = mt_topo;
 
     overlays["Turistické"] = {};
     overlays["Turistické"]["Turistické trasy ČR"] = turistikaOverlay;
