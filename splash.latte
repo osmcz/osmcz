@@ -37,16 +37,9 @@
                     {$presenter[TwitterPlugin]->write('twitter')}
                 </div>
 
-                <div class="content-box-inner">
-                    <img src="/theme/img/mapsme/mapsme_logo.svg" alt="MAPS.ME">
-
-                    <p class="text3">Detailní a zcela offline mapy pro všechny mobilní zařízení. Včetně navigace a
-                        offline editace POI.</p>
-
-                    <a href="https://maps.me/iphone-app-pro" title="MAPS.ME in the Apple AppStore"><img height="33" src="/theme/img/mapsme/appstore.svg" alt="AppStore"></a>
-                    <a href="https://maps.me/android-app-pro" title="MAPS.ME in the Google Play Store"><img height="33" src="/theme/img/mapsme/googleplay.svg" alt="Google Play"></a>
-                    <a href="https://maps.me/amazon-app-pro" title="MAPS.ME in the Amazon AppStore"><img height="33" src="/theme/img/mapsme/amazon.svg" alt="Amazon AppStore"></a>
-                    <br><a class="text-muted" href="https://maps.me/get">další platformy</a>
+                {var $splash = PagesModel::getPageById(29)}
+                <div class="content-box-inner bottom-spacer" n:if="$splash->getMeta('show_content')">
+                    {!$splash->content}
                 </div>
             </div>
 
@@ -81,36 +74,6 @@
                     </p>
 
                 </div>
-
-                {var $splash = PagesModel::getPageById(29)}
-                <div class="content-box-inner bottom-spacer" n:if="$splash->getMeta('show_content')">
-                    {!$splash->content}
-                </div>
-
-                <div class="content-box-inner">
-                    <h2>Newsletter</h2>
-
-                    <p>Občasné info o dění v komunitě - méně než 1× za čtvrtrok. Zde <a href="/newsletter">archiv</a>.
-                    </p>
-
-                    <form action="//zby.us11.list-manage.com/subscribe/post?u=cb9a83e4c66e393586b89e370&amp;id=81b42f6aac"
-                          method="post" target="_blank">
-                        <div class="input-group">
-                            <input type="email" value="" name="EMAIL" placeholder="email" required
-                                   class="form-control input-sm">
-                              <span class="input-group-btn">
-                                <input type="submit" value="Přihlásit" name="subscribe" class="btn btn-sm btn-default">
-                              </span>
-                        </div>
-                        <!-- /input-group -->
-                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                        <div style="position: absolute; left: -5000px;"><input type="text" name="b_cb9a83e4c66e393586b89e370_81b42f6aac" tabindex="-1" value=""></div>
-                    </form>
-                    <p>&nbsp;</p>
-
-                </div>
-
-
             </div>
 
         </div>
