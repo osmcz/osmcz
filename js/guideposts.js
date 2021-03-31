@@ -84,6 +84,12 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         iconAnchor: [23, 45]
     });
 
+    var gp_horse = L.icon({
+        iconUrl: osmcz.basePath + "img/gp/horse.png",
+        iconSize: [48, 48],
+        iconAnchor: [23, 45]
+    });
+
     var infopane_icon = L.icon({
         iconUrl: osmcz.basePath + "img/gp/infopane.png",
         iconSize: [48, 48],
@@ -211,6 +217,8 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     ftype = "gp_cycle";
                 } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("lyzarska") > -1 ) {
                     ftype = "gp_ski";
+                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("konska") > -1 ) {
+                    ftype = "gp_horse";
                 } else if (b.tags.indexOf("prehledova") > -1 ) {
                     ftype = "overview";
                 } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("pesi") > -1) {
@@ -241,7 +249,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             html_content += "Pořízeno: " + b.created;
             html_content += "<br>";
 
-            if (ftype == "gp_foot" || ftype == "gp_cycle" || ftype == "gp_ski" || ftype == "gp_wheelchair"|| ftype == "gp_cycle_foot" || ftype == "gp_ski_foot" || ftype == "emergency" ) {
+            if (ftype == "gp_foot" || ftype == "gp_cycle" || ftype == "gp_ski" || ftype == "gp_wheelchair"|| ftype == "gp_cycle_foot" || ftype == "gp_ski_foot" || ftype == "gp_horse" || type == "emergency" ) {
                 html_content += "Číslo rozcestníku: ";
                 html_content += "<a href='" + osmcz.photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
                 html_content += "<br>";
@@ -285,6 +293,9 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     break;
                 case "gp_ski_foot":
                     layer.setIcon(gp_ski_foot_icon);
+                    break;
+                case "gp_horse":
+                    layer.setIcon(gp_horse);
                     break;
                 case "infopane":
                     layer.setIcon(infopane_icon);
