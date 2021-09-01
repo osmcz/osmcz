@@ -73,9 +73,9 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'h'
     });
 
-    var mtb = L.tileLayer(osmcz.fakeHttps + "tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", {
+    var mtb = L.tileLayer("https://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", {
         maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.mtbmap.cz">mtbmap.cz</a>',
+        attribution: osmAttr + ', <a href="https://www.mtbmap.cz">mtbmap.cz</a>',
         code: 'm',
         basic: true
     });
