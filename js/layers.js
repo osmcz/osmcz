@@ -60,13 +60,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var thunderoutdoor = L.tileLayer("https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}" + retinaSuffix + ".png?apikey=" + thunderforestAPIkey, {
-        maxZoom: 22,
-        attribution: osmAttr + ', <a href="https://www.thunderforest.com/maps/outdoors/">Thunderforest</a>',
-        code: 'f'
-    });
-
-
     var hikebike = L.tileLayer(osmcz.fakeHttps + "{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="http://www.hikebikemap.org">Hike &amp; Bike Map</a>',
