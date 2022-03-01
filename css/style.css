@@ -122,7 +122,8 @@ a:hover.as-text {
 
 #map-container {
     position: fixed;
-    top: 50px;
+    /* was 50px before UA banner! */
+    top: 120px;
     bottom: 0;
     right: 0;
     left: 0;
