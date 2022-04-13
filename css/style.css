@@ -1329,3 +1329,9 @@ a #photoDB-preview:hover {
 }
 
 #nette-debug {z-index: 111;}
+
+/* quoted text in Matrix viewver on osmap.cz/matrix */
+blockquote {
+  font-size: 100%;
+  color: gray;
+}
