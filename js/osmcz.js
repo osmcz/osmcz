@@ -1,3 +1,5 @@
+// (c) 2016-2022 osmcz-app, https://github.com/osmcz/osmcz
+
 var OSMCZ_APP_VERSION = '0.27';
 
 var osmcz = osmcz || {};

@@ -1,4 +1,4 @@
-// (c) 2017 osmcz-app, https://github.com/osmcz/osmcz
+// (c) 2017-2022 osmcz-app, https://github.com/osmcz/osmcz
 
 L.Control.PhotoDBGui = L.Control.extend({
 

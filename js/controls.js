@@ -1,4 +1,4 @@
-// (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
+// (c) 2016-2022 osmcz-app, https://github.com/osmcz/osmcz
 
 var osmcz = osmcz || {};
 osmcz.controls = function (map, baseLayers, overlays, layersPanel, controls) {

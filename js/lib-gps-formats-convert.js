@@ -1,4 +1,4 @@
-// (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
+// (c) 2016-2022 osmcz-app, https://github.com/osmcz/osmcz
 
 
 function DMSToDD(degrees, minutes, seconds, direction, precision) {
