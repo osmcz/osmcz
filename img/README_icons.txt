@@ -10,18 +10,21 @@ description of some of the files and folders in this directory:
 |                          icons in the icons36-missing directory.
 |___gp_check_tourism.png ... old 48px icon for unknown "tourism" items. Four 36px versions named tourism.png are available in the four subdirs.
 |                            There is another icon named unknown.png specifically for guideposts, also in all four variants.
-|___src ... source files (layers in XCF format)
+|___src ... source files (layers in Gimp XCF format)
 |
-|___gp ... old icons 48x48px (not only guideposts) - subdir to be renamed to "icons48"
+|___icons48 ... old Fody/OsmHiCheck related icons 48x48px
 |
-|___icons36 ... new icons 36x36px
+|___icons36 ... new Fody/OsmHiCheck related icons 36x36px
 |
 |___icons36-noimg ... new icons 36x36px - icons in grayscale with a red-crossed camera. Same filenames as in icons36.
 |
 |___icons36-missing ... new icons 36x36px - icons in grayscale with a red-crossed camera and an exclamation mark. Same filenames as in icons36.
 |
-|___icons36-noref ... new icons 36x36px - icons in color with an exclamation mark. Same filenames as in icons36.
+|___icons36-noref ... new icons 36x36px - icons in grayscale with an exclamation mark. Same filenames as in icons36.
 
+2022-05-01 Changes:
+- old gp dir renamed to icons48
+- this readme updates
 
 2022-04-08 Changes:
 - new set of icons 36x36px (except for photoDB-add.png that remains 48x48px - pls consider moving it out of the gp directory)
