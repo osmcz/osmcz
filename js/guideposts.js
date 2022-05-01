@@ -55,114 +55,126 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
 
     var gp_foot_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/guidepost.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/guidepost.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var gp_cycle_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/cycle.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/cycle.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var gp_cycle_foot_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/cycle_foot.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/cycle_foot.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var gp_ski_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/ski.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/ski.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var gp_ski_foot_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/ski_foot.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/ski_foot.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var gp_horse = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/horse.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/horse.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_city = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36/city.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_road = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36/road.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var infopane_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/infopane.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/infopane.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var map_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/map.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/map.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var blurred_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/blurred.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/blurred.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var emergency_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/emergency_point.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/emergency_point.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var unknown_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/unknown.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/unknown.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
-
+    //for Fody - prehledova
+    var overview_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36/overview_photo.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+/*
     var commons_icon = L.icon({
         iconUrl: osmcz.basePath + "img/commons_logo.png",
         iconSize: [35, 48],
         iconAnchor: [17, 0]
     });
-
-    //for Fody - prehledova
-    var overview_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/overview_photo.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
-    });
+*/
 
     //for Fody - znaceni
     //-----------------------------------------------------------
     var mark_foot_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/marking_foot.png",
-        iconSize: [35, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/marking_foot.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var mark_cycle_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/marking_cycle.png",
-        iconSize: [35, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/marking_cycle.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var mark_cycle_road_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/marking_cycle_road.png",
-        iconSize: [35, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/marking_cycle_road.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var mark_ski_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/marking_ski.png",
-        iconSize: [35, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/marking_ski.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var mark_wheelchair_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp/marking_wheelchair.png",
-        iconSize: [35, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/marking_wheelchair.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
 
@@ -213,12 +225,16 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 		    //foot gp with other - cycle or ski together
 		    if(b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) ftype = "gp_cycle_foot";
 		    if(b.tags.indexOf("lyzarska") > -1) ftype = "gp_ski_foot";
-                } else if (b.tags.indexOf("rozcestnik")  > -1 && (b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1))  {
+                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("cyklo") > -1 )  {
                     ftype = "gp_cycle";
+                } else if (b.tags.indexOf("rozcestnik")  > -1 && (b.tags.indexOf("silnicni") > -1 )  {
+                    ftype = "gp_road";
                 } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("lyzarska") > -1 ) {
                     ftype = "gp_ski";
                 } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("konska") > -1 ) {
                     ftype = "gp_horse";
+                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("city") > -1 ) {
+                    ftype = "gp_city";
                 } else if (b.tags.indexOf("prehledova") > -1 ) {
                     ftype = "overview";
                 } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("pesi") > -1) {
@@ -340,7 +356,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             });
         }
     });
-
+/*
     var layer_commons = new L.GeoJSON(null, {
         onEachFeature: function (feature, layer) {
             layer.on('click', function (e) {
@@ -354,7 +370,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             });
         }
     });
-
+*/
     map.on('popupopen', function (e) {
 
         // return if incorrect popup
@@ -752,14 +768,14 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             map.addLayer(markers);
         }
     }
-
+/*
     function retrieve_commons(data) {
         layer_commons.clearLayers();
         layer_commons.addData(JSON.parse(data));
         markers.addLayer(layer_commons);
         map.addLayer(markers);
     }
-
+*/
     function error_gj(data) {
         console.log(data);
     }
