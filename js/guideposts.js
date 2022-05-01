@@ -1,7 +1,7 @@
 /*
  guideposts for osmcz
  Javascript code for openstreetmap.cz website
- Copyright (C) 2015-2018 Michal Grézl and others (see https://github.com/osmcz/osmcz/ contributors)
+ Copyright (C) 2015-2022 osmcz-app (https://github.com/osmcz/osmcz/ contributors)
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -15,10 +15,6 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-and
-
- (c) 2016 osmcz-app, https://github.com/osmcz/osmcz
 
 */
 
@@ -222,18 +218,18 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     ftype = "emergency";
                 } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("pesi") > -1) {
                     ftype = "gp_foot";
-		    //foot gp with other - cycle or ski together
-		    if(b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) ftype = "gp_cycle_foot";
-		    if(b.tags.indexOf("lyzarska") > -1) ftype = "gp_ski_foot";
-                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("cyklo") > -1 )  {
+    		            //foot gp with other - cycle or ski together
+		                if(b.tags.indexOf("cyklo") > -1 || b.tags.indexOf("silnicni") > -1) ftype = "gp_cycle_foot";
+		                if(b.tags.indexOf("lyzarska") > -1) ftype = "gp_ski_foot";
+                } else if (b.tags.indexOf("rozcestnik") > -1 && b.tags.indexOf("cyklo") > -1 )  {
                     ftype = "gp_cycle";
-                } else if (b.tags.indexOf("rozcestnik")  > -1 && (b.tags.indexOf("silnicni") > -1 )  {
+                } else if (b.tags.indexOf("rozcestnik") > -1 && b.tags.indexOf("silnicni") > -1 )  {
                     ftype = "gp_road";
-                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("lyzarska") > -1 ) {
+                } else if (b.tags.indexOf("rozcestnik") > -1 && b.tags.indexOf("lyzarska") > -1 ) {
                     ftype = "gp_ski";
-                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("konska") > -1 ) {
+                } else if (b.tags.indexOf("rozcestnik") > -1 && b.tags.indexOf("konska") > -1 ) {
                     ftype = "gp_horse";
-                } else if (b.tags.indexOf("rozcestnik")  > -1 && b.tags.indexOf("city") > -1 ) {
+                } else if (b.tags.indexOf("rozcestnik") > -1 && b.tags.indexOf("city") > -1 ) {
                     ftype = "gp_city";
                 } else if (b.tags.indexOf("prehledova") > -1 ) {
                     ftype = "overview";
@@ -265,8 +261,8 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             html_content += "Pořízeno: " + b.created;
             html_content += "<br>";
 
-            if (ftype == "gp_foot" || ftype == "gp_cycle" || ftype == "gp_ski" || ftype == "gp_wheelchair"|| ftype == "gp_cycle_foot" || ftype == "gp_ski_foot" || ftype == "gp_horse" || type == "emergency" ) {
-                html_content += "Číslo rozcestníku: ";
+            if (ftype == "gp_foot" || ftype == "gp_cycle" || ftype == "gp_ski" || ftype == "gp_wheelchair"|| ftype == "gp_cycle_foot" || ftype == "gp_ski_foot" || ftype == "gp_horse" || ftype == "emergency"  || ftype == "infopane") {
+                html_content += "Ref: ";
                 html_content += "<a href='" + osmcz.photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
                 html_content += "<br>";
             }
@@ -312,6 +308,12 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     break;
                 case "gp_horse":
                     layer.setIcon(gp_horse);
+                    break;
+                case "gp_road":
+                    layer.setIcon(gp_road);
+                    break;
+                case "gp_city":
+                    layer.setIcon(gp_city);
                     break;
                 case "infopane":
                     layer.setIcon(infopane_icon);
