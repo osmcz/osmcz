@@ -51,10 +51,140 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
         iconSize: [48, 48],
         iconAnchor: [23, 45]
     });
+
+    //-------------------------------
+    var gp_check_miss_hiking_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/guidepost.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_hiking_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/guidepost.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_hiking_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/guidepost.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_cyklo_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/cycle.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_cyklo_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/cycle.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_cyklo_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/cycle.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_ski_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/ski.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_ski_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/ski.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_ski_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/ski.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_wheelchair_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/wheelchair.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_wheelchair_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/wheelchair.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_wheelchair_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/wheelchair.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_horse_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/horse.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_horse_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/horse.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_horse_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/horse.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_infopane_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/infopane.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_infopane_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/infopane.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_infopane_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/infopane.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_map_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/map.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_map_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/map.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_map_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/map.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_emergency_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/emergency_point.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_emergency_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/emergency_point.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_emergency_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/emergency_point.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    //-------------------------------
     var gp_check_tourism_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp_check_tourism.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36/tourism.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     var layer_gpcheck = new L.GeoJSON(null, {
@@ -69,6 +199,74 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
                 layer.setIcon(gp_check_tourism_icon);
             } else {
                 layer.setIcon(gp_check_icon);
+            }
+
+            //Choose the right icon based on object type
+            if (feature.properties.osm_tags.indexOf("information:board") > -1){
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_infopane_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_infopane_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_infopane_icon);
+              }
+            } else if (feature.properties.osm_tags.indexOf("information:map") > -1){
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_map_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_map_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_map_icon);
+              }
+            } else if (feature.properties.osm_tags.indexOf("emergency_access_point") > -1){
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_emergency_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_emergency_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_emergency_icon);
+              }
+            } else if (feature.properties.osm_tags.indexOf("information:guidepost") > -1 && feature.properties.osm_tags.indexOf("hiking") > -1){
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_hiking_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_hiking_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_hiking_icon);
+              }
+            } else if (feature.properties.osm_tags.indexOf("information:guidepost") > -1 &&
+                       (feature.properties.osm_tags.indexOf("bicycle") > -1 || feature.properties.osm_tags.indexOf("mtb") > -1) ){  
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_cyklo_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_cyklo_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_cyklo_icon);
+              }
+            } else if (feature.properties.osm_tags.indexOf("information:guidepost") > -1 && feature.properties.osm_tags.indexOf("ski") > -1){
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_ski_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_ski_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_ski_icon);
+              }
+            } else if (feature.properties.osm_tags.indexOf("information:guidepost") > -1 && feature.properties.osm_tags.indexOf("wheelchair") > -1){
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_wheelchair_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_wheelchair_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_wheelchair_icon);
+              }
+            } else if (feature.properties.osm_tags.indexOf("information:guidepost") > -1 && feature.properties.osm_tags.indexOf("horse") > -1){
+              if(feature.properties.class == "missing"){
+                layer.setIcon(gp_check_miss_horse_icon);
+              } else if (feature.properties.class == "noref"){
+                layer.setIcon(gp_check_noref_horse_icon);
+              } else if (feature.properties.class == "noimg"){
+                layer.setIcon(gp_check_noimg_horse_icon);
+              }
             }
 
             // Guidepost name
