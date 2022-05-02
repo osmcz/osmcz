@@ -36,20 +36,20 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
     var gpref, gpname;
     var openPopup;
 
-    var gp_check_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp_check_missing.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+    var gp_check_missing_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/unknown.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
     var gp_check_noref_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp_check_noref.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36-noref/unknown.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
     var gp_check_noimg_icon = L.icon({
-        iconUrl: osmcz.basePath + "img/gp_check_noimg.png",
-        iconSize: [48, 48],
-        iconAnchor: [23, 45]
+        iconUrl: osmcz.basePath + "img/icons36-noimg/unknown.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
     });
 
     //-------------------------------
@@ -198,7 +198,7 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
             } else if(feature.properties.class == "tourism"){
                 layer.setIcon(gp_check_tourism_icon);
             } else {
-                layer.setIcon(gp_check_icon);
+                layer.setIcon(gp_check_missing_icon);
             }
 
             //Choose the right icon based on object type
