@@ -27,7 +27,14 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
     var markers = L.markerClusterGroup({
         code: 'G',
         chunkedLoading: true,
-        chunkProgress: update_progress_bar
+        chunkProgress: update_progress_bar,
+        maxClusterRadius: function (mapZoom) {
+          if (mapZoom > 13) {
+              return 20;
+          } else {
+              return 60;
+          }
+        },
     });
     var moving_marker;
     var need_api_auth;

@@ -29,7 +29,14 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
     var check_markers = L.markerClusterGroup({
         code: 'B',
         chunkedLoading: true,
-        chunkProgress: update_progress_bar
+        chunkProgress: update_progress_bar,
+        maxClusterRadius: function (mapZoom) {
+          if (mapZoom > 13) {
+              return 20;
+          } else {
+              return 60;
+          }
+        },
     });
     var autoload_lock = false;
     var photoGuiForm = L.control.photoDbGui();
@@ -81,6 +88,22 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
     });
     var gp_check_noref_cyklo_icon = L.icon({
         iconUrl: osmcz.basePath + "img/icons36-noref/cycle.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+
+    var gp_check_miss_road_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-missing/road.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noimg_road_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noimg/road.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 35]
+    });
+    var gp_check_noref_road_icon = L.icon({
+        iconUrl: osmcz.basePath + "img/icons36-noref/road.png",
         iconSize: [36, 36],
         iconAnchor: [18, 35]
     });
