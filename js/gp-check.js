@@ -218,7 +218,7 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
               } else if (feature.properties.class == "noimg"){
                 layer.setIcon(gp_check_noimg_map_icon);
               }
-            } else if (feature.properties.osm_tags.indexOf("emergency_access_point") > -1){
+            } else if (feature.properties.osm_tags.indexOf("emergency_access_point") > -1 || feature.properties.osm_tags.indexOf("emergency:access_point") > -1){
               if(feature.properties.class == "missing"){
                 layer.setIcon(gp_check_miss_emergency_icon);
               } else if (feature.properties.class == "noref"){
