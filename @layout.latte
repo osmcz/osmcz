@@ -25,7 +25,6 @@
 
 <body>
 
-
 <div id="modal-container"></div>
 
 <div n:if="$_SERVER['HTTP_HOST'] != 'openstreetmap.cz'" class="alert alert-warning" style="position:fixed;bottom:10px;z-index:9999;right:10px;padding:3px;">
@@ -184,6 +183,10 @@ Odmítáme snahu o přemalování mapy demokratické Evropy!
     <!-- leaflet.fullscreen -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.5/Control.FullScreen.css"/>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.5/Control.FullScreen.js'></script>
+
+    <!-- zoomdisplay -->
+    <link rel="stylesheet" href="/theme/css/leaflet.zoomdisplay.css" />
+    <script src="/theme/js/leaflet.zoomdisplay.js"></script>
 
     <!-- https://github.com/Turbo87/leaflet-sidebar -->
     <!-- Use own copy with fix for leaflet above v1.1 -->
