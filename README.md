@@ -19,8 +19,24 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 * Projektová stránka na [openstreetmap.cz/osmcz-app](https://openstreetmap.cz/osmcz-app)
 
 ## Changelog
+2022-05-06 **osmcz v0.28** (
+    [talk](https://openstreetmap.cz/talkcz/c2918),
+    [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.27...v0.28))
+- odstraněny neunkční mapy Metropolis, Thunderforest a Wikimedia
+- změna MapTiler Topo na MaTiler Outdoor
+- zrušeno sledování přes Google analytics
+- úklid neaktuálních věcí na splash screen
+- Strava proxy z freemap.sk místo vlastního archivu
+- Ikona pro koňské rozcestníky
+- přesun MTBmap z http na https
+- přidána stránka s obsahem Matrik kanálu osmcz
+- rozšířeny ikony pro Fody (fotky) a OsmHiCheck (kontroly) dle typu objektu
+- vyřešen problém s omezením četnosti přístupu k location API ve Firefoxu
+- rozdílné shlukování pro různé přiblížení (cluster radius)
+- doplněn údaj o aktuálním přiblížení mapy
+
 2020-07-17 **osmcz v0.27** (
-    [talk](https://openstreetmap.cz/talkcz/c2919),
+    [talk](https://openstreetmap.cz/talkcz/c2918),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.26...v0.27))
 - opravy pro formuláře fotek, zobrazení markeru
 - oprava deklarace práv a majitele
@@ -30,7 +46,7 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 - oprava kontroly EXIF datumu při nahrávání fotky 
 
 2019-07-03 **osmcz v0.26** (
-    [talk](https://openstreetmap.cz/talkcz/c2919),
+    [talk](https://openstreetmap.cz/talkcz/c2918),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.25...v0.26))
 - dynamické načítání informací o typech fotek z Fody přes API
 - úklid dokumentace, zrušení zastaralých položek a informací

@@ -1,6 +1,6 @@
 // (c) 2016-2022 osmcz-app, https://github.com/osmcz/osmcz
 
-var OSMCZ_APP_VERSION = '0.27';
+var OSMCZ_APP_VERSION = '0.28';
 
 var osmcz = osmcz || {};
 osmcz.setMarkerFromParams = setMarkerFromParams;
