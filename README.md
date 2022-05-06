@@ -20,19 +20,19 @@ PHP backend v repozitáři [osmcz-web](https://github.com/osmcz/osmcz-web).
 
 ## Changelog
 2022-05-06 **osmcz v0.28** (
-    [talk](https://openstreetmap.cz/talkcz/c2918),
+    [talk](https://openstreetmap.cz/talkcz/c3551),
     [osmcz-app](https://github.com/osmcz/osmcz/compare/v0.27...v0.28))
-- odstraněny neunkční mapy Metropolis, Thunderforest a Wikimedia
+- odstraněny nefunkční mapy Metropolis, Thunderforest a Wikimedia
 - změna MapTiler Topo na MaTiler Outdoor
 - zrušeno sledování přes Google analytics
 - úklid neaktuálních věcí na splash screen
 - Strava proxy z freemap.sk místo vlastního archivu
 - Ikona pro koňské rozcestníky
 - přesun MTBmap z http na https
-- přidána stránka s obsahem Matrik kanálu osmcz
+- přidána stránka s obsahem Matrix kanálu osmcz
 - rozšířeny ikony pro Fody (fotky) a OsmHiCheck (kontroly) dle typu objektu
 - vyřešen problém s omezením četnosti přístupu k location API ve Firefoxu
-- rozdílné shlukování pro různé přiblížení (cluster radius)
+- rozdílné shlukování ikon pro různé přiblížení (cluster radius)
 - doplněn údaj o aktuálním přiblížení mapy
 
 2020-07-17 **osmcz v0.27** (
@@ -132,7 +132,7 @@ Aplikace podporuje následující akce:
 
 
 ## Autoři, licence
-(c) 2016-2019 zbycz, mkyral, walley, tkas a [další](https://github.com/osmcz/osmcz/graphs/contributors)
+(c) 2016-2022 zbycz, mkyral, walley, tkas a [další](https://github.com/osmcz/osmcz/graphs/contributors)
 
 Pod licencí MIT - volně šiřte, prodávejte, zachovejte uvedení autora.
 
