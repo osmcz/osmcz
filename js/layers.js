@@ -45,7 +45,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'u'
     });
 
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: osmAttr + ', CC-BY-SA 2.0',
         code: 'd',
@@ -188,9 +188,9 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var turistikaOverlay = L.tileLayer("https://tile.poloha.net/kct/{z}/{x}/{y}.png", {
+    var turistikaOverlay = L.tileLayer("https://osm.fit.vutbr.cz/tiles/kct/{z}/{x}/{y}.png", {
         maxZoom: 20,
-        attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
+        //attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 0.6,
         code: 'K',
         basic: true
