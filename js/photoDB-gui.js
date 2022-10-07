@@ -200,7 +200,8 @@ L.Control.PhotoDBGui = L.Control.extend({
         `;
 
         // Add template to sidebar
-        $('#sidebar-content').html([{maxSize: '10000000'}].map(formTemplate));
+        // maxSize: 12*1024*1024 = 12MB
+        $('#sidebar-content').html([{maxSize: '12582912'}].map(formTemplate));
 
         // Get elements containers
         var previewContainer = document.getElementById("photoDB-preview");
