@@ -269,3 +269,9 @@ function updateLayersFromCode(codedString) {
         }
     }
 }
+
+function ua_show_hide(){
+  var x = document.getElementById("ua");
+
+  x.style.display = "none";
+}
