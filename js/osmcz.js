@@ -272,6 +272,9 @@ function updateLayersFromCode(codedString) {
 
 function ua_show_hide(){
   var x = document.getElementById("ua");
+  var m = document.getElementById("map-container");
 
   x.style.display = "none";
+  m.style.top = "50px";
+
 }
