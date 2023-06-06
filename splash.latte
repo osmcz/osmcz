@@ -29,9 +29,9 @@
 
             <div class="content-box-left col-md-4 col-md-offset-2">
                 <div class="content-box-inner bottom-spacer">
-                    <h2>Tweety <a href="https://twitter.com/intent/follow?screen_name=osmcz"
-                                  class="btn btn-link twitter-follow">Sledovat @osmcz</a></h2>
-                    {$presenter[TwitterPlugin]->write('twitter')}
+                    <h2>Tooty <a href="https://mastodon.social/@osmcz/"
+                                  class="btn btn-link mastodon-follow">Sledovat @osmcz</a></h2>
+                    {$presenter[MastodonPlugin]->write('masto')}
                 </div>
 
                 {var $splash = PagesModel::getPageById(29)}
@@ -43,7 +43,7 @@
             <div class="content-box-right col-md-4">
                 <div class="content-box-inner bottom-spacer">
                     <h2>Český týdeník</h2>
-                    {$presenter[TwitterPlugin]->write('weekly')}
+                    {$presenter[MastodonPlugin]->write('weekly')}
                 </div>
 
                 <div class="content-box-inner bottom-spacer">

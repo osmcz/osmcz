@@ -31,12 +31,8 @@
                 {/if}
             {/if}
 
-            {if $page->getMeta('zebricek')}
-                {include inc_zebricek.latte}
-            {/if}
-
             {if $page->getMeta('weekly_archive')}
-            {$presenter[TwitterPlugin]->write('weekly-archive', 1000)}
+            {$presenter[MastodonPlugin]->write('weekly-archive', 1000)}
             {/if}
 
             {if $page->getMeta('komunita') && $page->getMeta('project_tag') && !$page->getMeta('komunitawide')}
@@ -46,7 +42,7 @@
         </div>
 
         <div class="tweets-sidebar col-md-4" n:if="$tweets">
-            {include inc_twitter.latte}
+            {include inc_mastodon.latte}
         </div>
     </div>
 

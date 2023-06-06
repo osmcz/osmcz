@@ -1113,15 +1113,15 @@ a #photoDB-preview:hover {
     }
 }
 
-.twitter-follow, .weekly-follow {
+.mastodon-follow, .weekly-follow {
     float: right;
     padding-right: 0;
     font-size: 10px;
 }
 
-.twitter-follow:before {
+.mastodon-follow:before {
     content: "";
-    background: url('../img/twitter.svg') no-repeat left top;
+    background: url('../img/mastodon.svg') no-repeat left top;
     background-size: 16px 16px;
     width: 16px;
     height: 16px;
