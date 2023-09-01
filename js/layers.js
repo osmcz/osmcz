@@ -60,12 +60,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var hikebike = L.tileLayer(osmcz.fakeHttps + "{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png", {
-        maxZoom: 18,
-        attribution: osmAttr + ', <a href="http://www.hikebikemap.org">Hike &amp; Bike Map</a>',
-        code: 'h'
-    });
-
     var mtb = L.tileLayer("https://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: osmAttr + ', <a href="https://www.mtbmap.cz">mtbmap.cz</a>',
@@ -344,7 +338,6 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Turistické"] = {};
     baseLayers["Turistické"]["Turistická mapa (ČR)"] = turisticka;
     baseLayers["Turistické"]["Cyklo+turistická (EU)"] = mtb;
-    baseLayers["Turistické"]["Hikebikemap.org"] = hikebike;
     baseLayers["Turistické"]["MapTiler Outdoor"] = mt_topo;
 
     overlays["Turistické"] = {};
