@@ -101,7 +101,7 @@ Odmítáme snahu o přemalování mapy demokratické Evropy!
                 <li class="dropdown">
                     {if $user->isLoggedIn()}
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            {if isset($user->identity->img)}
+                            {if isset($user->identity->img) && $user->identity->img != ""}
                                 <img src="{$user->identity->img|replace:"http://":"https://"}" alt="avatar" width="32" height="32">
                             {else}
                                 <span class="glyphicon glyphicon-user" style="color: red;"></span>
