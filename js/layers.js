@@ -98,11 +98,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         code: 'b'
     });
 
-    var ortofoto = L.tileLayer.wms('https://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/service.svc/get', {
-        layers: 'GR_ORTFOTORGB',
-        format: 'image/jpeg',
-        transparent: false,
-        crs: L.CRS.EPSG4326,
+    var ortofoto = L.tileLayer('https://ags.cuzk.gov.cz/arcgis1/rest/services/ORTOFOTO_WM/MapServer/tile/{z}/{y}/{x}', {
         minZoom: 7,
         maxZoom: 22,
         attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>',
