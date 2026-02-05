@@ -173,7 +173,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     // --- overlays
 
-    //var stravaAllOverlay = L.tileLayer("https://osm.fit.vutbr.cz/strava/all/{z}/{x}/{y}.png", {
+    //var stravaAllOverlay = L.tileLayer("https://osm.fit.vut.cz/strava/all/{z}/{x}/{y}.png", {
     var stravaAllOverlay = L.tileLayer("https://strava-heatmap.tiles.freemap.sk/all/hot/{z}/{x}/{y}.png?px=256", {
         maxZoom: 16,
         attribution: osmAttr + ', <a href="http://www.strava.com">strava.com</a>',
@@ -182,7 +182,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var turistikaOverlay = L.tileLayer("https://osm.fit.vutbr.cz/tiles/kct/{z}/{x}/{y}.png", {
+    var turistikaOverlay = L.tileLayer("https://osm.fit.vut.cz/tiles/kct/{z}/{x}/{y}.png", {
         maxZoom: 20,
         //attribution: osmAttr + ', <a href="http://www.poloha.net">poloha.net</a>',
         opacity: 0.6,

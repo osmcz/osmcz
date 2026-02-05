@@ -487,7 +487,7 @@ osmcz.gpcheck = function (map, baseLayers, overlays, controls, group) {
 
         if (map.getZoom() > 1) {
             check_markers.clearLayers();
-            var geo_json_url = 'https://osm.fit.vutbr.cz/OsmHiCheck/gp/';
+            var geo_json_url = 'https://osm.fit.vut.cz/OsmHiCheck/gp/';
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
         } else {
             layer_gpcheck.clearLayers();
