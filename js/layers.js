@@ -106,16 +106,39 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
         basic: true
     });
 
-    var ipr_last = L.tileLayer("https://osm-{s}.zby.cz/tiles_ipr_last.php/{z}/{x}/{y}.png", {
-        minZoom: 12,
+    var ortofoto21 = L.tileLayer.wms('https://geoportal.cuzk.gov.cz/WMS_ORTOFOTO_ARCHIV/service.svc/get', {
+        layers: '2021',
+        format: 'image/png',
+        transparent: true,
+        version: '1.3.0',
+        crs: L.CRS.EPSG4326,
+        minZoom: 7,
+        maxZoom: 22,
+        attribution: '&copy; <a href="http://www.cuzk.cz">ČÚZK</a>',
+        code: 'r',
+        basic: true
+    });
+
+    var ipr_last = L.tileLayer.wms("https://gs-pub.praha.eu/imgs/services/ort/letecke_snimkovani/ImageServer/WMSServer", {
+        layers: 'letecke_snimkovani',
+        format: 'image/png',
+        transparent: true,
+        version: '1.3.0',
+        crs: L.CRS.EPSG4326,
+        minZoom: 7,
         maxZoom: 22,
         bounds: [[50.255, 14.113], [49.88, 14.8144]],
         attribution: '&copy; <a href="http://www.iprpraha.cz/clanek/1305/ortofotomapy">IPR Praha</a>',
         code: 'i'
     });
 
-    var ipr_vege = L.tileLayer("https://osm-{s}.zby.cz/tiles_ipr_vege.php/{z}/{x}/{y}.png", {
-        minZoom: 12,
+    var ipr_vege = L.tileLayer.wms("https://gs-pub.praha.eu/imgs/services/ort/mimovegetacni_letecke_snimkovani/ImageServer/WMSServer", {
+        layers: 'mimovegetacni_letecke_snimkovani',
+        format: 'image/png',
+        transparent: true,
+        version: '1.3.0',
+        crs: L.CRS.EPSG4326,
+        minZoom: 7,
         maxZoom: 22,
         bounds: [[50.255, 14.113], [49.88, 14.8144]],
         attribution: '&copy; <a href="http://www.iprpraha.cz/clanek/1305/ortofotomapy">IPR Praha</a>',
@@ -316,7 +339,8 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
 
     // Ortofoto group
     baseLayers["Letecké"] = {};
-    baseLayers["Letecké"]["Ortofoto ČÚZK"] = ortofoto;
+    baseLayers["Letecké"]["Ortofoto ČÚZK last"] = ortofoto;
+    baseLayers["Letecké"]["Ortofoto ČÚZK 2021"] = ortofoto21;
     baseLayers["Letecké"]["Praha - IPR last"] = ipr_last;
     baseLayers["Letecké"]["Praha - IPR vegetační půst"] = ipr_vege;
 
