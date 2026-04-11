@@ -12,14 +12,14 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     var mapboxAPIkey = "pk.eyJ1IjoiemJ5Y3oiLCJhIjoiY2owa3hrYjF3MDAwejMzbGM4aDNybnhtdyJ9.8CIw6X6Jvmk2GwCE8Zx8SA"; // constrained to referer openstreetmap.cz + devosm.zby.cz
     var maptilerAPIkey = "aiziPqQPPZidvRMvcFaj";
 
-    var mt_streets = L.tileLayer("https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+    var mt_streets = L.tileLayer("https://api.maptiler.com/maps/streets-v4/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
         code: 'g',
         basic: true
     });
 
-    var mt_topo= L.tileLayer("https://api.maptiler.com/maps/outdoor/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
+    var mt_topo= L.tileLayer("https://api.maptiler.com/maps/outdoor-v4/256/{z}/{x}/{y}" + retinaSuffix + ".png?key=" + maptilerAPIkey, {
         maxZoom: 22,
         attribution: osmAttr + ', <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>',
         code: 'y',
@@ -335,7 +335,7 @@ osmcz.layers = function (map, baseLayers, overlays, controls) {
     baseLayers["Základní"]["OpenStreetMap Mapnik"] = osm;
     baseLayers["Základní"]["OpenTopoMap"] = opentopomap;
     baseLayers["Základní"]["Méně popisků"] = menepopisku;
-    baseLayers["Základní"]["MapTiler streets"] = mt_streets;
+    baseLayers["Základní"]["MapTiler Streets"] = mt_streets;
 
     // Ortofoto group
     baseLayers["Letecké"] = {};
