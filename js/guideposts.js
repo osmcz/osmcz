@@ -19,6 +19,9 @@
 */
 
 var osmcz = osmcz || {};
+
+osmcz.fodyFilter = [];
+
 osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
     var layersControl = controls.layers;
@@ -434,6 +437,23 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             // PhotoDB button (add an image)
             if (!photoDBbtn) {
                 photoDBbtn = L.control.photoDbGui().addTo(map);
+
+                osmcz.fodyFilterEl = document.createElement("div");
+                osmcz.fodyFilterEl.innerHTML = "<div style='position:absolute;top:83px;'>" +
+                    "<input type='checkbox' value='gp'> rozc<br><input type='checkbox' value='table'> tab<br><input type='checkbox' value='other'> jine</div>"
+                document.getElementsByClassName("leaflet-control-photoDBbtn")[0].appendChild(osmcz.fodyFilterEl)
+                osmcz.fodyFilterEl.addEventListener("click", function(e){
+                    e.stopPropagation(); // do not trigger the photodb "add image" button
+                    const checkboxes = osmcz.fodyFilterEl.getElementsByTagName("input");
+                    const filter = [];
+                    for (let checkbox of checkboxes){
+                        if (checkbox.checked) {
+                            filter.push(checkbox.value)
+                        }
+                    }
+                    osmcz.fodyFilter = filter;
+                    load_data();
+                })
             }
         }
     });
@@ -732,6 +752,11 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
             output: 'geojson',
             bbox: map.getBounds().toBBoxString(),
         };
+
+        if (osmcz.fodyFilter.length) {
+            customParams.filter = osmcz.fodyFilter.join(',');
+        }
+
         var parameters = L.Util.extend(defaultParameters, customParams);
 
         xhr = $.ajax({
