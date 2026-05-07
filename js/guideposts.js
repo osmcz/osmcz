@@ -36,6 +36,18 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
           }
         },
     });
+    var markers_minor = L.markerClusterGroup({
+        code: 'f',
+        chunkedLoading: true,
+        chunkProgress: update_progress_bar,
+        maxClusterRadius: function (mapZoom) {
+          if (mapZoom > 13) {
+              return 20;
+          } else {
+              return 60;
+          }
+        },
+    });
     var moving_marker;
     var need_api_auth;
     var autoload_lock = false;
@@ -240,17 +252,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     ftype = "gp_city";
                 } else if (b.tags.indexOf("prehledova") > -1 ) {
                     ftype = "overview";
-                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("pesi") > -1) {
-                    ftype = "mark_foot";
-                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("cyklo") > -1) {
-                    ftype = "mark_cycle";
-                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("silnicni") > -1) {
-                    ftype = "mark_cycle_road";
-                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("lyzarska") > -1) {
-                    ftype = "mark_ski";
-                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("vozickar") > -1) {
-                    ftype = "mark_wheelchair";
-		}
+		            }
             }
 
             if (!ftype) {
@@ -336,6 +338,115 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
                     break;
                 case "overview":
                     layer.setIcon(overview_icon);
+                    break;
+                default:
+                    layer.setIcon(unknown_icon);
+            }
+
+            layer.bindPopup(html_content, {
+                offset: new L.Point(1, -32),
+                minWidth: 500,
+                closeOnClick: false,
+                autoPan: false,
+                className: 'guideposts-popup'
+            });
+        }
+    });
+
+    var layer_minors = new L.GeoJSON(null, {
+        onEachFeature: function (feature, layer) {
+
+            layer.on('click', function (e) {
+                autoload_lock = true;
+            });
+
+            // fill hashtags
+            function parse_hashtags(pt) {
+                if (pt != null) {
+                    var tags = pt.split(';');
+                    if (tags.length > 0) {
+
+                        var i, tags_content = "";
+                        for (i = 0; i < tags.length; i++) {
+                            tags_content += '<a href="' + osmcz.photoDbUrl + '?tag=' + tags[i] + '"><span id="hashtag" class="label label-info">' + tags[i].replace(/:$/, "") + '</span></a> ';
+                        }
+                        return (tags_content);
+                    } else {
+                        return ("");
+                    }
+                } else {
+                    return ("");
+                }
+            }
+
+            var b = feature.properties;
+            var geometry = feature.geometry.coordinates;
+
+            var ftype;
+
+            if (b.tags) {
+                if (b.tags.indexOf("necitelne") > -1) {
+                    ftype = "necitelne";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("pesi") > -1) {
+                    ftype = "mark_foot";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("cyklo") > -1) {
+                    ftype = "mark_cycle";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("silnicni") > -1) {
+                    ftype = "mark_cycle_road";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("lyzarska") > -1) {
+                    ftype = "mark_ski";
+                } else if (b.tags.indexOf("znaceni") > -1 && b.tags.indexOf("vozickar") > -1) {
+                    ftype = "mark_wheelchair";
+		}
+            }
+
+            if (!ftype) {
+                ftype = "gp_unknown";
+            }
+
+            if (!b.ref) {
+                b.ref = "nevíme";
+            }
+
+            var html_content = "";
+            html_content += "Fotografii poskytl: ";
+            html_content += "<a href='" + osmcz.photoDbUrl + "?author=" + b.author + "'>" + b.author + "</a>";
+            html_content += "<br>";
+            html_content += "Pořízeno: " + b.created;
+            html_content += "<br>";
+
+            if (ftype == "gp_foot" || ftype == "gp_cycle" || ftype == "gp_ski" || ftype == "gp_wheelchair"|| ftype == "gp_cycle_foot" || ftype == "gp_ski_foot" || ftype == "gp_horse" || ftype == "emergency"  || ftype == "infopane") {
+                html_content += "Ref: ";
+                html_content += "<a href='" + osmcz.photoDbUrl + "?ref=" + (b.ref == "nevíme" ? "none" : b.ref) + "'>" + b.ref + "</a>";
+                html_content += "<br>";
+            }
+            html_content += "<div class='gp-thumbnail'>";
+            html_content += "<a href='" + osmcz.photoDbUrl + "files/" + b.id + ".jpg'>";
+            html_content += "<div id='thumbnailLoadSpinner" + b.id + "' class='text-center'><br><span class='glyphicon glyphicon-refresh text-info gly-spin'></span></div>";
+            html_content += "<img id='thumbnailImage" + b.id + "' src='' class='center-block' />";
+            html_content += "</a>";
+            html_content += "</div>";
+
+            html_content += "<div id='hashtags'>" + parse_hashtags(b.tags) + "</div>";
+
+            html_content += "<div class='buttons-bar'>";
+            html_content += "<a href='" + osmcz.photoDbUrl + "?id=" + b.id + "'><button type='button' class='btn btn-default btn-xs'>";
+            html_content += '   <div class="glyphicon glyphicon-pencil"></div> Upravit';
+            html_content += '</button></a>';
+
+            html_content += "<span class='space-2em'/>";
+
+            html_content += "<a href='#'>";
+            html_content += '<button type="button" class="btn btn-default btn-xs"';
+            html_content += "onclick='javascript:guideposts.move_point(" + b.id + "," + geometry[1] + "," + geometry[0] + ")'>";
+            html_content += '<div class="glyphicon glyphicon-move"></div> Přesunout';
+            html_content += "</button>";
+            html_content += "</a>";
+            html_content += "</div>";
+
+            switch (ftype) {
+                case "necitelne":
+                    layer.setIcon(blurred_icon);
                     break;
                 case "mark_foot":
                     layer.setIcon(mark_foot_icon);
@@ -492,10 +603,12 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
     });
     /* Add overlay to the map */
     layersControl.addOverlay(markers, "Fotky Fody", group);
+    layersControl.addOverlay(markers_minor, "Fotky Fody minor", group);
 
     /* Add overlay to the overlays list as well
      * This allows restoration of overlay state on load */
     overlays[group]["Fotky Fody"] = markers;
+    overlays[group]["Fotky Fody minor"] = markers_minor;
 
     // -- methods --
 
@@ -720,7 +833,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
     }
 
     function isLayerChosen() {
-        return map.hasLayer(markers);
+        return map.hasLayer(markers) || map.hasLayer(markers_minor);
     }
 
     function request_from_url(url, success_callback, error_callback) {
@@ -730,8 +843,13 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
         var customParams = {
             output: 'geojson',
+            class: 'major',
             bbox: map.getBounds().toBBoxString(),
         };
+        if(map.hasLayer(markers_minor)){
+          customParams.class = 'minor';
+        }
+
         var parameters = L.Util.extend(defaultParameters, customParams);
 
         xhr = $.ajax({
@@ -757,6 +875,7 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
         if (map.getZoom() > 1) {
 
             markers.clearLayers();
+            markers_minor.clearLayers();
 
             var geo_json_url = osmcz.photoDbUrl + 'api/show';
             request_from_url(geo_json_url, retrieve_geojson, error_gj)
@@ -766,15 +885,28 @@ osmcz.guideposts = function (map, baseLayers, overlays, controls, group) {
 
         } else {
             layer_guidepost.clearLayers();
+            layer_minors.clearLayers();
         }
     }
 
     function retrieve_geojson(data) {
-        layer_guidepost.clearLayers();
+        if(map.hasLayer(markers)){
+          layer_guidepost.clearLayers();
+        }
+        if(map.hasLayer(markers_minor)){
+          layer_minors.clearLayers();
+        }
         if (data != "") {
-            layer_guidepost.addData(data); //we have text/json instead of api.osm.cz with text/plain
-            markers.addLayer(layer_guidepost);
-            map.addLayer(markers);
+            if(map.hasLayer(markers)){
+              layer_guidepost.addData(data); //we have text/json instead of api.osm.cz with text/plain
+              markers.addLayer(layer_guidepost);
+              map.addLayer(markers);
+            }
+            if(map.hasLayer(markers_minor)){
+              layer_minors.addData(data); //we have text/json instead of api.osm.cz with text/plain
+              markers_minor.addLayer(layer_minors);
+              map.addLayer(markers_minors);
+            }
         }
     }
 /*
